@@ -481,6 +481,21 @@ body {
     opacity: 0.9;
 }
 
+.kpi-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.kpi-header .kpi-icon {
+    margin-bottom: 0;
+}
+
+.kpi-header .kpi-label {
+    margin-bottom: 0;
+}
+
 .kpi-label {
     font-size: 10px;
     font-weight: 600;

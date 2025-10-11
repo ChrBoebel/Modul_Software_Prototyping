@@ -23,31 +23,39 @@ export const FinanceView = ({ onInvoiceClick, onAddInvoice }) => {
 
       <div className="grid-4" style={{ marginBottom: '24px' }}>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Euro size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Euro size={18} />
+            </div>
+            <div className="kpi-label">Gesamtumsatz</div>
           </div>
-          <div className="kpi-label">Gesamtumsatz</div>
           <div className="kpi-value">{(totalRevenue / 1000).toFixed(1)}<span className="kpi-unit">k €</span></div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <FileText size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <FileText size={18} />
+            </div>
+            <div className="kpi-label">Offene Rechnungen</div>
           </div>
-          <div className="kpi-label">Offene Rechnungen</div>
           <div className="kpi-value">{openInvoices}</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <AlertTriangle size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <AlertTriangle size={18} />
+            </div>
+            <div className="kpi-label">Überfällige Rechnungen</div>
           </div>
-          <div className="kpi-label">Überfällige Rechnungen</div>
           <div className="kpi-value">{overdueInvoices}</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Calendar size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Calendar size={18} />
+            </div>
+            <div className="kpi-label">Durchschn. Zahlungsziel</div>
           </div>
-          <div className="kpi-label">Durchschn. Zahlungsziel</div>
           <div className="kpi-value">28<span className="kpi-unit">Tage</span></div>
         </div>
       </div>

@@ -28,6 +28,19 @@ export const InvoicesTable = ({ invoices, onInvoiceClick, onAddInvoice }) => {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'paid':
+        return '#10b981'; // green
+      case 'pending':
+        return '#3b82f6'; // blue
+      case 'overdue':
+        return '#ef4444'; // red
+      default:
+        return 'var(--text-secondary)';
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-header">
@@ -51,6 +64,7 @@ export const InvoicesTable = ({ invoices, onInvoiceClick, onAddInvoice }) => {
           <tbody>
             {invoices.map((invoice) => {
               const StatusIcon = getStatusIcon(invoice.status);
+              const statusColor = getStatusColor(invoice.status);
               return (
                 <tr
                   key={invoice.id}
@@ -62,7 +76,7 @@ export const InvoicesTable = ({ invoices, onInvoiceClick, onAddInvoice }) => {
                   <td data-label="Ausstellungsdatum">{new Date(invoice.issueDate).toLocaleDateString('de-DE')}</td>
                   <td data-label="Fälligkeitsdatum">{new Date(invoice.dueDate).toLocaleDateString('de-DE')}</td>
                   <td data-label="Status">
-                    <span className={`status ${invoice.status}`}>
+                    <span className={`status ${invoice.status}`} style={{ color: statusColor }}>
                       {StatusIcon && <StatusIcon size={14} />}
                       {getStatusText(invoice.status)}
                     </span>

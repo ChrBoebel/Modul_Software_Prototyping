@@ -17,31 +17,39 @@ export const CustomersView = ({ onCustomerClick, onAddCustomer }) => {
 
       <div className="grid-4" style={{ marginBottom: '24px' }}>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Users size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Users size={18} />
+            </div>
+            <div className="kpi-label">Gesamt Kunden</div>
           </div>
-          <div className="kpi-label">Gesamt Kunden</div>
           <div className="kpi-value">1,247</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <FileCheck size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <FileCheck size={18} />
+            </div>
+            <div className="kpi-label">Aktive Verträge</div>
           </div>
-          <div className="kpi-label">Aktive Verträge</div>
           <div className="kpi-value">1,189</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <UserPlus size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <UserPlus size={18} />
+            </div>
+            <div className="kpi-label">Neue (30 Tage)</div>
           </div>
-          <div className="kpi-label">Neue (30 Tage)</div>
           <div className="kpi-value">43</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Heart size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Heart size={18} />
+            </div>
+            <div className="kpi-label">Zufriedenheit</div>
           </div>
-          <div className="kpi-label">Zufriedenheit</div>
           <div className="kpi-value">94<span className="kpi-unit">%</span></div>
         </div>
       </div>

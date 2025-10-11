@@ -28,6 +28,19 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active':
+        return '#10b981'; // green
+      case 'maintenance':
+        return '#FD951F'; // orange
+      case 'offline':
+        return '#ef4444'; // red
+      default:
+        return 'var(--text-secondary)';
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-header">
@@ -51,6 +64,7 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
           <tbody>
             {facilities.map((facility) => {
               const StatusIcon = getStatusIcon(facility.status);
+              const statusColor = getStatusColor(facility.status);
               return (
                 <tr
                   key={facility.id}
@@ -62,7 +76,7 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
                   <td data-label="Output">{facility.output}</td>
                   <td data-label="Effizienz">{facility.efficiency}</td>
                   <td data-label="Status">
-                    <span className={`status ${facility.status}`}>
+                    <span className={`status ${facility.status}`} style={{ color: statusColor }}>
                       {StatusIcon && <StatusIcon size={14} />}
                       {getStatusText(facility.status)}
                     </span>

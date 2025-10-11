@@ -16,35 +16,43 @@ export const FacilitiesView = ({ onFacilityClick, onAddFacility }) => {
 
       <div className="grid-4" style={{ marginBottom: '24px' }}>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Factory size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Factory size={18} />
+            </div>
+            <div className="kpi-label">Gesamt Anlagen</div>
           </div>
-          <div className="kpi-label">Gesamt Anlagen</div>
           <div className="kpi-value">{mockData.facilities.length}</div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <CheckCircle size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <CheckCircle size={18} />
+            </div>
+            <div className="kpi-label">Aktive Anlagen</div>
           </div>
-          <div className="kpi-label">Aktive Anlagen</div>
           <div className="kpi-value">
             {mockData.facilities.filter(f => f.status === 'active').length}
           </div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Wrench size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Wrench size={18} />
+            </div>
+            <div className="kpi-label">Wartung</div>
           </div>
-          <div className="kpi-label">Wartung</div>
           <div className="kpi-value">
             {mockData.facilities.filter(f => f.status === 'maintenance').length}
           </div>
         </div>
         <div className="kpi">
-          <div className="kpi-icon">
-            <Zap size={20} />
+          <div className="kpi-header">
+            <div className="kpi-icon">
+              <Zap size={18} />
+            </div>
+            <div className="kpi-label">Gesamtkapazität</div>
           </div>
-          <div className="kpi-label">Gesamtkapazität</div>
           <div className="kpi-value" style={{ fontSize: '20px' }}>
             {mockData.facilities.reduce((sum, f) => sum + parseInt(f.capacity), 0)}
             <span className="kpi-unit">MW</span>
