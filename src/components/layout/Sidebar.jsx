@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, Zap } from 'lucide-react';
+import { Bell, Moon, Sun, Zap, LayoutDashboard, Activity, BarChart3, Factory, Users, Euro } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
   const handleNavClick = (viewId) => {
@@ -27,19 +27,22 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
               className={`nav-link ${activeView === 'dashboard' ? 'active' : ''}`}
               onClick={() => handleNavClick('dashboard')}
             >
-              Dashboard
+              <LayoutDashboard size={18} />
+              <span>Dashboard</span>
             </a>
             <a
               className={`nav-link ${activeView === 'monitoring' ? 'active' : ''}`}
               onClick={() => handleNavClick('monitoring')}
             >
-              Live Monitoring
+              <Activity size={18} />
+              <span>Live Monitoring</span>
             </a>
             <a
               className={`nav-link ${activeView === 'analytics' ? 'active' : ''}`}
               onClick={() => handleNavClick('analytics')}
             >
-              Analytics
+              <BarChart3 size={18} />
+              <span>Analytics</span>
             </a>
           </div>
 
@@ -49,25 +52,29 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
               className={`nav-link ${activeView === 'facilities' ? 'active' : ''}`}
               onClick={() => handleNavClick('facilities')}
             >
-              Anlagen
+              <Factory size={18} />
+              <span>Anlagen</span>
             </a>
             <a
               className={`nav-link ${activeView === 'customers' ? 'active' : ''}`}
               onClick={() => handleNavClick('customers')}
             >
-              Kunden
+              <Users size={18} />
+              <span>Kunden</span>
             </a>
             <a
               className={`nav-link ${activeView === 'finance' ? 'active' : ''}`}
               onClick={() => handleNavClick('finance')}
             >
-              Finanzen
+              <Euro size={18} />
+              <span>Finanzen</span>
             </a>
             <a
               className={`nav-link ${activeView === 'alerts' ? 'active' : ''}`}
               onClick={() => handleNavClick('alerts')}
             >
-              Alarme
+              <Bell size={18} />
+              <span>Alarme</span>
             </a>
           </div>
         </nav>

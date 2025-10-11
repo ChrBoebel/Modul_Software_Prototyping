@@ -1,4 +1,5 @@
 import { Button } from '../ui/Button';
+import { Plus, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) => {
   const getStatusText = (status) => {
@@ -14,11 +15,24 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
     }
   };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'active':
+        return CheckCircle;
+      case 'maintenance':
+        return Clock;
+      case 'offline':
+        return XCircle;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-header">
         <span className="card-title">Anlagen</span>
-        <Button variant="primary" onClick={onAddFacility}>
+        <Button variant="primary" icon={Plus} onClick={onAddFacility}>
           Neue Anlage
         </Button>
       </div>
@@ -35,24 +49,27 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
             </tr>
           </thead>
           <tbody>
-            {facilities.map((facility) => (
-              <tr
-                key={facility.id}
-                onClick={() => onFacilityClick(facility.name)}
-              >
-                <td data-label="Name">{facility.name}</td>
-                <td data-label="Typ">{facility.type}</td>
-                <td data-label="Kapazität">{facility.capacity}</td>
-                <td data-label="Output">{facility.output}</td>
-                <td data-label="Effizienz">{facility.efficiency}</td>
-                <td data-label="Status">
-                  <span className={`status ${facility.status}`}>
-                    <span className="status-dot"></span>
-                    {getStatusText(facility.status)}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {facilities.map((facility) => {
+              const StatusIcon = getStatusIcon(facility.status);
+              return (
+                <tr
+                  key={facility.id}
+                  onClick={() => onFacilityClick(facility.name)}
+                >
+                  <td data-label="Name">{facility.name}</td>
+                  <td data-label="Typ">{facility.type}</td>
+                  <td data-label="Kapazität">{facility.capacity}</td>
+                  <td data-label="Output">{facility.output}</td>
+                  <td data-label="Effizienz">{facility.efficiency}</td>
+                  <td data-label="Status">
+                    <span className={`status ${facility.status}`}>
+                      {StatusIcon && <StatusIcon size={14} />}
+                      {getStatusText(facility.status)}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

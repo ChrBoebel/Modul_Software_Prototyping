@@ -1,6 +1,7 @@
 import { CustomersTable } from '../dashboard/CustomersTable';
 import { CustomerSegmentsDonut } from '../dashboard/CustomerSegmentsDonut';
 import { mockData } from '../../data/mockData';
+import { Users, FileCheck, UserPlus, Heart } from 'lucide-react';
 
 export const CustomersView = ({ onCustomerClick, onAddCustomer }) => {
   return (
@@ -16,18 +17,30 @@ export const CustomersView = ({ onCustomerClick, onAddCustomer }) => {
 
       <div className="grid-4" style={{ marginBottom: '24px' }}>
         <div className="kpi">
+          <div className="kpi-icon">
+            <Users size={20} />
+          </div>
           <div className="kpi-label">Gesamt Kunden</div>
           <div className="kpi-value">1,247</div>
         </div>
         <div className="kpi">
+          <div className="kpi-icon">
+            <FileCheck size={20} />
+          </div>
           <div className="kpi-label">Aktive Verträge</div>
           <div className="kpi-value">1,189</div>
         </div>
         <div className="kpi">
+          <div className="kpi-icon">
+            <UserPlus size={20} />
+          </div>
           <div className="kpi-label">Neue (30 Tage)</div>
           <div className="kpi-value">43</div>
         </div>
         <div className="kpi">
+          <div className="kpi-icon">
+            <Heart size={20} />
+          </div>
           <div className="kpi-label">Zufriedenheit</div>
           <div className="kpi-value">94<span className="kpi-unit">%</span></div>
         </div>

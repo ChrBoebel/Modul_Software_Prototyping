@@ -1,4 +1,4 @@
-import { Menu, Moon, Sun, Bell, Zap } from 'lucide-react';
+import { Menu, Moon, Sun, Bell, Zap, Search } from 'lucide-react';
 import { useState } from 'react';
 
 export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
@@ -26,13 +26,16 @@ export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount
       </div>
       <h1>Dashboard</h1>
       <div className="header-actions">
-        <input
-          type="text"
-          className="search"
-          placeholder="Suchen..."
-          value={searchValue}
-          onChange={handleSearch}
-        />
+        <div className="search-wrapper">
+          <Search className="search-icon" size={16} />
+          <input
+            type="text"
+            className="search"
+            placeholder="Suchen..."
+            value={searchValue}
+            onChange={handleSearch}
+          />
+        </div>
         <button className="icon-btn notification-btn" onClick={onAlertsClick} aria-label="Benachrichtigungen">
           <Bell size={18} />
           {alertCount > 0 && <span className="notification-badge">{alertCount}</span>}

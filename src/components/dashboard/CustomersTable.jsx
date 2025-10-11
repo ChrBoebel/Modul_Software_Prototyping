@@ -1,4 +1,5 @@
 import { Button } from '../ui/Button';
+import { Plus, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 export const CustomersTable = ({ customers, onCustomerClick, onAddCustomer }) => {
   const getStatusText = (status) => {
@@ -14,11 +15,24 @@ export const CustomersTable = ({ customers, onCustomerClick, onAddCustomer }) =>
     }
   };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'active':
+        return CheckCircle;
+      case 'pending':
+        return Clock;
+      case 'cancelled':
+        return XCircle;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-header">
         <span className="card-title">Kunden-Übersicht</span>
-        <Button variant="primary" onClick={onAddCustomer}>
+        <Button variant="primary" icon={Plus} onClick={onAddCustomer}>
           Neuer Kunde
         </Button>
       </div>
@@ -35,24 +49,27 @@ export const CustomersTable = ({ customers, onCustomerClick, onAddCustomer }) =>
             </tr>
           </thead>
           <tbody>
-            {customers.map((customer) => (
-              <tr
-                key={customer.id}
-                onClick={() => onCustomerClick(customer.name)}
-              >
-                <td data-label="Name">{customer.name}</td>
-                <td data-label="Typ">{customer.type}</td>
-                <td data-label="Verbrauch">{customer.consumption} {customer.unit}</td>
-                <td data-label="Tarif">{customer.tariff}</td>
-                <td data-label="Vertragsbeginn">{new Date(customer.contractStart).toLocaleDateString('de-DE')}</td>
-                <td data-label="Status">
-                  <span className={`status ${customer.status}`}>
-                    <span className="status-dot"></span>
-                    {getStatusText(customer.status)}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {customers.map((customer) => {
+              const StatusIcon = getStatusIcon(customer.status);
+              return (
+                <tr
+                  key={customer.id}
+                  onClick={() => onCustomerClick(customer.name)}
+                >
+                  <td data-label="Name">{customer.name}</td>
+                  <td data-label="Typ">{customer.type}</td>
+                  <td data-label="Verbrauch">{customer.consumption} {customer.unit}</td>
+                  <td data-label="Tarif">{customer.tariff}</td>
+                  <td data-label="Vertragsbeginn">{new Date(customer.contractStart).toLocaleDateString('de-DE')}</td>
+                  <td data-label="Status">
+                    <span className={`status ${customer.status}`}>
+                      {StatusIcon && <StatusIcon size={14} />}
+                      {getStatusText(customer.status)}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
