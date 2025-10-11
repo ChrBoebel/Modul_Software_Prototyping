@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, Zap } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 
 export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeToggle, alertCount, onAlertsClick }) => {
@@ -26,6 +26,11 @@ export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeT
         <button className="mobile-menu-btn" onClick={toggleSidebar} aria-label="Menu">
           <Menu size={20} />
         </button>
+        <div className="mobile-logo">
+          <div className="logo-icon">
+            <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+          </div>
+        </div>
       </div>
       <Sidebar
         isOpen={sidebarOpen}

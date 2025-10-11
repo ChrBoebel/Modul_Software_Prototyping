@@ -1,4 +1,4 @@
-import { Menu, Moon, Sun, Bell } from 'lucide-react';
+import { Menu, Moon, Sun, Bell, Zap } from 'lucide-react';
 import { useState } from 'react';
 
 export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
@@ -14,9 +14,16 @@ export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount
 
   return (
     <header className="header">
-      <button className="menu-btn" onClick={onMenuClick} aria-label="Menu">
-        <Menu size={20} />
-      </button>
+      <div className="header-left">
+        <button className="menu-btn" onClick={onMenuClick} aria-label="Menu">
+          <Menu size={20} />
+        </button>
+        <div className="header-logo">
+          <div className="logo-icon">
+            <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+          </div>
+        </div>
+      </div>
       <h1>Dashboard</h1>
       <div className="header-actions">
         <input

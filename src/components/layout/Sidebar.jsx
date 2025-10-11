@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun } from 'lucide-react';
+import { Bell, Moon, Sun, Zap } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
   const handleNavClick = (viewId) => {
@@ -10,10 +10,9 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="logo">
           <div className="logo-text">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <rect width="24" height="24" rx="4" fill="#000099"/>
-              <path d="M7 8h10M7 12h10M7 16h7" stroke="#FD951F" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <div className="logo-icon">
+              <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+            </div>
             <span>EnBW Dashboard</span>
           </div>
           <button className="logo-bell-btn" onClick={onAlertsClick} aria-label="Benachrichtigungen">
