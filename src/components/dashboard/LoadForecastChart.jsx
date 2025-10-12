@@ -8,6 +8,10 @@ export const LoadForecastChart = ({ data }) => {
   const plotWidth = chartWidth - padding.left - padding.right;
   const plotHeight = chartHeight;
 
+  // Better colors for dark/light mode
+  const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+  const actualColor = isDarkMode ? '#60a5fa' : '#2563eb'; // Lighter blue for dark mode, darker for light
+
   return (
     <div className="card">
       <div className="card-header">
@@ -18,7 +22,7 @@ export const LoadForecastChart = ({ data }) => {
             Prognose
           </span>
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#000099' }}></span>
+            <span className="legend-dot" style={{ background: actualColor }}></span>
             Tatsächlich
           </span>
         </div>
@@ -58,7 +62,7 @@ export const LoadForecastChart = ({ data }) => {
               return `${x},${y}`;
             }).join(' ')}
             fill="none"
-            stroke="#000099"
+            stroke={actualColor}
             strokeWidth="2"
             strokeDasharray="5,5"
           />
