@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, Zap, LayoutDashboard, Activity, BarChart3, Factory, Users, Euro } from 'lucide-react';
+import { Bell, Moon, Sun, Building2, LayoutDashboard, Activity, BarChart3, Factory, Users, Euro } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
   const handleNavClick = (viewId) => {
@@ -11,7 +11,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
         <div className="logo">
           <div className="logo-text">
             <div className="logo-icon">
-              <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+              <Building2 size={20} fill="#FD951F" stroke="#FD951F" />
             </div>
             <span>EnBW Dashboard</span>
           </div>

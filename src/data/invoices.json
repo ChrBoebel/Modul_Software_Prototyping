@@ -1,0 +1,84 @@
+{
+  "invoices": [
+    {
+      "id": 1001,
+      "customer": "Stadtwerke München GmbH",
+      "amount": "125,000.00",
+      "issueDate": "2025-09-15",
+      "dueDate": "2025-10-15",
+      "status": "paid"
+    },
+    {
+      "id": 1002,
+      "customer": "TechCorp Solutions AG",
+      "amount": "68,500.00",
+      "issueDate": "2025-09-28",
+      "dueDate": "2025-10-28",
+      "status": "pending"
+    },
+    {
+      "id": 1003,
+      "customer": "Bäckerei Weber",
+      "amount": "3,850.00",
+      "issueDate": "2025-08-10",
+      "dueDate": "2025-09-10",
+      "status": "overdue"
+    },
+    {
+      "id": 1004,
+      "customer": "Schmidt, Anna",
+      "amount": "285.00",
+      "issueDate": "2025-10-01",
+      "dueDate": "2025-10-31",
+      "status": "pending"
+    },
+    {
+      "id": 1005,
+      "customer": "Autohaus Schneider",
+      "amount": "12,400.00",
+      "issueDate": "2025-09-20",
+      "dueDate": "2025-10-20",
+      "status": "paid"
+    },
+    {
+      "id": 1006,
+      "customer": "Fischer, Maria",
+      "amount": "245.00",
+      "issueDate": "2025-10-05",
+      "dueDate": "2025-11-05",
+      "status": "pending"
+    },
+    {
+      "id": 1007,
+      "customer": "Müller, Thomas",
+      "amount": "320.00",
+      "issueDate": "2025-09-12",
+      "dueDate": "2025-10-12",
+      "status": "paid"
+    },
+    {
+      "id": 1008,
+      "customer": "Wagner, Klaus",
+      "amount": "298.00",
+      "issueDate": "2025-08-25",
+      "dueDate": "2025-09-25",
+      "status": "overdue"
+    },
+    {
+      "id": 1009,
+      "customer": "TechCorp Solutions AG",
+      "amount": "71,200.00",
+      "issueDate": "2025-10-08",
+      "dueDate": "2025-11-08",
+      "status": "pending"
+    },
+    {
+      "id": 1010,
+      "customer": "Stadtwerke München GmbH",
+      "amount": "118,900.00",
+      "issueDate": "2025-10-10",
+      "dueDate": "2025-11-10",
+      "status": "pending"
+    }
+  ]
+}

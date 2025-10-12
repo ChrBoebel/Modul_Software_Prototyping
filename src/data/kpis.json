@@ -1,0 +1,44 @@
+{
+  "kpis": [
+    {
+      "id": "energy_consumption",
+      "title": "Energieverbrauch",
+      "value": "2,847",
+      "unit": "MWh",
+      "change": "+12.5",
+      "trend": "up",
+      "icon": "⚡",
+      "sparkline": [2450, 2520, 2600, 2680, 2750, 2820, 2847]
+    },
+    {
+      "id": "cost",
+      "title": "Kosten",
+      "value": "284,700",
+      "unit": "€",
+      "change": "+8.3",
+      "trend": "up",
+      "icon": "💰",
+      "sparkline": [260000, 265000, 270000, 275000, 280000, 282000, 284700]
+    },
+    {
+      "id": "co2_emissions",
+      "title": "CO₂-Emissionen",
+      "value": "1,423",
+      "unit": "Tonnen",
+      "change": "-15.2",
+      "trend": "down",
+      "icon": "🌱",
+      "sparkline": [1680, 1620, 1580, 1540, 1500, 1460, 1423]
+    },
+    {
+      "id": "system_uptime",
+      "title": "System Verfügbarkeit",
+      "value": "99.94",
+      "unit": "%",
+      "change": "+0.12",
+      "trend": "up",
+      "icon": "📊",
+      "sparkline": [99.82, 99.85, 99.88, 99.90, 99.91, 99.93, 99.94]
+    }
+  ]
+}

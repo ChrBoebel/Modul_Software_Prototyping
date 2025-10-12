@@ -1,4 +1,4 @@
-import { Menu, Moon, Sun, Bell, Zap, Search } from 'lucide-react';
+import { Menu, Moon, Sun, Bell, Building2, Search } from 'lucide-react';
 import { useState } from 'react';
 
 export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
@@ -20,7 +20,7 @@ export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount
         </button>
         <div className="header-logo">
           <div className="logo-icon">
-            <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+            <Building2 size={20} fill="#FD951F" stroke="#FD951F" />
           </div>
         </div>
       </div>

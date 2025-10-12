@@ -1,0 +1,36 @@
+{
+  "alerts": [
+    {
+      "id": 1,
+      "severity": "high",
+      "facility": "Kohlewerk West",
+      "message": "Turbine 2 Temperatur über Schwellenwert",
+      "timestamp": "2025-10-10T14:23:00Z",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "severity": "medium",
+      "facility": "Kraftwerk Süd",
+      "message": "Planmäßige Wartung in 48h",
+      "timestamp": "2025-10-10T12:15:00Z",
+      "status": "acknowledged"
+    },
+    {
+      "id": 3,
+      "severity": "low",
+      "facility": "Windpark Ost",
+      "message": "Wetterbericht: Niedrige Windgeschwindigkeit erwartet",
+      "timestamp": "2025-10-10T09:30:00Z",
+      "status": "open"
+    },
+    {
+      "id": 4,
+      "severity": "success",
+      "facility": "Kraftwerk Nord",
+      "message": "Wartung erfolgreich abgeschlossen - System läuft optimal",
+      "timestamp": "2025-10-10T08:45:00Z",
+      "status": "acknowledged"
+    }
+  ]
+}
