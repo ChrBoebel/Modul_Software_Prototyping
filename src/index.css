@@ -5,6 +5,45 @@
 }
 
 :root {
+    /* Stadtwerke Konstanz Colors */
+    --swk-red: #e2001a;
+    --swk-blue: #2358a1;
+    --swk-gray-dark: #333333;
+    --swk-gray-medium: #676767; /* Grau 67 implied from text */
+    --swk-gray-light: #e1e4e8;
+    --swk-white: #ffffff;
+    
+    /* Semantic Mappings */
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-hover: #f9f9f9;
+    --border: #e1e4e8;
+
+    --text: #333333;
+    --text-primary: #333333;
+    --text-secondary: #676767;
+    --text-tertiary: #8a8a9e;
+
+    --primary: var(--swk-red); /* Primary Action Color */
+    --primary-hover: #c20016;
+    --secondary: var(--swk-blue);
+    
+    --accent: var(--swk-red);
+    --accent-hover: #c20016;
+
+    --success: #10b981;
+    --warning: #e2001a;
+    --danger: #ef4444;
+
+    --radius: 12px; /* Rounded corners automatic */
+    --radius-sm: 8px;
+    
+    /* Gradients */
+    --gradient-general: linear-gradient(135deg, #f6f6f6 0%, #e1e4e8 100%);
+    --gradient-energy: linear-gradient(135deg, #ffffff 0%, rgba(226, 0, 26, 0.08) 100%);
+}
+
+[data-theme="dark"] {
     --bg: #09090B;
     --surface: #18181b;
     --surface-hover: #27272a;
@@ -13,72 +52,188 @@
     --text: #f5f5f5;
     --text-secondary: #a1a1aa;
     --text-tertiary: #71717a;
-
-    --accent: #FD951F;
-    --accent-hover: #ff9d2e;
-    --primary: #000099;
-
-    --success: #10b981;
-    --warning: #FD951F;
-    --danger: #ef4444;
-
-    --radius: 10px;
-    --radius-sm: 6px;
-}
-
-[data-theme="light"] {
-    --bg: #f8f9fa;
-    --surface: #ffffff;
-    --surface-hover: #f5f6f7;
-    --border: #e1e4e8;
-
-    --text: #1a1a1a;
-    --text-secondary: #5a5a6e;
-    --text-tertiary: #8a8a9e;
-
-    --accent: #FD951F;
-    --accent-hover: #e8841a;
-    --primary: #000099;
-
-    --success: #10b981;
-    --warning: #FD951F;
-    --danger: #ef4444;
-
-    --radius: 10px;
-    --radius-sm: 6px;
-}
-
-[data-theme="light"] .alerts-header-card {
-    background: linear-gradient(135deg, #ffffff 0%, rgba(253, 149, 31, 0.08) 100%);
-}
-
-[data-theme="light"] .alert-summary-card::before {
-    opacity: 1;
-}
-
-[data-theme="light"] .alert-card {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .alert-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'DM Sans', -apple-system, sans-serif; /* Keep DM Sans if it matches brand, or fallback */
     background: var(--bg);
     color: var(--text);
     line-height: 1.5;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
 }
+
+/* Typography - Styleguide */
+h1, .h1 {
+    font-size: 32px; /* Approx for Header Big */
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.h1-italic {
+    font-style: italic;
+    font-weight: 400;
+}
+
+h2, .h2 {
+    font-size: 24px;
+    font-weight: 700; /* Start bold */
+    line-height: 1.3;
+    margin-bottom: 1rem;
+}
+
+.h2-normal {
+    font-weight: 400; /* Second part normal */
+}
+
+h3, .h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+h4, .h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+p, .paragraph {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.paragraph-bold {
+    font-weight: 700;
+}
+
+.text-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+.preformatted {
+    font-family: monospace;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* Utility Classes from Styleguide */
+.red-info-box {
+    background: #fff;
+    border: 2px dotted var(--swk-red);
+    padding: 20px;
+    border-radius: var(--radius);
+}
+
+.no-margin { margin: 0 !important; }
+.no-margin-top { margin-top: 0 !important; }
+.no-margin-bottom { margin-bottom: 0 !important; }
+.headline-margin { margin-top: 20px; }
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px; /* Automatic round corners */
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+}
+
+/* Primary Button: Max one per view */
+.btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-secondary:hover {
+    background: rgba(226, 0, 26, 0.05);
+}
+
+/* Text Link as Button */
+.btn-link {
+    background: transparent;
+    color: var(--primary);
+    padding: 0;
+    font-weight: 600;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Layout Elements */
+.header-big {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.header-small {
+    padding: 30px 20px;
+}
+
+.card-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .card-double {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+}
+
+.header-img {
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Legacy / App Specific Styles preserved below */
 
 /* Layout */
 .sidebar {
     position: fixed;
     left: 0;
     top: 0;
-    width: 240px;
+    width: 300px;
     height: 100vh;
     background: var(--surface);
     border-right: 1px solid var(--border);
@@ -89,7 +244,7 @@ body {
 }
 
 .main {
-    margin-left: 240px;
+    margin-left: 300px;
     min-height: 100vh;
 }
 
@@ -179,10 +334,11 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 20px;
+    padding: 12px 20px;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 700;
     transition: all 0.15s ease;
     cursor: pointer;
     border-left: 2px solid transparent;
@@ -196,8 +352,8 @@ body {
 
 .nav-link.active {
     color: var(--accent);
-    border-left-color: var(--accent);
-    background: rgba(253, 149, 31, 0.08);
+    border-left-color: transparent;
+    background: rgba(226, 0, 26, 0.08);
 }
 
 /* Sidebar Footer */
@@ -294,9 +450,10 @@ body {
 }
 
 .header h1 {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: normal;
+    color: var(--text);
 }
 
 .menu-btn {
@@ -385,10 +542,10 @@ body {
 .search {
     background: var(--surface-hover);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 14px 8px 36px;
+    border-radius: 12px;
+    padding: 10px 16px 10px 40px;
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px;
     width: 240px;
     outline: none;
     transition: all 0.2s ease;
@@ -401,7 +558,7 @@ body {
 .search:focus {
     border-color: var(--accent);
     background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(253, 149, 31, 0.1);
+    box-shadow: 0 0 0 3px rgba(226, 0, 26, 0.1);
 }
 
 .icon-btn {
@@ -470,7 +627,7 @@ body {
 }
 
 .kpi:hover {
-    border-color: rgba(253, 149, 31, 0.3);
+    border-color: rgba(226, 0, 26, 0.3);
     background: var(--surface-hover);
     transform: translateY(-1px);
 }
@@ -556,7 +713,32 @@ body {
 .card-title {
     font-size: 16px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: normal;
+}
+
+/* Section Headers */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    margin-bottom: 24px;
+}
+
+.section-header:first-child {
+    margin-top: 0;
+}
+
+.section-header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: normal;
+}
+
+.section-header-icon {
+    color: var(--accent);
+    flex-shrink: 0;
 }
 
 /* Buttons */
@@ -564,10 +746,10 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    font-weight: 500;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.15s ease;
     border: 1px solid var(--border);
@@ -584,15 +766,15 @@ body {
 .btn-primary {
     background: var(--accent);
     border-color: var(--accent);
-    color: #000;
-    font-weight: 600;
+    color: #fff;
+    font-weight: 400;
 }
 
 .btn-primary:hover {
     background: var(--accent-hover);
     border-color: var(--accent-hover);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(253, 149, 31, 0.3);
+    box-shadow: 0 4px 12px rgba(226, 0, 26, 0.3);
 }
 
 .btn-group {
@@ -679,7 +861,7 @@ body {
 
 /* Alerts Header */
 .alerts-header-card {
-    background: linear-gradient(135deg, var(--surface) 0%, rgba(253, 149, 31, 0.05) 100%);
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(226, 0, 26, 0.05) 100%);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px 28px;
@@ -697,7 +879,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: rgba(253, 149, 31, 0.1);
+    background: rgba(226, 0, 26, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1906,6 +2088,16 @@ body {
         flex-wrap: wrap;
         gap: 16px;
     }
+
+    /* Section Headers Mobile */
+    .section-header {
+        margin-top: 32px;
+        margin-bottom: 20px;
+    }
+
+    .section-header-title {
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1920,6 +2112,10 @@ body {
 
     .card-title {
         font-size: 14px;
+    }
+
+    .section-header-title {
+        font-size: 18px;
     }
 
     .kpi-value {

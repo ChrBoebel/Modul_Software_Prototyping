@@ -28,7 +28,7 @@ export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeT
         </button>
         <div className="mobile-logo">
           <div className="logo-icon">
-            <Zap size={20} fill="#FD951F" stroke="#FD951F" />
+            <Zap size={20} fill="#e2001a" stroke="#e2001a" />
           </div>
         </div>
       </div>

@@ -22,20 +22,20 @@ export const AlertsList = ({ alerts, onAlertClick }) => {
     medium: {
       color: '#FD951F',
       label: 'Warnung',
-      icon: Info,
+      icon: AlertCircle,
       dotColor: '#FD951F'
     },
     low: {
-      color: '#3b82f6',
-      label: 'Info',
-      icon: CheckCircle,
-      dotColor: '#3b82f6'
-    },
-    success: {
       color: '#10b981',
-      label: 'Erfolg',
+      label: 'Erfolgreich',
       icon: CheckCircle,
       dotColor: '#10b981'
+    },
+    info: {
+      color: '#3b82f6',
+      label: 'Info',
+      icon: Info,
+      dotColor: '#3b82f6'
     }
   };
 
@@ -57,7 +57,7 @@ export const AlertsList = ({ alerts, onAlertClick }) => {
       </div>
       <div className="alerts-container">
         {alerts.map((alert) => {
-          const cfg = severityConfig[alert.severity];
+          const cfg = severityConfig[alert.severity] || severityConfig.low;
           const Icon = cfg.icon;
 
           return (
@@ -89,14 +89,14 @@ export const AlertsList = ({ alerts, onAlertClick }) => {
                     <button
                       className="alert-action-btn dismiss"
                       onClick={(e) => handleDismiss(e, alert.id)}
-                      title="Verwerfen"
+                      title="Ignorieren"
                     >
                       <X size={14} />
                     </button>
                     <button
                       className="alert-action-btn acknowledge"
                       onClick={(e) => handleAcknowledge(e, alert.id)}
-                      title="Erledigt"
+                      title="Bestätigen"
                     >
                       <Check size={14} />
                     </button>

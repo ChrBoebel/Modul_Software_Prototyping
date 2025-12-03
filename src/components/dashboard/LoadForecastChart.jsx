@@ -18,7 +18,7 @@ export const LoadForecastChart = ({ data }) => {
         <span className="card-title">Lastprognose vs. Realität</span>
         <div className="chart-legend">
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#FD951F' }}></span>
+            <span className="legend-dot" style={{ background: '#e2001a' }}></span>
             Prognose
           </span>
           <span className="legend-item">
@@ -50,7 +50,7 @@ export const LoadForecastChart = ({ data }) => {
               return `${x},${y}`;
             }).join(' ')}
             fill="none"
-            stroke="#FD951F"
+            stroke="#e2001a"
             strokeWidth="2"
           />
 

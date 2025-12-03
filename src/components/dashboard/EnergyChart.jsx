@@ -60,14 +60,14 @@ export const EnergyChart = ({ data }) => {
             <Line
               type="monotone"
               dataKey="heute"
-              stroke="#FD951F"
+              stroke="#e2001a"
               strokeWidth={2}
               dot={false}
             />
             <Line
               type="monotone"
               dataKey="gestern"
-              stroke="#000099"
+              stroke="#2358a1"
               strokeWidth={2}
               dot={false}
             />

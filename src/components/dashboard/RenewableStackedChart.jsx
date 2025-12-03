@@ -10,7 +10,7 @@ export const RenewableStackedChart = ({ data }) => {
         <span className="card-title">Erneuerbare vs. Konventionell</span>
         <div className="chart-legend">
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#10b981' }}></span>
+            <span className="legend-dot" style={{ background: '#2358a1' }}></span>
             Erneuerbar
           </span>
           <span className="legend-item">
@@ -59,7 +59,7 @@ export const RenewableStackedChart = ({ data }) => {
                   y={20 + chartHeight - renewableHeight}
                   width={`${barWidth * 0.8}%`}
                   height={renewableHeight}
-                  fill="#10b981"
+                  fill="#2358a1"
                   rx="2"
                 />
                 {/* Label */}

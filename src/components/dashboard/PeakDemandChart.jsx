@@ -21,12 +21,12 @@ export const PeakDemandChart = ({ data }) => {
           <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="colorToday" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#FD951F" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#FD951F" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#e2001a" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#e2001a" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="colorYesterday" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#2358a1" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="#2358a1" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="colorLastWeek" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#6b7280" stopOpacity={0.15}/>
@@ -71,7 +71,7 @@ export const PeakDemandChart = ({ data }) => {
               type="monotone"
               dataKey="yesterday"
               name="Gestern"
-              stroke="#3b82f6"
+              stroke="#2358a1"
               strokeWidth={2}
               fill="url(#colorYesterday)"
             />
@@ -79,7 +79,7 @@ export const PeakDemandChart = ({ data }) => {
               type="monotone"
               dataKey="today"
               name="Heute"
-              stroke="#FD951F"
+              stroke="#e2001a"
               strokeWidth={2}
               fill="url(#colorToday)"
             />

@@ -20,7 +20,7 @@ export const Header = ({ onMenuClick, onSearch, theme, onThemeToggle, alertCount
         </button>
         <div className="header-logo">
           <div className="logo-icon">
-            <Building2 size={20} fill="#FD951F" stroke="#FD951F" />
+            <Building2 size={20} fill="#e2001a" stroke="#e2001a" />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, Building2, LayoutDashboard, Activity, BarChart3, Factory, Users, Euro } from 'lucide-react';
+import { Bell, Moon, Sun, Building2, LayoutDashboard, Activity, BarChart3, Factory, Users, Euro, AlertTriangle } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onThemeToggle, alertCount = 0, onAlertsClick }) => {
   const handleNavClick = (viewId) => {
@@ -10,10 +10,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="logo">
           <div className="logo-text">
-            <div className="logo-icon">
-              <Building2 size={20} fill="#FD951F" stroke="#FD951F" />
-            </div>
-            <span>EnBW Dashboard</span>
+            <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '32px', width: 'auto' }} />
           </div>
           <button className="logo-bell-btn" onClick={onAlertsClick} aria-label="Benachrichtigungen">
             <Bell size={16} />
@@ -23,6 +20,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
 
         <nav className="nav">
           <div className="nav-section">
+            <span className="nav-label">Übersicht</span>
             <a
               className={`nav-link ${activeView === 'dashboard' ? 'active' : ''}`}
               onClick={() => handleNavClick('dashboard')}
@@ -30,6 +28,10 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
               <LayoutDashboard size={18} />
               <span>Dashboard</span>
             </a>
+          </div>
+
+          <div className="nav-section">
+            <span className="nav-label">Monitoring & Betrieb</span>
             <a
               className={`nav-link ${activeView === 'monitoring' ? 'active' : ''}`}
               onClick={() => handleNavClick('monitoring')}
@@ -37,6 +39,17 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
               <Activity size={18} />
               <span>Live Monitoring</span>
             </a>
+            <a
+              className={`nav-link ${activeView === 'alerts' ? 'active' : ''}`}
+              onClick={() => handleNavClick('alerts')}
+            >
+              <AlertTriangle size={18} />
+              <span>Alarme</span>
+            </a>
+          </div>
+
+          <div className="nav-section">
+            <span className="nav-label">Analyse</span>
             <a
               className={`nav-link ${activeView === 'analytics' ? 'active' : ''}`}
               onClick={() => handleNavClick('analytics')}
@@ -47,7 +60,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
           </div>
 
           <div className="nav-section">
-            <span className="nav-label">Management</span>
+            <span className="nav-label">Verwaltung</span>
             <a
               className={`nav-link ${activeView === 'facilities' ? 'active' : ''}`}
               onClick={() => handleNavClick('facilities')}
@@ -68,13 +81,6 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange, theme, onTh
             >
               <Euro size={18} />
               <span>Finanzen</span>
-            </a>
-            <a
-              className={`nav-link ${activeView === 'alerts' ? 'active' : ''}`}
-              onClick={() => handleNavClick('alerts')}
-            >
-              <Bell size={18} />
-              <span>Alarme</span>
             </a>
           </div>
         </nav>
