@@ -1,4 +1,4 @@
-export const Button = ({ children, onClick, variant = 'default', className = '', icon: Icon, ...props }) => {
+export const Button = ({ children, onClick, variant = 'secondary', className = '', icon: Icon, ...props }) => {
   let buttonClass = 'btn';
 
   switch (variant) {
@@ -12,13 +12,9 @@ export const Button = ({ children, onClick, variant = 'default', className = '',
       buttonClass = 'btn-link';
       break;
     default:
-      // Maintain existing behavior for 'default' or unspecified variants
-      // If the style guide implies 'default' should be secondary, we can map it, 
-      // but safe bet is to keep it as the base 'btn' which usually has some styling.
-      // In the new CSS, .btn has base styles but no color. 
-      // We might need a 'btn-default' or just use 'btn' if it has enough styling.
-      // Previous 'btn' had transparent bg.
-      buttonClass = 'btn'; 
+      // Default to secondary style (outlined) as it seems to be the standard "Button" in the guide
+      // unless explicitly primary.
+      buttonClass = 'btn btn-secondary'; 
   }
 
   return (
