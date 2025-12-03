@@ -31,11 +31,11 @@ export const FacilitiesTable = ({ facilities, onFacilityClick, onAddFacility }) 
   const getStatusColor = (status) => {
     switch (status) {
       case 'active':
-        return '#10b981'; // green
+        return 'var(--success)'; // green
       case 'maintenance':
-        return '#FD951F'; // orange
+        return 'var(--warning)'; // orange/red
       case 'offline':
-        return '#ef4444'; // red
+        return 'var(--danger)'; // red
       default:
         return 'var(--text-secondary)';
     }

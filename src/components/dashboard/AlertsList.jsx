@@ -14,28 +14,28 @@ const formatTime = (timestamp) => {
 export const AlertsList = ({ alerts, onAlertClick }) => {
   const severityConfig = {
     high: {
-      color: '#ef4444',
+      color: 'var(--danger)',
       label: 'Kritisch',
       icon: AlertCircle,
-      dotColor: '#ef4444'
+      dotColor: 'var(--danger)'
     },
     medium: {
-      color: '#FD951F',
+      color: 'var(--warning)',
       label: 'Warnung',
       icon: AlertCircle,
-      dotColor: '#FD951F'
+      dotColor: 'var(--warning)'
     },
     low: {
-      color: '#10b981',
+      color: 'var(--success)',
       label: 'Erfolgreich',
       icon: CheckCircle,
-      dotColor: '#10b981'
+      dotColor: 'var(--success)'
     },
     info: {
-      color: '#3b82f6',
+      color: 'var(--primary)', // Use primary (red) or a specific info color if defined
       label: 'Info',
       icon: Info,
-      dotColor: '#3b82f6'
+      dotColor: 'var(--primary)'
     }
   };
 
