@@ -3,9 +3,9 @@ export const GridLoadGauge = ({ data }) => {
   const percentage = (current / max) * 100;
 
   const getStatusColor = () => {
-    if (status === 'critical' || percentage > 85) return '#ef4444';
-    if (status === 'warning' || percentage > 70) return '#FD951F';
-    return '#10b981';
+    if (status === 'critical' || percentage > 85) return 'var(--danger)';
+    if (status === 'warning' || percentage > 70) return 'var(--warning)';
+    return 'var(--swk-blue)'; // Use brand blue for normal instead of generic green
   };
 
   const circumference = 2 * Math.PI * 70;
