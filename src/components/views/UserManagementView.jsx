@@ -1,4 +1,4 @@
-import { Users, UserPlus, Shield, Mail } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 export const UserManagementView = ({ showToast }) => {
   return (

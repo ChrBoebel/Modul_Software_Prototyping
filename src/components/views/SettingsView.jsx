@@ -1,4 +1,4 @@
-import { Settings, Bell, Palette, Lock } from 'lucide-react';
+import { Settings } from 'lucide-react';
 
 export const SettingsView = ({ showToast }) => {
   return (

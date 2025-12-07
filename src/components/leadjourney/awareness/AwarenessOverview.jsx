@@ -1,17 +1,12 @@
 import { useState } from 'react';
 import {
-  Eye,
   Link,
   TrendingUp,
   MousePointer,
   Users,
   Target,
   Copy,
-  ExternalLink,
-  Play,
-  Pause,
-  BarChart3,
-  PieChart
+  BarChart3
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
 import {
