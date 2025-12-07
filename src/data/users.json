@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Anna Müller",
+      "email": "anna.mueller@swk.de",
+      "role": "Super Admin",
+      "status": "active",
+      "lastLogin": "2025-12-03T10:30:00Z",
+      "department": "IT"
+    },
+    {
+      "id": 2,
+      "name": "Max Schmidt",
+      "email": "max.schmidt@swk.de",
+      "role": "Editor",
+      "status": "active",
+      "lastLogin": "2025-12-02T14:15:00Z",
+      "department": "Operations"
+    },
+    {
+      "id": 3,
+      "name": "Lisa Wagner",
+      "email": "lisa.wagner@swk.de",
+      "role": "Viewer",
+      "status": "active",
+      "lastLogin": "2025-12-01T09:45:00Z",
+      "department": "Customer Service"
+    },
+    {
+      "id": 4,
+      "name": "Thomas Becker",
+      "email": "thomas.becker@swk.de",
+      "role": "Editor",
+      "status": "active",
+      "lastLogin": "2025-11-30T16:20:00Z",
+      "department": "Finance"
+    },
+    {
+      "id": 5,
+      "name": "Sarah Klein",
+      "email": "sarah.klein@swk.de",
+      "role": "Viewer",
+      "status": "inactive",
+      "lastLogin": "2025-11-15T11:30:00Z",
+      "department": "Marketing"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "salesReps": [
+    {
+      "id": "rep-1",
+      "name": "Max Mustermann",
+      "email": "max.mustermann@swk.de",
+      "phone": "+49 7531 803-100",
+      "department": "Vertrieb Privatkunden",
+      "avatar": null,
+      "assignedLeads": 45,
+      "closedDeals": 12,
+      "conversionRate": 26.7,
+      "revenue": 285000,
+      "status": "active"
+    },
+    {
+      "id": "rep-2",
+      "name": "Sarah Klein",
+      "email": "sarah.klein@swk.de",
+      "phone": "+49 7531 803-101",
+      "department": "Vertrieb Privatkunden",
+      "avatar": null,
+      "assignedLeads": 38,
+      "closedDeals": 15,
+      "conversionRate": 39.5,
+      "revenue": 412000,
+      "status": "active"
+    },
+    {
+      "id": "rep-3",
+      "name": "Lisa Wagner",
+      "email": "lisa.wagner@swk.de",
+      "phone": "+49 7531 803-102",
+      "department": "Vertrieb Gewerbe",
+      "avatar": null,
+      "assignedLeads": 52,
+      "closedDeals": 18,
+      "conversionRate": 34.6,
+      "revenue": 890000,
+      "status": "active"
+    },
+    {
+      "id": "rep-4",
+      "name": "Thomas Berger",
+      "email": "thomas.berger@swk.de",
+      "phone": "+49 7531 803-103",
+      "department": "Vertrieb Privatkunden",
+      "avatar": null,
+      "assignedLeads": 28,
+      "closedDeals": 8,
+      "conversionRate": 28.6,
+      "revenue": 156000,
+      "status": "vacation"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-crm",
+      "name": "SAP CRM",
+      "type": "crm",
+      "status": "connected",
+      "lastSync": "2025-01-15T14:30:00",
+      "recordsSynced": 1250,
+      "syncInterval": 15,
+      "apiEndpoint": "https://api.swk.de/sap-crm",
+      "description": "Kundendaten und Kontakthistorie"
+    },
+    {
+      "id": "int-erp",
+      "name": "SAP ERP",
+      "type": "erp",
+      "status": "connected",
+      "lastSync": "2025-01-15T14:25:00",
+      "recordsSynced": 890,
+      "syncInterval": 30,
+      "apiEndpoint": "https://api.swk.de/sap-erp",
+      "description": "Verträge und Abrechnungsdaten"
+    },
+    {
+      "id": "int-email",
+      "name": "Exchange Server",
+      "type": "email",
+      "status": "connected",
+      "lastSync": "2025-01-15T14:35:00",
+      "recordsSynced": 3420,
+      "syncInterval": 5,
+      "apiEndpoint": "https://mail.swk.de/ews",
+      "description": "E-Mail-Kommunikation"
+    },
+    {
+      "id": "int-billing",
+      "name": "Billing System",
+      "type": "billing",
+      "status": "warning",
+      "lastSync": "2025-01-14T22:00:00",
+      "recordsSynced": 450,
+      "syncInterval": 60,
+      "apiEndpoint": "https://api.swk.de/billing",
+      "error": "Timeout bei letzter Synchronisierung",
+      "description": "Rechnungsstellung und Zahlungen"
+    },
+    {
+      "id": "int-gis",
+      "name": "GIS System",
+      "type": "gis",
+      "status": "connected",
+      "lastSync": "2025-01-15T12:00:00",
+      "recordsSynced": 156,
+      "syncInterval": 60,
+      "apiEndpoint": "https://api.swk.de/gis",
+      "description": "Geographische Daten für Netzplanung"
+    },
+    {
+      "id": "int-phone",
+      "name": "Telefonanlage",
+      "type": "telephony",
+      "status": "disconnected",
+      "lastSync": "2025-01-10T08:00:00",
+      "recordsSynced": 0,
+      "syncInterval": 15,
+      "apiEndpoint": "https://pbx.swk.de/api",
+      "error": "Verbindung unterbrochen - API nicht erreichbar",
+      "description": "Anrufdaten und Call-Tracking"
+    }
+  ],
+  "syncLogs": [
+    { "id": "log-1", "integrationId": "int-crm", "integrationName": "SAP CRM", "timestamp": "2025-01-15T14:30:00", "status": "success", "recordsProcessed": 25, "duration": 12, "message": "25 Datensätze synchronisiert" },
+    { "id": "log-2", "integrationId": "int-erp", "integrationName": "SAP ERP", "timestamp": "2025-01-15T14:25:00", "status": "success", "recordsProcessed": 18, "duration": 8, "message": "18 Verträge aktualisiert" },
+    { "id": "log-3", "integrationId": "int-billing", "integrationName": "Billing System", "timestamp": "2025-01-14T22:00:00", "status": "error", "recordsProcessed": 0, "duration": 300, "error": "Connection timeout nach 5 Minuten", "message": "Synchronisierung fehlgeschlagen" },
+    { "id": "log-4", "integrationId": "int-crm", "integrationName": "SAP CRM", "timestamp": "2025-01-15T14:15:00", "status": "success", "recordsProcessed": 12, "duration": 5, "message": "12 neue Leads übertragen" },
+    { "id": "log-5", "integrationId": "int-email", "integrationName": "Exchange Server", "timestamp": "2025-01-15T14:35:00", "status": "success", "recordsProcessed": 45, "duration": 3, "message": "45 E-Mails synchronisiert" },
+    { "id": "log-6", "integrationId": "int-phone", "integrationName": "Telefonanlage", "timestamp": "2025-01-10T08:00:00", "status": "error", "recordsProcessed": 0, "duration": 60, "error": "API nicht erreichbar", "message": "Verbindung fehlgeschlagen" },
+    { "id": "log-7", "integrationId": "int-gis", "integrationName": "GIS System", "timestamp": "2025-01-15T12:00:00", "status": "success", "recordsProcessed": 8, "duration": 15, "message": "8 Standorte aktualisiert" },
+    { "id": "log-8", "integrationId": "int-crm", "integrationName": "SAP CRM", "timestamp": "2025-01-15T14:00:00", "status": "warning", "recordsProcessed": 45, "duration": 28, "message": "45 Datensätze synchronisiert - 3 mit Warnungen" }
+  ],
+  "conversionFunnel": {
+    "stages": [
+      { "stage": "Leads", "label": "Alle Leads", "count": 1250, "value": 0, "color": "#3b82f6" },
+      { "stage": "Qualifiziert", "label": "Qualifiziert", "count": 780, "value": 0, "color": "#8b5cf6" },
+      { "stage": "Angebot", "label": "Angebot erstellt", "count": 420, "value": 8400000, "color": "#2358a1" },
+      { "stage": "Verhandlung", "label": "In Verhandlung", "count": 180, "value": 3600000, "color": "#f59e0b" },
+      { "stage": "Vertrag", "label": "Vertrag", "count": 95, "value": 1900000, "color": "#10b981" }
+    ],
+    "metrics": {
+      "overallConversion": 7.6,
+      "avgDealValue": 20000,
+      "avgCycleTime": 45,
+      "pipelineValue": 12000000,
+      "wonThisMonth": 12,
+      "wonThisQuarter": 42,
+      "revenueThisMonth": 245000,
+      "revenueThisQuarter": 890000
+    },
+    "byProduct": [
+      { "product": "solar", "label": "Photovoltaik", "leads": 450, "won": 38, "conversion": 8.4, "revenue": 760000 },
+      { "product": "heatpump", "label": "Wärmepumpe", "leads": 320, "won": 24, "conversion": 7.5, "revenue": 480000 },
+      { "product": "district_heating", "label": "Fernwärme", "leads": 180, "won": 15, "conversion": 8.3, "revenue": 225000 },
+      { "product": "charging_station", "label": "Ladestation", "leads": 200, "won": 12, "conversion": 6.0, "revenue": 36000 },
+      { "product": "energy_contract", "label": "Stromvertrag", "leads": 100, "won": 6, "conversion": 6.0, "revenue": 18000 }
+    ],
+    "trend": [
+      { "month": "2024-08", "leads": 180, "won": 12, "revenue": 195000 },
+      { "month": "2024-09", "leads": 210, "won": 15, "revenue": 285000 },
+      { "month": "2024-10", "leads": 245, "won": 18, "revenue": 342000 },
+      { "month": "2024-11", "leads": 280, "won": 22, "revenue": 398000 },
+      { "month": "2024-12", "leads": 195, "won": 14, "revenue": 256000 },
+      { "month": "2025-01", "leads": 140, "won": 12, "revenue": 245000 }
+    ]
+  },
+  "assignments": [
+    { "id": "assign-1", "leadId": 1, "salesRepId": "rep-1", "assignedAt": "2025-01-15T09:00:00", "assignedBy": "System", "reason": "Auto-Zuweisung nach Postleitzahl" },
+    { "id": "assign-2", "leadId": 2, "salesRepId": "rep-2", "assignedAt": "2025-01-15T10:30:00", "assignedBy": "Anna Müller", "reason": "Manuelle Zuweisung" },
+    { "id": "assign-3", "leadId": 3, "salesRepId": "rep-3", "assignedAt": "2025-01-15T11:15:00", "assignedBy": "System", "reason": "Gewerbekunde - automatisch an Gewerbe-Vertrieb" }
+  ]
+}

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an **EnBW Dashboard** built with React and Vite - a German utility provider (energy grid) monitoring and management system. The application provides real-time monitoring of energy distribution, grid status, facilities, customers, and financial data.
+This is the **SWK Stadtwerke Konstanz Admin Dashboard** built with React and Vite - a comprehensive admin system for managing a German utility provider (energy grid). The application provides CRUD operations for facilities, customers, and invoices, plus user management, settings configuration, and analytics with export capabilities. All features use frontend mock data with no backend required.
 
 ## Development Commands
 
@@ -82,9 +82,9 @@ The `mockData.js` file imports and aggregates all JSON files into a single expor
 
 - Pure CSS with custom properties (no CSS modules, no Tailwind)
 - Global styles in `index.css`
-- Dark mode default with custom EnBW brand colors:
-  - Primary: `#000099` (EnBW blue)
-  - Accent: `#FD951F` (EnBW orange)
+- Dark mode default with SWK Stadtwerke Konstanz brand colors:
+  - Primary Red: `#e2001a` (SWK red)
+  - Primary Blue: `#2358a1` (SWK blue)
 - Responsive design with mobile-first breakpoints
 - Uses Lucide React icons throughout
 

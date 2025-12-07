@@ -1,124 +1,66 @@
 import { useState, useEffect } from 'react';
 import { MainLayout } from './components/layout/MainLayout';
-import { DashboardView } from './components/views/DashboardView';
-import { LiveMonitoringView } from './components/views/LiveMonitoringView';
-import { AnalyticsView } from './components/views/AnalyticsView';
-import { FacilitiesView } from './components/views/FacilitiesView';
-import { CustomersView } from './components/views/CustomersView';
-import { FinanceView } from './components/views/FinanceView';
-import { AlertsView } from './components/views/AlertsView';
+import { UserManagementView } from './components/views/UserManagementView';
+import { SettingsView } from './components/views/SettingsView';
 import { Toast } from './components/ui/Toast';
 import { useToast } from './hooks/useToast';
-import { useTheme } from './hooks/useTheme';
-import { mockData } from './data/mockData';
+
+// Lead Machine Phase Dashboards
+import AwarenessOverview from './components/leadjourney/awareness/AwarenessOverview';
+import CaptureOverview from './components/leadjourney/capture/CaptureOverview';
+import NurturingOverview from './components/leadjourney/nurturing/NurturingOverview';
+import QualificationOverview from './components/leadjourney/qualification/QualificationOverview';
+import ClosingOverview from './components/leadjourney/closing/ClosingOverview';
+import RetentionOverview from './components/leadjourney/retention/RetentionOverview';
+
+const VIEW_NAMES = {
+  awareness: 'Awareness - Traffic & Kampagnen',
+  capture: 'Capture - Lead-Erfassung',
+  nurturing: 'Nurturing - E-Mail & Automation',
+  qualification: 'Qualification - Scoring & Pipeline',
+  closing: 'Closing - Vertrieb & CRM',
+  retention: 'Retention - Kundenbindung',
+  users: 'Benutzerverwaltung',
+  settings: 'Einstellungen'
+};
 
 function App() {
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState('awareness');
   const { toast, showToast } = useToast();
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
-    showToast('Dashboard geladen');
-  }, [showToast]);
+    showToast('Lead Machine geladen');
+  }, []);
 
   const handleViewChange = (viewId) => {
     setCurrentView(viewId);
-    const viewNames = {
-      dashboard: 'Dashboard',
-      monitoring: 'Live Monitoring',
-      analytics: 'Analytics',
-      facilities: 'Anlagen',
-      customers: 'Kunden',
-      finance: 'Finanzen',
-      alerts: 'Alarme'
-    };
-    showToast(viewNames[viewId]);
-  };
-
-  const handleAlertsClick = () => {
-    setCurrentView('alerts');
-    showToast('Alarme');
-  };
-
-  const handleKPIClick = (message) => {
-    showToast(message);
-  };
-
-  const handleFacilityClick = (name) => {
-    showToast(name);
-  };
-
-  const handleAddFacility = () => {
-    showToast('Neue Anlage');
-  };
-
-  const handleAlertClick = (facility) => {
-    showToast(facility);
-  };
-
-  const handleCustomerClick = (name) => {
-    showToast(name);
-  };
-
-  const handleAddCustomer = () => {
-    showToast('Neuer Kunde');
-  };
-
-  const handleInvoiceClick = (invoice) => {
-    showToast(invoice);
-  };
-
-  const handleAddInvoice = () => {
-    showToast('Neue Rechnung');
+    showToast(VIEW_NAMES[viewId] || viewId);
   };
 
   const renderView = () => {
     switch (currentView) {
-      case 'dashboard':
-        return (
-          <DashboardView
-            onKPIClick={handleKPIClick}
-            onFacilityClick={handleFacilityClick}
-            onAddFacility={handleAddFacility}
-            onAlertClick={handleAlertClick}
-          />
-        );
-      case 'monitoring':
-        return <LiveMonitoringView />;
-      case 'analytics':
-        return <AnalyticsView />;
-      case 'facilities':
-        return (
-          <FacilitiesView
-            onFacilityClick={handleFacilityClick}
-            onAddFacility={handleAddFacility}
-          />
-        );
-      case 'customers':
-        return (
-          <CustomersView
-            onCustomerClick={handleCustomerClick}
-            onAddCustomer={handleAddCustomer}
-          />
-        );
-      case 'finance':
-        return (
-          <FinanceView
-            onInvoiceClick={handleInvoiceClick}
-            onAddInvoice={handleAddInvoice}
-          />
-        );
-      case 'alerts':
-        return <AlertsView onAlertClick={handleAlertClick} />;
+      // Lead Machine Phases
+      case 'awareness':
+        return <AwarenessOverview showToast={showToast} />;
+      case 'capture':
+        return <CaptureOverview showToast={showToast} />;
+      case 'nurturing':
+        return <NurturingOverview showToast={showToast} />;
+      case 'qualification':
+        return <QualificationOverview showToast={showToast} />;
+      case 'closing':
+        return <ClosingOverview showToast={showToast} />;
+      case 'retention':
+        return <RetentionOverview showToast={showToast} />;
+
+      // Administration
+      case 'users':
+        return <UserManagementView showToast={showToast} />;
+      case 'settings':
+        return <SettingsView showToast={showToast} />;
+
       default:
-        return (
-          <DashboardView
-            onKPIClick={handleKPIClick}
-            onFacilityClick={handleFacilityClick}
-            onAddFacility={handleAddFacility}
-            onAlertClick={handleAlertClick}
-          />
-        );
+        return <AwarenessOverview showToast={showToast} />;
     }
   };
 
@@ -127,10 +69,6 @@ function App() {
       <MainLayout
         activeView={currentView}
         onViewChange={handleViewChange}
-        theme={theme}
-        onThemeToggle={toggleTheme}
-        alertCount={mockData.alerts.length}
-        onAlertsClick={handleAlertsClick}
       >
         {renderView()}
       </MainLayout>

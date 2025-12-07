@@ -1,0 +1,244 @@
+{
+  "journeys": [
+    {
+      "id": "journey-1",
+      "name": "Solar Lead Nurturing",
+      "description": "Automatische E-Mail-Sequenz für Solar-Interessenten",
+      "status": "active",
+      "createdDate": "2024-10-15",
+      "lastModified": "2025-01-10",
+      "stats": {
+        "enrolled": 450,
+        "active": 85,
+        "completed": 280,
+        "converted": 85,
+        "conversionRate": 18.9
+      },
+      "nodes": [
+        { "id": "n1", "type": "trigger", "label": "Formular eingereicht", "config": { "event": "form_submitted", "formId": "solar-rechner" }, "position": { "x": 100, "y": 50 } },
+        { "id": "n2", "type": "action", "label": "Willkommens-E-Mail", "config": { "action": "send_email", "templateId": "tpl-welcome-solar" }, "position": { "x": 100, "y": 150 } },
+        { "id": "n3", "type": "action", "label": "Warte 3 Tage", "config": { "action": "wait", "days": 3 }, "position": { "x": 100, "y": 250 } },
+        { "id": "n4", "type": "condition", "label": "Score > 70?", "config": { "field": "score", "operator": ">", "value": 70 }, "position": { "x": 100, "y": 350 } },
+        { "id": "n5", "type": "action", "label": "Status: Qualifiziert", "config": { "action": "update_status", "status": "qualified" }, "position": { "x": 0, "y": 450 } },
+        { "id": "n6", "type": "action", "label": "Follow-up E-Mail", "config": { "action": "send_email", "templateId": "tpl-followup-solar" }, "position": { "x": 200, "y": 450 } },
+        { "id": "n7", "type": "action", "label": "Warte 5 Tage", "config": { "action": "wait", "days": 5 }, "position": { "x": 200, "y": 550 } },
+        { "id": "n8", "type": "action", "label": "Angebots-E-Mail", "config": { "action": "send_email", "templateId": "tpl-offer-solar" }, "position": { "x": 200, "y": 650 } }
+      ],
+      "connections": [
+        { "from": "n1", "to": "n2" },
+        { "from": "n2", "to": "n3" },
+        { "from": "n3", "to": "n4" },
+        { "from": "n4", "to": "n5", "label": "Ja" },
+        { "from": "n4", "to": "n6", "label": "Nein" },
+        { "from": "n6", "to": "n7" },
+        { "from": "n7", "to": "n8" }
+      ]
+    },
+    {
+      "id": "journey-2",
+      "name": "Wärmepumpe Nurturing",
+      "description": "E-Mail-Sequenz für Wärmepumpen-Interessenten",
+      "status": "active",
+      "createdDate": "2024-11-01",
+      "lastModified": "2025-01-08",
+      "stats": {
+        "enrolled": 320,
+        "active": 65,
+        "completed": 180,
+        "converted": 52,
+        "conversionRate": 16.3
+      },
+      "nodes": [
+        { "id": "n1", "type": "trigger", "label": "Formular eingereicht", "config": { "event": "form_submitted", "formId": "waermepumpe-rechner" }, "position": { "x": 100, "y": 50 } },
+        { "id": "n2", "type": "action", "label": "Willkommens-E-Mail", "config": { "action": "send_email", "templateId": "tpl-welcome-wp" }, "position": { "x": 100, "y": 150 } },
+        { "id": "n3", "type": "action", "label": "Warte 2 Tage", "config": { "action": "wait", "days": 2 }, "position": { "x": 100, "y": 250 } },
+        { "id": "n4", "type": "action", "label": "Ratgeber-E-Mail", "config": { "action": "send_email", "templateId": "tpl-guide-wp" }, "position": { "x": 100, "y": 350 } }
+      ],
+      "connections": [
+        { "from": "n1", "to": "n2" },
+        { "from": "n2", "to": "n3" },
+        { "from": "n3", "to": "n4" }
+      ]
+    },
+    {
+      "id": "journey-3",
+      "name": "Fernwärme Interesse",
+      "description": "Kurze Sequenz für Fernwärme-Anfragen",
+      "status": "draft",
+      "createdDate": "2025-01-05",
+      "lastModified": "2025-01-05",
+      "stats": {
+        "enrolled": 0,
+        "active": 0,
+        "completed": 0,
+        "converted": 0,
+        "conversionRate": 0
+      },
+      "nodes": [
+        { "id": "n1", "type": "trigger", "label": "Fernwärme-Check", "config": { "event": "form_submitted", "formId": "fernwaerme-check" }, "position": { "x": 100, "y": 50 } },
+        { "id": "n2", "type": "action", "label": "Info-E-Mail", "config": { "action": "send_email", "templateId": "tpl-info-fw" }, "position": { "x": 100, "y": 150 } }
+      ],
+      "connections": [
+        { "from": "n1", "to": "n2" }
+      ]
+    }
+  ],
+  "emailTemplates": [
+    {
+      "id": "tpl-welcome-solar",
+      "name": "Willkommen - Solar",
+      "category": "welcome",
+      "subject": "Willkommen bei SWK, {{Vorname}}!",
+      "preheader": "Ihre persönliche Solar-Berechnung ist fertig",
+      "body": "<h2>Hallo {{Vorname}},</h2><p>vielen Dank für Ihr Interesse an einer Photovoltaik-Anlage!</p><p>Basierend auf Ihren Angaben haben wir eine erste Berechnung für Sie erstellt:</p><ul><li><strong>Geschätzter Jahresertrag:</strong> {{Ertrag}} kWh</li><li><strong>Mögliche Einsparung:</strong> {{Ersparnis}} € pro Jahr</li><li><strong>CO2-Reduktion:</strong> {{CO2}} kg pro Jahr</li></ul><p>Möchten Sie ein unverbindliches Angebot erhalten?</p><a href='{{AngebotLink}}' style='background:#e2001a;color:white;padding:12px 24px;text-decoration:none;border-radius:4px;'>Jetzt Angebot anfordern</a>",
+      "placeholders": ["Vorname", "Nachname", "Ertrag", "Ersparnis", "CO2", "AngebotLink"],
+      "stats": {
+        "sent": 1250,
+        "opened": 687,
+        "clicked": 245,
+        "openRate": 55.0,
+        "clickRate": 19.6,
+        "unsubscribed": 12
+      },
+      "abTest": {
+        "enabled": true,
+        "variantA": {
+          "subject": "Willkommen bei SWK, {{Vorname}}!",
+          "stats": { "sent": 625, "opened": 312, "openRate": 49.9 }
+        },
+        "variantB": {
+          "subject": "{{Vorname}}, Ihre Solaranlage wartet!",
+          "stats": { "sent": 625, "opened": 375, "openRate": 60.0 }
+        },
+        "winner": "B"
+      }
+    },
+    {
+      "id": "tpl-followup-solar",
+      "name": "Follow-up - Solar",
+      "category": "followup",
+      "subject": "Haben Sie noch Fragen zu Ihrer Solaranlage, {{Vorname}}?",
+      "preheader": "Wir helfen Ihnen gerne weiter",
+      "body": "<h2>Hallo {{Vorname}},</h2><p>vor einigen Tagen haben Sie unseren Solar-Rechner genutzt. Haben Sie noch Fragen?</p><p>Hier sind die häufigsten Fragen unserer Kunden:</p><ol><li>Wie lange dauert die Installation?</li><li>Welche Förderungen gibt es?</li><li>Lohnt sich ein Speicher?</li></ol><p>Vereinbaren Sie einen kostenlosen Beratungstermin:</p><a href='{{TerminLink}}'>Termin buchen</a>",
+      "placeholders": ["Vorname", "TerminLink"],
+      "stats": {
+        "sent": 890,
+        "opened": 356,
+        "clicked": 89,
+        "openRate": 40.0,
+        "clickRate": 10.0,
+        "unsubscribed": 8
+      },
+      "abTest": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "tpl-offer-solar",
+      "name": "Angebot - Solar",
+      "category": "offer",
+      "subject": "Ihr persönliches Solar-Angebot, {{Vorname}}",
+      "preheader": "Sparen Sie bis zu {{Ersparnis}}€ pro Jahr",
+      "body": "<h2>Ihr individuelles Angebot</h2><p>Hallo {{Vorname}},</p><p>wir haben ein maßgeschneidertes Angebot für Sie erstellt.</p><p><strong>Ihre Vorteile:</strong></p><ul><li>{{KWp}} kWp Leistung</li><li>{{Ersparnis}}€ jährliche Ersparnis</li><li>{{Amortisation}} Jahre Amortisationszeit</li></ul>",
+      "placeholders": ["Vorname", "KWp", "Ersparnis", "Amortisation"],
+      "stats": {
+        "sent": 450,
+        "opened": 225,
+        "clicked": 78,
+        "openRate": 50.0,
+        "clickRate": 17.3,
+        "unsubscribed": 5
+      },
+      "abTest": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "tpl-welcome-wp",
+      "name": "Willkommen - Wärmepumpe",
+      "category": "welcome",
+      "subject": "Ihre Wärmepumpen-Berechnung ist fertig, {{Vorname}}!",
+      "preheader": "So viel können Sie an Heizkosten sparen",
+      "body": "<h2>Hallo {{Vorname}},</h2><p>vielen Dank für Ihr Interesse an einer Wärmepumpe!</p><p>Ihre geschätzte jährliche Ersparnis: <strong>{{Ersparnis}}€</strong></p>",
+      "placeholders": ["Vorname", "Ersparnis"],
+      "stats": {
+        "sent": 680,
+        "opened": 374,
+        "clicked": 102,
+        "openRate": 55.0,
+        "clickRate": 15.0,
+        "unsubscribed": 6
+      },
+      "abTest": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "tpl-guide-wp",
+      "name": "Ratgeber - Wärmepumpe",
+      "category": "education",
+      "subject": "5 Mythen über Wärmepumpen - was stimmt wirklich?",
+      "preheader": "Die Wahrheit über Wärmepumpen",
+      "body": "<h2>Hallo {{Vorname}},</h2><p>es gibt viele Mythen über Wärmepumpen. Hier die Fakten:</p><ol><li><strong>Mythos:</strong> Wärmepumpen funktionieren nicht im Winter<br/><em>Fakt:</em> Moderne Wärmepumpen arbeiten bis -20°C effizient</li><li><strong>Mythos:</strong> Die Installation dauert Wochen<br/><em>Fakt:</em> In der Regel 2-3 Tage</li></ol>",
+      "placeholders": ["Vorname"],
+      "stats": {
+        "sent": 520,
+        "opened": 286,
+        "clicked": 68,
+        "openRate": 55.0,
+        "clickRate": 13.1,
+        "unsubscribed": 3
+      },
+      "abTest": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "tpl-info-fw",
+      "name": "Info - Fernwärme",
+      "category": "information",
+      "subject": "Fernwärme in Ihrer Straße - alle Infos",
+      "preheader": "Erfahren Sie, ob Fernwärme für Sie verfügbar ist",
+      "body": "<h2>Hallo {{Vorname}},</h2><p>Sie haben unseren Fernwärme-Check genutzt. Hier ist das Ergebnis für Ihre Adresse:</p><p><strong>{{Adresse}}</strong></p><p>Status: {{Status}}</p>",
+      "placeholders": ["Vorname", "Adresse", "Status"],
+      "stats": {
+        "sent": 180,
+        "opened": 99,
+        "clicked": 27,
+        "openRate": 55.0,
+        "clickRate": 15.0,
+        "unsubscribed": 1
+      },
+      "abTest": {
+        "enabled": false
+      }
+    }
+  ],
+  "assets": [
+    { "id": "asset-1", "name": "Solar-Broschüre.pdf", "type": "pdf", "size": 2450000, "uploadDate": "2024-11-01", "url": "/assets/solar-broschuere.pdf", "downloads": 458 },
+    { "id": "asset-2", "name": "Wärmepumpe-Infografik.png", "type": "image", "size": 450000, "uploadDate": "2024-11-15", "url": "/assets/wp-infografik.png", "downloads": 289 },
+    { "id": "asset-3", "name": "Förderübersicht-2025.pdf", "type": "pdf", "size": 890000, "uploadDate": "2025-01-02", "url": "/assets/foerderung-2025.pdf", "downloads": 167 },
+    { "id": "asset-4", "name": "SWK-Logo.png", "type": "image", "size": 125000, "uploadDate": "2024-10-01", "url": "/assets/swk-logo.png", "downloads": 0 },
+    { "id": "asset-5", "name": "Referenzprojekte.pdf", "type": "pdf", "size": 3200000, "uploadDate": "2024-12-10", "url": "/assets/referenzen.pdf", "downloads": 89 }
+  ],
+  "triggers": [
+    { "id": "trg-form", "type": "form_submitted", "label": "Formular eingereicht", "icon": "FileText" },
+    { "id": "trg-score", "type": "score_threshold", "label": "Score-Schwellenwert erreicht", "icon": "TrendingUp" },
+    { "id": "trg-status", "type": "status_changed", "label": "Status geändert", "icon": "RefreshCw" },
+    { "id": "trg-tag", "type": "tag_added", "label": "Tag hinzugefügt", "icon": "Tag" }
+  ],
+  "actions": [
+    { "id": "act-wait", "type": "wait", "label": "Warten (X Tage)", "icon": "Clock" },
+    { "id": "act-email", "type": "send_email", "label": "E-Mail senden", "icon": "Mail" },
+    { "id": "act-status", "type": "update_status", "label": "Status aktualisieren", "icon": "CheckCircle" },
+    { "id": "act-note", "type": "add_note", "label": "Notiz hinzufügen", "icon": "MessageSquare" },
+    { "id": "act-tag", "type": "add_tag", "label": "Tag hinzufügen", "icon": "Tag" },
+    { "id": "act-assign", "type": "assign_rep", "label": "Vertrieb zuweisen", "icon": "User" }
+  ],
+  "conditions": [
+    { "id": "cond-score", "type": "score", "label": "Lead-Score", "operators": [">", "<", ">=", "<=", "="] },
+    { "id": "cond-product", "type": "product", "label": "Produkt-Interesse", "operators": ["=", "!="] },
+    { "id": "cond-status", "type": "status", "label": "Lead-Status", "operators": ["=", "!="] },
+    { "id": "cond-source", "type": "source", "label": "Lead-Quelle", "operators": ["=", "!="] }
+  ]
+}

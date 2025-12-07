@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Menu, Zap } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 
-export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeToggle, alertCount, onAlertsClick }) => {
+export const MainLayout = ({ children, activeView, onViewChange }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -21,8 +21,8 @@ export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeT
   };
 
   return (
-    <>
-      <div className="mobile-header">
+    <div className="main-layout">
+      <div className="mobile-header" style={{ display: 'none' }}> {/* Hidden for desktop focus, can be enabled via CSS if needed */}
         <button className="mobile-menu-btn" onClick={toggleSidebar} aria-label="Menu">
           <Menu size={20} />
         </button>
@@ -32,21 +32,17 @@ export const MainLayout = ({ children, activeView, onViewChange, theme, onThemeT
           </div>
         </div>
       </div>
+      
       <Sidebar
         isOpen={sidebarOpen}
         onClose={closeSidebar}
         activeView={activeView}
         onViewChange={handleViewChange}
-        theme={theme}
-        onThemeToggle={onThemeToggle}
-        alertCount={alertCount}
-        onAlertsClick={onAlertsClick}
       />
-      <main className="main">
-        <div className="content">
-          {children}
-        </div>
+      
+      <main className="main-content">
+        {children}
       </main>
-    </>
+    </div>
   );
 };

@@ -1,0 +1,38 @@
+{
+  "general": {
+    "companyName": "SWK Stadtwerke Konstanz",
+    "supportEmail": "support@swk.de",
+    "timezone": "Europe/Berlin",
+    "language": "de-DE",
+    "currency": "EUR"
+  },
+  "integrations": {
+    "emailService": {
+      "provider": "SMTP",
+      "host": "smtp.swk.de",
+      "port": 587,
+      "username": "notifications@swk.de",
+      "encryption": "TLS"
+    },
+    "apiEndpoints": {
+      "facilityMonitoring": "https://api.swk.de/monitoring",
+      "customerData": "https://api.swk.de/customers",
+      "billingSystem": "https://api.swk.de/billing",
+      "gridManagement": "https://api.swk.de/grid"
+    }
+  },
+  "notifications": {
+    "enableEmail": true,
+    "enableSMS": false,
+    "enablePush": true,
+    "alertThreshold": "high",
+    "digestFrequency": "daily"
+  },
+  "security": {
+    "passwordMinLength": 12,
+    "passwordRequireSpecialChars": true,
+    "sessionTimeout": 30,
+    "mfaRequired": true,
+    "ipWhitelist": []
+  }
+}

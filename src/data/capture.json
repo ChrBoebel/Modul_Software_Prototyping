@@ -1,0 +1,146 @@
+{
+  "globalVariables": [
+    { "id": "var-1", "key": "electricity_price", "label": "Strompreis", "value": 0.35, "unit": "€/kWh", "lastUpdated": "2025-01-01", "description": "Aktueller Durchschnittspreis für Haushaltsstrom" },
+    { "id": "var-2", "key": "gas_price", "label": "Gaspreis", "value": 0.12, "unit": "€/kWh", "lastUpdated": "2025-01-01", "description": "Aktueller Durchschnittspreis für Erdgas" },
+    { "id": "var-3", "key": "co2_factor_grid", "label": "CO2-Faktor Netz", "value": 0.420, "unit": "kg/kWh", "lastUpdated": "2025-01-01", "description": "CO2-Emissionsfaktor für Netzstrom" },
+    { "id": "var-4", "key": "co2_factor_gas", "label": "CO2-Faktor Gas", "value": 0.201, "unit": "kg/kWh", "lastUpdated": "2025-01-01", "description": "CO2-Emissionsfaktor für Erdgas" },
+    { "id": "var-5", "key": "subsidy_solar", "label": "Förderung PV", "value": 500, "unit": "€", "lastUpdated": "2025-01-01", "description": "Regionale Förderung für Photovoltaik-Anlagen" },
+    { "id": "var-6", "key": "subsidy_heatpump", "label": "Förderung Wärmepumpe", "value": 7500, "unit": "€", "lastUpdated": "2025-01-01", "description": "BAFA-Förderung für Wärmepumpen" },
+    { "id": "var-7", "key": "subsidy_wallbox", "label": "Förderung Wallbox", "value": 900, "unit": "€", "lastUpdated": "2025-01-01", "description": "KfW-Förderung für Ladestationen" },
+    { "id": "var-8", "key": "feed_in_tariff", "label": "Einspeisevergütung", "value": 0.082, "unit": "€/kWh", "lastUpdated": "2025-01-01", "description": "Aktuelle Einspeisevergütung für PV-Strom" },
+    { "id": "var-9", "key": "solar_yield", "label": "Solarertrag Region", "value": 1050, "unit": "kWh/kWp", "lastUpdated": "2025-01-01", "description": "Durchschnittlicher Jahresertrag pro kWp in der Region Konstanz" },
+    { "id": "var-10", "key": "heatpump_cop", "label": "Wärmepumpe COP", "value": 4.2, "unit": "", "lastUpdated": "2025-01-01", "description": "Durchschnittlicher COP für Luft-Wasser-Wärmepumpen" }
+  ],
+  "leadMagnets": [
+    {
+      "id": "lm-1",
+      "name": "Solar-Rechner",
+      "type": "calculator",
+      "status": "active",
+      "url": "/rechner/solar",
+      "description": "Berechnung der Wirtschaftlichkeit einer PV-Anlage",
+      "metrics": {
+        "views": 8500,
+        "starts": 4200,
+        "completions": 2100,
+        "completionRate": 50.0,
+        "leads": 1890
+      },
+      "steps": [
+        { "step": 1, "name": "Adresse eingeben", "views": 4200, "dropOff": 8.3 },
+        { "step": 2, "name": "Dachfläche angeben", "views": 3850, "dropOff": 12.1 },
+        { "step": 3, "name": "Stromverbrauch", "views": 3385, "dropOff": 15.2 },
+        { "step": 4, "name": "Speicher-Interesse", "views": 2870, "dropOff": 10.5 },
+        { "step": 5, "name": "Kontaktdaten", "views": 2568, "dropOff": 18.2 },
+        { "step": 6, "name": "Absenden", "views": 2100, "dropOff": 0 }
+      ]
+    },
+    {
+      "id": "lm-2",
+      "name": "Wärmepumpen-Rechner",
+      "type": "calculator",
+      "status": "active",
+      "url": "/rechner/waermepumpe",
+      "description": "Heizkosten-Ersparnis durch Wärmepumpe berechnen",
+      "metrics": {
+        "views": 5200,
+        "starts": 2800,
+        "completions": 1260,
+        "completionRate": 45.0,
+        "leads": 1134
+      },
+      "steps": [
+        { "step": 1, "name": "Gebäudetyp", "views": 2800, "dropOff": 5.4 },
+        { "step": 2, "name": "Wohnfläche", "views": 2649, "dropOff": 8.2 },
+        { "step": 3, "name": "Aktuelle Heizung", "views": 2432, "dropOff": 12.5 },
+        { "step": 4, "name": "Energieverbrauch", "views": 2128, "dropOff": 18.8 },
+        { "step": 5, "name": "Kontaktdaten", "views": 1728, "dropOff": 27.1 },
+        { "step": 6, "name": "Absenden", "views": 1260, "dropOff": 0 }
+      ]
+    },
+    {
+      "id": "lm-3",
+      "name": "Wärmepumpen-Ratgeber PDF",
+      "type": "download",
+      "status": "active",
+      "url": "/download/waermepumpen-ratgeber",
+      "description": "Kostenloses E-Book mit allen Infos zur Wärmepumpe",
+      "metrics": {
+        "views": 3200,
+        "starts": 2800,
+        "completions": 2650,
+        "completionRate": 94.6,
+        "leads": 2385
+      },
+      "steps": [
+        { "step": 1, "name": "E-Mail eingeben", "views": 2800, "dropOff": 5.4 },
+        { "step": 2, "name": "Download", "views": 2650, "dropOff": 0 }
+      ]
+    },
+    {
+      "id": "lm-4",
+      "name": "Fernwärme-Check",
+      "type": "quiz",
+      "status": "active",
+      "url": "/check/fernwaerme",
+      "description": "Prüfen Sie, ob Fernwärme für Sie verfügbar ist",
+      "metrics": {
+        "views": 2100,
+        "starts": 1450,
+        "completions": 980,
+        "completionRate": 67.6,
+        "leads": 882
+      },
+      "steps": [
+        { "step": 1, "name": "PLZ eingeben", "views": 1450, "dropOff": 12.4 },
+        { "step": 2, "name": "Straße/Hausnummer", "views": 1270, "dropOff": 8.7 },
+        { "step": 3, "name": "Ergebnis + Kontakt", "views": 1159, "dropOff": 15.4 },
+        { "step": 4, "name": "Absenden", "views": 980, "dropOff": 0 }
+      ]
+    },
+    {
+      "id": "lm-5",
+      "name": "Stromtarif-Vergleich",
+      "type": "calculator",
+      "status": "active",
+      "url": "/vergleich/strom",
+      "description": "Finden Sie den besten SWK-Tarif",
+      "metrics": {
+        "views": 6800,
+        "starts": 4100,
+        "completions": 2870,
+        "completionRate": 70.0,
+        "leads": 1722
+      },
+      "steps": [
+        { "step": 1, "name": "Verbrauch eingeben", "views": 4100, "dropOff": 8.5 },
+        { "step": 2, "name": "Tarifauswahl", "views": 3752, "dropOff": 12.3 },
+        { "step": 3, "name": "Kontaktdaten", "views": 3290, "dropOff": 12.8 },
+        { "step": 4, "name": "Absenden", "views": 2870, "dropOff": 0 }
+      ]
+    }
+  ],
+  "funnelAnalytics": {
+    "overall": {
+      "totalVisitors": 25800,
+      "totalStarts": 15350,
+      "totalCompletions": 9860,
+      "overallCompletionRate": 64.2,
+      "avgTimeToComplete": 245
+    },
+    "byProduct": [
+      { "product": "solar", "visitors": 8500, "completions": 2100, "rate": 24.7 },
+      { "product": "heatpump", "visitors": 5200, "completions": 1260, "rate": 24.2 },
+      { "product": "fernwaerme", "visitors": 2100, "completions": 980, "rate": 46.7 },
+      { "product": "strom", "visitors": 6800, "completions": 2870, "rate": 42.2 },
+      { "product": "download", "visitors": 3200, "completions": 2650, "rate": 82.8 }
+    ],
+    "dropOffReasons": [
+      { "reason": "Zu viele Felder", "percentage": 32 },
+      { "reason": "Technische Probleme", "percentage": 18 },
+      { "reason": "Keine Zeit", "percentage": 25 },
+      { "reason": "Datenschutz-Bedenken", "percentage": 15 },
+      { "reason": "Sonstige", "percentage": 10 }
+    ]
+  }
+}
