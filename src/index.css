@@ -135,6 +135,42 @@ textarea {
     font-size: inherit;
 }
 
+/* Global Select Styling */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    background-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+select:hover {
+    border-color: var(--border-hover);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--slate-50);
+}
+
 /* 3. Typography
    ========================================================================== */
 h1,
@@ -4212,6 +4248,53 @@ input:checked+.toggle-slider:before {
     margin-bottom: 0.25rem;
 }
 
+/* Form Inputs */
+.form-input {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+}
+
+.form-input:hover {
+    border-color: var(--border-hover);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 60px;
+}
+
+select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+select.form-input:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
 /* Leadscore Table */
 .leadscore-table {
     width: 100%;
@@ -4325,8 +4408,8 @@ input:checked+.toggle-slider:before {
     min-height: 100%;
     display: flex;
     justify-content: center;
-    padding: 100px; /* Give some space around the tree */
-    transform-origin: center 100px; /* Zoom from top center roughly */
+    padding: 2rem 1rem; /* Reduced padding */
+    transform-origin: center top;
     transition: transform 0.05s linear; /* Fast response for drag/zoom */
     will-change: transform;
 }
@@ -4391,9 +4474,10 @@ input:checked+.toggle-slider:before {
     box-shadow: var(--shadow-sm);
     display: flex;
     align-items: center;
-    padding: 0.75rem;
-    min-width: 240px;
-    gap: 1rem;
+    padding: 0.625rem 0.75rem;
+    min-width: 180px;
+    max-width: 220px;
+    gap: 0.75rem;
     position: relative;
     transition: var(--transition);
     border-left: 4px solid var(--node-color, var(--slate-400));
@@ -4412,8 +4496,8 @@ input:checked+.toggle-slider:before {
 }
 
 .node-icon-wrapper {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-md);
     background: var(--node-color, var(--slate-400));
     color: white;
@@ -4441,7 +4525,7 @@ input:checked+.toggle-slider:before {
 }
 
 .node-main-label {
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
@@ -4501,8 +4585,8 @@ input:checked+.toggle-slider:before {
     align-items: center;
     justify-content: center;
     position: relative;
-    height: 48px;
-    width: 40px;
+    height: 36px;
+    width: 32px;
 }
 
 .connector-line {
@@ -4633,9 +4717,9 @@ input:checked+.toggle-slider:before {
 /* Branch Layout (Tree Lines) */
 .flow-branch {
     display: flex;
-    gap: 4rem;
+    gap: 1.5rem;
     position: relative;
-    padding-top: 32px; /* Space for the horizontal bar */
+    padding-top: 24px; /* Space for the horizontal bar */
 }
 
 /* The vertical line from parent to the horizontal bar */
@@ -4646,7 +4730,7 @@ input:checked+.toggle-slider:before {
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: 32px;
+    height: 24px;
     background: var(--slate-300);
 }
 
@@ -4984,8 +5068,10 @@ input:checked+.toggle-slider:before {
 }
 
 .lead-detail-panel {
-    width: 400px;
+    width: clamp(380px, 35%, 500px);
     flex-shrink: 0;
+    min-width: 380px;
+    max-width: 500px;
 }
 
 .leads-list {
@@ -5097,6 +5183,10 @@ input:checked+.toggle-slider:before {
     align-items: center;
     padding: 1rem;
     border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: var(--bg-surface);
+    z-index: 10;
 }
 
 .header-info {
@@ -5113,8 +5203,12 @@ input:checked+.toggle-slider:before {
 .status-buttons {
     display: flex;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 56px;
+    background: var(--bg-surface);
+    z-index: 9;
 }
 
 .status-buttons .btn {
@@ -5211,6 +5305,161 @@ input:checked+.toggle-slider:before {
     width: 16px;
     height: 16px;
     accent-color: var(--primary);
+}
+
+/* Collapsible Sections
+   ========================================================================== */
+.detail-section.collapsible {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    background: var(--bg-surface);
+}
+
+.section-header-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--slate-50);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.section-header-btn:hover {
+    background: var(--slate-100);
+}
+
+.section-header-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.section-header-btn .section-title {
+    margin-bottom: 0;
+}
+
+.section-chevron {
+    transition: transform 0.2s ease;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+}
+
+.section-chevron.open {
+    transform: rotate(180deg);
+}
+
+.section-body {
+    animation: slideDown 0.15s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2-Spalten Data Grid
+   ========================================================================== */
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25rem 1rem;
+}
+
+.data-grid .data-row {
+    border-bottom: none;
+    padding: 0.375rem 0;
+}
+
+.data-row.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Show More Button
+   ========================================================================== */
+.show-more-btn {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--primary);
+    text-align: center;
+    background: var(--slate-50);
+    border-radius: var(--radius-md);
+}
+
+.show-more-btn:hover {
+    background: var(--slate-100);
+    text-decoration: none;
+}
+
+/* Responsive Lead Detail Panel
+   ========================================================================== */
+@media (min-width: 1400px) {
+    .lead-detail-panel {
+        width: clamp(420px, 30%, 550px);
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .lead-detail-panel {
+        width: 380px;
+        min-width: 340px;
+    }
+
+    .data-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Backdrop is hidden on desktop */
+.lead-detail-backdrop {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .leads-container.with-detail {
+        position: relative;
+    }
+
+    .lead-detail-panel {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        width: 420px;
+        max-width: 90vw;
+        z-index: 50;
+        box-shadow: var(--shadow-xl);
+        animation: slideInRight 0.2s ease;
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    .lead-detail-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 49;
+    }
 }
 
 /* Einstellung Views

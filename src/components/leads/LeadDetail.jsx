@@ -12,11 +12,27 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  UserPlus
+  UserPlus,
+  ChevronDown
 } from 'lucide-react';
 
 const LeadDetail = ({ lead, showToast, onClose }) => {
   const [activeStatus, setActiveStatus] = useState(null);
+  const [expandedSections, setExpandedSections] = useState({
+    personal: true,
+    product: true,
+    scoreHistory: true,
+    activities: true,
+    consents: true
+  });
+  const [showAllActivities, setShowAllActivities] = useState(false);
+
+  const toggleSection = (sectionId) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
+  };
 
   // Mock score history
   const scoreHistory = [
@@ -58,6 +74,35 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
     setActiveStatus(status);
     showToast(`Lead Status: ${status}`);
   };
+
+  // Displayed activities (limited or all)
+  const displayedActivities = showAllActivities ? activities : activities.slice(0, 2);
+
+  // Collapsible Section Component
+  const CollapsibleSection = ({ id, icon: Icon, title, children }) => (
+    <div className={`detail-section collapsible ${expandedSections[id] ? 'expanded' : 'collapsed'}`}>
+      <button
+        type="button"
+        className="section-header-btn"
+        onClick={() => toggleSection(id)}
+        aria-expanded={expandedSections[id]}
+      >
+        <div className="section-title">
+          <Icon size={16} />
+          <h4>{title}</h4>
+        </div>
+        <ChevronDown
+          size={16}
+          className={`section-chevron ${expandedSections[id] ? 'open' : ''}`}
+        />
+      </button>
+      {expandedSections[id] && (
+        <div className="section-body">
+          {children}
+        </div>
+      )}
+    </div>
+  );
 
   if (!lead) return null;
 
@@ -115,71 +160,67 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
       {/* Content Sections */}
       <div className="detail-content">
         {/* Persönliche Daten */}
-        <div className="detail-section">
-          <div className="section-title">
-            <User size={16} />
-            <h4>Persönliche Daten</h4>
-          </div>
+        <CollapsibleSection id="personal" icon={User} title="Persönliche Daten">
           <div className="section-content">
-            <div className="data-row">
-              <span className="label">Name:</span>
-              <span className="value">{personalData.name}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">E-Mail:</span>
-              <span className="value">{personalData.email}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Telefon:</span>
-              <span className="value">{personalData.phone}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Adresse:</span>
-              <span className="value">{personalData.address}</span>
+            <div className="data-grid">
+              <div className="data-row">
+                <span className="label">Name:</span>
+                <span className="value">{personalData.name}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Telefon:</span>
+                <span className="value">{personalData.phone}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">E-Mail:</span>
+                <span className="value">{personalData.email}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Geburtsdatum:</span>
+                <span className="value">{personalData.birthdate}</span>
+              </div>
+              <div className="data-row full-width">
+                <span className="label">Adresse:</span>
+                <span className="value">{personalData.address}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* Produktdaten / Sales Daten */}
-        <div className="detail-section">
-          <div className="section-title">
-            <Package size={16} />
-            <h4>Produktdaten, Sales Daten</h4>
-          </div>
+        <CollapsibleSection id="product" icon={Package} title="Produktdaten, Sales Daten">
           <div className="section-content">
-            <div className="data-row">
-              <span className="label">Produktinteresse:</span>
-              <span className="value">{productData.interest}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Dachfläche:</span>
-              <span className="value">{productData.dachflaeche}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Ausrichtung:</span>
-              <span className="value">{productData.ausrichtung}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Stromverbrauch:</span>
-              <span className="value">{productData.stromverbrauch}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Eigentümer:</span>
-              <span className="value">{productData.eigentuemer}</span>
-            </div>
-            <div className="data-row">
-              <span className="label">Budget:</span>
-              <span className="value">{productData.budget}</span>
+            <div className="data-grid">
+              <div className="data-row">
+                <span className="label">Produktinteresse:</span>
+                <span className="value">{productData.interest}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Dachfläche:</span>
+                <span className="value">{productData.dachflaeche}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Ausrichtung:</span>
+                <span className="value">{productData.ausrichtung}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Stromverbrauch:</span>
+                <span className="value">{productData.stromverbrauch}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Eigentümer:</span>
+                <span className="value">{productData.eigentuemer}</span>
+              </div>
+              <div className="data-row">
+                <span className="label">Budget:</span>
+                <span className="value">{productData.budget}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* Score-Historie */}
-        <div className="detail-section">
-          <div className="section-title">
-            <History size={16} />
-            <h4>Score-Historie</h4>
-          </div>
+        <CollapsibleSection id="scoreHistory" icon={History} title="Score-Historie">
           <div className="table-wrapper">
             <table className="data-table score-table">
               <thead>
@@ -202,16 +243,12 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
               </tbody>
             </table>
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* Aktivitäten Timeline */}
-        <div className="detail-section">
-          <div className="section-title">
-            <Clock size={16} />
-            <h4>Aktivitäten</h4>
-          </div>
+        <CollapsibleSection id="activities" icon={Clock} title={`Aktivitäten (${activities.length})`}>
           <div className="activity-timeline">
-            {activities.map((activity) => {
+            {displayedActivities.map((activity) => {
               const Icon = activity.icon;
               return (
                 <div key={activity.id} className="timeline-item">
@@ -231,15 +268,29 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
                 </div>
               );
             })}
+            {activities.length > 2 && !showAllActivities && (
+              <button
+                type="button"
+                className="btn btn-link show-more-btn"
+                onClick={() => setShowAllActivities(true)}
+              >
+                +{activities.length - 2} weitere anzeigen
+              </button>
+            )}
+            {showAllActivities && activities.length > 2 && (
+              <button
+                type="button"
+                className="btn btn-link show-more-btn"
+                onClick={() => setShowAllActivities(false)}
+              >
+                Weniger anzeigen
+              </button>
+            )}
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* Einwilligungen */}
-        <div className="detail-section">
-          <div className="section-title">
-            <FileCheck size={16} />
-            <h4>Einwilligungen</h4>
-          </div>
+        <CollapsibleSection id="consents" icon={FileCheck} title="Einwilligungen">
           <div className="section-content consent-section">
             <div className="consent-item">
               <label className="checkbox-label">
@@ -254,7 +305,7 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
               </label>
             </div>
           </div>
-        </div>
+        </CollapsibleSection>
       </div>
     </div>
   );

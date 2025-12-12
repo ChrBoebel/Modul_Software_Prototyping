@@ -58,13 +58,20 @@ const LeadsView = ({ showToast }) => {
 
           {/* Lead Detail Panel */}
           {selectedLead && (
-            <div className="lead-detail-panel">
-              <LeadDetail
-                lead={selectedLead}
-                showToast={showToast}
-                onClose={handleCloseLead}
+            <>
+              <div
+                className="lead-detail-backdrop"
+                onClick={handleCloseLead}
+                aria-hidden="true"
               />
-            </div>
+              <div className="lead-detail-panel">
+                <LeadDetail
+                  lead={selectedLead}
+                  showToast={showToast}
+                  onClose={handleCloseLead}
+                />
+              </div>
+            </>
           )}
         </div>
       )}

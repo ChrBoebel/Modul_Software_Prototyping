@@ -12,15 +12,31 @@ const StructuredFlowCanvas = ({
   onDeleteNode,
   getNode
 }) => {
-  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 0.85 });
   const [isDragging, setIsDragging] = useState(false);
   const canvasRef = useRef(null);
+  const treeRef = useRef(null);
   const dragStartRef = useRef({ x: 0, y: 0 });
+
+  // Fit to view - calculate scale to fit the flow in the viewport
+  const handleFitToView = useCallback(() => {
+    if (!canvasRef.current || !treeRef.current) return;
+
+    const canvas = canvasRef.current.getBoundingClientRect();
+    const tree = treeRef.current.getBoundingClientRect();
+
+    // Calculate scale to fit with some padding
+    const scaleX = (canvas.width - 40) / tree.width;
+    const scaleY = (canvas.height - 40) / tree.height;
+    const newScale = Math.min(scaleX, scaleY, 1); // Don't scale up beyond 1
+
+    setTransform({ x: 0, y: 0, scale: Math.max(newScale, 0.5) });
+  }, []);
 
   // Zoom handlers
   const handleZoomIn = () => setTransform(p => ({ ...p, scale: Math.min(p.scale + 0.1, 2) }));
-  const handleZoomOut = () => setTransform(p => ({ ...p, scale: Math.max(p.scale - 0.1, 0.5) }));
-  const handleReset = () => setTransform({ x: 0, y: 0, scale: 1 });
+  const handleZoomOut = () => setTransform(p => ({ ...p, scale: Math.max(p.scale - 0.1, 0.4) }));
+  const handleReset = () => handleFitToView();
 
   // Panning handlers
   const handleMouseDown = (e) => {
@@ -155,7 +171,7 @@ const StructuredFlowCanvas = ({
           transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`
         }}
       >
-        <div className="flow-tree">
+        <div className="flow-tree" ref={treeRef}>
           {renderNode(rootNode.id)}
         </div>
       </div>
