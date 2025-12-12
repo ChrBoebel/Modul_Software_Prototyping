@@ -135,11 +135,11 @@
   ],
   "conversionFunnel": {
     "stages": [
-      { "stage": "Leads", "label": "Alle Leads", "count": 1250, "value": 0, "color": "#3b82f6" },
-      { "stage": "Qualifiziert", "label": "Qualifiziert", "count": 780, "value": 0, "color": "#8b5cf6" },
-      { "stage": "Angebot", "label": "Angebot erstellt", "count": 420, "value": 8400000, "color": "#2358a1" },
-      { "stage": "Verhandlung", "label": "In Verhandlung", "count": 180, "value": 3600000, "color": "#f59e0b" },
-      { "stage": "Vertrag", "label": "Vertrag", "count": 95, "value": 1900000, "color": "#10b981" }
+      { "stage": "Leads", "label": "Alle Leads", "count": 1250, "value": 0, "color": "#cbd5e1" },
+      { "stage": "Qualifiziert", "label": "Qualifiziert", "count": 780, "value": 0, "color": "#2358A1" },
+      { "stage": "Angebot", "label": "Angebot erstellt", "count": 420, "value": 8400000, "color": "#2358A1" },
+      { "stage": "Verhandlung", "label": "In Verhandlung", "count": 180, "value": 3600000, "color": "#E2001A" },
+      { "stage": "Vertrag", "label": "Vertrag", "count": 95, "value": 1900000, "color": "#0f172a" }
     ],
     "metrics": {
       "overallConversion": 7.6,

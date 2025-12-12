@@ -20,6 +20,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
+import { theme } from '../../../theme/colors';
 import {
   LineChart,
   Line,
@@ -47,20 +48,26 @@ const RetentionOverview = ({ showToast }) => {
 
   const getRiskBadge = (riskLevel) => {
     const styles = {
-      high: { bg: '#fef2f2', color: '#991b1b', label: 'Hoch' },
-      medium: { bg: '#fef3c7', color: '#92400e', label: 'Mittel' },
-      low: { bg: '#dcfce7', color: '#166534', label: 'Niedrig' }
+      high: { bg: 'var(--danger-light)', color: 'var(--danger)', label: 'Hoch' },
+      medium: { bg: 'var(--warning-light)', color: 'var(--warning)', label: 'Mittel' },
+      low: { bg: 'var(--success-light)', color: 'var(--success)', label: 'Niedrig' }
     };
     return styles[riskLevel] || styles.low;
   };
 
+  const getRiskColor = (score) => {
+    if (score >= 70) return theme.colors.danger;
+    if (score >= 50) return theme.colors.slate500;
+    return theme.colors.secondary;
+  };
+
   const getCouponStatus = (coupon) => {
-    if (!coupon.active) return { label: 'Inaktiv', color: '#6b7280' };
-    if (coupon.used >= coupon.usageLimit) return { label: 'Ausgeschöpft', color: '#dc2626' };
+    if (!coupon.active) return { label: 'Inaktiv', color: 'var(--text-tertiary)' };
+    if (coupon.used >= coupon.usageLimit) return { label: 'Ausgeschöpft', color: 'var(--danger)' };
     const now = new Date();
     const validUntil = new Date(coupon.validUntil);
-    if (validUntil < now) return { label: 'Abgelaufen', color: '#dc2626' };
-    return { label: 'Aktiv', color: '#16a34a' };
+    if (validUntil < now) return { label: 'Abgelaufen', color: 'var(--danger)' };
+    return { label: 'Aktiv', color: 'var(--success)' };
   };
 
   const copyCouponCode = (code) => {
@@ -72,11 +79,12 @@ const RetentionOverview = ({ showToast }) => {
 
   return (
     <div className="retention-overview">
+      <h2 className="sr-only">Retention Übersicht</h2>
       {/* KPI Bar */}
       <div className="kpi-bar">
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#dcfce7' }}>
-            <TrendingUp size={20} color="#16a34a" />
+          <div className="kpi-icon variant-success" aria-hidden="true">
+            <TrendingUp size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{retentionRate}%</span>
@@ -84,8 +92,8 @@ const RetentionOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#ede9fe' }}>
-            <Gift size={20} color="#7c3aed" />
+          <div className="kpi-icon variant-secondary" aria-hidden="true">
+            <Gift size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{successfulReferrals}</span>
@@ -93,8 +101,8 @@ const RetentionOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#fef2f2' }}>
-            <AlertTriangle size={20} color="#dc2626" />
+          <div className="kpi-icon variant-warning" aria-hidden="true">
+            <AlertTriangle size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{(potentialChurnValue / 1000).toFixed(0)}k €</span>
@@ -102,8 +110,8 @@ const RetentionOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#dbeafe' }}>
-            <Star size={20} color="#2563eb" />
+          <div className="kpi-icon variant-secondary" aria-hidden="true">
+            <Star size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{npsScore}</span>
@@ -113,45 +121,53 @@ const RetentionOverview = ({ showToast }) => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="section-tabs">
+      <div className="section-tabs" role="tablist">
         <button
           className={`section-tab ${activeTab === 'timers' ? 'active' : ''}`}
           onClick={() => setActiveTab('timers')}
+          role="tab"
+          aria-selected={activeTab === 'timers'}
         >
-          <Clock size={16} />
+          <Clock size={16} aria-hidden="true" />
           Lifecycle-Timer
         </button>
         <button
           className={`section-tab ${activeTab === 'referral' ? 'active' : ''}`}
           onClick={() => setActiveTab('referral')}
+          role="tab"
+          aria-selected={activeTab === 'referral'}
         >
-          <Gift size={16} />
+          <Gift size={16} aria-hidden="true" />
           Empfehlungsprogramm
         </button>
         <button
           className={`section-tab ${activeTab === 'churn' ? 'active' : ''}`}
           onClick={() => setActiveTab('churn')}
+          role="tab"
+          aria-selected={activeTab === 'churn'}
         >
-          <AlertTriangle size={16} />
+          <AlertTriangle size={16} aria-hidden="true" />
           Churn-Risiko
         </button>
         <button
           className={`section-tab ${activeTab === 'nps' ? 'active' : ''}`}
           onClick={() => setActiveTab('nps')}
+          role="tab"
+          aria-selected={activeTab === 'nps'}
         >
-          <Star size={16} />
+          <Star size={16} aria-hidden="true" />
           Kundenzufriedenheit
         </button>
       </div>
 
       {/* Tab Content */}
       {activeTab === 'timers' && (
-        <div className="timers-section">
+        <div className="timers-section" role="tabpanel">
           <div className="card">
             <div className="card-header">
               <h3>Lifecycle-Timer</h3>
               <button className="btn btn-primary" onClick={() => showToast('Timer-Erstellung in Entwicklung', 'info')}>
-                <Plus size={16} />
+                <Plus size={16} aria-hidden="true" />
                 Neuer Timer
               </button>
             </div>
@@ -159,31 +175,31 @@ const RetentionOverview = ({ showToast }) => {
               {lifecycleTimers.map(timer => (
                 <div key={timer.id} className="timer-card">
                   <div className="timer-header">
-                    <div className="timer-icon">
+                    <div className="timer-icon" aria-hidden="true">
                       <Clock size={20} />
                     </div>
                     <div className="timer-info">
                       <h4>{timer.name}</h4>
                       <p>{timer.description}</p>
                     </div>
-                    <label className="toggle">
+                    <label className="toggle" aria-label={`Timer ${timer.name} aktivieren/deaktivieren`}>
                       <input type="checkbox" checked={timer.active} readOnly />
                       <span className="toggle-slider"></span>
                     </label>
                   </div>
                   <div className="timer-config">
                     <div className="config-item">
-                      <Calendar size={14} />
+                      <Calendar size={14} aria-hidden="true" />
                       <span>
                         {timer.triggerType === 'contract_end'
                           ? `${timer.triggerMonthsBefore} Monate vor Vertragsende`
                           : timer.triggerType === 'anniversary'
-                          ? 'Jährlich'
-                          : `${Math.abs(timer.triggerMonthsBefore)} Monate nach ${timer.triggerType}`}
+                            ? 'Jährlich'
+                            : `${Math.abs(timer.triggerMonthsBefore)} Monate nach ${timer.triggerType}`}
                       </span>
                     </div>
                     <div className="config-item">
-                      <Mail size={14} />
+                      <Mail size={14} aria-hidden="true" />
                       <span>E-Mail senden</span>
                     </div>
                   </div>
@@ -204,12 +220,12 @@ const RetentionOverview = ({ showToast }) => {
                     </div>
                   </div>
                   <div className="timer-actions">
-                    <button className="btn btn-sm btn-secondary">
-                      <Edit2 size={14} />
+                    <button className="btn btn-sm btn-secondary" aria-label={`${timer.name} bearbeiten`}>
+                      <Edit2 size={14} aria-hidden="true" />
                       Bearbeiten
                     </button>
-                    <button className="btn btn-sm btn-secondary">
-                      <Trash2 size={14} />
+                    <button className="btn btn-sm btn-secondary" aria-label={`${timer.name} löschen`}>
+                      <Trash2 size={14} aria-hidden="true" />
                     </button>
                   </div>
                 </div>
@@ -220,13 +236,13 @@ const RetentionOverview = ({ showToast }) => {
       )}
 
       {activeTab === 'referral' && (
-        <div className="referral-section">
+        <div className="referral-section" role="tabpanel">
           <div className="content-grid">
             <div className="card">
               <div className="card-header">
                 <h3>Aktive Gutscheincodes</h3>
                 <button className="btn btn-primary" onClick={() => showToast('Code-Erstellung in Entwicklung', 'info')}>
-                  <Plus size={16} />
+                  <Plus size={16} aria-hidden="true" />
                   Neuer Code
                 </button>
               </div>
@@ -240,8 +256,9 @@ const RetentionOverview = ({ showToast }) => {
                         <button
                           className="btn btn-sm btn-icon"
                           onClick={() => copyCouponCode(coupon.code)}
+                          aria-label={`Code ${coupon.code} kopieren`}
                         >
-                          <Copy size={14} />
+                          <Copy size={14} aria-hidden="true" />
                         </button>
                         <span className="coupon-status" style={{ color: status.color }}>
                           {status.label}
@@ -394,7 +411,7 @@ const RetentionOverview = ({ showToast }) => {
                               className="score-fill"
                               style={{
                                 width: `${customer.riskScore}%`,
-                                backgroundColor: customer.riskScore >= 70 ? '#dc2626' : customer.riskScore >= 50 ? '#f59e0b' : '#10b981'
+                                backgroundColor: getRiskColor(customer.riskScore)
                               }}
                             />
                             <span>{customer.riskScore}</span>
@@ -472,7 +489,7 @@ const RetentionOverview = ({ showToast }) => {
                         borderRadius: '8px'
                       }}
                     />
-                    <Line type="monotone" dataKey="score" name="NPS" stroke="#2563eb" strokeWidth={2} dot={{ fill: '#2563eb' }} />
+                    <Line type="monotone" dataKey="score" name="NPS" stroke={theme.colors.info} strokeWidth={2} dot={{ fill: theme.colors.info }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -486,8 +503,8 @@ const RetentionOverview = ({ showToast }) => {
                 {customerSatisfaction.recentFeedback?.map(feedback => (
                   <div key={feedback.id} className="feedback-item">
                     <div className="feedback-score" style={{
-                      backgroundColor: feedback.score >= 9 ? '#dcfce7' : feedback.score >= 7 ? '#fef3c7' : '#fef2f2',
-                      color: feedback.score >= 9 ? '#166534' : feedback.score >= 7 ? '#92400e' : '#991b1b'
+                      backgroundColor: feedback.score >= 9 ? 'var(--success-light)' : feedback.score >= 7 ? 'var(--warning-light)' : 'var(--danger-light)',
+                      color: feedback.score >= 9 ? 'var(--success)' : feedback.score >= 7 ? 'var(--warning)' : 'var(--danger)'
                     }}>
                       {feedback.score}
                     </div>

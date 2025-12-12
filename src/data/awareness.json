@@ -92,9 +92,9 @@
   "trafficSources": [
     { "source": "google", "label": "Google Ads", "visitors": 12500, "leads": 420, "conversionRate": 3.36, "color": "#4285f4" },
     { "source": "facebook", "label": "Facebook", "visitors": 8200, "leads": 180, "conversionRate": 2.20, "color": "#1877f2" },
-    { "source": "direct", "label": "Direkt", "visitors": 5600, "leads": 290, "conversionRate": 5.18, "color": "#10b981" },
-    { "source": "organic", "label": "Organisch", "visitors": 4300, "leads": 156, "conversionRate": 3.63, "color": "#8b5cf6" },
-    { "source": "referral", "label": "Empfehlung", "visitors": 2100, "leads": 89, "conversionRate": 4.24, "color": "#f59e0b" },
+    { "source": "direct", "label": "Direkt", "visitors": 5600, "leads": 290, "conversionRate": 5.18, "color": "#0f172a" },
+    { "source": "organic", "label": "Organisch", "visitors": 4300, "leads": 156, "conversionRate": 3.63, "color": "#2358A1" },
+    { "source": "referral", "label": "Empfehlung", "visitors": 2100, "leads": 89, "conversionRate": 4.24, "color": "#64748b" },
     { "source": "linkedin", "label": "LinkedIn", "visitors": 1800, "leads": 45, "conversionRate": 2.50, "color": "#0a66c2" },
     { "source": "instagram", "label": "Instagram", "visitors": 1200, "leads": 28, "conversionRate": 2.33, "color": "#e4405f" }
   ],

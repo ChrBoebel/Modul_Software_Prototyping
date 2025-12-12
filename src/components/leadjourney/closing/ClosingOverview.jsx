@@ -18,6 +18,7 @@ import {
   Settings
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
+import { theme } from '../../../theme/colors';
 import {
   BarChart,
   Bar,
@@ -35,7 +36,7 @@ import {
 } from 'recharts';
 
 const ClosingOverview = ({ showToast }) => {
-  const [activeTab, setActiveTab] = useState('funnel');
+  const [activeTab, setActiveTab] = useState('sales');
 
   const salesReps = mockData.salesReps || [];
   const integrations = mockData.integrations || [];
@@ -51,29 +52,49 @@ const ClosingOverview = ({ showToast }) => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'connected': return <CheckCircle size={16} color="#16a34a" />;
-      case 'warning': return <AlertTriangle size={16} color="#d97706" />;
+      case 'connected': return (
+        <>
+          <CheckCircle size={16} color={theme.colors.success} aria-hidden="true" />
+          <span className="sr-only">Status: Verbunden</span>
+        </>
+      );
+      case 'warning': return (
+        <>
+          <AlertTriangle size={16} color={theme.colors.warning} aria-hidden="true" />
+          <span className="sr-only">Status: Warnung</span>
+        </>
+      );
       case 'disconnected':
-      case 'error': return <XCircle size={16} color="#dc2626" />;
-      default: return <Clock size={16} color="#6b7280" />;
+      case 'error': return (
+        <>
+          <XCircle size={16} color={theme.colors.danger} aria-hidden="true" />
+          <span className="sr-only">Status: Fehler</span>
+        </>
+      );
+      default: return (
+        <>
+          <Clock size={16} color={theme.colors.slate400} aria-hidden="true" />
+          <span className="sr-only">Status: Unbekannt</span>
+        </>
+      );
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'connected': return '#16a34a';
-      case 'warning': return '#d97706';
+      case 'connected': return theme.colors.success;
+      case 'warning': return theme.colors.warning;
       case 'disconnected':
-      case 'error': return '#dc2626';
-      default: return '#6b7280';
+      case 'error': return theme.colors.danger;
+      default: return theme.colors.slate400;
     }
   };
 
   const getSyncLogStatus = (status) => {
     const styles = {
-      success: { bg: '#dcfce7', color: '#166534', label: 'Erfolgreich' },
-      error: { bg: '#fef2f2', color: '#991b1b', label: 'Fehler' },
-      warning: { bg: '#fef3c7', color: '#92400e', label: 'Warnung' }
+      success: { bg: 'var(--success-light)', color: 'var(--success)', label: 'Erfolgreich' },
+      error: { bg: 'var(--danger-light)', color: 'var(--danger)', label: 'Fehler' },
+      warning: { bg: 'var(--warning-light)', color: 'var(--warning)', label: 'Warnung' }
     };
     return styles[status] || styles.success;
   };
@@ -88,11 +109,12 @@ const ClosingOverview = ({ showToast }) => {
 
   return (
     <div className="closing-overview">
+      <h2 className="sr-only">Closing & Sales Übersicht</h2>
       {/* KPI Bar */}
       <div className="kpi-bar">
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#dcfce7' }}>
-            <DollarSign size={20} color="#16a34a" />
+          <div className="kpi-icon variant-success" aria-hidden="true">
+            <DollarSign size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{(totalPipelineValue / 1000000).toFixed(1)}M €</span>
@@ -100,8 +122,8 @@ const ClosingOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#dbeafe' }}>
-            <TrendingUp size={20} color="#2563eb" />
+          <div className="kpi-icon variant-secondary" aria-hidden="true">
+            <TrendingUp size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{overallConversion}%</span>
@@ -109,8 +131,8 @@ const ClosingOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#fef3c7' }}>
-            <UserCheck size={20} color="#d97706" />
+          <div className="kpi-icon variant-warning" aria-hidden="true">
+            <UserCheck size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{avgDealValue.toLocaleString('de-DE')} €</span>
@@ -118,8 +140,8 @@ const ClosingOverview = ({ showToast }) => {
           </div>
         </div>
         <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#ede9fe' }}>
-            <Link2 size={20} color="#7c3aed" />
+          <div className="kpi-icon variant-primary" aria-hidden="true">
+            <Link2 size={20} />
           </div>
           <div className="kpi-content">
             <span className="kpi-value">{connectedIntegrations}/{integrations.length}</span>
@@ -129,136 +151,39 @@ const ClosingOverview = ({ showToast }) => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="section-tabs">
-        <button
-          className={`section-tab ${activeTab === 'funnel' ? 'active' : ''}`}
-          onClick={() => setActiveTab('funnel')}
-        >
-          <BarChart3 size={16} />
-          Conversion-Funnel
-        </button>
+      <div className="section-tabs" role="tablist">
         <button
           className={`section-tab ${activeTab === 'sales' ? 'active' : ''}`}
           onClick={() => setActiveTab('sales')}
+          role="tab"
+          aria-selected={activeTab === 'sales'}
         >
-          <Users size={16} />
+          <Users size={16} aria-hidden="true" />
           Vertriebsteam
         </button>
         <button
           className={`section-tab ${activeTab === 'integrations' ? 'active' : ''}`}
           onClick={() => setActiveTab('integrations')}
+          role="tab"
+          aria-selected={activeTab === 'integrations'}
         >
-          <Link2 size={16} />
+          <Link2 size={16} aria-hidden="true" />
           Integrationen
         </button>
         <button
           className={`section-tab ${activeTab === 'logs' ? 'active' : ''}`}
           onClick={() => setActiveTab('logs')}
+          role="tab"
+          aria-selected={activeTab === 'logs'}
         >
-          <Clock size={16} />
+          <Clock size={16} aria-hidden="true" />
           Sync-Protokoll
         </button>
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'funnel' && (
-        <div className="funnel-section">
-          <div className="content-grid">
-            <div className="card">
-              <div className="card-header">
-                <h3>Conversion-Funnel</h3>
-              </div>
-              <div className="funnel-visualization">
-                {funnelData.map((stage, index) => {
-                  const width = funnelData[0]?.value > 0
-                    ? (stage.value / funnelData[0].value) * 100
-                    : 0;
-                  return (
-                    <div key={index} className="funnel-stage">
-                      <div
-                        className="funnel-bar"
-                        style={{
-                          width: `${Math.max(width, 20)}%`,
-                          backgroundColor: stage.fill
-                        }}
-                      >
-                        <span className="funnel-label">{stage.name}</span>
-                        <span className="funnel-value">{stage.value.toLocaleString('de-DE')}</span>
-                      </div>
-                      {index < funnelData.length - 1 && (
-                        <div className="funnel-conversion">
-                          <ArrowRight size={16} />
-                          <span>
-                            {funnelData[index + 1]?.value && stage.value > 0
-                              ? ((funnelData[index + 1].value / stage.value) * 100).toFixed(1)
-                              : 0}%
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-header">
-                <h3>Nach Produkt</h3>
-              </div>
-              <div className="product-breakdown">
-                {conversionFunnel.byProduct?.map((product, index) => (
-                  <div key={index} className="product-row">
-                    <div className="product-info">
-                      <span className="product-name">{product.label}</span>
-                      <span className="product-leads">{product.leads} Leads</span>
-                    </div>
-                    <div className="product-metrics">
-                      <span className="metric">
-                        <strong>{product.won}</strong> gewonnen
-                      </span>
-                      <span className="metric highlight">
-                        {product.conversion}% Rate
-                      </span>
-                      <span className="metric">
-                        {(product.revenue / 1000).toFixed(0)}k € Umsatz
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="card full-width">
-              <div className="card-header">
-                <h3>Trend (letzte 6 Monate)</h3>
-              </div>
-              <div className="chart-container" style={{ height: 300 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={trendData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                    <XAxis dataKey="month" stroke="var(--text-secondary)" />
-                    <YAxis yAxisId="left" stroke="var(--text-secondary)" />
-                    <YAxis yAxisId="right" orientation="right" stroke="var(--text-secondary)" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'var(--surface)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Line yAxisId="left" type="monotone" dataKey="leads" name="Leads" stroke="#3b82f6" strokeWidth={2} />
-                    <Line yAxisId="left" type="monotone" dataKey="won" name="Gewonnen" stroke="#10b981" strokeWidth={2} />
-                    <Line yAxisId="right" type="monotone" dataKey="revenue" name="Umsatz (€)" stroke="#f59e0b" strokeWidth={2} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {activeTab === 'sales' && (
-        <div className="sales-section">
+        <div className="sales-section" role="tabpanel">
           <div className="card">
             <div className="card-header">
               <h3>Vertriebsteam</h3>
@@ -267,7 +192,7 @@ const ClosingOverview = ({ showToast }) => {
               {salesReps.map(rep => (
                 <div key={rep.id} className="sales-rep-card">
                   <div className="rep-header">
-                    <div className="rep-avatar">
+                    <div className="rep-avatar" aria-hidden="true">
                       <User size={24} />
                     </div>
                     <div className="rep-info">
@@ -279,12 +204,12 @@ const ClosingOverview = ({ showToast }) => {
                     </span>
                   </div>
                   <div className="rep-contact">
-                    <a href={`mailto:${rep.email}`}>
-                      <Mail size={14} />
+                    <a href={`mailto:${rep.email}`} aria-label={`E-Mail an ${rep.name}`}>
+                      <Mail size={14} aria-hidden="true" />
                       {rep.email}
                     </a>
-                    <a href={`tel:${rep.phone}`}>
-                      <Phone size={14} />
+                    <a href={`tel:${rep.phone}`} aria-label={`Anruf an ${rep.name}`}>
+                      <Phone size={14} aria-hidden="true" />
                       {rep.phone}
                     </a>
                   </div>
@@ -314,12 +239,12 @@ const ClosingOverview = ({ showToast }) => {
       )}
 
       {activeTab === 'integrations' && (
-        <div className="integrations-section">
+        <div className="integrations-section" role="tabpanel">
           <div className="card">
             <div className="card-header">
               <h3>System-Integrationen</h3>
               <button className="btn btn-secondary" onClick={() => showToast('Synchronisierung gestartet', 'info')}>
-                <RefreshCw size={16} />
+                <RefreshCw size={16} aria-hidden="true" />
                 Alle synchronisieren
               </button>
             </div>
@@ -327,7 +252,7 @@ const ClosingOverview = ({ showToast }) => {
               {integrations.map(integration => (
                 <div key={integration.id} className="integration-card">
                   <div className="integration-header">
-                    <div className="integration-icon">
+                    <div className="integration-icon" aria-hidden="true">
                       <Link2 size={20} />
                     </div>
                     <div className="integration-info">
@@ -342,31 +267,31 @@ const ClosingOverview = ({ showToast }) => {
                   <p className="integration-description">{integration.description}</p>
                   <div className="integration-meta">
                     <div className="meta-item">
-                      <Clock size={14} />
+                      <Clock size={14} aria-hidden="true" />
                       <span>Letzte Sync: {new Date(integration.lastSync).toLocaleString('de-DE')}</span>
                     </div>
                     <div className="meta-item">
-                      <RefreshCw size={14} />
+                      <RefreshCw size={14} aria-hidden="true" />
                       <span>Alle {integration.syncInterval} Min.</span>
                     </div>
                     <div className="meta-item">
-                      <BarChart3 size={14} />
+                      <BarChart3 size={14} aria-hidden="true" />
                       <span>{integration.recordsSynced.toLocaleString('de-DE')} Datensätze</span>
                     </div>
                   </div>
                   {integration.error && (
-                    <div className="integration-error">
-                      <AlertTriangle size={14} />
+                    <div className="integration-error" role="alert">
+                      <AlertTriangle size={14} aria-hidden="true" />
                       <span>{integration.error}</span>
                     </div>
                   )}
                   <div className="integration-actions">
-                    <button className="btn btn-sm btn-secondary">
-                      <RefreshCw size={14} />
+                    <button className="btn btn-sm btn-secondary" aria-label={`${integration.name} synchronisieren`}>
+                      <RefreshCw size={14} aria-hidden="true" />
                       Sync
                     </button>
-                    <button className="btn btn-sm btn-secondary">
-                      <Settings size={14} />
+                    <button className="btn btn-sm btn-secondary" aria-label={`${integration.name} konfigurieren`}>
+                      <Settings size={14} aria-hidden="true" />
                       Konfigurieren
                     </button>
                   </div>

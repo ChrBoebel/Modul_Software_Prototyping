@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   Download,
   Settings,
-  BarChart3,
   Calculator,
   FileText,
   Edit2,
@@ -14,19 +13,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  FunnelChart,
-  Funnel,
-  LabelList,
-  Cell
-} from 'recharts';
+import { theme } from '../../../theme/colors';
 
 const CaptureOverview = ({ showToast }) => {
   const [activeTab, setActiveTab] = useState('magnets');
@@ -35,7 +22,6 @@ const CaptureOverview = ({ showToast }) => {
   const [editValue, setEditValue] = useState('');
 
   const leadMagnets = mockData.leadMagnets || [];
-  const funnelAnalytics = mockData.funnelAnalytics || {};
 
   // Calculate totals
   const totalViews = leadMagnets.reduce((sum, m) => sum + m.metrics.views, 0);
@@ -61,106 +47,72 @@ const CaptureOverview = ({ showToast }) => {
     return labels[type] || type;
   };
 
-  const getMagnetTypeClass = (type) => {
+  const getMagnetVariant = (type) => {
     const map = {
-      calculator: 'bg-blue-50 text-blue-600', // You can define these utilities or use inline style with var
-      download: 'bg-green-50 text-green-600',
-      quiz: 'bg-purple-50 text-purple-600'
+      calculator: 'variant-secondary',
+      download: 'variant-success',
+      quiz: 'variant-primary'
     };
-    // For now, let's stick to inline styles using the NEW palette variables for simplicity in this refactor, 
-    // or better yet, return a color string and apply it cleanly.
-    return ''; 
+    return map[type] || 'variant-secondary';
   };
-  
-  // Modern Palette for Charts
-  const CHART_COLORS = {
-    primary: '#2358A1', // SWK Blue
-    secondary: '#E2001A', // SWK Red
-    tertiary: '#cbd5e1', // Slate 300
-    success: '#10b981',
-    warning: '#f59e0b',
-    purple: '#8b5cf6'
+
+  const getDropOffColor = (dropOff) => {
+    if (dropOff > 15) return theme.colors.danger;
+    if (dropOff > 10) return theme.colors.slate500;
+    return theme.colors.secondary;
+  };
+
+  // Edit logic helpers
+  const startEditing = (variable) => {
+    setEditingVar(variable.id);
+    setEditValue(variable.value);
+  };
+
+  const cancelEditing = () => {
+    setEditingVar(null);
+    setEditValue('');
+  };
+
+  const saveVariable = (id) => {
+    setVariables(prev => prev.map(v => 
+      v.id === id ? { ...v, value: parseFloat(editValue), lastUpdated: new Date().toISOString().split('T')[0] } : v
+    ));
+    setEditingVar(null);
+    showToast('Variable aktualisiert', 'success');
   };
 
   return (
     <div className="capture-overview">
-      {/* KPI Bar */}
-      <div className="kpi-bar">
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#eff6ff', color: '#2358A1' }}>
-            <Eye size={24} />
-          </div>
-          <div className="kpi-content">
-            <span className="kpi-value">{totalViews.toLocaleString('de-DE')}</span>
-            <span className="kpi-label">Aufrufe gesamt</span>
-          </div>
-        </div>
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#ecfdf5', color: '#10b981' }}>
-            <CheckCircle size={24} />
-          </div>
-          <div className="kpi-content">
-            <span className="kpi-value">{totalCompletions.toLocaleString('de-DE')}</span>
-            <span className="kpi-label">Abgeschlossen</span>
-          </div>
-        </div>
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}>
-            <Download size={24} />
-          </div>
-          <div className="kpi-content">
-            <span className="kpi-value">{totalLeads.toLocaleString('de-DE')}</span>
-            <span className="kpi-label">Leads generiert</span>
-          </div>
-        </div>
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ backgroundColor: '#fffbeb', color: '#f59e0b' }}>
-            <TrendingUp size={24} />
-          </div>
-          <div className="kpi-content">
-            <span className="kpi-value">{avgCompletionRate}%</span>
-            <span className="kpi-label">Abschlussrate</span>
-          </div>
-        </div>
-      </div>
-
+      <h2 className="sr-only">Capture Phase Übersicht</h2>
       {/* Tab Navigation */}
-      <div className="section-tabs">
+      <div className="section-tabs" role="tablist">
         <button
           className={`section-tab ${activeTab === 'magnets' ? 'active' : ''}`}
           onClick={() => setActiveTab('magnets')}
+          role="tab"
+          aria-selected={activeTab === 'magnets'}
         >
-          <Download size={18} />
+          <Download size={18} aria-hidden="true" />
           Lead-Magneten
-        </button>
-        <button
-          className={`section-tab ${activeTab === 'funnel' ? 'active' : ''}`}
-          onClick={() => setActiveTab('funnel')}
-        >
-          <BarChart3 size={18} />
-          Funnel-Analyse
         </button>
         <button
           className={`section-tab ${activeTab === 'variables' ? 'active' : ''}`}
           onClick={() => setActiveTab('variables')}
+          role="tab"
+          aria-selected={activeTab === 'variables'}
         >
-          <Settings size={18} />
-          Variablen-Manager
+          <Settings size={18} aria-hidden="true" />
+          Globale Werte
         </button>
       </div>
 
       {/* Tab Content */}
       {activeTab === 'magnets' && (
-        <div className="lead-magnets-grid">
+        <div className="lead-magnets-grid" role="tabpanel">
           {leadMagnets.map(magnet => (
             <div key={magnet.id} className="lead-magnet-card">
               <div className="magnet-header">
-                <div className="magnet-icon" style={{
-                  backgroundColor: magnet.type === 'calculator' ? '#eff6ff' :
-                    magnet.type === 'download' ? '#ecfdf5' : '#f3e8ff',
-                  color: magnet.type === 'calculator' ? '#2563eb' :
-                    magnet.type === 'download' ? '#16a34a' : '#7c3aed'
-                }}>
+                <div className={`magnet-icon ${getMagnetVariant(magnet.type)}`} aria-hidden="true">
                   {getMagnetIcon(magnet.type)}
                 </div>
                 <div className="magnet-info">
@@ -182,7 +134,7 @@ const CaptureOverview = ({ showToast }) => {
                   <span className="metric-label">Fertig</span>
                 </div>
                 <div className="metric">
-                  <span className="metric-value">{magnet.metrics.completionRate.toFixed(1)}%</span>
+                  <span className="metric-value">{((magnet.metrics.completions / magnet.metrics.views) * 100).toFixed(1)}%</span>
                   <span className="metric-label">Rate</span>
                 </div>
                 <div className="metric highlight">
@@ -201,16 +153,19 @@ const CaptureOverview = ({ showToast }) => {
                             className="step-fill"
                             style={{
                               width: `${(step.views / magnet.steps[0].views) * 100}%`,
-                              backgroundColor: step.dropOff > 15 ? '#ef4444' : step.dropOff > 10 ? '#f59e0b' : '#10b981'
+                              backgroundColor: getDropOffColor(step.dropOff)
                             }}
                           />
                         </div>
                         <div className="step-info">
                           <span className="step-name">{step.name}</span>
-                          <span className="step-dropoff">
+                          <span 
+                            className="step-dropoff"
+                            style={{ color: getDropOffColor(step.dropOff) }}
+                          >
                             {step.dropOff > 0 && (
                               <>
-                                <TrendingDown size={12} />
+                                <TrendingDown size={12} aria-hidden="true" />
                                 {step.dropOff}%
                               </>
                             )}
@@ -226,88 +181,8 @@ const CaptureOverview = ({ showToast }) => {
         </div>
       )}
 
-      {activeTab === 'funnel' && (
-        <div className="content-grid">
-          <div className="card full-width">
-            <div className="card-header">
-              <h3>Gesamt-Funnel-Analyse</h3>
-              <p className="text-sm text-muted">Visualisierung der Abbruchraten über alle Lead-Magneten</p>
-            </div>
-            {funnelData.length > 0 ? (
-              <div className="chart-container" style={{ height: 400 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={funnelData} layout="vertical" margin={{ left: 20, right: 30, top: 20, bottom: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
-                    <XAxis type="number" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis dataKey="name" type="category" width={150} stroke="#64748b" fontSize={13} tickLine={false} axisLine={false} />
-                    <Tooltip
-                      formatter={(value, name) => [value.toLocaleString('de-DE'), 'Besucher']}
-                      contentStyle={{
-                        backgroundColor: '#ffffff',
-                        border: '1px solid #e2e8f0',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                      }}
-                      cursor={{ fill: '#f8fafc' }}
-                    />
-                    <Bar dataKey="value" name="Besucher" radius={[0, 4, 4, 0]} barSize={32}>
-                      {funnelData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={[CHART_COLORS.primary, '#3b82f6', '#60a5fa', '#93c5fd'][index % 4]} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            ) : (
-              <div className="empty-state">
-                <p>Keine Funnel-Daten verfügbar</p>
-              </div>
-            )}
-          </div>
-
-          <div className="card">
-            <div className="card-header">
-              <h3>Abbruchgründe</h3>
-            </div>
-            <div className="dropoff-reasons">
-              {funnelAnalytics.dropOffReasons?.map((reason, index) => (
-                <div key={index} className="reason-item">
-                  <div className="reason-bar">
-                    <div
-                      className="reason-fill"
-                      style={{ width: `${reason.percentage}%` }}
-                    />
-                  </div>
-                  <div className="reason-info">
-                    <span className="reason-name">{reason.reason}</span>
-                    <span className="reason-percentage">{reason.percentage}%</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card-header">
-              <h3>Performance nach Produkt</h3>
-            </div>
-            <div className="product-stats">
-              {funnelAnalytics.byProduct?.map((product, index) => (
-                <div key={index} className="product-stat-row">
-                  <span className="product-name">{product.product}</span>
-                  <div className="product-metrics">
-                    <span>{product.visitors.toLocaleString('de-DE')} Besucher</span>
-                    <span className="highlight">{product.rate.toFixed(1)}% Conversion</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
       {activeTab === 'variables' && (
-        <div className="card">
+        <div className="card" role="tabpanel">
           <div className="card-header">
             <h3>Globale Variablen</h3>
             <p className="card-description">
@@ -344,6 +219,7 @@ const CaptureOverview = ({ showToast }) => {
                           onChange={(e) => setEditValue(e.target.value)}
                           className="variable-input"
                           autoFocus
+                          aria-label={`Wert für ${variable.label} bearbeiten`}
                         />
                       ) : (
                         <span className="variable-value">{variable.value}</span>
@@ -357,22 +233,25 @@ const CaptureOverview = ({ showToast }) => {
                           <button
                             className="btn btn-sm btn-primary"
                             onClick={() => saveVariable(variable.id)}
+                            aria-label="Speichern"
                           >
-                            <Save size={14} />
+                            <Save size={14} aria-hidden="true" />
                           </button>
                           <button
                             className="btn btn-sm btn-secondary"
                             onClick={cancelEditing}
+                            aria-label="Abbrechen"
                           >
-                            <X size={14} />
+                            <X size={14} aria-hidden="true" />
                           </button>
                         </div>
                       ) : (
                         <button
                           className="btn btn-sm btn-secondary"
                           onClick={() => startEditing(variable)}
+                          aria-label={`${variable.label} bearbeiten`}
                         >
-                          <Edit2 size={14} />
+                          <Edit2 size={14} aria-hidden="true" />
                         </button>
                       )}
                     </td>

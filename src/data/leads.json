@@ -481,18 +481,18 @@
     }
   ],
   "statusOptions": [
-    { "value": "new", "label": "Neu", "color": "#3b82f6" },
-    { "value": "contacted", "label": "Kontaktiert", "color": "#f59e0b" },
-    { "value": "qualified", "label": "Qualifiziert", "color": "#8b5cf6" },
+    { "value": "new", "label": "Neu", "color": "#cbd5e1" },
+    { "value": "contacted", "label": "Kontaktiert", "color": "#64748b" },
+    { "value": "qualified", "label": "Qualifiziert", "color": "#2358A1" },
     { "value": "nurturing", "label": "Nurturing", "color": "#6b7280" },
-    { "value": "converted", "label": "Konvertiert", "color": "#10b981" },
-    { "value": "rejected", "label": "Abgelehnt", "color": "#ef4444" },
-    { "value": "unqualified", "label": "Nicht qualifiziert", "color": "#9ca3af" }
+    { "value": "converted", "label": "Konvertiert", "color": "#0f172a" },
+    { "value": "rejected", "label": "Abgelehnt", "color": "#dc2626" },
+    { "value": "unqualified", "label": "Nicht qualifiziert", "color": "#94a3b8" }
   ],
   "priorityOptions": [
     { "value": "low", "label": "Niedrig", "color": "#6b7280" },
-    { "value": "medium", "label": "Mittel", "color": "#f59e0b" },
-    { "value": "high", "label": "Hoch", "color": "#ef4444" }
+    { "value": "medium", "label": "Mittel", "color": "#64748b" },
+    { "value": "high", "label": "Hoch", "color": "#dc2626" }
   ],
   "sourceOptions": [
     "Website Formular",
@@ -504,10 +504,10 @@
     "Walk-in"
   ],
   "interestTypes": [
-    { "value": "solar", "label": "Photovoltaik", "color": "#f59e0b" },
-    { "value": "heatpump", "label": "Wärmepumpe", "color": "#ef4444" },
-    { "value": "energy_contract", "label": "Stromvertrag", "color": "#10b981" },
-    { "value": "charging_station", "label": "Ladestation", "color": "#3b82f6" },
-    { "value": "energy_storage", "label": "Stromspeicher", "color": "#8b5cf6" }
+    { "value": "solar", "label": "Photovoltaik", "color": "#64748b" },
+    { "value": "heatpump", "label": "Wärmepumpe", "color": "#E2001A" },
+    { "value": "energy_contract", "label": "Stromvertrag", "color": "#0f172a" },
+    { "value": "charging_station", "label": "Ladestation", "color": "#2358A1" },
+    { "value": "energy_storage", "label": "Stromspeicher", "color": "#64748b" }
   ]
 }

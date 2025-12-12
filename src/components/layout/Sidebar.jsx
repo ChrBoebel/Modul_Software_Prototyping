@@ -1,163 +1,119 @@
 import { useState } from 'react';
 import {
-  Eye,
-  Download,
-  Heart,
-  CheckCircle,
-  UserCheck,
-  RefreshCw,
-  UserCog,
+  LayoutDashboard,
+  GitBranch,
+  Users,
   Settings,
   ChevronDown,
-  ChevronRight,
-  Zap
+  ChevronRight
 } from 'lucide-react';
 
-const LEAD_MACHINE_PHASES = [
+// Navigation Items
+const NAV_ITEMS = [
   {
-    id: 'awareness',
-    icon: Eye,
-    label: 'Awareness',
-    description: 'Traffic & Kampagnen',
-    color: '#2358A1' // SWK Blue
+    id: 'dashboard',
+    icon: LayoutDashboard,
+    label: 'Dashboard',
+    description: 'Übersicht & KPIs'
   },
   {
-    id: 'capture',
-    icon: Download,
-    label: 'Capture',
-    description: 'Lead-Erfassung',
-    color: '#3b82f6' // Blue 500
+    id: 'lm-flows',
+    icon: GitBranch,
+    label: 'LM-Flows',
+    description: 'Flow-Editor & Cards'
   },
   {
-    id: 'nurturing',
-    icon: Heart,
-    label: 'Nurturing',
-    description: 'E-Mail & Automation',
-    color: '#E2001A' // SWK Red
+    id: 'leads',
+    icon: Users,
+    label: 'Leads',
+    description: 'Lead-Verwaltung'
   },
   {
-    id: 'qualification',
-    icon: CheckCircle,
-    label: 'Qualification',
-    description: 'Scoring & Pipeline',
-    color: '#f59e0b' // Amber 500
-  },
-  {
-    id: 'closing',
-    icon: UserCheck,
-    label: 'Closing',
-    description: 'Vertrieb & CRM',
-    color: '#10b981' // Emerald 500
-  },
-  {
-    id: 'retention',
-    icon: RefreshCw,
-    label: 'Retention',
-    description: 'Kundenbindung',
-    color: '#64748b' // Slate 500
+    id: 'einstellung',
+    icon: Settings,
+    label: 'Einstellung',
+    description: 'Integration & Sync'
   }
 ];
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
-  const [expandedSection, setExpandedSection] = useState('leadmachine');
+  const [tenantOpen, setTenantOpen] = useState(false);
 
   const handleNavClick = (viewId) => {
     onViewChange(viewId);
   };
 
-  const toggleSection = (section) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
-
-  const isPhaseActive = (phaseId) => activeView === phaseId;
+  const isNavActive = (navId) => activeView === navId;
 
   return (
     <>
-      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="logo-area">
-          <div className="logo-text">
-            <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '32px', width: 'auto' }} />
-          </div>
+      <aside
+        id="app-sidebar"
+        className={`sidebar ${isOpen ? 'open' : ''}`}
+        aria-label="Hauptnavigation"
+      >
+        {/* Tenant Switcher */}
+        <div className="tenant-switcher">
+          <button
+            type="button"
+            className="tenant-button"
+            onClick={() => setTenantOpen(!tenantOpen)}
+            aria-expanded={tenantOpen}
+            aria-haspopup="listbox"
+          >
+            <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: 'auto' }} />
+            <span className="tenant-name">Stadtwerke Konstanz</span>
+            <ChevronDown size={16} className={`tenant-chevron ${tenantOpen ? 'open' : ''}`} />
+          </button>
+          {tenantOpen && (
+            <div className="tenant-dropdown" role="listbox">
+              <div className="tenant-option active" role="option" aria-selected="true">Stadtwerke Konstanz (Hauptmandant)</div>
+              <div className="tenant-option" role="option">Bädergesellschaft</div>
+              <div className="tenant-option" role="option">Bodensee-Schiffsbetriebe</div>
+            </div>
+          )}
         </div>
 
         <nav className="nav-container">
-          {/* Lead Machine Section */}
+          {/* Main Navigation */}
           <div className="nav-section">
-            <div className="nav-label">
-              Lead Machine
-            </div>
-
             <div className="nav-section-items">
-              {LEAD_MACHINE_PHASES.map((phase, index) => {
-                const Icon = phase.icon;
-                const isActive = isPhaseActive(phase.id);
+              {NAV_ITEMS.map((item) => {
+                const Icon = item.icon;
+                const isActive = isNavActive(item.id);
                 return (
-                  <div
-                    key={phase.id}
-                    className={`phase-nav-item ${isActive ? 'active' : ''}`}
-                    onClick={() => handleNavClick(phase.id)}
-                    style={{ '--phase-color': phase.color }}
+                  <button
+                    key={item.id}
+                    className={`nav-item-new ${isActive ? 'active' : ''}`}
+                    onClick={() => handleNavClick(item.id)}
+                    type="button"
+                    aria-current={isActive ? 'page' : undefined}
                   >
-                    <span className="phase-number">{index + 1}</span>
-                    <div className="phase-content">
-                      <span className="phase-title">{phase.label}</span>
-                      <span className="phase-desc">{phase.description}</span>
+                    <Icon size={20} />
+                    <div className="nav-item-content">
+                      <span className="nav-item-label">{item.label}</span>
+                      <span className="nav-item-desc">{item.description}</span>
                     </div>
-                    {isActive && <ChevronRight size={14} className="text-muted" />}
-                  </div>
+                    {isActive && <ChevronRight size={14} className="nav-chevron" />}
+                  </button>
                 );
               })}
             </div>
           </div>
-
-          {/* Administration Section */}
-          <div className="nav-section">
-            <div className="nav-label">
-              Administration
-            </div>
-
-            <div className="nav-section-items">
-              <a
-                className={`nav-item ${activeView === 'users' ? 'active' : ''}`}
-                onClick={() => handleNavClick('users')}
-              >
-                <UserCog size={18} />
-                <span>Benutzer</span>
-              </a>
-              <a
-                className={`nav-item ${activeView === 'settings' ? 'active' : ''}`}
-                onClick={() => handleNavClick('settings')}
-              >
-                <Settings size={18} />
-                <span>Einstellungen</span>
-              </a>
-            </div>
-          </div>
         </nav>
 
-        <div className="sidebar-footer" style={{ padding: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-          <div className="user" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className="user-avatar" style={{ 
-              width: '40px', 
-              height: '40px', 
-              borderRadius: '50%', 
-              background: 'var(--primary)', 
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '14px',
-              fontWeight: '600'
-            }}>MM</div>
+        <div className="sidebar-footer">
+          <div className="user-profile">
+            <div className="user-avatar">MM</div>
             <div className="user-info">
-              <div className="user-name" style={{ fontSize: '14px', fontWeight: '600' }}>Max Müller</div>
-              <div className="user-role" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Admin</div>
+              <div className="user-name">Max Mustermann</div>
+              <div className="user-role">Vertrieb</div>
             </div>
           </div>
         </div>
       </aside>
 
-      <div className={`overlay ${isOpen ? 'show' : ''}`} onClick={onClose}></div>
+      <div className={`overlay ${isOpen ? 'show' : ''}`} onClick={onClose} aria-hidden="true"></div>
     </>
   );
 };
