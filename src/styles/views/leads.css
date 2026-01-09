@@ -1059,6 +1059,22 @@
     @apply font-semibold font-mono;
   }
 
+  .lead-name-cell {
+    @apply min-w-[180px];
+  }
+
+  .lead-name-info {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .lead-name {
+    @apply font-semibold text-black;
+  }
+
+  .lead-id-subtext {
+    @apply text-xs text-slate-400 font-mono;
+  }
+
   .lead-detail {
     @apply bg-white border border-slate-200 rounded-xl h-full flex flex-col overflow-hidden;
   }
@@ -1076,7 +1092,7 @@
   }
 
   .status-buttons {
-    @apply flex gap-2 py-3 px-4 border-b border-slate-200 sticky bg-white z-[9];
+    @apply flex gap-2 py-3 px-4 border-b border-slate-200 sticky bg-white z-10;
     top: 56px;
   }
 

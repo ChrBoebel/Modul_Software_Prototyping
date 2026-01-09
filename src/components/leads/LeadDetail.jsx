@@ -21,9 +21,9 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
   const [expandedSections, setExpandedSections] = useState({
     personal: true,
     product: true,
-    scoreHistory: true,
-    activities: true,
-    consents: true
+    scoreHistory: false,
+    activities: false,
+    consents: false
   });
   const [showAllActivities, setShowAllActivities] = useState(false);
 

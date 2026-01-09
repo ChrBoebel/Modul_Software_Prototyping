@@ -252,6 +252,7 @@ const ProduktMappingView = ({ showToast }) => {
           addresses={addresses}
           availability={availability}
           availabilityStatus={availabilityStatus}
+          showToast={showToast}
         />
       )}
     </div>

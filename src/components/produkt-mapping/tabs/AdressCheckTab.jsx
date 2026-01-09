@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
-import { Badge, Card, DataTable, Input, Select } from '../../ui';
+import { useMemo, useState, useCallback } from 'react';
+import { Copy } from 'lucide-react';
+import { Badge, Button, Card, DataTable, Input, Select } from '../../ui';
 import {
   getCombinedAvailabilityForAddress,
   formatRuleScope,
@@ -72,7 +73,8 @@ const AdressCheckTab = ({
   rules = [],
   addresses = [],
   availability = [],
-  availabilityStatus = []
+  availabilityStatus = [],
+  showToast
 }) => {
   const [selectedSampleId, setSelectedSampleId] = useState(ADDRESS_SAMPLES[0].id);
   const [address, setAddress] = useState(() => ADDRESS_SAMPLES[0].value);
@@ -165,6 +167,15 @@ const AdressCheckTab = ({
     setAddress(sample.value);
   };
 
+  const handleCopyAddress = useCallback(() => {
+    const formatted = formatAddress(address);
+    navigator.clipboard.writeText(formatted).then(() => {
+      showToast?.('Adresse kopiert');
+    }).catch(() => {
+      showToast?.('Kopieren fehlgeschlagen');
+    });
+  }, [address, showToast]);
+
   const availableCount = combinedAvailability.combinedProducts.filter(
     cp => cp.status?.value === 'available'
   ).length;
@@ -222,6 +233,14 @@ const AdressCheckTab = ({
               Direkte Zuordnung gefunden
             </Badge>
           )}
+
+          <Button
+            variant="icon"
+            icon={Copy}
+            onClick={handleCopyAddress}
+            ariaLabel="Adresse kopieren"
+            title="Adresse in Zwischenablage kopieren"
+          />
         </div>
 
         {combinedAvailability.matchedAddress && (

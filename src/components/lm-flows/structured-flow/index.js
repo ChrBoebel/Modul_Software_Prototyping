@@ -4,3 +4,4 @@ export { default as FlowConnector } from './FlowConnector';
 export { default as NodeTypeSelector } from './NodeTypeSelector';
 export { default as QuickAddMenu, ELEMENT_CATEGORIES, ALL_ELEMENTS } from './QuickAddMenu';
 export { useFlowState } from './useFlowState';
+export { useFlowHistory, useFlowKeyboardShortcuts } from './useFlowHistory';

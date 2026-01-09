@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   RefreshCw,
   ExternalLink,
@@ -6,7 +6,7 @@ import {
   Mail,
   Circle
 } from 'lucide-react';
-import { Button, Badge, SearchBox, Select, ToggleGroup } from '../ui';
+import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup } from '../ui';
 
 const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -113,6 +113,15 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
     return 'low';
   };
 
+  const getStatusTooltip = (status) => {
+    const tooltips = {
+      'grün': 'Hohe Conversion-Wahrscheinlichkeit',
+      'gelb': 'Mittlere Conversion-Wahrscheinlichkeit',
+      'rot': 'Niedrige Conversion-Wahrscheinlichkeit'
+    };
+    return tooltips[status] || status;
+  };
+
   const filteredLeads = leads.filter(lead => {
     const matchesStatus = filterStatus === 'all' || lead.status === filterStatus;
     const matchesSearch = searchTerm === '' ||
@@ -136,6 +145,16 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
     { value: 'rot', label: 'Rot' }
   ];
 
+  // Check if any filters are active
+  const hasActiveFilters = filterStatus !== 'all' || leadsFilter !== 'all' || searchTerm !== '';
+
+  // Clear all filters
+  const clearAllFilters = () => {
+    setFilterStatus('all');
+    setLeadsFilter('all');
+    setSearchTerm('');
+  };
+
   return (
     <div className="leads-list">
       <h2 className="sr-only">Leads Übersicht</h2>
@@ -143,6 +162,9 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
       <div className="leads-header">
         <div className="leads-title-area">
           <h3 className="section-title-visible">Alle Leads</h3>
+          <Badge variant="neutral" size="sm">
+            {filteredLeads.length} von {leads.length}
+          </Badge>
         </div>
         <div className="leads-controls" role="search" aria-label="Leads Filter und Suche">
           <ToggleGroup
@@ -176,17 +198,39 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
         </div>
       </div>
 
+      {/* Active Filter Chips */}
+      {hasActiveFilters && (
+        <FilterChipGroup onClearAll={clearAllFilters}>
+          {leadsFilter !== 'all' && (
+            <FilterChip
+              label="Meine Leads"
+              onRemove={() => setLeadsFilter('all')}
+            />
+          )}
+          {filterStatus !== 'all' && (
+            <FilterChip
+              label={`Status: ${statusOptions.find(s => s.value === filterStatus)?.label || filterStatus}`}
+              onRemove={() => setFilterStatus('all')}
+            />
+          )}
+          {searchTerm && (
+            <FilterChip
+              label={`Suche: "${searchTerm}"`}
+              onRemove={() => setSearchTerm('')}
+            />
+          )}
+        </FilterChipGroup>
+      )}
+
       {/* Table */}
       <div className="table-wrapper">
         <table className="data-table leads-table">
           <thead>
             <tr>
-              <th>Lead ID</th>
+              <th>Name</th>
               <th>Status</th>
-              <th>Lead-Score</th>
+              <th>Score</th>
               <th>Produkt</th>
-              <th>Timestamp</th>
-              <th>Zuletzt Aktualisiert</th>
               <th>Aktion</th>
             </tr>
           </thead>
@@ -206,9 +250,17 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
                   }
                 }}
               >
-                <td className="lead-id-cell">{lead.leadId}</td>
+                <td className="lead-name-cell">
+                  <div className="lead-name-info">
+                    <span className="lead-name">{lead.name}</span>
+                    <span className="lead-id-subtext">{lead.leadId}</span>
+                  </div>
+                </td>
                 <td>
-                  <span className={`status-badge-ampel ${getStatusBadge(lead.status).class}`}>
+                  <span
+                    className={`status-badge-ampel ${getStatusBadge(lead.status).class}`}
+                    title={getStatusTooltip(lead.status)}
+                  >
                     <Circle size={10} fill="currentColor" />
                     <span>{getStatusBadge(lead.status).label}</span>
                   </span>
@@ -219,8 +271,6 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
                   </span>
                 </td>
                 <td>{lead.produkt}</td>
-                <td className="timestamp-cell">{lead.timestamp}</td>
-                <td className="timestamp-cell">{lead.zuletztAktualisiert}</td>
                 <td className="actions-cell">
                   <div className="quick-actions">
                     <Button

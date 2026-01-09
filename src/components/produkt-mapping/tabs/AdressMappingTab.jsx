@@ -167,6 +167,61 @@ const AdressMappingTab = ({
     if (ok) onDeleteAddress?.(addressId);
   };
 
+  // Validate and save address
+  const handleSaveAddress = () => {
+    const newErrors = {};
+
+    if (!addressDraft.street?.trim()) {
+      newErrors.street = 'Straße ist erforderlich';
+    }
+    if (!addressDraft.housenumber?.trim()) {
+      newErrors.housenumber = 'Hausnummer ist erforderlich';
+    }
+    if (!addressDraft.zip?.trim()) {
+      newErrors.zip = 'PLZ ist erforderlich';
+    }
+    if (!addressDraft.city?.trim()) {
+      newErrors.city = 'Ort ist erforderlich';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    // Save the address
+    const addressToSave = {
+      id: addressDraft.id,
+      street: addressDraft.street.trim(),
+      housenumber: addressDraft.housenumber.trim(),
+      housenumber_addition: addressDraft.housenumber_addition?.trim() || '',
+      housenumber_numeric: parseInt(addressDraft.housenumber) || 0,
+      zip: addressDraft.zip.trim(),
+      city: addressDraft.city.trim(),
+      country: addressDraft.country || 'DE',
+      community: addressDraft.city.trim()
+    };
+
+    onUpsertAddress?.(addressToSave);
+
+    // Save availability mappings
+    availabilityDrafts.forEach(avail => {
+      if (avail.product_id) {
+        onUpsertAvailability?.({
+          id: avail.id,
+          address_id: addressDraft.id,
+          product_id: avail.product_id,
+          status_id: avail.status_id || 'status-available',
+          config: {}
+        });
+      }
+    });
+
+    setPanelOpen(false);
+    showToast?.('Adresse gespeichert');
+  };
+
   // Render Status Badge
   const renderStatusBadge = (statusId) => {
     if (!statusId) return <div className="cell-box mute">-</div>;
@@ -474,11 +529,124 @@ const AdressMappingTab = ({
         )}
       </Panel>
 
-      {/* Keeping the Create New Panel minimal/hidden/legacy for function */}
-      <Panel isOpen={panelOpen} onClose={() => setPanelOpen(false)} title="New">
-        {/* ... legacy form code or simplified ... */}
-        <div className="p-4">Funktionalität "Neu anlegen" hier einfügen...</div>
-        <Button onClick={() => setPanelOpen(false)}>Schließen</Button>
+      {/* Create/Edit Address Panel */}
+      <Panel
+        isOpen={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        title={addressDraft.id?.startsWith('addr-') && !addresses.find(a => a.id === addressDraft.id) ? 'Neue Adresse anlegen' : 'Adresse bearbeiten'}
+        width="520px"
+      >
+        <div className="form-row">
+          <Input
+            label="Straße"
+            value={addressDraft.street || ''}
+            onChange={(e) => setAddressDraft(prev => ({ ...prev, street: e.target.value }))}
+            error={errors.street}
+            placeholder="z.B. Hauptstraße"
+          />
+          <Input
+            label="Hausnummer"
+            value={addressDraft.housenumber || ''}
+            onChange={(e) => setAddressDraft(prev => ({ ...prev, housenumber: e.target.value }))}
+            error={errors.housenumber}
+            placeholder="z.B. 12"
+            style={{ maxWidth: '120px' }}
+          />
+        </div>
+
+        <div className="form-row">
+          <Input
+            label="PLZ"
+            value={addressDraft.zip || ''}
+            onChange={(e) => setAddressDraft(prev => ({ ...prev, zip: e.target.value }))}
+            error={errors.zip}
+            placeholder="z.B. 78462"
+            style={{ maxWidth: '120px' }}
+          />
+          <Input
+            label="Ort"
+            value={addressDraft.city || ''}
+            onChange={(e) => setAddressDraft(prev => ({ ...prev, city: e.target.value }))}
+            error={errors.city}
+            placeholder="z.B. Konstanz"
+          />
+        </div>
+
+        <Select
+          label="Land"
+          value={addressDraft.country || 'DE'}
+          onChange={(e) => setAddressDraft(prev => ({ ...prev, country: e.target.value }))}
+          options={[
+            { value: 'DE', label: 'Deutschland' },
+            { value: 'AT', label: 'Österreich' },
+            { value: 'CH', label: 'Schweiz' }
+          ]}
+        />
+
+        {/* Availability Mappings Section */}
+        <div style={{ marginTop: '16px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <span style={{ fontWeight: 600, fontSize: '14px' }}>Produkt-Verfügbarkeit</span>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={Plus}
+              onClick={() => setAvailabilityDrafts(prev => [...prev, {
+                id: createId('avail'),
+                address_id: addressDraft.id,
+                product_id: '',
+                status_id: 'status-available'
+              }])}
+            >
+              Produkt
+            </Button>
+          </div>
+
+          {availabilityDrafts.length === 0 ? (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', fontStyle: 'italic' }}>
+              Keine Produkte zugeordnet. Klicke "Produkt" um eine Verfügbarkeit hinzuzufügen.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {availabilityDrafts.map((avail, index) => (
+                <div key={avail.id} style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+                  <Select
+                    label={index === 0 ? 'Produkt' : ''}
+                    value={avail.product_id}
+                    onChange={(e) => setAvailabilityDrafts(prev =>
+                      prev.map((a, i) => i === index ? { ...a, product_id: e.target.value } : a)
+                    )}
+                    options={productOptions}
+                    placeholder="Produkt wählen..."
+                    style={{ flex: 2 }}
+                  />
+                  <Select
+                    label={index === 0 ? 'Status' : ''}
+                    value={avail.status_id}
+                    onChange={(e) => setAvailabilityDrafts(prev =>
+                      prev.map((a, i) => i === index ? { ...a, status_id: e.target.value } : a)
+                    )}
+                    options={statusOptions}
+                    style={{ flex: 1 }}
+                  />
+                  <Button
+                    variant="icon"
+                    icon={Trash2}
+                    onClick={() => setAvailabilityDrafts(prev => prev.filter((_, i) => i !== index))}
+                    ariaLabel="Produkt entfernen"
+                    style={{ marginBottom: index === 0 ? '0' : '0' }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className="action-buttons" style={{ justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={() => setPanelOpen(false)}>Abbrechen</Button>
+          <Button variant="primary" onClick={handleSaveAddress}>Speichern</Button>
+        </div>
       </Panel>
 
     </>

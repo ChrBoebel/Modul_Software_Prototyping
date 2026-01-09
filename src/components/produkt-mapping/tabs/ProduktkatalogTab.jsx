@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { Plus, Trash2, Pencil } from 'lucide-react';
-import { Badge, Button, Card, Checkbox, DataTable, Input, Panel, SearchBox, Select } from '../../ui';
+import { Badge, Button, Card, Checkbox, DataTable, Input, Panel, SearchBox, Select, useUndoToast } from '../../ui';
 import { getProductField } from '../availabilityLogic';
 
 const TECH_OPTIONS = [
@@ -33,6 +33,8 @@ const ProduktkatalogTab = ({
   const [panelOpen, setPanelOpen] = useState(false);
   const [draft, setDraft] = useState(() => createDraft({ createId }));
   const [errors, setErrors] = useState({});
+  const { showUndoToast, UndoToastComponent } = useUndoToast();
+  const deletedProductRef = useRef(null);
 
   const currency = useMemo(() => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }), []);
 
@@ -98,11 +100,25 @@ const ProduktkatalogTab = ({
   const handleDelete = (productId) => {
     const product = products.find((p) => p.id === productId);
     if (!product) return;
-    const ok = window.confirm(`Produkt „${product.name}“ wirklich löschen?`);
-    if (!ok) return;
 
+    // Store for potential undo
+    deletedProductRef.current = product;
+
+    // Delete immediately (no confirm dialog)
     onDeleteProduct?.(productId);
-    showToast?.('Produkt gelöscht');
+
+    // Show UndoToast with undo option
+    showUndoToast({
+      message: `„${product.name}" gelöscht`,
+      onUndo: () => {
+        if (deletedProductRef.current) {
+          onUpsertProduct?.(deletedProductRef.current);
+          showToast?.('Produkt wiederhergestellt');
+          deletedProductRef.current = null;
+        }
+      },
+      duration: 8000
+    });
   };
 
   const columns = useMemo(() => ([
@@ -286,6 +302,8 @@ const ProduktkatalogTab = ({
           <Button variant="primary" onClick={handleSave}>Speichern</Button>
         </div>
       </Panel>
+
+      <UndoToastComponent />
     </>
   );
 };

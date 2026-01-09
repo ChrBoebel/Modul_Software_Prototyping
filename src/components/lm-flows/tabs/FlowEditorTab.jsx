@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Save, Play, X, Plus, Trash2, HelpCircle, ListChecks, CheckSquare, Sliders, Type, ChevronDown, Image, FileText, FormInput, MessageSquare, Layers } from 'lucide-react';
-import { StructuredFlowCanvas, useFlowState } from '../structured-flow';
+import { Save, Play, X, Plus, Trash2, HelpCircle, ListChecks, CheckSquare, Sliders, Type, ChevronDown, Image, FileText, FormInput, MessageSquare, Layers, Undo2, Redo2 } from 'lucide-react';
+import { StructuredFlowCanvas, useFlowHistory, useFlowKeyboardShortcuts } from '../structured-flow';
 import FlowPreviewModal from '../preview/FlowPreviewModal';
 import { getExampleFlowForCampaign } from '../exampleFlows';
 import { Button } from '../../ui';
@@ -66,22 +66,37 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
     selectedNode,
     campaignName,
     campaignDescription,
+    cardsById,
     getNode,
+    getCardForNode,
     insertNode,
     createBranch,
     updateNode,
     deleteNode,
     updateCampaign,
+    updateCard,
     selectNode,
-    clearSelection
-  } = useFlowState(example.flowData);
+    clearSelection,
+    undo,
+    redo,
+    canUndo,
+    canRedo
+  } = useFlowHistory(example.flowData, example.cards);
+
+  // Keyboard shortcuts for Undo/Redo
+  useFlowKeyboardShortcuts({
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    onUndo: (actionName) => showToast(`Rückgängig: ${actionName || 'Aktion'}`),
+    onRedo: (actionName) => showToast(`Wiederholt: ${actionName || 'Aktion'}`)
+  });
 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewStartNodeId, setPreviewStartNodeId] = useState(null);
   const [showComponentLibrary, setShowComponentLibrary] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState(['questions']);
-
-  const [cardsById, setCardsById] = useState(() => example.cards);
 
   const toggleCategory = (categoryId) => {
     setExpandedCategories(prev =>
@@ -105,21 +120,9 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
     }
   };
 
-  const getCardForNode = useCallback((node) => {
-    if (!node?.cardId) return null;
-    return cardsById[node.cardId] || createDefaultCard(node.label);
-  }, [cardsById]);
-
-  const updateCard = useCallback((cardId, updates, fallbackTitle) => {
-    setCardsById(prev => {
-      const existing = prev[cardId] || createDefaultCard(fallbackTitle);
-      return { ...prev, [cardId]: { ...existing, ...updates } };
-    });
-  }, []);
-
   const handleCampaignNameChange = useCallback((value) => {
     updateCampaign({ campaignName: value });
-    updateNode('start', { label: value });
+    updateNode('start', { label: value }, true); // skipHistory - already recorded by updateCampaign
   }, [updateCampaign, updateNode]);
 
   // Handle adding a node after another node
@@ -132,7 +135,7 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
     const newId = insertNode(afterNodeId, nodeType);
     if (newId) {
       if (nextCardId) {
-        updateCard(nextCardId, createDefaultCard('Neue Frage'), 'Neue Frage');
+        updateCard(nextCardId, createDefaultCard('Neue Frage'), 'Neue Frage', true); // skipHistory - already recorded by insertNode
       }
       showToast(`${nodeType === 'question' ? 'Frage' : 'Modul'} hinzugefügt`);
     }
@@ -152,18 +155,18 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
 
     const newId = insertNode(afterNodeId, isQuestion ? 'question' : 'module');
     if (newId) {
-      // Update the node with element-specific info
+      // Update the node with element-specific info (skipHistory - already recorded by insertNode)
       updateNode(newId, {
         label: element.label,
         subType: element.id
-      });
+      }, true);
 
       if (nextCardId && isQuestion) {
-        // Create card with the specific input type
+        // Create card with the specific input type (skipHistory - already recorded by insertNode)
         updateCard(nextCardId, {
           ...createDefaultCard(element.label),
           inputType: element.inputType || 'Single-Choice'
-        }, element.label);
+        }, element.label, true);
       }
 
       showToast(`${element.label} hinzugefügt`);
@@ -196,7 +199,7 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
       selectNode({ ...selectedNode, label: newLabel });
 
       if (selectedNode.cardId) {
-        updateCard(selectedNode.cardId, { title: newLabel }, newLabel);
+        updateCard(selectedNode.cardId, { title: newLabel }, newLabel, true); // skipHistory - already recorded by updateNode
       }
     }
   }, [selectedNode, updateNode, selectNode, updateCard]);
@@ -248,6 +251,32 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
           <span className="campaign-description">{campaignDescription || 'Beschreibung hinzufügen'}</span>
         </div>
         <div className="editor-actions">
+          <button
+            type="button"
+            className="btn btn-icon"
+            onClick={() => {
+              const actionName = undo();
+              if (actionName) showToast(`Rückgängig: ${actionName}`);
+            }}
+            disabled={!canUndo}
+            title="Rückgängig (Ctrl+Z)"
+            aria-label="Rückgängig"
+          >
+            <Undo2 size={16} />
+          </button>
+          <button
+            type="button"
+            className="btn btn-icon"
+            onClick={() => {
+              const actionName = redo();
+              if (actionName) showToast(`Wiederholt: ${actionName}`);
+            }}
+            disabled={!canRedo}
+            title="Wiederholen (Ctrl+Shift+Z)"
+            aria-label="Wiederholen"
+          >
+            <Redo2 size={16} />
+          </button>
           <button
             type="button"
             className="btn btn-secondary"

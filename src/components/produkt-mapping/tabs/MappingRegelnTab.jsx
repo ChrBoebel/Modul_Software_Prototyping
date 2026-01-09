@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Plus, Trash2, Pencil } from 'lucide-react';
-import { Badge, Button, Card, Checkbox, DataTable, Input, Panel, SearchBox, Select, ProductGroupSelector } from '../../ui';
+import { Badge, Button, Card, Checkbox, DataTable, Input, Panel, SearchBox, Select, ProductGroupSelector, Tooltip } from '../../ui';
 import { formatRuleScope } from '../availabilityLogic';
 
 const RULE_TYPE_OPTIONS = [
@@ -173,9 +173,22 @@ const MappingRegelnTab = ({
       render: (value) => {
         const ids = Array.isArray(value) ? value : [];
         if (ids.length === 0) return '—';
-        return ids
-          .map((id) => productsById.get(id)?.name || id)
-          .join(', ');
+        const visible = ids.slice(0, 2);
+        const remaining = ids.length - 2;
+        return (
+          <div className="flex flex-wrap gap-1">
+            {visible.map((id) => (
+              <Badge key={id} variant="neutral" size="sm">
+                {productsById.get(id)?.name || id}
+              </Badge>
+            ))}
+            {remaining > 0 && (
+              <Tooltip content={ids.slice(2).map((id) => productsById.get(id)?.name || id).join(', ')}>
+                <Badge variant="secondary" size="sm">+{remaining}</Badge>
+              </Tooltip>
+            )}
+          </div>
+        );
       }
     },
     { key: 'priority', header: 'Prio', width: '80px', align: 'right' },

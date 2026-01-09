@@ -323,7 +323,7 @@ const HelpBox = ({ isDrawing, isEditing, isDeleting, zonesCount }) => {
             <div className="map-help-box">
                 <Hexagon size={18} className="map-help-box-icon" />
                 <div>
-                    <strong>Polygon zeichnen:</strong> Klicken für Eckpunkte, auf ersten Punkt klicken zum Abschließen.
+                    <strong>Polygon zeichnen:</strong> Klicken für Eckpunkte, auf ersten Punkt klicken zum Abschließen. <span className="opacity-70">(ESC zum Abbrechen)</span>
                 </div>
             </div>
         );
@@ -567,16 +567,36 @@ const DrawableGeoMap = ({
         fitToZonesRef.current?.();
     }, []);
 
-    // Handle ESC key for fullscreen
+    // Handle ESC key for fullscreen and drawing mode
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.key === 'Escape' && isFullscreen) {
-                setIsFullscreen(false);
+            if (e.key === 'Escape') {
+                if (mode === 'draw') {
+                    cancelDraw();
+                } else if (mode === 'edit') {
+                    cancelEdit();
+                } else if (mode === 'delete') {
+                    cancelDelete();
+                } else if (isFullscreen) {
+                    setIsFullscreen(false);
+                }
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isFullscreen]);
+    }, [isFullscreen, mode]);
+
+    // Cursor feedback for drawing mode
+    useEffect(() => {
+        if (mode === 'draw') {
+            document.body.style.cursor = 'crosshair';
+        } else {
+            document.body.style.cursor = '';
+        }
+        return () => {
+            document.body.style.cursor = '';
+        };
+    }, [mode]);
 
     // Filter visible zones
     const visibleZones = useMemo(() =>
