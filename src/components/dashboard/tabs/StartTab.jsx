@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   ArrowUpRight,
   ArrowDownRight
@@ -16,16 +16,49 @@ import {
   Cell
 } from 'recharts';
 import { theme } from '../../../theme/colors';
+import leadsData from '../../../data/leads.json';
 
-const StartTab = ({ showToast, onTabChange }) => {
-  // Mock data for Priority-A Leads
-  const priorityLeads = [
-    { id: 'LEAD-001', name: 'Max Muster', score: 92, product: 'Solar PV', timestamp: '10:23', status: 'neu' },
-    { id: 'LEAD-002', name: 'Anna Schmidt', score: 88, product: 'Wärmepumpe', timestamp: '09:45', status: 'neu' },
-    { id: 'LEAD-003', name: 'Peter Weber', score: 85, product: 'E-Mobilität', timestamp: '08:12', status: 'neu' },
-    { id: 'LEAD-004', name: 'Lisa Müller', score: 82, product: 'Strom', timestamp: 'Gestern', status: 'neu' },
-    { id: 'LEAD-005', name: 'Thomas Klein', score: 80, product: 'Gas', timestamp: 'Gestern', status: 'neu' }
-  ];
+const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
+  // Map interest type to German product name
+  const produktMap = {
+    'solar': 'Solar PV',
+    'heatpump': 'Wärmepumpe',
+    'charging_station': 'E-Mobilität',
+    'energy_contract': 'Strom',
+    'energy_storage': 'Speicher'
+  };
+
+  // Format timestamp for display
+  const formatTime = (isoString) => {
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffHours = Math.floor((now - date) / (1000 * 60 * 60));
+
+    if (diffHours < 24) {
+      return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    } else if (diffHours < 48) {
+      return 'Gestern';
+    } else {
+      return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+    }
+  };
+
+  // Transform and sort leads by score for Priority-A display (merge with flow leads)
+  const priorityLeads = useMemo(() => {
+    const allLeads = [...flowLeads, ...leadsData.leads];
+    return allLeads
+      .map(lead => ({
+        id: lead.leadNumber,
+        numericId: lead.id,
+        name: `${lead.customer?.firstName || ''} ${lead.customer?.lastName || ''}`.trim() || 'Neuer Lead',
+        score: lead.qualification?.score || 0,
+        product: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
+        timestamp: formatTime(lead.timestamp),
+        status: lead.status
+      }))
+      .sort((a, b) => b.score - a.score) // Sort by score descending
+      .slice(0, 5); // Top 5
+  }, [flowLeads]);
 
   // Mock data for Campaigns Overview
   const campaigns = [
@@ -129,11 +162,17 @@ const StartTab = ({ showToast, onTabChange }) => {
                 </thead>
                 <tbody>
                   {priorityLeads.map((lead) => (
-                    <tr 
-                      key={lead.id} 
-                      className="cursor-pointer hover:bg-slate-50 transition-colors" 
-                      onClick={() => showToast(`Lead ${lead.id} öffnen`)} 
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--slate-50)'} 
+                    <tr
+                      key={lead.id}
+                      className="cursor-pointer hover:bg-slate-50 transition-colors"
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate('leads', { leadId: lead.numericId });
+                        } else {
+                          showToast(`Lead ${lead.id} öffnen`);
+                        }
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--slate-50)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       tabIndex="0"
                       role="button"
@@ -141,7 +180,11 @@ const StartTab = ({ showToast, onTabChange }) => {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          showToast(`Lead ${lead.id} öffnen`);
+                          if (onNavigate) {
+                            onNavigate('leads', { leadId: lead.numericId });
+                          } else {
+                            showToast(`Lead ${lead.id} öffnen`);
+                          }
                         }
                       }}
                     >

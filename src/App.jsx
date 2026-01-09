@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { MainLayout } from './components/layout/MainLayout';
 import { Toast } from './components/ui/Toast';
 import { useToast } from './hooks/useToast';
@@ -10,6 +10,9 @@ import LeadsView from './components/leads/LeadsView';
 import EinstellungView from './components/einstellung/EinstellungView';
 import ComponentLibraryView from './components/ui/ComponentLibraryView';
 import ProduktMappingView from './components/produkt-mapping/ProduktMappingView';
+
+// LocalStorage key for dynamically created leads
+const STORAGE_KEY = 'swk:flow-leads';
 
 
 const VIEW_NAMES = {
@@ -24,21 +27,51 @@ const VIEW_NAMES = {
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
+  const [navParams, setNavParams] = useState({});
   const { toast, showToast } = useToast();
+
+  // Flow-generated leads stored in localStorage
+  const [flowLeads, setFlowLeads] = useState(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Persist flow leads to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(flowLeads));
+  }, [flowLeads]);
+
+  // Handle new lead created from flow
+  const handleLeadCreated = useCallback((newLead) => {
+    setFlowLeads(prev => [newLead, ...prev]);
+    showToast(`Lead ${newLead.leadNumber} erstellt (Score: ${newLead.qualification?.score || 0})`);
+  }, [showToast]);
 
   const handleViewChange = (viewId) => {
     setCurrentView(viewId);
+    setNavParams({}); // Clear params when using sidebar navigation
     showToast(VIEW_NAMES[viewId] || viewId);
   };
+
+  // Navigate to a view with optional parameters
+  const handleNavigate = useCallback((viewId, params = {}) => {
+    setCurrentView(viewId);
+    setNavParams(params);
+    // Don't show toast for programmatic navigation
+  }, []);
 
   const renderView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <DashboardView showToast={showToast} />;
+        return <DashboardView showToast={showToast} onNavigate={handleNavigate} flowLeads={flowLeads} />;
       case 'lm-flows':
-        return <LMFlowsView showToast={showToast} />;
+        return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} />;
       case 'leads':
-        return <LeadsView showToast={showToast} />;
+        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} />;
       case 'produkt-mapping':
         return <ProduktMappingView showToast={showToast} />;
 
@@ -47,7 +80,7 @@ function App() {
       case 'component-library':
         return <ComponentLibraryView />;
       default:
-        return <DashboardView showToast={showToast} />;
+        return <DashboardView showToast={showToast} onNavigate={handleNavigate} flowLeads={flowLeads} />;
     }
   };
 

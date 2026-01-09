@@ -7,8 +7,55 @@ import {
   Circle
 } from 'lucide-react';
 import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup } from '../ui';
+import leadsData from '../../data/leads.json';
 
-const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
+// Transform leads.json data to display format
+const transformLead = (lead) => {
+  // Map interest type to German product name
+  const produktMap = {
+    'solar': 'Solar PV',
+    'heatpump': 'Wärmepumpe',
+    'charging_station': 'E-Mobilität',
+    'energy_contract': 'Strom',
+    'energy_storage': 'Speicher'
+  };
+
+  // Derive Ampel status from score
+  const getAmpelStatus = (score) => {
+    if (score >= 80) return 'grün';
+    if (score >= 50) return 'gelb';
+    return 'rot';
+  };
+
+  // Format timestamp for display
+  const formatTimestamp = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleString('de-DE', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).replace(',', '');
+  };
+
+  return {
+    id: lead.id,
+    leadId: lead.leadNumber,
+    status: getAmpelStatus(lead.qualification?.score || 0),
+    leadScore: lead.qualification?.score || 0,
+    produkt: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
+    timestamp: formatTimestamp(lead.timestamp),
+    name: `${lead.customer?.firstName || ''} ${lead.customer?.lastName || ''}`.trim() || 'Unbekannt',
+    email: lead.customer?.email || '',
+    phone: lead.customer?.phone || '',
+    zugewiesenAn: lead.assignedTo || 'Nicht zugewiesen',
+    // Keep original data for detail view
+    originalData: lead
+  };
+};
+
+const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [leadsFilter, setLeadsFilter] = useState('all');
@@ -16,87 +63,13 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
   // Current user (simulated)
   const currentUser = 'Max Mustermann';
 
-  // Mock leads data
-  const leads = [
-    {
-      id: 1,
-      leadId: 'LEAD-2025-0001',
-      status: 'grün',
-      leadScore: 92,
-      produkt: 'Solar PV',
-      timestamp: '2025-01-15 10:23',
-      zuletztAktualisiert: '2025-01-16 14:30',
-      name: 'Max Muster',
-      email: 'max.muster@email.de',
-      phone: '+49 171 1234567',
-      zugewiesenAn: 'Max Mustermann'
-    },
-    {
-      id: 2,
-      leadId: 'LEAD-2025-0002',
-      status: 'gelb',
-      leadScore: 75,
-      produkt: 'Wärmepumpe',
-      timestamp: '2025-01-15 09:45',
-      zuletztAktualisiert: '2025-01-16 11:20',
-      name: 'Anna Schmidt',
-      email: 'anna.schmidt@email.de',
-      phone: '+49 172 2345678',
-      zugewiesenAn: 'Lisa Weber'
-    },
-    {
-      id: 3,
-      leadId: 'LEAD-2025-0003',
-      status: 'rot',
-      leadScore: 45,
-      produkt: 'E-Mobilität',
-      timestamp: '2025-01-15 08:12',
-      zuletztAktualisiert: '2025-01-15 16:45',
-      name: 'Peter Weber',
-      email: 'peter.weber@email.de',
-      phone: '+49 173 3456789',
-      zugewiesenAn: 'Max Mustermann'
-    },
-    {
-      id: 4,
-      leadId: 'LEAD-2025-0004',
-      status: 'grün',
-      leadScore: 88,
-      produkt: 'Strom',
-      timestamp: '2025-01-14 16:30',
-      zuletztAktualisiert: '2025-01-15 09:15',
-      name: 'Lisa Müller',
-      email: 'lisa.mueller@email.de',
-      phone: '+49 174 4567890',
-      zugewiesenAn: 'Thomas Schmidt'
-    },
-    {
-      id: 5,
-      leadId: 'LEAD-2025-0005',
-      status: 'gelb',
-      leadScore: 68,
-      produkt: 'Gas',
-      timestamp: '2025-01-14 14:55',
-      zuletztAktualisiert: '2025-01-15 08:30',
-      name: 'Thomas Klein',
-      email: 'thomas.klein@email.de',
-      phone: '+49 175 5678901',
-      zugewiesenAn: 'Max Mustermann'
-    },
-    {
-      id: 6,
-      leadId: 'LEAD-2025-0006',
-      status: 'grün',
-      leadScore: 95,
-      produkt: 'Solar PV',
-      timestamp: '2025-01-14 12:20',
-      zuletztAktualisiert: '2025-01-14 18:00',
-      name: 'Sandra Hoffmann',
-      email: 'sandra.hoffmann@email.de',
-      phone: '+49 176 6789012',
-      zugewiesenAn: 'Lisa Weber'
-    }
-  ];
+  // Transform and merge leads from JSON data with flow-generated leads
+  const leads = useMemo(() => {
+    const jsonLeads = leadsData.leads.map(transformLead);
+    const transformedFlowLeads = flowLeads.map(transformLead);
+    // Flow leads first (newest), then JSON data
+    return [...transformedFlowLeads, ...jsonLeads];
+  }, [flowLeads]);
 
   const getStatusBadge = (status) => {
     const statusMap = {

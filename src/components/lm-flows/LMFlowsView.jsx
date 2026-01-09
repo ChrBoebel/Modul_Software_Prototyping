@@ -10,7 +10,7 @@ const TABS = [
   { id: 'globale-werte', label: 'Globale Werte' }
 ];
 
-const LMFlowsView = ({ showToast }) => {
+const LMFlowsView = ({ showToast, onLeadCreated }) => {
   const [activeTab, setActiveTab] = useState('kampagnen');
   const [selectedCampaign, setSelectedCampaign] = useState(null);
 
@@ -35,6 +35,7 @@ const LMFlowsView = ({ showToast }) => {
             showToast={showToast}
             campaign={selectedCampaign}
             onClose={handleCloseEditor}
+            onLeadCreated={onLeadCreated}
           />
         );
       case 'globale-werte':

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, RotateCcw, X } from 'lucide-react';
+import { ArrowLeft, RotateCcw, X, CheckCircle } from 'lucide-react';
 
 const FlowPreviewModal = ({
   isOpen,
@@ -7,7 +7,9 @@ const FlowPreviewModal = ({
   nodes,
   cardsById,
   campaignName,
-  startNodeId
+  campaignId,
+  startNodeId,
+  onLeadCreated
 }) => {
   const nodeMap = useMemo(() => new Map(nodes.map(node => [node.id, node])), [nodes]);
   const getNode = useCallback((id) => nodeMap.get(id), [nodeMap]);
@@ -19,6 +21,8 @@ const FlowPreviewModal = ({
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isComplete, setIsComplete] = useState(false);
+  const [collectedAnswers, setCollectedAnswers] = useState([]);
+  const [leadCreated, setLeadCreated] = useState(false);
 
   const questionCount = useMemo(
     () => nodes.filter(n => n.type === 'question').length,
@@ -38,7 +42,43 @@ const FlowPreviewModal = ({
     setSelectedAnswers([]);
     setInputValue('');
     setIsComplete(false);
+    setCollectedAnswers([]);
+    setLeadCreated(false);
   }, [isOpen, effectiveStartId]);
+
+  // Calculate total score from collected answers
+  const totalScore = useMemo(() => {
+    return collectedAnswers.reduce((sum, a) => sum + (a.score || 0), 0);
+  }, [collectedAnswers]);
+
+  // Detect contact data from answers (email/phone)
+  const extractedContact = useMemo(() => {
+    const contactAnswer = collectedAnswers.find(a =>
+      a.inputType === 'Eingabe' &&
+      (a.question?.toLowerCase().includes('kontakt') ||
+       a.question?.toLowerCase().includes('e-mail') ||
+       a.question?.toLowerCase().includes('telefon'))
+    );
+    return contactAnswer?.answer || '';
+  }, [collectedAnswers]);
+
+  // Detect product interest from answers
+  const detectedProduct = useMemo(() => {
+    const productAnswer = collectedAnswers.find(a =>
+      a.question?.toLowerCase().includes('interessier') ||
+      a.question?.toLowerCase().includes('produkt') ||
+      a.question?.toLowerCase().includes('thema')
+    );
+    if (!productAnswer) return null;
+
+    const answer = productAnswer.answer?.toLowerCase() || '';
+    if (answer.includes('solar') || answer.includes('photovoltaik') || answer.includes('pv')) return 'solar';
+    if (answer.includes('wärmepumpe') || answer.includes('heiz')) return 'heatpump';
+    if (answer.includes('strom') || answer.includes('tarif')) return 'energy_contract';
+    if (answer.includes('wallbox') || answer.includes('e-mobil') || answer.includes('laden')) return 'charging_station';
+    if (answer.includes('speicher')) return 'energy_storage';
+    return null;
+  }, [collectedAnswers]);
 
   const visitedQuestionCount = useMemo(() => {
     const historyQuestions = history.filter(id => getNode(id)?.type === 'question').length;
@@ -65,7 +105,67 @@ const FlowPreviewModal = ({
     setSelectedAnswers([]);
     setInputValue('');
     setIsComplete(false);
+    setCollectedAnswers([]);
+    setLeadCreated(false);
   };
+
+  // Create a lead from collected flow data
+  const handleCreateLead = useCallback(() => {
+    if (!onLeadCreated || leadCreated) return;
+
+    // Generate new lead ID
+    const timestamp = new Date().toISOString();
+    const leadNumber = `LEAD-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`;
+
+    // Parse contact info (try to detect email vs phone)
+    let email = '';
+    let phone = '';
+    const contact = extractedContact.trim();
+    if (contact.includes('@')) {
+      email = contact;
+    } else if (contact.match(/[\d\s+\-()]/)) {
+      phone = contact;
+    }
+
+    // Calculate normalized score (0-100 scale)
+    // Base score: 50, plus collected scores
+    const normalizedScore = Math.min(100, Math.max(0, 50 + totalScore * 5));
+
+    const newLead = {
+      id: Date.now(),
+      leadNumber,
+      timestamp,
+      source: campaignName || 'Flow',
+      status: 'new',
+      priority: normalizedScore >= 80 ? 'high' : normalizedScore >= 50 ? 'medium' : 'low',
+      customer: {
+        firstName: '',
+        lastName: '',
+        email,
+        phone,
+        address: '',
+        customerType: 'private'
+      },
+      interest: {
+        type: detectedProduct || 'energy_contract',
+        details: collectedAnswers.map(a => `${a.question}: ${a.answer}`).join(' | '),
+        budgetRange: '',
+        timeframe: ''
+      },
+      qualification: {
+        score: normalizedScore,
+        flowAnswers: collectedAnswers
+      },
+      flowId: campaignId || 'default',
+      assignedTo: '',
+      notes: `Lead generiert durch Flow: ${campaignName || 'Unbekannt'}`,
+      nextAction: 'Erstkontakt aufnehmen',
+      nextActionDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    };
+
+    onLeadCreated(newLead);
+    setLeadCreated(true);
+  }, [onLeadCreated, leadCreated, extractedContact, totalScore, collectedAnswers, campaignName, campaignId, detectedProduct]);
 
   const handleBack = () => {
     setHistory(prev => {
@@ -102,6 +202,41 @@ const FlowPreviewModal = ({
 
   const handleNext = () => {
     if (!currentNode) return;
+
+    // Collect answer data before moving to next node
+    if (currentNode.type === 'question' && currentCard) {
+      let answerText = '';
+      let answerScore = 0;
+
+      if (inputType === 'Eingabe' || inputType === 'Range-Slider') {
+        answerText = inputValue.toString();
+        // Input fields typically don't have scores
+      } else if (selectedAnswers.length > 0) {
+        const selectedIndices = selectedAnswers;
+        const selectedTexts = selectedIndices.map(idx => {
+          const ans = answers[idx];
+          return typeof ans === 'object' ? ans.text : ans;
+        });
+        answerText = selectedTexts.join(', ');
+
+        // Sum up scores from selected answers
+        answerScore = selectedIndices.reduce((sum, idx) => {
+          const ans = answers[idx];
+          const score = typeof ans === 'object' ? (ans.score || 0) : 0;
+          return sum + score;
+        }, 0);
+      }
+
+      setCollectedAnswers(prev => [...prev, {
+        nodeId: currentNode.id,
+        cardId: currentNode.cardId,
+        question: currentCard.title || currentNode.label,
+        answer: answerText,
+        score: answerScore,
+        inputType: inputType
+      }]);
+    }
+
     const children = currentNode.children || [];
     if (children.length === 0) {
       setIsComplete(true);
@@ -175,8 +310,50 @@ const FlowPreviewModal = ({
           >
             {isComplete && (
             <div className="flow-preview-end">
-              <h4>Flow beendet</h4>
-              <p>Alle Schritte wurden durchlaufen.</p>
+              {leadCreated ? (
+                <>
+                  <div className="flow-preview-success">
+                    <CheckCircle size={48} className="text-green-500" />
+                  </div>
+                  <h4>Lead erfolgreich erstellt!</h4>
+                  <p>Der Lead wurde mit Score {Math.min(100, Math.max(0, 50 + totalScore * 5))} angelegt.</p>
+                </>
+              ) : (
+                <>
+                  <h4>Flow beendet</h4>
+                  <p>Alle Schritte wurden durchlaufen.</p>
+
+                  {/* Summary of collected data */}
+                  <div className="flow-preview-summary">
+                    <div className="summary-item">
+                      <span className="summary-label">Gesammelter Score:</span>
+                      <span className="summary-value">{totalScore} Punkte → Lead-Score: {Math.min(100, Math.max(0, 50 + totalScore * 5))}</span>
+                    </div>
+                    {detectedProduct && (
+                      <div className="summary-item">
+                        <span className="summary-label">Erkanntes Produkt:</span>
+                        <span className="summary-value">
+                          {detectedProduct === 'solar' && 'Solar PV'}
+                          {detectedProduct === 'heatpump' && 'Wärmepumpe'}
+                          {detectedProduct === 'energy_contract' && 'Stromtarif'}
+                          {detectedProduct === 'charging_station' && 'E-Mobilität'}
+                          {detectedProduct === 'energy_storage' && 'Speicher'}
+                        </span>
+                      </div>
+                    )}
+                    {extractedContact && (
+                      <div className="summary-item">
+                        <span className="summary-label">Kontakt:</span>
+                        <span className="summary-value">{extractedContact}</span>
+                      </div>
+                    )}
+                    <div className="summary-item">
+                      <span className="summary-label">Beantwortete Fragen:</span>
+                      <span className="summary-value">{collectedAnswers.length}</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -318,11 +495,31 @@ const FlowPreviewModal = ({
             </button>
           )}
 
-          {isComplete && (
-            <button type="button" className="btn btn-primary" onClick={handleRestart}>
-              <RotateCcw size={14} />
-              Neu starten
-            </button>
+          {isComplete && !leadCreated && (
+            <>
+              <button type="button" className="btn btn-secondary" onClick={handleRestart}>
+                <RotateCcw size={14} />
+                Neu starten
+              </button>
+              {onLeadCreated && (
+                <button type="button" className="btn btn-primary" onClick={handleCreateLead}>
+                  <CheckCircle size={14} />
+                  Lead erstellen
+                </button>
+              )}
+            </>
+          )}
+
+          {isComplete && leadCreated && (
+            <>
+              <button type="button" className="btn btn-secondary" onClick={handleRestart}>
+                <RotateCcw size={14} />
+                Weiteren Lead
+              </button>
+              <button type="button" className="btn btn-primary" onClick={onClose}>
+                Schließen
+              </button>
+            </>
           )}
         </div>
       </div>

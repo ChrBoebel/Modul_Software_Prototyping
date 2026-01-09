@@ -296,6 +296,31 @@
     @apply w-10 text-center font-semibold text-black text-sm;
   }
 
+  /* Flow Preview Success & Summary */
+  .flow-preview-success {
+    @apply flex justify-center mb-4;
+  }
+
+  .flow-preview-success svg {
+    color: var(--success);
+  }
+
+  .flow-preview-summary {
+    @apply mt-4 pt-4 border-t border-slate-200 space-y-2;
+  }
+
+  .flow-preview-summary .summary-item {
+    @apply flex justify-between items-center text-sm;
+  }
+
+  .flow-preview-summary .summary-label {
+    @apply text-slate-500;
+  }
+
+  .flow-preview-summary .summary-value {
+    @apply font-medium text-slate-700;
+  }
+
   .flow-preview-footer {
     @apply p-4 border-t border-slate-200 flex items-center justify-between gap-2 bg-white;
   }
