@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Tabs } from '../ui';
 import FlowKampagnenTab from './tabs/FlowKampagnenTab';
 import FlowEditorTab from './tabs/FlowEditorTab';
 import GlobaleWerteTab from './tabs/GlobaleWerteTab';
@@ -46,23 +47,12 @@ const LMFlowsView = ({ showToast }) => {
   return (
     <div className="view-container">
       <h1 className="sr-only">LM-Flows Editor</h1>
-      {/* Tab Navigation */}
-      <div className="section-tabs" role="tablist" aria-label="LM-Flows Bereiche">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            className={`section-tab ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab Content */}
+      <Tabs
+        tabs={TABS}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="LM-Flows Bereiche"
+      />
       {renderTabContent()}
     </div>
   );

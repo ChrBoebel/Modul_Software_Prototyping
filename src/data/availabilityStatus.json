@@ -1,0 +1,23 @@
+[
+  {
+    "id": "status-available",
+    "key": "AVAILABLE",
+    "value": "available",
+    "type": "positive",
+    "description": "Produkt ist sofort verfügbar"
+  },
+  {
+    "id": "status-planned",
+    "key": "PLANNED",
+    "value": "planned",
+    "type": "neutral",
+    "description": "Ausbau geplant"
+  },
+  {
+    "id": "status-unavailable",
+    "key": "UNAVAILABLE",
+    "value": "unavailable",
+    "type": "negative",
+    "description": "Nicht verfügbar"
+  }
+]

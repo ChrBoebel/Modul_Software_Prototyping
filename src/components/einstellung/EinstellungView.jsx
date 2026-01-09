@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Tabs } from '../ui';
 import IntegrationTab from './tabs/IntegrationTab';
 import SyncProtokollTab from './tabs/SyncProtokollTab';
 
@@ -24,23 +25,12 @@ const EinstellungView = ({ showToast }) => {
   return (
     <div className="view-container">
       <h1 className="sr-only">Einstellungen</h1>
-      {/* Tab Navigation */}
-      <div className="section-tabs" role="tablist" aria-label="Einstellungen Bereiche">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            className={`section-tab ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab Content */}
+      <Tabs
+        tabs={TABS}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="Einstellungen Bereiche"
+      />
       {renderTabContent()}
     </div>
   );

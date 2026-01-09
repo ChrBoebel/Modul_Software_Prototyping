@@ -1,0 +1,145 @@
+/* ==========================================================================
+   7. Dashboard Tab Styles
+   ========================================================================== */
+@layer components {
+  .start-tab {
+    @apply flex flex-col gap-6;
+  }
+
+  .start-grid {
+    @apply grid gap-6;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .start-left,
+  .start-right {
+    @apply flex flex-col gap-6;
+  }
+
+  .timestamp-cell {
+    @apply flex items-center gap-2 text-[13px] text-slate-400;
+  }
+
+  .quality-legend {
+    @apply flex gap-6 mb-4;
+  }
+
+  .legend-item {
+    @apply flex items-center gap-2 text-xs text-slate-600;
+  }
+
+  .legend-dot {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+
+  .legend-dot.success {
+    background: var(--success);
+  }
+
+  .legend-dot.warning {
+    background: var(--warning);
+  }
+
+  .legend-dot.danger {
+    background: var(--danger);
+  }
+
+  .filters-bar {
+    @apply flex items-center gap-4 mb-6 flex-wrap bg-white border border-slate-200 rounded-xl py-3 px-4 shadow-sm;
+  }
+
+  .filter-group {
+    @apply flex items-center gap-2;
+  }
+
+  .filter-group label {
+    @apply text-sm font-medium text-slate-600;
+  }
+
+  .filter-group select {
+    @apply min-w-[150px];
+  }
+
+  .kampagnen-content {
+    @apply flex flex-col gap-6;
+  }
+
+  .campaign-details {
+    @apply mt-4;
+  }
+
+  .header-tabs {
+    @apply flex gap-2;
+  }
+
+  .header-tab {
+    @apply py-2 px-4 text-[13px] bg-transparent border border-slate-200 rounded-lg cursor-pointer;
+    transition: var(--transition);
+  }
+
+  .header-tab.active {
+    background: var(--primary);
+    @apply text-white;
+    border-color: var(--primary);
+  }
+
+  .details-content {
+    @apply flex flex-col gap-4;
+  }
+
+  .details-stats {
+    @apply flex gap-8;
+  }
+
+  .stat-item {
+    @apply flex flex-col gap-1;
+  }
+
+  .stat-label {
+    @apply text-xs text-slate-400;
+  }
+
+  .stat-value {
+    @apply text-xl font-bold text-black;
+  }
+
+  .placeholder-content {
+    @apply flex flex-col items-center gap-3;
+  }
+
+  .traffic-charts-grid {
+    @apply grid gap-6;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .traffic-charts-grid .card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .chart-filter {
+    @apply py-1.5 px-3 text-xs border border-slate-200 rounded-lg bg-white;
+  }
+
+  .utm-generator-grid {
+    @apply grid gap-6;
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .utm-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .url-preview {
+    @apply flex gap-2;
+  }
+
+  .url-preview input {
+    @apply flex-1 bg-slate-50;
+  }
+
+  .btn.danger,
+  .btn-link.danger {
+    color: var(--danger);
+  }
+}
+

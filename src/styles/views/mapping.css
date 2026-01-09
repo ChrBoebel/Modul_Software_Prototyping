@@ -1,0 +1,161 @@
+/* Mapping View Specific Styles */
+
+/* Filter Bar */
+.mapping-filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 4px;
+    overflow-x: auto;
+}
+
+.filter-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.filter-pill:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+}
+
+.filter-pill.active {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+}
+
+/* Striped Badge */
+.badge.striped {
+    position: relative;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.08) 6px,
+            transparent 6px,
+            transparent 12px);
+    border: 1px solid currentColor;
+}
+
+.badge.striped.success {
+    background-color: rgba(35, 88, 161, 0.1);
+    /* SWK Blue */
+    color: #2358A1;
+    border-color: rgba(35, 88, 161, 0.3);
+}
+
+.badge.striped.warning {
+    background-color: rgba(100, 116, 139, 0.1);
+    /* Slate 500 */
+    color: #64748b;
+    border-color: rgba(100, 116, 139, 0.3);
+}
+
+.badge.striped.danger {
+    background-color: rgba(226, 0, 26, 0.1);
+    /* SWK Red */
+    color: #E2001A;
+    border-color: rgba(226, 0, 26, 0.3);
+}
+
+/* Table Specifics */
+.mapping-table {
+    border-spacing: 0 8px;
+    /* Gap between rows if we want card look, or just standard */
+    background: transparent;
+}
+
+.mapping-table th {
+    text-transform: none;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.mapping-table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+/* Cell Visuals - Boxed Look */
+.cell-box {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.cell-box.mute {
+    color: var(--text-secondary);
+    background-color: transparent;
+    border-color: transparent;
+}
+
+/* Action Buttons */
+.action-btn-square {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.action-btn-square:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+}
+
+.action-btn-square.danger:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+/* Sidebar / Modal Details Styles */
+.detail-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    display: block;
+}
+
+.detail-value-box {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: inherit;
+    color: var(--text-primary);
+}
+
+.detail-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}

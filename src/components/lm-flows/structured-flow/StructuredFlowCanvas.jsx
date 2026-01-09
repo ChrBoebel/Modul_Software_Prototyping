@@ -8,9 +8,11 @@ const StructuredFlowCanvas = ({
   selectedNode,
   onSelectNode,
   onAddNode,
+  onAddElement, // New: handles element with type info
   onBranchNode,
   onDeleteNode,
-  getNode
+  getNode,
+  getCardForNode // New: get card data for node
 }) => {
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 0.85 });
   const [isDragging, setIsDragging] = useState(false);
@@ -87,6 +89,16 @@ const StructuredFlowCanvas = ({
     };
   }, [isDragging]);
 
+  // Handle element addition (from QuickAddMenu)
+  const handleAddElement = useCallback((afterNodeId, element) => {
+    if (onAddElement) {
+      onAddElement(afterNodeId, element);
+    } else if (onAddNode) {
+      // Fallback to simple node type
+      onAddNode(afterNodeId, element.type === 'question' ? 'question' : 'module');
+    }
+  }, [onAddNode, onAddElement]);
+
   // Render a single node and its children recursively
   const renderNode = useCallback((nodeId, depth = 0, isLastInBranch = true) => {
     const node = getNode(nodeId);
@@ -95,6 +107,7 @@ const StructuredFlowCanvas = ({
     const hasChildren = node.children && node.children.length > 0;
     const isBranch = node.children && node.children.length > 1;
     const isSelected = selectedNode?.id === nodeId;
+    const cardData = getCardForNode ? getCardForNode(node) : null;
 
     return (
       <div className="flow-level" key={nodeId}>
@@ -107,6 +120,7 @@ const StructuredFlowCanvas = ({
           onDelete={onDeleteNode}
           showBranchButton={node.type === 'question'}
           showDeleteButton={node.type !== 'start'}
+          cardData={cardData}
         />
 
         {/* Connector and children */}
@@ -115,6 +129,7 @@ const StructuredFlowCanvas = ({
             {/* Connector with plus button */}
             <FlowConnector
               onAdd={(type) => onAddNode(nodeId, type)}
+              onAddElement={(element) => handleAddElement(nodeId, element)}
               showAddButton={true}
             />
 
@@ -139,12 +154,13 @@ const StructuredFlowCanvas = ({
         {!hasChildren && (
           <FlowConnector
             onAdd={(type) => onAddNode(nodeId, type)}
+            onAddElement={(element) => handleAddElement(nodeId, element)}
             showAddButton={true}
           />
         )}
       </div>
     );
-  }, [nodes, selectedNode, onSelectNode, onAddNode, onBranchNode, onDeleteNode, getNode]);
+  }, [nodes, selectedNode, onSelectNode, onAddNode, onBranchNode, onDeleteNode, getNode, getCardForNode, handleAddElement]);
 
   // Find the root node (start)
   const rootNode = nodes.find(n => n.type === 'start');

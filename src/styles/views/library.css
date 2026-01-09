@@ -1,0 +1,490 @@
+/* ==========================================================================
+   15. Component Library Styles
+   ========================================================================== */
+@layer components {
+  .component-library-view {
+    @apply flex flex-col gap-8;
+  }
+
+  .library-header {
+    @apply mb-2;
+  }
+
+  .component-library-view h1 {
+    @apply text-3xl font-bold text-black mb-2;
+  }
+
+  .library-subtitle {
+    @apply text-slate-600 text-lg;
+  }
+
+  .library-content {
+    @apply flex flex-col gap-8;
+  }
+
+  .component-section {
+    @apply bg-white border border-slate-200 rounded-xl p-6;
+  }
+
+  .component-section h2 {
+    @apply text-xl font-bold text-black mb-2;
+  }
+
+  .section-description {
+    @apply text-slate-600 mb-6 pb-6 border-b border-slate-200;
+  }
+
+  .component-showcase {
+    @apply mb-8;
+  }
+
+  .component-showcase:last-child {
+    @apply mb-0;
+  }
+
+  .component-showcase h3 {
+    @apply text-base font-semibold text-black mb-3;
+  }
+
+  .showcase-preview {
+    @apply bg-slate-50 border border-slate-200 rounded-lg p-6 mb-3;
+  }
+
+  .showcase-code {
+    @apply bg-slate-900 rounded-lg overflow-x-auto;
+  }
+
+  .showcase-code pre {
+    @apply p-4 text-sm m-0;
+  }
+
+  .showcase-code code {
+    @apply font-mono text-slate-200;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .preview-row {
+    @apply flex flex-wrap gap-3 items-center;
+  }
+
+  .preview-stack {
+    @apply flex flex-col gap-4 max-w-md;
+  }
+
+  /* Flow Components Grid */
+  .flow-components-grid {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+  }
+
+  .flow-category {
+    @apply bg-slate-50 rounded-xl p-5 border border-slate-200;
+  }
+
+  .flow-category h3 {
+    @apply text-base font-semibold text-black mb-1 flex items-center gap-2;
+  }
+
+  .category-desc {
+    @apply text-sm text-slate-600 mb-4 pb-4 border-b border-slate-200;
+  }
+
+  .flow-cards-list {
+    @apply flex flex-col gap-3;
+  }
+
+  .flow-component-card {
+    @apply flex items-start gap-4 bg-white rounded-lg p-4 border border-slate-200 hover:border-slate-300 hover:shadow-sm transition-all;
+  }
+
+  .flow-component-icon {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0;
+  }
+
+  .flow-component-icon.question {
+    @apply bg-blue-50 text-blue-600;
+  }
+
+  .flow-component-icon.content {
+    @apply bg-green-50 text-green-600;
+  }
+
+  .flow-component-icon.form {
+    @apply bg-amber-50 text-amber-600;
+  }
+
+  .flow-component-icon.logic {
+    @apply bg-purple-50 text-purple-600;
+  }
+
+  .flow-component-info {
+    @apply flex-1 min-w-0;
+  }
+
+  .flow-component-info h4 {
+    @apply text-sm font-semibold text-black mb-1;
+  }
+
+  .flow-component-info p {
+    @apply text-xs text-slate-600 leading-relaxed;
+  }
+
+  /* Form Field Styles for UI Components */
+  .form-field {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .form-label {
+    @apply text-sm font-medium text-black;
+  }
+
+  .form-hint {
+    @apply text-xs text-slate-500;
+  }
+
+  .form-error {
+    @apply text-xs text-red-600;
+  }
+
+  .form-input.error {
+    @apply border-red-500;
+  }
+
+  .input-wrapper {
+    @apply relative;
+  }
+
+  .input-wrapper.has-icon .form-input {
+    @apply pl-10;
+  }
+
+  .input-icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400;
+  }
+
+  .form-textarea {
+    @apply resize-y min-h-[80px];
+  }
+
+  /* Toggle Styles */
+  .toggle-wrapper {
+    @apply flex items-center gap-3 cursor-pointer;
+  }
+
+  .toggle-wrapper.disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .toggle-input {
+    @apply sr-only;
+  }
+
+  .toggle {
+    @apply relative w-11 h-6 bg-slate-300 rounded-full transition-colors;
+  }
+
+  .toggle-input:checked+.toggle {
+    background-color: var(--primary);
+  }
+
+  .toggle-slider {
+    @apply absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform shadow-sm;
+  }
+
+  .toggle-input:checked+.toggle .toggle-slider {
+    @apply translate-x-5;
+  }
+
+  .toggle-label {
+    @apply text-sm text-black;
+  }
+
+  .toggle-wrapper.toggle-sm .toggle {
+    @apply w-9 h-5;
+  }
+
+  .toggle-wrapper.toggle-sm .toggle-slider {
+    @apply w-3 h-3;
+  }
+
+  .toggle-wrapper.toggle-sm .toggle-input:checked+.toggle .toggle-slider {
+    @apply translate-x-4;
+  }
+
+  /* Checkbox Styles */
+  .checkbox-wrapper {
+    @apply flex items-center gap-2.5 cursor-pointer;
+  }
+
+  .checkbox-wrapper.disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .checkbox-input {
+    @apply sr-only;
+  }
+
+  .checkbox-box {
+    @apply w-5 h-5 border-2 border-slate-300 rounded bg-white transition-all flex items-center justify-center;
+  }
+
+  .checkbox-input:checked+.checkbox-box {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .checkbox-input:checked+.checkbox-box::after {
+    content: '';
+    @apply w-2.5 h-1.5 border-l-2 border-b-2 border-white -rotate-45 -mt-0.5;
+  }
+
+  .checkbox-label {
+    @apply text-sm text-black;
+  }
+
+  /* SearchBox Styles */
+  .search-clear {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1;
+  }
+
+  /* ToggleGroup Styles */
+  .toggle-group {
+    @apply inline-flex bg-slate-100 rounded-lg p-1;
+  }
+
+  .toggle-btn {
+    @apply px-4 py-2 text-sm font-medium text-slate-600 rounded-md transition-all flex items-center gap-2;
+  }
+
+  .toggle-btn.active {
+    @apply bg-white text-black shadow-sm;
+  }
+
+  .toggle-btn:hover:not(.active) {
+    @apply text-black;
+  }
+
+  .toggle-count {
+    @apply text-xs bg-slate-200 px-1.5 py-0.5 rounded-full;
+  }
+
+  .toggle-btn.active .toggle-count {
+    background-color: var(--primary);
+    @apply text-white;
+  }
+
+  /* Avatar Styles */
+  .avatar {
+    @apply rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 text-slate-600;
+  }
+
+  .avatar-sm {
+    @apply text-xs;
+  }
+
+  .avatar-lg {
+    @apply text-base;
+  }
+
+  .avatar.avatar-primary {
+    background-color: var(--primary-light);
+    color: var(--primary);
+  }
+
+  /* StatusIndicator Styles */
+  .status-indicator {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .status-icon-wrapper {
+    @apply inline-flex items-center gap-1.5;
+  }
+
+  .status-icon.success {
+    @apply text-blue-600;
+  }
+
+  .status-icon.warning {
+    @apply text-amber-500;
+  }
+
+  .status-icon.danger {
+    @apply text-red-500;
+  }
+
+  .status-icon.info {
+    @apply text-blue-500;
+  }
+
+  .status-icon.neutral {
+    @apply text-slate-400;
+  }
+
+  .status-label {
+    @apply text-sm text-slate-600;
+  }
+
+  /* Modal Styles */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4;
+  }
+
+  .modal {
+    @apply bg-white rounded-xl shadow-xl max-h-[90vh] flex flex-col;
+  }
+
+  .modal-sm {
+    @apply w-full max-w-sm;
+  }
+
+  .modal-md {
+    @apply w-full max-w-lg;
+  }
+
+  .modal-lg {
+    @apply w-full max-w-2xl;
+  }
+
+  .modal-xl {
+    @apply w-full max-w-4xl;
+  }
+
+  .modal-full {
+    @apply w-full max-w-[95vw] h-[90vh];
+  }
+
+  .modal-header {
+    @apply flex items-start justify-between gap-4 p-6 border-b border-slate-200;
+  }
+
+  .modal-title-wrapper {
+    @apply flex-1;
+  }
+
+  .modal-title {
+    @apply text-lg font-bold text-black m-0;
+  }
+
+  .modal-subtitle {
+    @apply text-sm text-slate-500 mt-1 m-0;
+  }
+
+  .modal-close {
+    @apply p-1 text-slate-400 hover:text-slate-600 rounded transition-colors;
+  }
+
+  .modal-body {
+    @apply p-6 overflow-y-auto flex-1;
+  }
+
+  .modal-footer {
+    @apply p-6 border-t border-slate-200 flex justify-end gap-3;
+  }
+
+  /* Panel Styles */
+  .panel-backdrop {
+    @apply fixed inset-0 bg-black/30 z-40;
+  }
+
+  .panel {
+    @apply fixed top-0 bottom-0 bg-white shadow-xl z-50 flex flex-col;
+  }
+
+  .panel-right {
+    @apply right-0;
+  }
+
+  .panel-left {
+    @apply left-0;
+  }
+
+  .panel-header {
+    @apply flex items-center justify-between gap-4 p-4 border-b border-slate-200;
+  }
+
+  .panel-title {
+    @apply text-lg font-bold text-black m-0;
+  }
+
+  .panel-close {
+    @apply p-1 text-slate-400 hover:text-slate-600 rounded transition-colors;
+  }
+
+  .panel-body {
+    @apply p-4 overflow-y-auto flex-1;
+  }
+
+  /* Component Library Sidebar in Editor */
+  .component-library-sidebar {
+    @apply w-0 overflow-hidden bg-white border-r border-slate-200 flex flex-col transition-all duration-200;
+  }
+
+  .component-library-sidebar.open {
+    @apply w-72;
+  }
+
+  .library-sidebar-header {
+    @apply flex items-center justify-between p-4 border-b border-slate-200;
+  }
+
+  .library-sidebar-header h4 {
+    @apply text-base font-semibold text-black m-0;
+  }
+
+  .library-sidebar-content {
+    @apply flex-1 overflow-y-auto p-2;
+  }
+
+  .component-category {
+    @apply mb-1;
+  }
+
+  .category-header {
+    @apply w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 rounded-lg hover:bg-slate-100 transition-colors;
+  }
+
+  .category-header span {
+    @apply flex-1 text-left;
+  }
+
+  .category-chevron {
+    @apply transition-transform;
+  }
+
+  .category-chevron.expanded {
+    @apply rotate-180;
+  }
+
+  .category-components {
+    @apply pl-2 py-1;
+  }
+
+  .component-item {
+    @apply w-full flex items-center gap-3 px-3 py-2.5 text-left rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all mb-1;
+  }
+
+  .component-item-info {
+    @apply flex-1 min-w-0;
+  }
+
+  .component-item-label {
+    @apply block text-sm font-medium text-black truncate;
+  }
+
+  .component-item-desc {
+    @apply block text-xs text-slate-500 truncate;
+  }
+
+  .component-add-icon {
+    @apply text-slate-400 opacity-0 transition-opacity;
+  }
+
+  .component-item:hover .component-add-icon {
+    @apply opacity-100;
+  }
+
+  .library-toggle-btn {
+    @apply absolute top-4 left-4 z-10;
+  }
+}
+

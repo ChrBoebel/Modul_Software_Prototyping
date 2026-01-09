@@ -1,0 +1,217 @@
+/* ==========================================================================
+   11. Globale Werte & Settings
+   ========================================================================== */
+@layer components {
+  .globale-werte-tab {
+    @apply flex flex-col gap-8;
+  }
+
+  .section {
+    @apply flex flex-col gap-4;
+  }
+
+  .section-header {
+    @apply flex justify-between items-center;
+  }
+
+  .section-header h3 {
+    @apply text-lg font-semibold;
+  }
+
+  .score-rules-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .score-rule-card {
+    @apply bg-white border border-slate-200 rounded-xl p-4;
+  }
+
+  .rule-header {
+    @apply flex justify-between items-center mb-2;
+  }
+
+  .rule-header h4 {
+    @apply text-[15px] font-semibold;
+  }
+
+  .score-value {
+    @apply text-sm font-bold;
+    color: var(--success);
+  }
+
+  .rule-description {
+    @apply text-[13px] text-slate-400;
+  }
+
+  .variables-section {
+    @apply mb-6;
+  }
+
+  .kampagne-header {
+    @apply text-[15px] font-semibold mb-4 pb-2 border-b border-slate-200;
+  }
+
+  .value-cell {
+    @apply font-semibold;
+    color: var(--primary);
+  }
+
+  .add-variable {
+    @apply mt-3;
+  }
+}
+
+/* ==========================================================================
+   13. Einstellung Views
+   ========================================================================== */
+@layer components {
+
+  .integration-tab .section,
+  .sync-protokoll-tab .section {
+    @apply mb-8;
+  }
+
+  .integration-cards-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .integration-card {
+    @apply bg-white border border-slate-200 rounded-xl p-5;
+  }
+
+  .integration-header {
+    @apply flex items-start gap-4 mb-4;
+  }
+
+  .integration-icon {
+    @apply w-12 h-12 flex items-center justify-center bg-slate-100 rounded-xl text-slate-600;
+  }
+
+  .integration-info {
+    @apply flex-1;
+  }
+
+  .integration-info h4 {
+    @apply text-base font-semibold mb-0.5;
+  }
+
+  .integration-type {
+    @apply text-xs text-slate-400;
+  }
+
+  .integration-description {
+    @apply text-[13px] text-slate-600 mb-4;
+  }
+
+  .integration-status {
+    @apply p-4 bg-slate-50 rounded-lg mb-4;
+  }
+
+  .status-row {
+    @apply flex justify-between items-center mb-2;
+  }
+
+  .status-row:last-child {
+    @apply mb-0;
+  }
+
+  .status-row .label {
+    @apply text-xs text-slate-400;
+  }
+
+  .status-row .value {
+    @apply text-[13px];
+  }
+
+  .error-message {
+    @apply flex items-center gap-2 mt-3 p-2 rounded text-xs;
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .integration-actions {
+    @apply flex gap-2;
+  }
+
+  .status-icon.success {
+    color: var(--success);
+  }
+
+  .status-icon.danger {
+    color: var(--danger);
+  }
+
+  .status-icon.warning {
+    color: var(--warning);
+  }
+
+  .sync-table tr.status-error {
+    background: var(--danger-light);
+  }
+
+  .sync-table tr.status-warning {
+    background: var(--warning-light);
+  }
+
+  .event-cell {
+    @apply flex items-center gap-2;
+  }
+
+  .method-badge {
+    @apply text-[11px] font-bold py-1 px-2 rounded font-mono;
+  }
+
+  .method-badge.get {
+    background: var(--info-light);
+    color: var(--info);
+  }
+
+  .method-badge.post {
+    background: var(--success-light);
+    color: var(--success);
+  }
+
+  .method-badge.put {
+    background: var(--warning-light);
+    color: var(--warning);
+  }
+
+  .method-badge.delete {
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .abstract-cell {
+    @apply max-w-[300px] whitespace-nowrap overflow-hidden text-ellipsis;
+  }
+
+  .header-actions {
+    @apply flex gap-2 items-center;
+  }
+
+  .status-badge-ampel {
+    @apply inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-semibold;
+  }
+
+  .status-badge-ampel.success {
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+
+  .status-badge-ampel.warning {
+    background-color: var(--warning-light);
+    color: var(--warning);
+  }
+
+  .status-badge-ampel.danger {
+    background-color: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .actions-cell {
+    @apply w-[100px];
+  }
+}
+

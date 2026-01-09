@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import {
   Download,
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  AlertCircle
+  RefreshCw
 } from 'lucide-react';
+import { Button, Badge, Select, StatusIndicator } from '../../ui';
 
 const SyncProtokollTab = ({ showToast }) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -84,35 +82,7 @@ const SyncProtokollTab = ({ showToast }) => {
     }
   ];
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'success':
-        return (
-          <>
-            <CheckCircle size={14} className="status-icon success" aria-hidden="true" />
-            <span className="sr-only">Erfolg:</span>
-          </>
-        );
-      case 'error':
-        return (
-          <>
-            <XCircle size={14} className="status-icon danger" aria-hidden="true" />
-            <span className="sr-only">Fehler:</span>
-          </>
-        );
-      case 'warning':
-        return (
-          <>
-            <AlertCircle size={14} className="status-icon warning" aria-hidden="true" />
-            <span className="sr-only">Warnung:</span>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
-  const getStatusBadge = (status) => {
+  const getStatusVariant = (status) => {
     const statusMap = {
       'success': 'success',
       'error': 'danger',
@@ -120,6 +90,13 @@ const SyncProtokollTab = ({ showToast }) => {
     };
     return statusMap[status] || 'neutral';
   };
+
+  const statusOptions = [
+    { value: 'all', label: 'Alle Status' },
+    { value: 'success', label: 'Erfolg' },
+    { value: 'error', label: 'Fehler' },
+    { value: 'warning', label: 'Warnung' }
+  ];
 
   const filteredLogs = syncLogs.filter(log =>
     filterStatus === 'all' || log.status === filterStatus
@@ -132,33 +109,29 @@ const SyncProtokollTab = ({ showToast }) => {
         <div className="section-header">
           <h3>Sync-Protokoll</h3>
           <div className="header-actions">
-            <label htmlFor="log-status-filter" className="sr-only">Logs nach Status filtern</label>
-            <select
+            <Select
               id="log-status-filter"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-            >
-              <option value="all">Alle Status</option>
-              <option value="success">Erfolg</option>
-              <option value="error">Fehler</option>
-              <option value="warning">Warnung</option>
-            </select>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
+              options={statusOptions}
+              placeholder=""
+            />
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={Download}
               onClick={() => showToast('Logs exportiert')}
             >
-              <Download size={14} aria-hidden="true" />
               Export
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={RefreshCw}
               onClick={() => showToast('Logs aktualisiert')}
             >
-              <RefreshCw size={14} aria-hidden="true" />
               Aktualisieren
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -182,7 +155,11 @@ const SyncProtokollTab = ({ showToast }) => {
                   <td>{log.dateId}</td>
                   <td>
                     <div className="event-cell">
-                      {getStatusIcon(log.status)}
+                      <StatusIndicator
+                        status={getStatusVariant(log.status)}
+                        type="icon"
+                        size="sm"
+                      />
                       <span>{log.event}</span>
                     </div>
                   </td>
@@ -192,9 +169,9 @@ const SyncProtokollTab = ({ showToast }) => {
                     </span>
                   </td>
                   <td>
-                    <span className={`badge ${log.issue === '-' ? 'neutral' : 'warning'}`}>
+                    <Badge variant={log.issue === '-' ? 'neutral' : 'warning'}>
                       {log.issue}
-                    </span>
+                    </Badge>
                   </td>
                   <td className="abstract-cell">{log.abstract}</td>
                 </tr>

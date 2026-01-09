@@ -1,0 +1,58 @@
+[
+  {
+    "id": "avail-1",
+    "config": {},
+    "address_id": "addr-1",
+    "product_id": "glasfaser-1000",
+    "status_id": "status-available"
+  },
+  {
+    "id": "avail-2",
+    "config": {},
+    "address_id": "addr-1",
+    "product_id": "glasfaser-500",
+    "status_id": "status-available"
+  },
+  {
+    "id": "avail-3",
+    "config": {},
+    "address_id": "addr-2",
+    "product_id": "glasfaser-1000",
+    "status_id": "status-planned"
+  },
+  {
+    "id": "avail-4",
+    "config": {},
+    "address_id": "addr-2",
+    "product_id": "kabel-400",
+    "status_id": "status-available"
+  },
+  {
+    "id": "avail-5",
+    "config": {},
+    "address_id": "addr-3",
+    "product_id": "kabel-200",
+    "status_id": "status-available"
+  },
+  {
+    "id": "avail-6",
+    "config": {},
+    "address_id": "addr-4",
+    "product_id": "dsl-100",
+    "status_id": "status-available"
+  },
+  {
+    "id": "avail-7",
+    "config": {},
+    "address_id": "addr-4",
+    "product_id": "glasfaser-250",
+    "status_id": "status-planned"
+  },
+  {
+    "id": "avail-8",
+    "config": {},
+    "address_id": "addr-5",
+    "product_id": "dsl-50",
+    "status_id": "status-unavailable"
+  }
+]

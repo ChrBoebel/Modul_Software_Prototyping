@@ -1,10 +1,55 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Save, Play, X, Plus, Trash2 } from 'lucide-react';
+import { Save, Play, X, Plus, Trash2, HelpCircle, ListChecks, CheckSquare, Sliders, Type, ChevronDown, Image, FileText, FormInput, MessageSquare, Layers } from 'lucide-react';
 import { StructuredFlowCanvas, useFlowState } from '../structured-flow';
 import FlowPreviewModal from '../preview/FlowPreviewModal';
 import { getExampleFlowForCampaign } from '../exampleFlows';
+import { Button } from '../../ui';
 
 const INPUT_TYPES = ['Single-Choice', 'Multi-Choice', 'Range-Slider', 'Eingabe', 'Dropdown'];
+
+// Component Library für den Editor
+const COMPONENT_CATEGORIES = [
+  {
+    id: 'questions',
+    label: 'Fragen',
+    icon: HelpCircle,
+    components: [
+      { id: 'single-choice', label: 'Single-Choice', icon: ListChecks, description: 'Eine Antwort auswählen' },
+      { id: 'multi-choice', label: 'Multi-Choice', icon: CheckSquare, description: 'Mehrere Antworten möglich' },
+      { id: 'range-slider', label: 'Range-Slider', icon: Sliders, description: 'Wert auf Skala wählen' },
+      { id: 'text-input', label: 'Texteingabe', icon: Type, description: 'Freie Texteingabe' },
+      { id: 'dropdown', label: 'Dropdown', icon: ChevronDown, description: 'Auswahl aus Liste' }
+    ]
+  },
+  {
+    id: 'content',
+    label: 'Inhalte',
+    icon: FileText,
+    components: [
+      { id: 'info-card', label: 'Info-Karte', icon: FileText, description: 'Informationstext anzeigen' },
+      { id: 'image', label: 'Bild', icon: Image, description: 'Bild oder Grafik' },
+      { id: 'video', label: 'Video', icon: MessageSquare, description: 'Video einbetten' }
+    ]
+  },
+  {
+    id: 'forms',
+    label: 'Formulare',
+    icon: FormInput,
+    components: [
+      { id: 'contact-form', label: 'Kontaktdaten', icon: FormInput, description: 'Name, E-Mail, Telefon' },
+      { id: 'address-form', label: 'Adresseingabe', icon: FormInput, description: 'Straße, PLZ, Ort' }
+    ]
+  },
+  {
+    id: 'logic',
+    label: 'Logik',
+    icon: Layers,
+    components: [
+      { id: 'branch', label: 'Verzweigung', icon: Layers, description: 'Bedingte Weiterleitung' },
+      { id: 'score-check', label: 'Score-Prüfung', icon: Layers, description: 'Nach Punktzahl verzweigen' }
+    ]
+  }
+];
 
 const createDefaultCard = (title = 'Neue Frage') => ({
   title,
@@ -33,8 +78,32 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewStartNodeId, setPreviewStartNodeId] = useState(null);
+  const [showComponentLibrary, setShowComponentLibrary] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState(['questions']);
 
   const [cardsById, setCardsById] = useState(() => example.cards);
+
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories(prev =>
+      prev.includes(categoryId)
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
+
+  const handleAddComponentToFlow = (component) => {
+    // Map component type to node type
+    const nodeType = component.id.includes('choice') || component.id.includes('slider') || component.id.includes('input') || component.id.includes('dropdown')
+      ? 'question'
+      : 'module';
+
+    // Find the last node to add after
+    const lastNode = nodes[nodes.length - 1];
+    if (lastNode) {
+      handleAddNode(lastNode.id, nodeType);
+      showToast(`${component.label} hinzugefügt`);
+    }
+  };
 
   const getCardForNode = useCallback((node) => {
     if (!node?.cardId) return null;
@@ -68,6 +137,38 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
       showToast(`${nodeType === 'question' ? 'Frage' : 'Modul'} hinzugefügt`);
     }
   }, [insertNode, nodes, showToast, updateCard]);
+
+  // Handle adding an element from QuickAddMenu (with full element info)
+  const handleAddElement = useCallback((afterNodeId, element) => {
+    // Determine node type based on element
+    const nodeType = element.type;
+    const isQuestion = nodeType === 'question';
+
+    const nextNumber = isQuestion
+      ? nodes.filter(n => n.type === 'question').length + 1
+      : nodes.filter(n => n.type === nodeType).length + 1;
+
+    const nextCardId = isQuestion ? `Question_${nextNumber}` : null;
+
+    const newId = insertNode(afterNodeId, isQuestion ? 'question' : 'module');
+    if (newId) {
+      // Update the node with element-specific info
+      updateNode(newId, {
+        label: element.label,
+        subType: element.id
+      });
+
+      if (nextCardId && isQuestion) {
+        // Create card with the specific input type
+        updateCard(nextCardId, {
+          ...createDefaultCard(element.label),
+          inputType: element.inputType || 'Single-Choice'
+        }, element.label);
+      }
+
+      showToast(`${element.label} hinzugefügt`);
+    }
+  }, [insertNode, nodes, showToast, updateCard, updateNode]);
 
   // Handle creating a branch
   const handleBranchNode = useCallback((nodeId) => {
@@ -180,16 +281,86 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
       </div>
 
       <div className="editor-container">
+        {/* Component Library Sidebar */}
+        <aside className={`component-library-sidebar ${showComponentLibrary ? 'open' : ''}`}>
+          <div className="library-sidebar-header">
+            <h4>Komponenten</h4>
+            <button
+              type="button"
+              className="btn-icon"
+              onClick={() => setShowComponentLibrary(false)}
+              aria-label="Komponenten-Bibliothek schließen"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div className="library-sidebar-content">
+            {COMPONENT_CATEGORIES.map((category) => {
+              const CategoryIcon = category.icon;
+              const isExpanded = expandedCategories.includes(category.id);
+              return (
+                <div key={category.id} className="component-category">
+                  <button
+                    type="button"
+                    className="category-header"
+                    onClick={() => toggleCategory(category.id)}
+                    aria-expanded={isExpanded}
+                  >
+                    <CategoryIcon size={16} />
+                    <span>{category.label}</span>
+                    <ChevronDown size={14} className={`category-chevron ${isExpanded ? 'expanded' : ''}`} />
+                  </button>
+                  {isExpanded && (
+                    <div className="category-components">
+                      {category.components.map((component) => {
+                        const ComponentIcon = component.icon;
+                        return (
+                          <button
+                            key={component.id}
+                            type="button"
+                            className="component-item"
+                            onClick={() => handleAddComponentToFlow(component)}
+                            title={component.description}
+                          >
+                            <ComponentIcon size={16} />
+                            <div className="component-item-info">
+                              <span className="component-item-label">{component.label}</span>
+                              <span className="component-item-desc">{component.description}</span>
+                            </div>
+                            <Plus size={14} className="component-add-icon" />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </aside>
+
         {/* Structured Flow Canvas */}
         <div className="structured-flow-wrapper">
+          {!showComponentLibrary && (
+            <button
+              type="button"
+              className="btn btn-secondary library-toggle-btn"
+              onClick={() => setShowComponentLibrary(true)}
+            >
+              <Layers size={16} />
+              Komponenten
+            </button>
+          )}
           <StructuredFlowCanvas
             nodes={nodes}
             selectedNode={selectedNode}
             onSelectNode={handleSelectNode}
             onAddNode={handleAddNode}
+            onAddElement={handleAddElement}
             onBranchNode={handleBranchNode}
             onDeleteNode={handleDeleteNode}
             getNode={getNode}
+            getCardForNode={getCardForNode}
           />
         </div>
 
@@ -336,31 +507,67 @@ const FlowEditorTab = ({ showToast, campaign, onClose }) => {
                             onClick={handleAddAnswer}
                           >
                             <Plus size={14} />
-                            Antwort hinzufügen
+                            Hinzufügen
                           </button>
                         </div>
 
-                        <div className="answer-options">
-                          {selectedCard.answers.map((answer, index) => (
-                            <div key={index} className="answer-option">
-                              <input
-                                type="text"
-                                value={answer}
-                                onChange={(e) => handleUpdateAnswer(index, e.target.value)}
-                                className="form-input"
-                                placeholder={`Antwort ${index + 1}`}
-                              />
-                              <button
-                                type="button"
-                                className="btn btn-sm btn-link danger"
-                                onClick={() => handleRemoveAnswer(index)}
-                                aria-label="Antwort löschen"
-                              >
-                                <Trash2 size={14} />
-                              </button>
-                            </div>
-                          ))}
+                        <div className="answer-options-enhanced">
+                          {selectedCard.answers.map((answer, index) => {
+                            const answerObj = typeof answer === 'object' ? answer : { text: answer, score: 0 };
+                            return (
+                              <div key={index} className="answer-option-row">
+                                <div className="answer-drag-handle">
+                                  <span className="drag-dots">⋮⋮</span>
+                                </div>
+                                <input
+                                  type="text"
+                                  value={answerObj.text || answer}
+                                  onChange={(e) => handleUpdateAnswer(index, e.target.value)}
+                                  className="form-input answer-text-input"
+                                  placeholder={`Antwort ${index + 1}`}
+                                />
+                                <div className="answer-score-input">
+                                  <select
+                                    className="form-input score-select"
+                                    value={answerObj.score || 0}
+                                    onChange={(e) => {
+                                      const newScore = parseInt(e.target.value, 10);
+                                      const answers = selectedCard.answers.map((a, idx) => {
+                                        if (idx === index) {
+                                          return typeof a === 'object'
+                                            ? { ...a, score: newScore }
+                                            : { text: a, score: newScore };
+                                        }
+                                        return a;
+                                      });
+                                      updateCard(selectedNode.cardId, { answers }, selectedNode.label);
+                                    }}
+                                    title="Lead-Score für diese Antwort"
+                                  >
+                                    <option value="3">+3</option>
+                                    <option value="2">+2</option>
+                                    <option value="1">+1</option>
+                                    <option value="0">0</option>
+                                    <option value="-1">-1</option>
+                                    <option value="-2">-2</option>
+                                  </select>
+                                </div>
+                                <button
+                                  type="button"
+                                  className="answer-delete-btn"
+                                  onClick={() => handleRemoveAnswer(index)}
+                                  aria-label="Antwort löschen"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                              </div>
+                            );
+                          })}
                         </div>
+
+                        <p className="inspector-hint-small">
+                          Score-Werte beeinflussen die Lead-Qualifizierung
+                        </p>
                       </div>
                     ) : (
                       <p className="inspector-hint">

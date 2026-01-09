@@ -1,0 +1,5199 @@
+[
+  {
+    "id": "rule-k-78462-dsl",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 10,
+    "postalCode": "78462",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "dsl-16",
+      "dsl-50",
+      "dsl-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-dsl",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 10,
+    "postalCode": "78464",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "dsl-16",
+      "dsl-50",
+      "dsl-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dsl",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 10,
+    "postalCode": "78467",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "dsl-16",
+      "dsl-50",
+      "dsl-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dsl",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 10,
+    "postalCode": "78465",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "dsl-16",
+      "dsl-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kabel",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 20,
+    "postalCode": "78462",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "kabel-250",
+      "kabel-500"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-kabel",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 20,
+    "postalCode": "78464",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "kabel-250",
+      "kabel-500",
+      "kabel-1000"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-kabel",
+    "type": "postal-code",
+    "effect": "allow",
+    "active": true,
+    "priority": 20,
+    "postalCode": "78467",
+    "city": "",
+    "street": "",
+    "houseNumberFrom": null,
+    "houseNumberTo": null,
+    "productIds": [
+      "kabel-250",
+      "kabel-500",
+      "kabel-1000"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hauptstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hauptstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hauptstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hauptstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hauptstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hauptstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hussenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hussenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hussenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hussenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hussenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hussenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bodanstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bodanstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bodanstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bodanstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bodanstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bodanstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-marktstaette-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Marktstätte",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-marktstaette-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Marktstätte",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-marktstaette-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Marktstätte",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rosgartenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rosgartenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rosgartenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rosgartenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rosgartenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rosgartenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kanzleistrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kanzleistraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kanzleistrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kanzleistraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kanzleistrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kanzleistraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bahnhofplatz-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bahnhofplatz",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bahnhofplatz-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bahnhofplatz",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-bahnhofplatz-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Bahnhofplatz",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-konzilstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Konzilstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-konzilstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Konzilstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-konzilstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Konzilstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-wessenbergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Wessenbergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-wessenbergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Wessenbergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-wessenbergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Wessenbergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-zollernstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Zollernstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-zollernstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Zollernstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-zollernstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Zollernstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-laube-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Laube",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-laube-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Laube",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-laube-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Laube",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-untere-laube-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Untere Laube",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-untere-laube-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Untere Laube",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-untere-laube-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Untere Laube",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-obere-laube-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Obere Laube",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-obere-laube-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Obere Laube",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-obere-laube-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Obere Laube",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kreuzlinger-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kreuzlinger-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-kreuzlinger-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-sigismundstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Sigismundstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-sigismundstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Sigismundstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-sigismundstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Sigismundstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-poststrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Poststraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-poststrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Poststraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-poststrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Poststraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-fischerstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Fischerstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-fischerstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Fischerstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-fischerstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Fischerstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-schottenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Schottenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-schottenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Schottenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-schottenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Schottenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rheingasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rheingasse",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rheingasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rheingasse",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-rheingasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Rheingasse",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-muenzgasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Münzgasse",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-muenzgasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Münzgasse",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-muenzgasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Münzgasse",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-brueckengasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Brückengasse",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-brueckengasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Brückengasse",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-brueckengasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Brückengasse",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-augustinerstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Augustinerstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-augustinerstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Augustinerstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-augustinerstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Augustinerstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-st-johann-gasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "St.-Johann-Gasse",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-st-johann-gasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "St.-Johann-Gasse",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-st-johann-gasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "St.-Johann-Gasse",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-inselgasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Inselgasse",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-inselgasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Inselgasse",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-inselgasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Inselgasse",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-gartenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Gartenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-gartenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Gartenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-gartenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Gartenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-seestrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Seestraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-seestrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Seestraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-seestrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Seestraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-mainaustrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Mainaustraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-mainaustrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Mainaustraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-mainaustrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Mainaustraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-reichenaustrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Reichenaustraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-reichenaustrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Reichenaustraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-reichenaustrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Reichenaustraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-spanierstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Spanierstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-spanierstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Spanierstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-spanierstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Spanierstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schneckenburgstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schneckenburgstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schneckenburgstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schneckenburgstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schneckenburgstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schneckenburgstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-petershauser-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Petershauser Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-petershauser-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Petershauser Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-petershauser-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Petershauser Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-theodor-heuss-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Theodor-Heuss-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-theodor-heuss-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Theodor-Heuss-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-theodor-heuss-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Theodor-Heuss-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrichstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrichstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrichstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-luisenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Luisenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-luisenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Luisenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-luisenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Luisenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-gutenbergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-gutenbergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-gutenbergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-riedstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-riedstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-riedstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-kreuzlinger-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-kreuzlinger-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-kreuzlinger-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Kreuzlinger Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-zaehringerplatz-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Zähringerplatz",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-zaehringerplatz-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Zähringerplatz",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-zaehringerplatz-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Zähringerplatz",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-buecklestrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Bücklestraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-buecklestrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Bücklestraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-buecklestrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Bücklestraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-sankt-gebhard-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Sankt-Gebhard-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-sankt-gebhard-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Sankt-Gebhard-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-sankt-gebhard-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Sankt-Gebhard-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-cherisystrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Cherisystraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-cherisystrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Cherisystraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-cherisystrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Cherisystraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-steinstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Steinstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-steinstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Steinstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-steinstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Steinstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-turmstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Turmstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-turmstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Turmstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-turmstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Turmstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-ellenriederstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Ellenriederstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-ellenriederstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Ellenriederstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-ellenriederstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Ellenriederstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schulthaissstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schulthaißstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schulthaissstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schulthaißstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-schulthaissstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Schulthaißstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hoheneggstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hoheneggstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hoheneggstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hoheneggstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hoheneggstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hoheneggstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-herzog-wilhelm-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Herzog-Wilhelm-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-herzog-wilhelm-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Herzog-Wilhelm-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-herzog-wilhelm-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Herzog-Wilhelm-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrich-engels-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrich-Engels-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrich-engels-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrich-Engels-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-friedrich-engels-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Friedrich-Engels-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hermann-von-vicari-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hermann-von-Vicari-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hermann-von-vicari-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hermann-von-Vicari-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-hermann-von-vicari-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Hermann-von-Vicari-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-fuerstenbergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-fuerstenbergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-fuerstenbergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-bergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-bergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-bergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-litzelstetter-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-litzelstetter-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-litzelstetter-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dingelsdorfer-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dingelsdorfer-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dingelsdorfer-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dettinger-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dettinger-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-dettinger-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-wallhausenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-wallhausenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-wallhausenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kapitaen-romer-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kapitän-Romer-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kapitaen-romer-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kapitän-Romer-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kapitaen-romer-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kapitän-Romer-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kirchstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kirchstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kirchstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kirchstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-kirchstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Kirchstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-uferstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Uferstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-uferstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Uferstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-uferstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Uferstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-hafenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-hafenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-hafenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-seeblick-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Seeblick",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-seeblick-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Seeblick",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-seeblick-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Seeblick",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-zum-see-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Zum See",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-zum-see-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Zum See",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-zum-see-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Zum See",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-panoramaweg-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Panoramaweg",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-panoramaweg-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Panoramaweg",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-panoramaweg-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Panoramaweg",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-obstgartenweg-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Obstgartenweg",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-obstgartenweg-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Obstgartenweg",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-obstgartenweg-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Obstgartenweg",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-im-winkel-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Im Winkel",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-im-winkel-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Im Winkel",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-100",
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-im-winkel-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Im Winkel",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-50"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-industriestrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Industriestraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-industriestrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Industriestraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-industriestrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Industriestraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-max-stromeyer-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Max-Stromeyer-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-max-stromeyer-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Max-Stromeyer-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-max-stromeyer-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Max-Stromeyer-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wollmatinger-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wollmatinger Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wollmatinger-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wollmatinger Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wollmatinger-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wollmatinger Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-fuerstenbergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-fuerstenbergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-fuerstenbergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Fürstenbergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-byk-gulden-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Byk-Gulden-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-byk-gulden-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Byk-Gulden-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-byk-gulden-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Byk-Gulden-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-carl-benz-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Carl-Benz-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-carl-benz-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Carl-Benz-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-carl-benz-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Carl-Benz-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-rudolf-diesel-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Rudolf-Diesel-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-rudolf-diesel-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Rudolf-Diesel-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-rudolf-diesel-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Rudolf-Diesel-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gottlieber-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gottlieber Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gottlieber-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gottlieber Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gottlieber-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gottlieber Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-europastrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Europastraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-europastrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Europastraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-europastrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Europastraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-reichenauer-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Reichenauer Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-reichenauer-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Reichenauer Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-reichenauer-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Reichenauer Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-konrad-zuse-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Konrad-Zuse-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-konrad-zuse-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Konrad-Zuse-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-konrad-zuse-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Konrad-Zuse-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-heinrich-hertz-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Heinrich-Hertz-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-heinrich-hertz-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Heinrich-Hertz-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-heinrich-hertz-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Heinrich-Hertz-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-marie-curie-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Marie-Curie-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-marie-curie-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Marie-Curie-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-marie-curie-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Marie-Curie-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-lohnerhofstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Lohnerhofstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-lohnerhofstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Lohnerhofstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-lohnerhofstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Lohnerhofstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-august-borsig-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "August-Borsig-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-august-borsig-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "August-Borsig-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-august-borsig-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "August-Borsig-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-werner-von-siemens-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Werner-von-Siemens-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-werner-von-siemens-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Werner-von-Siemens-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-werner-von-siemens-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Werner-von-Siemens-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-robert-bosch-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Robert-Bosch-Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-robert-bosch-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Robert-Bosch-Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-robert-bosch-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Robert-Bosch-Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-nord-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Nord",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-nord-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Nord",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-nord-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Nord",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-sued-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Süd",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-sued-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Süd",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-riedstrasse-sued-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Riedstraße Süd",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-stromeyerstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Stromeyerstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-stromeyerstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Stromeyerstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-stromeyerstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Stromeyerstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gutenbergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gutenbergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-gutenbergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Gutenbergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-zeppelinstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Zeppelinstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-zeppelinstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Zeppelinstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-zeppelinstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Zeppelinstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-bergstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-bergstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-bergstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Bergstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-friedrichstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-friedrichstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-friedrichstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Friedrichstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-litzelstetter-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-litzelstetter-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-litzelstetter-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Litzelstetter Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dingelsdorfer-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dingelsdorfer-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dingelsdorfer-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dingelsdorfer Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dettinger-strasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dettinger-strasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-dettinger-strasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Dettinger Straße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wallhausenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wallhausenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-wallhausenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Wallhausenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-hafenstrasse-1-50-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-hafenstrasse-51-120-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 51,
+    "houseNumberTo": 120,
+    "productIds": [
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-hafenstrasse-121-250-allow",
+    "type": "street-range",
+    "effect": "allow",
+    "active": true,
+    "priority": 100,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Hafenstraße",
+    "houseNumberFrom": 121,
+    "houseNumberTo": 250,
+    "productIds": [
+      "glasfaser-250",
+      "glasfaser-100"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78462-hauptstrasse-1-10-deny",
+    "type": "street-range",
+    "effect": "deny",
+    "active": true,
+    "priority": 900,
+    "postalCode": "78462",
+    "city": "",
+    "street": "Hauptstraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 10,
+    "productIds": [
+      "glasfaser-1000"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78464-mainaustrasse-1-25-deny",
+    "type": "street-range",
+    "effect": "deny",
+    "active": true,
+    "priority": 900,
+    "postalCode": "78464",
+    "city": "",
+    "street": "Mainaustraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 25,
+    "productIds": [
+      "glasfaser-500"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78467-industriestrasse-1-40-deny",
+    "type": "street-range",
+    "effect": "deny",
+    "active": true,
+    "priority": 900,
+    "postalCode": "78467",
+    "city": "",
+    "street": "Industriestraße",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 40,
+    "productIds": [
+      "glasfaser-1000"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "rule-k-78465-insel-mainau-1-50-deny",
+    "type": "street-range",
+    "effect": "deny",
+    "active": true,
+    "priority": 1000,
+    "postalCode": "78465",
+    "city": "",
+    "street": "Insel Mainau",
+    "houseNumberFrom": 1,
+    "houseNumberTo": 50,
+    "productIds": [
+      "glasfaser-1000",
+      "glasfaser-500",
+      "glasfaser-250",
+      "glasfaser-100",
+      "glasfaser-50",
+      "kabel-1000",
+      "kabel-500",
+      "kabel-250",
+      "dsl-100",
+      "dsl-50",
+      "dsl-16"
+    ],
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  }
+]

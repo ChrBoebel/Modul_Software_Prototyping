@@ -1,0 +1,72 @@
+[
+  {
+    "id": "addr-1",
+    "config": {},
+    "city": "Konstanz",
+    "country": "DE",
+    "housenumber": "5",
+    "housenumber_addition": "",
+    "housenumber_numeric": 5,
+    "street": "Hauptstraße",
+    "community": "Konstanz",
+    "zip": "78462",
+    "lat": 47.6603,
+    "lng": 9.1751
+  },
+  {
+    "id": "addr-2",
+    "config": {},
+    "city": "Konstanz",
+    "country": "DE",
+    "housenumber": "12",
+    "housenumber_addition": "a",
+    "housenumber_numeric": 12,
+    "street": "Bahnhofstraße",
+    "community": "Konstanz",
+    "zip": "78462",
+    "lat": 47.6592,
+    "lng": 9.1765
+  },
+  {
+    "id": "addr-3",
+    "config": {},
+    "city": "Konstanz",
+    "country": "DE",
+    "housenumber": "8",
+    "housenumber_addition": "",
+    "housenumber_numeric": 8,
+    "street": "Seestraße",
+    "community": "Konstanz",
+    "zip": "78464",
+    "lat": 47.6658,
+    "lng": 9.1884
+  },
+  {
+    "id": "addr-4",
+    "config": {},
+    "city": "Konstanz",
+    "country": "DE",
+    "housenumber": "23",
+    "housenumber_addition": "b",
+    "housenumber_numeric": 23,
+    "street": "Rheinstraße",
+    "community": "Konstanz",
+    "zip": "78467",
+    "lat": 47.6745,
+    "lng": 9.1557
+  },
+  {
+    "id": "addr-5",
+    "config": {},
+    "city": "Konstanz",
+    "country": "DE",
+    "housenumber": "1",
+    "housenumber_addition": "",
+    "housenumber_numeric": 1,
+    "street": "Industriestraße",
+    "community": "Konstanz",
+    "zip": "78465",
+    "lat": 47.6802,
+    "lng": 9.1432
+  }
+]

@@ -1,0 +1,33 @@
+/* ==========================================================================
+   16. Utility Classes (Tailwind Overrides)
+   ========================================================================== */
+@layer utilities {
+  .text-muted {
+    @apply text-slate-600;
+  }
+
+  .font-bold {
+    @apply font-semibold;
+  }
+
+  .bg-bg-app {
+    background-color: var(--bg-app);
+  }
+
+  .text-primary {
+    color: var(--primary);
+  }
+
+  .bg-primary {
+    background-color: var(--primary);
+  }
+
+  .border-primary {
+    border-color: var(--primary);
+  }
+
+  .font-inherit {
+    font: inherit;
+  }
+}
+

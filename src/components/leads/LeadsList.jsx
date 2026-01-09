@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import {
-  Search,
   RefreshCw,
   ExternalLink,
   Phone,
   Mail,
   Circle
 } from 'lucide-react';
+import { Button, Badge, SearchBox, Select, ToggleGroup } from '../ui';
 
 const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [showMyLeads, setShowMyLeads] = useState(false);
+  const [leadsFilter, setLeadsFilter] = useState('all');
 
   // Current user (simulated)
   const currentUser = 'Max Mustermann';
@@ -118,11 +118,23 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
     const matchesSearch = searchTerm === '' ||
       lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lead.leadId.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesOwner = !showMyLeads || lead.zugewiesenAn === currentUser;
+    const matchesOwner = leadsFilter === 'all' || lead.zugewiesenAn === currentUser;
     return matchesStatus && matchesSearch && matchesOwner;
   });
 
   const myLeadsCount = leads.filter(l => l.zugewiesenAn === currentUser).length;
+
+  const leadsToggleOptions = [
+    { value: 'all', label: 'Alle Leads', count: leads.length },
+    { value: 'mine', label: 'Meine Leads', count: myLeadsCount }
+  ];
+
+  const statusOptions = [
+    { value: 'all', label: 'Alle Status' },
+    { value: 'grün', label: 'Grün' },
+    { value: 'gelb', label: 'Gelb' },
+    { value: 'rot', label: 'Rot' }
+  ];
 
   return (
     <div className="leads-list">
@@ -133,56 +145,34 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
           <h3 className="section-title-visible">Alle Leads</h3>
         </div>
         <div className="leads-controls" role="search" aria-label="Leads Filter und Suche">
-          <div className="leads-toggle" role="group" aria-label="Lead Ansicht filtern">
-            <button
-              type="button"
-              className={`toggle-btn ${!showMyLeads ? 'active' : ''}`}
-              onClick={() => setShowMyLeads(false)}
-              aria-pressed={!showMyLeads}
-            >
-              Alle Leads ({leads.length})
-            </button>
-            <button
-              type="button"
-              className={`toggle-btn ${showMyLeads ? 'active' : ''}`}
-              onClick={() => setShowMyLeads(true)}
-              aria-pressed={showMyLeads}
-            >
-              Meine Leads ({myLeadsCount})
-            </button>
-          </div>
-          <div className="search-box">
-            <label htmlFor="lead-search" className="sr-only">Leads suchen</label>
-            <Search size={16} aria-hidden="true" />
-            <input
-              id="lead-search"
-              type="text"
-              placeholder="Suchen..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <ToggleGroup
+            options={leadsToggleOptions}
+            value={leadsFilter}
+            onChange={setLeadsFilter}
+            ariaLabel="Lead Ansicht filtern"
+          />
+          <SearchBox
+            id="lead-search"
+            placeholder="Suchen..."
+            value={searchTerm}
+            onChange={setSearchTerm}
+          />
           <div className="filter-group-inline">
-            <label htmlFor="status-filter" className="sr-only">Status filtern</label>
-            <select
+            <Select
               id="status-filter"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-            >
-              <option value="all">Alle Status</option>
-              <option value="grün">Grün</option>
-              <option value="gelb">Gelb</option>
-              <option value="rot">Rot</option>
-            </select>
+              options={statusOptions}
+              placeholder=""
+            />
           </div>
-          <button
-            type="button"
-            className="btn btn-secondary btn-sm"
+          <Button
+            variant="icon"
+            size="sm"
+            icon={RefreshCw}
             onClick={() => showToast('Leads aktualisiert')}
-            aria-label="Leads Liste aktualisieren"
-          >
-            <RefreshCw size={14} aria-hidden="true" />
-          </button>
+            ariaLabel="Leads Liste aktualisieren"
+          />
         </div>
       </div>
 
@@ -233,44 +223,41 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId }) => {
                 <td className="timestamp-cell">{lead.zuletztAktualisiert}</td>
                 <td className="actions-cell">
                   <div className="quick-actions">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-icon"
+                    <Button
+                      variant="icon"
+                      size="sm"
+                      icon={Phone}
                       title={`Anrufen: ${lead.phone}`}
-                      aria-label={`Anrufen: ${lead.phone}`}
+                      ariaLabel={`Anrufen: ${lead.phone}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         window.location.href = `tel:${lead.phone}`;
                         showToast(`Anruf an ${lead.name}`);
                       }}
-                    >
-                      <Phone size={14} aria-hidden="true" />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-icon"
+                    />
+                    <Button
+                      variant="icon"
+                      size="sm"
+                      icon={Mail}
                       title={`E-Mail: ${lead.email}`}
-                      aria-label={`E-Mail an ${lead.email}`}
+                      ariaLabel={`E-Mail an ${lead.email}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         window.location.href = `mailto:${lead.email}`;
                         showToast(`E-Mail an ${lead.name}`);
                       }}
-                    >
-                      <Mail size={14} aria-hidden="true" />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-link"
+                    />
+                    <Button
+                      variant="link"
+                      size="sm"
+                      icon={ExternalLink}
                       title="Details anzeigen"
-                      aria-label={`Details für ${lead.name} anzeigen`}
+                      ariaLabel={`Details für ${lead.name} anzeigen`}
                       onClick={(e) => {
                         e.stopPropagation();
                         onSelectLead(lead);
                       }}
-                    >
-                      <ExternalLink size={14} aria-hidden="true" />
-                    </button>
+                    />
                   </div>
                 </td>
               </tr>

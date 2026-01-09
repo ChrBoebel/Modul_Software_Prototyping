@@ -1,0 +1,238 @@
+/* ==========================================================================
+   6. Tenant & Navigation Styles
+   ========================================================================== */
+@layer components {
+  .tenant-switcher {
+    @apply p-4 border-b border-slate-200 relative;
+  }
+
+  .tenant-button {
+    @apply flex items-center gap-3 w-full p-3 bg-white border border-slate-200 rounded-xl cursor-pointer;
+    transition: var(--transition);
+  }
+
+  .tenant-button:hover {
+    @apply bg-slate-50;
+  }
+
+  .tenant-name {
+    @apply flex-1 font-semibold text-left;
+  }
+
+  .tenant-chevron {
+    transition: transform 0.2s;
+  }
+
+  .tenant-chevron.open {
+    transform: rotate(180deg);
+  }
+
+  .tenant-dropdown {
+    @apply absolute left-4 right-4 bg-white border border-slate-200 rounded-xl shadow-lg z-[100] overflow-hidden;
+    top: calc(100% - 0.5rem);
+  }
+
+  .tenant-option {
+    @apply py-3 px-4 cursor-pointer;
+    transition: var(--transition);
+  }
+
+  .tenant-option:hover {
+    @apply bg-slate-50;
+  }
+
+  .tenant-option.active {
+    background-color: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .nav-item-new {
+    @apply flex items-center gap-3.5 py-3.5 px-4 rounded-xl cursor-pointer text-slate-600 bg-transparent border-0 w-full text-left;
+    font: inherit;
+    transition: var(--transition);
+  }
+
+  .nav-item-new:hover {
+    @apply bg-slate-100 text-black;
+  }
+
+  .nav-item-new.active {
+    background-color: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .nav-item-content {
+    @apply flex-1 flex flex-col;
+  }
+
+  .nav-item-label {
+    @apply font-semibold text-[15px];
+  }
+
+  .nav-item-desc {
+    @apply text-xs text-slate-400;
+  }
+
+  .nav-item-new.active .nav-item-desc {
+    color: var(--primary);
+    @apply opacity-70;
+  }
+
+  .nav-chevron {
+    color: var(--primary);
+  }
+}
+
+/* ==========================================================================
+   14. Mobile Header & Responsive
+   ========================================================================== */
+@layer components {
+  .mobile-header {
+    @apply hidden;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mobile-header {
+    @apply flex;
+  }
+
+  .main-content {
+    @apply ml-0;
+    padding: calc(var(--header-height) + 1.5rem) 1.5rem 2rem;
+  }
+
+  .sidebar {
+    @apply w-[280px] z-[100] shadow-xl;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    @apply fixed inset-0 opacity-0 invisible z-[90];
+    background: rgb(0 0 0 / 0.5);
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+  }
+
+  .overlay.show {
+    @apply opacity-100 visible;
+  }
+
+  .start-grid {
+    @apply grid-cols-1 gap-6;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    @apply text-[28px];
+  }
+
+  h2 {
+    @apply text-[22px];
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  .main-content {
+    padding: calc(var(--header-height) + 1rem) 1rem 1.5rem;
+  }
+
+  .section-header {
+    @apply flex-col items-start gap-4;
+  }
+
+  .header-actions {
+    @apply w-full justify-start flex-wrap;
+  }
+
+  .content-grid,
+  .grid-3,
+  .start-grid,
+  .sales-reps-grid,
+  .integrations-grid,
+  .churn-metrics-bar,
+  .lead-magnets-grid,
+  .timers-grid,
+  .campaign-cards-grid,
+  .traffic-charts-grid,
+  .utm-generator-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .form-row {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .kpi-bar {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .section-tabs {
+    @apply overflow-x-auto whitespace-nowrap pb-2 -mr-4 pr-4;
+    scrollbar-width: none;
+  }
+
+  .section-tabs::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  .section-tab {
+    @apply shrink-0 py-3 px-4 bg-slate-50 rounded-full border border-slate-200 mr-2;
+  }
+
+  .section-tab.active {
+    background-color: var(--primary);
+    @apply text-white;
+    border-color: var(--primary);
+  }
+
+  .table-wrapper {
+    @apply rounded-lg shadow-none border border-slate-200;
+  }
+
+  .data-table th,
+  .data-table td {
+    @apply py-3 px-4 whitespace-nowrap;
+  }
+
+  .leads-controls {
+    @apply flex-col items-stretch gap-4;
+  }
+
+  .leads-toggle {
+    @apply w-full justify-center;
+  }
+
+  .search-box {
+    @apply w-full;
+  }
+
+  .filter-group-inline {
+    @apply w-full;
+  }
+
+  .filter-group-inline select {
+    @apply w-full;
+  }
+
+  .card {
+    @apply p-4;
+  }
+
+  .filters-bar {
+    @apply flex-col items-stretch;
+  }
+
+  .filter-group {
+    @apply flex-col items-stretch;
+  }
+}
+

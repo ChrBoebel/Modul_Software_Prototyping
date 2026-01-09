@@ -8,12 +8,18 @@ import DashboardView from './components/dashboard/DashboardView';
 import LMFlowsView from './components/lm-flows/LMFlowsView';
 import LeadsView from './components/leads/LeadsView';
 import EinstellungView from './components/einstellung/EinstellungView';
+import ComponentLibraryView from './components/ui/ComponentLibraryView';
+import ProduktMappingView from './components/produkt-mapping/ProduktMappingView';
+
 
 const VIEW_NAMES = {
   dashboard: 'Dashboard',
   'lm-flows': 'LM-Flows',
   leads: 'Leads',
-  einstellung: 'Einstellung'
+  'produkt-mapping': 'Produkt-Mapping',
+
+  einstellung: 'Einstellung',
+  'component-library': 'Component Library'
 };
 
 function App() {
@@ -33,8 +39,13 @@ function App() {
         return <LMFlowsView showToast={showToast} />;
       case 'leads':
         return <LeadsView showToast={showToast} />;
+      case 'produkt-mapping':
+        return <ProduktMappingView showToast={showToast} />;
+
       case 'einstellung':
         return <EinstellungView showToast={showToast} />;
+      case 'component-library':
+        return <ComponentLibraryView />;
       default:
         return <DashboardView showToast={showToast} />;
     }

@@ -3,9 +3,11 @@ import {
   LayoutDashboard,
   GitBranch,
   Users,
+  MapPin,
   Settings,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Palette
 } from 'lucide-react';
 
 // Navigation Items
@@ -29,10 +31,22 @@ const NAV_ITEMS = [
     description: 'Lead-Verwaltung'
   },
   {
+    id: 'produkt-mapping',
+    icon: MapPin,
+    label: 'Produkt-Mapping',
+    description: 'Verfügbarkeit & Logik'
+  },
+  {
     id: 'einstellung',
     icon: Settings,
     label: 'Einstellung',
     description: 'Integration & Sync'
+  },
+  {
+    id: 'component-library',
+    icon: Palette,
+    label: 'Component Library',
+    description: 'UI Komponenten'
   }
 ];
 
@@ -62,7 +76,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
             aria-haspopup="listbox"
           >
             <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: 'auto' }} />
-            <span className="tenant-name">Stadtwerke Konstanz</span>
+
             <ChevronDown size={16} className={`tenant-chevron ${tenantOpen ? 'open' : ''}`} />
           </button>
           {tenantOpen && (

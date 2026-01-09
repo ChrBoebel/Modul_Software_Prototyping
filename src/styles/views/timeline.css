@@ -1,0 +1,136 @@
+/* ==========================================================================
+   5. Timeline Builder Styles
+   ========================================================================== */
+@layer components {
+  .timeline-builder {
+    @apply max-w-[800px] mx-auto p-8 flex flex-col items-center relative bg-transparent;
+  }
+
+  .timeline-builder::before {
+    content: '';
+    @apply absolute top-0 bottom-0 left-1/2 w-0.5 bg-slate-300 -translate-x-1/2 z-0;
+  }
+
+  .timeline-node {
+    @apply relative w-[400px] bg-white border border-slate-200 rounded-xl p-4 my-2 z-[1] flex items-center gap-4 shadow-sm cursor-pointer;
+    transition: var(--transition);
+  }
+
+  .timeline-node:hover {
+    @apply shadow-md;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  .timeline-node.condition:hover {
+    @apply border-slate-500;
+  }
+
+  .timeline-node.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-light), var(--shadow-md);
+  }
+
+  .timeline-node.condition.selected {
+    @apply border-slate-500;
+    box-shadow: 0 0 0 2px var(--slate-200), var(--shadow-md);
+  }
+
+  .timeline-node.trigger {
+    border-left: 4px solid var(--secondary);
+  }
+
+  .timeline-node.action {
+    border-left: 4px solid var(--primary);
+  }
+
+  .timeline-node.condition {
+    @apply border-l-4 border-l-slate-500;
+  }
+
+  .node-icon-wrapper {
+    @apply w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 shrink-0 shadow-sm;
+  }
+
+  .timeline-node.trigger .node-icon-wrapper {
+    color: var(--secondary);
+    border-color: var(--secondary);
+  }
+
+  .timeline-node.action .node-icon-wrapper {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .timeline-node.condition .node-icon-wrapper {
+    @apply text-slate-500 border-slate-500;
+  }
+
+  .node-text {
+    @apply flex-1;
+  }
+
+  .node-title {
+    @apply text-[15px] font-semibold text-black block;
+  }
+
+  .node-subtitle {
+    @apply text-xs text-slate-600 block;
+  }
+
+  .node-remove {
+    @apply opacity-0 text-slate-400 p-1;
+    transition: var(--transition);
+  }
+
+  .timeline-node:hover .node-remove {
+    @apply opacity-100;
+  }
+
+  .node-remove:hover {
+    color: var(--danger);
+  }
+
+  .add-step-wrapper {
+    @apply relative h-10 flex items-center justify-center z-[2] opacity-0 my-1 w-full;
+    transition: opacity 0.2s;
+  }
+
+  .timeline-builder:hover .add-step-wrapper {
+    @apply opacity-100;
+  }
+
+  .add-step-btn {
+    @apply w-8 h-8 rounded-full border-0 text-white flex items-center justify-center cursor-pointer shadow-sm;
+    background-color: var(--primary);
+    transition: var(--transition);
+  }
+
+  .add-step-btn:hover {
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
+    @apply shadow-md;
+  }
+
+  .add-menu {
+    @apply absolute top-10 bg-white border border-slate-200 rounded-lg p-2 shadow-lg flex flex-col gap-1 min-w-[180px] z-[100];
+  }
+
+  .add-menu-item {
+    @apply flex items-center gap-3 p-2 text-sm text-slate-600 rounded cursor-pointer;
+    transition: var(--transition);
+  }
+
+  .add-menu-item:hover {
+    @apply bg-slate-50 text-black;
+  }
+
+  .timeline-empty {
+    @apply p-12 text-center border-2 border-dashed border-slate-200 rounded-xl mt-4 w-[400px] bg-white z-[1];
+  }
+
+  .end-point {
+    @apply w-3 h-3 bg-slate-300 rounded-full mt-4 z-[1];
+  }
+}
+

@@ -1,0 +1,145 @@
+[
+  {
+    "id": "glasfaser-1000",
+    "name": "Glasfaser 1000",
+    "config": {
+      "technology": "FTTH",
+      "downloadMbps": 1000,
+      "uploadMbps": 500,
+      "priceMonthly": 69.9,
+      "active": true
+    }
+  },
+  {
+    "id": "glasfaser-500",
+    "name": "Glasfaser 500",
+    "config": {
+      "technology": "FTTH",
+      "downloadMbps": 500,
+      "uploadMbps": 250,
+      "priceMonthly": 54.9,
+      "active": true
+    }
+  },
+  {
+    "id": "glasfaser-250",
+    "name": "Glasfaser 250",
+    "config": {
+      "technology": "FTTH",
+      "downloadMbps": 250,
+      "uploadMbps": 125,
+      "priceMonthly": 44.9,
+      "active": true
+    }
+  },
+  {
+    "id": "glasfaser-100",
+    "name": "Glasfaser 100",
+    "config": {
+      "technology": "FTTH",
+      "downloadMbps": 100,
+      "uploadMbps": 50,
+      "priceMonthly": 39.9,
+      "active": true
+    }
+  },
+  {
+    "id": "glasfaser-50",
+    "name": "Glasfaser 50",
+    "config": {
+      "technology": "FTTH",
+      "downloadMbps": 50,
+      "uploadMbps": 25,
+      "priceMonthly": 34.9,
+      "active": true
+    }
+  },
+  {
+    "id": "kabel-1000",
+    "name": "Kabel 1000",
+    "config": {
+      "technology": "KABEL",
+      "downloadMbps": 1000,
+      "uploadMbps": 50,
+      "priceMonthly": 49.9,
+      "active": true
+    }
+  },
+  {
+    "id": "kabel-500",
+    "name": "Kabel 500",
+    "config": {
+      "technology": "KABEL",
+      "downloadMbps": 500,
+      "uploadMbps": 50,
+      "priceMonthly": 44.9,
+      "active": true
+    }
+  },
+  {
+    "id": "kabel-250",
+    "name": "Kabel 250",
+    "config": {
+      "technology": "KABEL",
+      "downloadMbps": 250,
+      "uploadMbps": 25,
+      "priceMonthly": 39.9,
+      "active": true
+    }
+  },
+  {
+    "id": "kabel-400",
+    "name": "Kabel 400",
+    "config": {
+      "technology": "KABEL",
+      "downloadMbps": 400,
+      "uploadMbps": 40,
+      "priceMonthly": 42.9,
+      "active": true
+    }
+  },
+  {
+    "id": "kabel-200",
+    "name": "Kabel 200",
+    "config": {
+      "technology": "KABEL",
+      "downloadMbps": 200,
+      "uploadMbps": 20,
+      "priceMonthly": 37.9,
+      "active": true
+    }
+  },
+  {
+    "id": "dsl-100",
+    "name": "DSL 100",
+    "config": {
+      "technology": "DSL",
+      "downloadMbps": 100,
+      "uploadMbps": 40,
+      "priceMonthly": 39.9,
+      "active": true
+    }
+  },
+  {
+    "id": "dsl-50",
+    "name": "DSL 50",
+    "config": {
+      "technology": "DSL",
+      "downloadMbps": 50,
+      "uploadMbps": 20,
+      "priceMonthly": 34.9,
+      "active": true
+    }
+  },
+  {
+    "id": "dsl-16",
+    "name": "DSL 16",
+    "config": {
+      "technology": "DSL",
+      "downloadMbps": 16,
+      "uploadMbps": 2,
+      "priceMonthly": 29.9,
+      "active": true
+    }
+  }
+]

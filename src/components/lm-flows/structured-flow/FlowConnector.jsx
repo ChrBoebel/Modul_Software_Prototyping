@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import NodeTypeSelector from './NodeTypeSelector';
+import QuickAddMenu from './QuickAddMenu';
 
-const FlowConnector = ({ onAdd, showAddButton = true }) => {
+const FlowConnector = ({ onAdd, onAddElement, showAddButton = true }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showSelector, setShowSelector] = useState(false);
 
@@ -11,8 +11,15 @@ const FlowConnector = ({ onAdd, showAddButton = true }) => {
     setShowSelector(true);
   };
 
-  const handleSelectType = (type) => {
-    onAdd?.(type);
+  // Handle element selection from QuickAddMenu
+  const handleSelectElement = (element) => {
+    // If onAddElement is provided, use it (new behavior)
+    if (onAddElement) {
+      onAddElement(element);
+    } else if (onAdd) {
+      // Fallback to old behavior (just node type)
+      onAdd(element.type === 'question' ? 'question' : 'module');
+    }
     setShowSelector(false);
     setIsHovered(false);
   };
@@ -26,8 +33,9 @@ const FlowConnector = ({ onAdd, showAddButton = true }) => {
       className="flow-connector"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
-        setIsHovered(false);
-        if (!showSelector) setShowSelector(false);
+        if (!showSelector) {
+          setIsHovered(false);
+        }
       }}
     >
       <div className="connector-line top" />
@@ -37,16 +45,20 @@ const FlowConnector = ({ onAdd, showAddButton = true }) => {
           <button
             className="add-node-btn"
             onClick={handleAddClick}
-            title="Node hinzufügen"
+            title="Element hinzufügen"
+            aria-label="Element hinzufügen"
+            aria-expanded={showSelector}
           >
             <Plus size={16} />
           </button>
 
           {showSelector && (
-            <NodeTypeSelector
-              onSelect={handleSelectType}
-              onClose={handleCloseSelector}
-            />
+            <div className="quick-add-menu-container">
+              <QuickAddMenu
+                onSelect={handleSelectElement}
+                onClose={handleCloseSelector}
+              />
+            </div>
           )}
         </div>
       )}

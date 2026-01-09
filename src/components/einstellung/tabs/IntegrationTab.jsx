@@ -1,13 +1,12 @@
 import {
   RefreshCw,
   Settings,
-  CheckCircle,
-  XCircle,
   AlertCircle,
   Database,
   Cloud,
   Link2
 } from 'lucide-react';
+import { Button, Badge, StatusIndicator } from '../../ui';
 
 const IntegrationTab = ({ showToast }) => {
   // Mock integrations data
@@ -42,35 +41,7 @@ const IntegrationTab = ({ showToast }) => {
     }
   ];
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'connected':
-        return (
-          <>
-            <CheckCircle size={16} className="status-icon success" aria-hidden="true" />
-            <span className="sr-only">Status: Verbunden</span>
-          </>
-        );
-      case 'error':
-        return (
-          <>
-            <XCircle size={16} className="status-icon danger" aria-hidden="true" />
-            <span className="sr-only">Status: Fehler</span>
-          </>
-        );
-      case 'warning':
-        return (
-          <>
-            <AlertCircle size={16} className="status-icon warning" aria-hidden="true" />
-            <span className="sr-only">Status: Warnung</span>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
-  const getStatusBadge = (status) => {
+  const getStatusIndicatorStatus = (status) => {
     const statusMap = {
       'connected': 'success',
       'error': 'danger',
@@ -78,6 +49,16 @@ const IntegrationTab = ({ showToast }) => {
       'disconnected': 'neutral'
     };
     return statusMap[status] || 'neutral';
+  };
+
+  const getStatusLabel = (status) => {
+    const labelMap = {
+      'connected': 'Verbunden',
+      'error': 'Fehler',
+      'warning': 'Warnung',
+      'disconnected': 'Getrennt'
+    };
+    return labelMap[status] || 'Unbekannt';
   };
 
   return (
@@ -101,7 +82,10 @@ const IntegrationTab = ({ showToast }) => {
                     <h4>{integration.name}</h4>
                     <span className="integration-type">{integration.type}</span>
                   </div>
-                  {getStatusIcon(integration.status)}
+                  <StatusIndicator
+                    status={getStatusIndicatorStatus(integration.status)}
+                    type="icon"
+                  />
                 </div>
 
                 <p className="integration-description">{integration.description}</p>
@@ -109,10 +93,9 @@ const IntegrationTab = ({ showToast }) => {
                 <div className="integration-status">
                   <div className="status-row">
                     <span className="label">Status:</span>
-                    <span className={`badge ${getStatusBadge(integration.status)}`}>
-                      {integration.status === 'connected' ? 'Verbunden' :
-                       integration.status === 'error' ? 'Fehler' : 'Getrennt'}
-                    </span>
+                    <Badge variant={getStatusIndicatorStatus(integration.status)}>
+                      {getStatusLabel(integration.status)}
+                    </Badge>
                   </div>
                   <div className="status-row">
                     <span className="label">Letzter Sync:</span>
@@ -127,24 +110,24 @@ const IntegrationTab = ({ showToast }) => {
                 </div>
 
                 <div className="integration-actions">
-                  <button
-                    type="button"
-                    className="btn btn-secondary btn-sm"
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    icon={RefreshCw}
                     onClick={() => showToast(`${integration.name} synchronisieren`)}
-                    aria-label={`${integration.name} synchronisieren`}
+                    ariaLabel={`${integration.name} synchronisieren`}
                   >
-                    <RefreshCw size={14} aria-hidden="true" />
                     Sync
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-sm"
+                  </Button>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    icon={Settings}
                     onClick={() => showToast(`${integration.name} konfigurieren`)}
-                    aria-label={`${integration.name} konfigurieren`}
+                    ariaLabel={`${integration.name} konfigurieren`}
                   >
-                    <Settings size={14} aria-hidden="true" />
                     Konfigurieren
-                  </button>
+                  </Button>
                 </div>
               </div>
             );
