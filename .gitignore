@@ -1,6 +1,12 @@
 # Dependencies
 node_modules/
 
+# Playwright MCP
+.playwright-mcp/
+
+# Agents
+AGENTS.md
+
 # Claude
 .claude/
 
