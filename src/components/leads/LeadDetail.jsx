@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   X,
   Phone,
@@ -13,19 +13,37 @@ import {
   CheckCircle,
   AlertCircle,
   UserPlus,
-  ChevronDown
+  ChevronDown,
+  GitBranch,
+  MapPin,
+  ExternalLink
 } from 'lucide-react';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import {
+  getCombinedAvailabilityForAddress,
+  getStatusBadgeVariant,
+  getStatusLabel
+} from '../produkt-mapping/availabilityLogic';
 
-const LeadDetail = ({ lead, showToast, onClose }) => {
+const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign }) => {
   const [activeStatus, setActiveStatus] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
+    source: true,
     personal: true,
     product: true,
+    availability: false,
     scoreHistory: false,
     activities: false,
     consents: false
   });
   const [showAllActivities, setShowAllActivities] = useState(false);
+
+  // Load product mapping data from localStorage
+  const [products] = useLocalStorage('swk:productCatalog', []);
+  const [rules] = useLocalStorage('swk:availabilityRules', []);
+  const [addresses] = useLocalStorage('swk:addresses', []);
+  const [availability] = useLocalStorage('swk:availability', []);
+  const [availabilityStatus] = useLocalStorage('swk:availabilityStatus', []);
 
   const toggleSection = (sectionId) => {
     setExpandedSections(prev => ({
@@ -34,41 +52,171 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
     }));
   };
 
-  // Mock score history
-  const scoreHistory = [
-    { step: 1, scoreAlt: 0, scoreNeu: 20, grund: 'Formular gestartet', datum: '2025-01-15 10:20' },
-    { step: 2, scoreAlt: 20, scoreNeu: 45, grund: 'Kontaktdaten eingegeben', datum: '2025-01-15 10:22' },
-    { step: 3, scoreAlt: 45, scoreNeu: 72, grund: 'Produktinteresse: Solar PV', datum: '2025-01-15 10:23' },
-    { step: 4, scoreAlt: 72, scoreNeu: 92, grund: 'Eigentümer bestätigt', datum: '2025-01-15 10:23' }
-  ];
+  // Check if lead has flow data (generated from flow preview)
+  const hasFlowData = Boolean(lead?.originalData?.flowId);
+  const flowAnswers = lead?.originalData?.qualification?.flowAnswers || [];
 
-  // Mock activity timeline
-  const activities = [
-    { id: 1, type: 'status', icon: CheckCircle, color: 'var(--success)', title: 'Status auf "Grün" gesetzt', user: 'Max Mustermann', timestamp: '2025-01-16 14:30' },
-    { id: 2, type: 'call', icon: Phone, color: 'var(--primary)', title: 'Telefonkontakt versucht', user: 'Max Mustermann', description: 'Nicht erreicht - Mailbox', timestamp: '2025-01-16 11:15' },
-    { id: 3, type: 'assignment', icon: UserPlus, color: 'var(--secondary)', title: 'Lead zugewiesen', user: 'System', description: 'Zugewiesen an Max Mustermann', timestamp: '2025-01-15 16:00' },
-    { id: 4, type: 'email', icon: Mail, color: 'var(--primary)', title: 'E-Mail gesendet', user: 'System', description: 'Willkommens-Mail versendet', timestamp: '2025-01-15 10:25' },
-    { id: 5, type: 'created', icon: AlertCircle, color: 'var(--warning)', title: 'Lead erstellt', user: 'System', description: 'Über Formular "Solar PV Anfrage"', timestamp: '2025-01-15 10:20' }
-  ];
+  // Score history from flow answers or fallback to mock
+  const scoreHistory = useMemo(() => {
+    if (flowAnswers.length > 0) {
+      let runningScore = 50; // Base score
+      return flowAnswers.map((a, idx) => {
+        const prevScore = runningScore;
+        runningScore = Math.min(100, Math.max(0, runningScore + (a.score || 0) * 5));
+        return {
+          step: idx + 1,
+          scoreAlt: prevScore,
+          scoreNeu: runningScore,
+          grund: a.question || 'Frage beantwortet',
+          datum: lead?.timestamp || ''
+        };
+      });
+    }
+    // Fallback mock for static leads
+    return [
+      { step: 1, scoreAlt: 0, scoreNeu: 20, grund: 'Formular gestartet', datum: lead?.timestamp || '' },
+      { step: 2, scoreAlt: 20, scoreNeu: 45, grund: 'Kontaktdaten eingegeben', datum: lead?.timestamp || '' },
+      { step: 3, scoreAlt: 45, scoreNeu: 72, grund: 'Produktinteresse bestätigt', datum: lead?.timestamp || '' },
+      { step: 4, scoreAlt: 72, scoreNeu: lead?.leadScore || 92, grund: 'Qualifizierung abgeschlossen', datum: lead?.timestamp || '' }
+    ];
+  }, [flowAnswers, lead?.timestamp, lead?.leadScore]);
 
-  // Mock personal data
-  const personalData = {
-    name: lead?.name || 'Max Muster',
-    email: lead?.email || 'max.muster@email.de',
-    phone: lead?.phone || '+49 171 1234567',
-    address: 'Musterstraße 123, 78462 Konstanz',
-    birthdate: '1985-06-15'
+  // Activity timeline - dynamic for flow leads
+  const activities = useMemo(() => {
+    const baseActivities = [
+      {
+        id: 1,
+        type: 'created',
+        icon: AlertCircle,
+        color: 'var(--warning)',
+        title: 'Lead erstellt',
+        user: 'System',
+        description: hasFlowData
+          ? `Über Flow: ${lead?.originalData?.source || 'Unbekannt'}`
+          : 'Über Webformular',
+        timestamp: lead?.timestamp || ''
+      }
+    ];
+
+    // Add flow completion activity if available
+    if (hasFlowData && flowAnswers.length > 0) {
+      baseActivities.unshift({
+        id: 2,
+        type: 'score',
+        icon: CheckCircle,
+        color: 'var(--success)',
+        title: `Flow abgeschlossen mit Score ${lead?.leadScore || 0}`,
+        user: 'System',
+        description: `${flowAnswers.length} Fragen beantwortet`,
+        timestamp: lead?.timestamp || ''
+      });
+    }
+
+    return baseActivities;
+  }, [hasFlowData, flowAnswers, lead?.originalData?.source, lead?.timestamp, lead?.leadScore]);
+
+  // Personal data from lead object
+  const personalData = useMemo(() => {
+    const customer = lead?.originalData?.customer;
+    return {
+      name: customer
+        ? `${customer.firstName || ''} ${customer.lastName || ''}`.trim() || lead?.name || 'Unbekannt'
+        : lead?.name || 'Unbekannt',
+      email: customer?.email || lead?.email || '',
+      phone: customer?.phone || lead?.phone || '',
+      address: customer?.address || '',
+      birthdate: ''
+    };
+  }, [lead]);
+
+  // Product data from lead object
+  const produktMap = {
+    'solar': 'Solar PV',
+    'heatpump': 'Wärmepumpe',
+    'charging_station': 'E-Mobilität',
+    'energy_contract': 'Stromtarif',
+    'energy_storage': 'Speicher'
   };
 
-  // Mock product data
-  const productData = {
-    interest: lead?.produkt || 'Solar PV',
-    dachflaeche: '80 m²',
-    ausrichtung: 'Süd-West',
-    stromverbrauch: '4.500 kWh/Jahr',
-    eigentuemer: 'Ja',
-    budget: '15.000 - 25.000 EUR'
-  };
+  const productData = useMemo(() => {
+    const interest = lead?.originalData?.interest;
+    const answers = lead?.originalData?.qualification?.flowAnswers || [];
+
+    // Extract values from flow answers if available
+    const getAnswerValue = (keyword) => {
+      const found = answers.find(a =>
+        a.question?.toLowerCase().includes(keyword) ||
+        a.nodeLabel?.toLowerCase().includes(keyword)
+      );
+      return found?.answer || '';
+    };
+
+    return {
+      interest: produktMap[interest?.type] || lead?.produkt || 'Unbekannt',
+      details: interest?.details || '',
+      budgetRange: interest?.budgetRange || getAnswerValue('budget') || '',
+      timeframe: interest?.timeframe || getAnswerValue('zeitraum') || '',
+      // Solar-spezifische Felder aus Flow-Antworten
+      dachflaeche: getAnswerValue('dach') || getAnswerValue('fläche') || '',
+      ausrichtung: getAnswerValue('ausrichtung') || '',
+      stromverbrauch: getAnswerValue('strom') || getAnswerValue('verbrauch') || '',
+      eigentuemer: getAnswerValue('eigentümer') || getAnswerValue('besitzer') || '',
+      budget: getAnswerValue('budget') || interest?.budgetRange || ''
+    };
+  }, [lead]);
+
+  // Calculate product availability at lead's address
+  const productAvailability = useMemo(() => {
+    // Try to parse address from personalData or original lead data
+    const customer = lead?.originalData?.customer;
+    let addressObj = null;
+
+    if (customer?.address) {
+      // If address is a string, try to parse it (e.g., "Hauptstraße 5, 78462 Konstanz")
+      if (typeof customer.address === 'string') {
+        const parts = customer.address.split(',').map(s => s.trim());
+        if (parts.length >= 2) {
+          const streetMatch = parts[0].match(/^(.+?)\s+(\d+\w*)$/);
+          const cityMatch = parts[1].match(/^(\d{5})\s+(.+)$/);
+          if (streetMatch && cityMatch) {
+            addressObj = {
+              street: streetMatch[1],
+              houseNumber: streetMatch[2],
+              postalCode: cityMatch[1],
+              city: cityMatch[2]
+            };
+          }
+        }
+      } else if (typeof customer.address === 'object') {
+        addressObj = customer.address;
+      }
+    }
+
+    // Also check for structured address fields
+    if (!addressObj && (customer?.postalCode || customer?.street)) {
+      addressObj = {
+        street: customer?.street || '',
+        houseNumber: customer?.houseNumber || '',
+        postalCode: customer?.postalCode || '',
+        city: customer?.city || ''
+      };
+    }
+
+    if (!addressObj) return null;
+
+    try {
+      return getCombinedAvailabilityForAddress(addressObj, {
+        products: products || [],
+        rules: rules || [],
+        addresses: addresses || [],
+        availability: availability || [],
+        availabilityStatus: availabilityStatus || []
+      });
+    } catch (e) {
+      console.warn('Availability check failed:', e);
+      return null;
+    }
+  }, [lead, products, rules, addresses, availability, availabilityStatus]);
 
   const handleStatusChange = (status) => {
     setActiveStatus(status);
@@ -159,6 +307,46 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
 
       {/* Content Sections */}
       <div className="detail-content">
+        {/* Lead-Herkunft - nur wenn flowId vorhanden */}
+        {hasFlowData && (
+          <CollapsibleSection id="source" icon={GitBranch} title="Lead-Herkunft">
+            <div className="section-content">
+              <div className="data-grid">
+                <div className="data-row">
+                  <span className="label">Kampagne:</span>
+                  <span className="value">{lead?.originalData?.source || 'Unbekannt'}</span>
+                </div>
+                <div className="data-row">
+                  <span className="label">Flow-ID:</span>
+                  <span className="value">{lead?.originalData?.flowId}</span>
+                </div>
+                <div className="data-row">
+                  <span className="label">Erstellt am:</span>
+                  <span className="value">{lead?.timestamp}</span>
+                </div>
+                {flowAnswers.length > 0 && (
+                  <div className="data-row">
+                    <span className="label">Beantwortete Fragen:</span>
+                    <span className="value">{flowAnswers.length}</span>
+                  </div>
+                )}
+              </div>
+              {onNavigateToCampaign && lead?.originalData?.flowId && (
+                <div style={{ marginTop: '1rem' }}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => onNavigateToCampaign(lead.originalData.flowId)}
+                  >
+                    <ExternalLink size={14} />
+                    Kampagne bearbeiten
+                  </button>
+                </div>
+              )}
+            </div>
+          </CollapsibleSection>
+        )}
+
         {/* Persönliche Daten */}
         <CollapsibleSection id="personal" icon={User} title="Persönliche Daten">
           <div className="section-content">
@@ -193,29 +381,86 @@ const LeadDetail = ({ lead, showToast, onClose }) => {
             <div className="data-grid">
               <div className="data-row">
                 <span className="label">Produktinteresse:</span>
-                <span className="value">{productData.interest}</span>
+                <span className="value">{productData.interest || '—'}</span>
               </div>
-              <div className="data-row">
-                <span className="label">Dachfläche:</span>
-                <span className="value">{productData.dachflaeche}</span>
-              </div>
-              <div className="data-row">
-                <span className="label">Ausrichtung:</span>
-                <span className="value">{productData.ausrichtung}</span>
-              </div>
-              <div className="data-row">
-                <span className="label">Stromverbrauch:</span>
-                <span className="value">{productData.stromverbrauch}</span>
-              </div>
-              <div className="data-row">
-                <span className="label">Eigentümer:</span>
-                <span className="value">{productData.eigentuemer}</span>
-              </div>
-              <div className="data-row">
-                <span className="label">Budget:</span>
-                <span className="value">{productData.budget}</span>
-              </div>
+              {productData.dachflaeche && (
+                <div className="data-row">
+                  <span className="label">Dachfläche:</span>
+                  <span className="value">{productData.dachflaeche}</span>
+                </div>
+              )}
+              {productData.ausrichtung && (
+                <div className="data-row">
+                  <span className="label">Ausrichtung:</span>
+                  <span className="value">{productData.ausrichtung}</span>
+                </div>
+              )}
+              {productData.stromverbrauch && (
+                <div className="data-row">
+                  <span className="label">Stromverbrauch:</span>
+                  <span className="value">{productData.stromverbrauch}</span>
+                </div>
+              )}
+              {productData.eigentuemer && (
+                <div className="data-row">
+                  <span className="label">Eigentümer:</span>
+                  <span className="value">{productData.eigentuemer}</span>
+                </div>
+              )}
+              {productData.budget && (
+                <div className="data-row">
+                  <span className="label">Budget:</span>
+                  <span className="value">{productData.budget}</span>
+                </div>
+              )}
+              {productData.timeframe && (
+                <div className="data-row">
+                  <span className="label">Zeitrahmen:</span>
+                  <span className="value">{productData.timeframe}</span>
+                </div>
+              )}
             </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* Produktverfügbarkeit an Adresse */}
+        <CollapsibleSection id="availability" icon={MapPin} title="Verfügbarkeit an Adresse">
+          <div className="section-content">
+            {!personalData.address ? (
+              <p className="text-muted" style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                Keine Adresse bekannt
+              </p>
+            ) : productAvailability === null ? (
+              <p className="text-muted" style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                Verfügbarkeit konnte nicht geprüft werden
+              </p>
+            ) : productAvailability.availableProducts?.length > 0 ? (
+              <div className="availability-list">
+                <p style={{ fontSize: '0.875rem', marginBottom: '0.75rem', color: 'var(--text-secondary)' }}>
+                  Verfügbare Produkte an dieser Adresse:
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {productAvailability.availableProducts.map(item => (
+                    <span
+                      key={item.product?.id || item.id}
+                      className={`score-badge ${item.isPlanned ? 'medium' : 'high'}`}
+                      title={item.isPlanned ? 'Geplant' : 'Verfügbar'}
+                    >
+                      {item.product?.name || item.name || item.product?.id || item.id}
+                    </span>
+                  ))}
+                </div>
+                {productAvailability.matchedAddress && (
+                  <p style={{ fontSize: '0.75rem', marginTop: '0.75rem', color: 'var(--text-tertiary)' }}>
+                    Adresse gefunden: {productAvailability.matchedAddress.street} {productAvailability.matchedAddress.housenumber}, {productAvailability.matchedAddress.zip} {productAvailability.matchedAddress.city}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p style={{ fontSize: '0.875rem', color: 'var(--warning)' }}>
+                Keine Produkte an dieser Adresse verfügbar
+              </p>
+            )}
           </div>
         </CollapsibleSection>
 

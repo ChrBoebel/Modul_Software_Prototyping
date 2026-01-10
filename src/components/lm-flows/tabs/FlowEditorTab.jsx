@@ -58,7 +58,7 @@ const createDefaultCard = (title = 'Neue Frage') => ({
   answers: ['Antwort 1', 'Antwort 2']
 });
 
-const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated }) => {
+const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated, onNavigateToLead }) => {
   const example = useMemo(() => getExampleFlowForCampaign(campaign?.id), [campaign?.id]);
 
   const {
@@ -640,6 +640,7 @@ const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated }) => {
         campaignId={campaign?.id || 'default'}
         startNodeId={previewStartNodeId}
         onLeadCreated={onLeadCreated}
+        onNavigateToLead={onNavigateToLead}
       />
     </div>
   );

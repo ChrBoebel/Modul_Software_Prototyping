@@ -64,14 +64,26 @@ function App() {
     // Don't show toast for programmatic navigation
   }, []);
 
+  // Navigate directly to a specific lead (used after lead creation in flow)
+  const handleNavigateToLead = useCallback((leadId) => {
+    setCurrentView('leads');
+    setNavParams({ leadId });
+  }, []);
+
+  // Navigate to campaign editor (used from lead detail)
+  const handleNavigateToCampaign = useCallback((flowId) => {
+    setCurrentView('lm-flows');
+    setNavParams({ campaignId: flowId });
+  }, []);
+
   const renderView = () => {
     switch (currentView) {
       case 'dashboard':
         return <DashboardView showToast={showToast} onNavigate={handleNavigate} flowLeads={flowLeads} />;
       case 'lm-flows':
-        return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} />;
+        return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
       case 'leads':
-        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} />;
+        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} />;
       case 'produkt-mapping':
         return <ProduktMappingView showToast={showToast} />;
 

@@ -8,52 +8,7 @@ import {
 } from 'lucide-react';
 import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup } from '../ui';
 import leadsData from '../../data/leads.json';
-
-// Transform leads.json data to display format
-const transformLead = (lead) => {
-  // Map interest type to German product name
-  const produktMap = {
-    'solar': 'Solar PV',
-    'heatpump': 'Wärmepumpe',
-    'charging_station': 'E-Mobilität',
-    'energy_contract': 'Strom',
-    'energy_storage': 'Speicher'
-  };
-
-  // Derive Ampel status from score
-  const getAmpelStatus = (score) => {
-    if (score >= 80) return 'grün';
-    if (score >= 50) return 'gelb';
-    return 'rot';
-  };
-
-  // Format timestamp for display
-  const formatTimestamp = (isoString) => {
-    const date = new Date(isoString);
-    return date.toLocaleString('de-DE', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).replace(',', '');
-  };
-
-  return {
-    id: lead.id,
-    leadId: lead.leadNumber,
-    status: getAmpelStatus(lead.qualification?.score || 0),
-    leadScore: lead.qualification?.score || 0,
-    produkt: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
-    timestamp: formatTimestamp(lead.timestamp),
-    name: `${lead.customer?.firstName || ''} ${lead.customer?.lastName || ''}`.trim() || 'Unbekannt',
-    email: lead.customer?.email || '',
-    phone: lead.customer?.phone || '',
-    zugewiesenAn: lead.assignedTo || 'Nicht zugewiesen',
-    // Keep original data for detail view
-    originalData: lead
-  };
-};
+import { transformLead } from '../../utils/leadUtils';
 
 const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -73,9 +28,9 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
 
   const getStatusBadge = (status) => {
     const statusMap = {
-      'grün': { class: 'success', label: 'Grün', color: 'var(--success)' },
-      'gelb': { class: 'warning', label: 'Gelb', color: 'var(--warning)' },
-      'rot': { class: 'danger', label: 'Rot', color: 'var(--danger)' }
+      'hoch': { class: 'success', label: 'Hoch', color: 'var(--success)' },
+      'mittel': { class: 'warning', label: 'Mittel', color: 'var(--warning)' },
+      'niedrig': { class: 'danger', label: 'Niedrig', color: 'var(--danger)' }
     };
     return statusMap[status] || { class: 'neutral', label: status, color: 'var(--slate-400)' };
   };
@@ -88,9 +43,9 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
 
   const getStatusTooltip = (status) => {
     const tooltips = {
-      'grün': 'Hohe Conversion-Wahrscheinlichkeit',
-      'gelb': 'Mittlere Conversion-Wahrscheinlichkeit',
-      'rot': 'Niedrige Conversion-Wahrscheinlichkeit'
+      'hoch': 'Hohe Conversion-Wahrscheinlichkeit (Score ≥80)',
+      'mittel': 'Mittlere Conversion-Wahrscheinlichkeit (Score 50-79)',
+      'niedrig': 'Niedrige Conversion-Wahrscheinlichkeit (Score <50)'
     };
     return tooltips[status] || status;
   };
@@ -113,9 +68,9 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
 
   const statusOptions = [
     { value: 'all', label: 'Alle Status' },
-    { value: 'grün', label: 'Grün' },
-    { value: 'gelb', label: 'Gelb' },
-    { value: 'rot', label: 'Rot' }
+    { value: 'hoch', label: 'Hoch' },
+    { value: 'mittel', label: 'Mittel' },
+    { value: 'niedrig', label: 'Niedrig' }
   ];
 
   // Check if any filters are active

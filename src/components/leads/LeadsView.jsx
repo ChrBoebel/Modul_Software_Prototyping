@@ -5,55 +5,14 @@ import LeadsList from './LeadsList';
 import LeadDetail from './LeadDetail';
 import ClosingOverview from '../leadjourney/closing/ClosingOverview';
 import leadsData from '../../data/leads.json';
+import { transformLead } from '../../utils/leadUtils';
 
 const TABS = [
   { id: 'liste', label: 'Lead-Liste', icon: Users },
   { id: 'pipeline', label: 'Pipeline / Closing', icon: TrendingUp }
 ];
 
-// Transform function (same as in LeadsList)
-const transformLead = (lead) => {
-  const produktMap = {
-    'solar': 'Solar PV',
-    'heatpump': 'Wärmepumpe',
-    'charging_station': 'E-Mobilität',
-    'energy_contract': 'Strom',
-    'energy_storage': 'Speicher'
-  };
-
-  const getAmpelStatus = (score) => {
-    if (score >= 80) return 'grün';
-    if (score >= 50) return 'gelb';
-    return 'rot';
-  };
-
-  const formatTimestamp = (isoString) => {
-    const date = new Date(isoString);
-    return date.toLocaleString('de-DE', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).replace(',', '');
-  };
-
-  return {
-    id: lead.id,
-    leadId: lead.leadNumber,
-    status: getAmpelStatus(lead.qualification?.score || 0),
-    leadScore: lead.qualification?.score || 0,
-    produkt: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
-    timestamp: formatTimestamp(lead.timestamp),
-    name: `${lead.customer?.firstName || ''} ${lead.customer?.lastName || ''}`.trim() || 'Unbekannt',
-    email: lead.customer?.email || '',
-    phone: lead.customer?.phone || '',
-    zugewiesenAn: lead.assignedTo || 'Nicht zugewiesen',
-    originalData: lead
-  };
-};
-
-const LeadsView = ({ showToast, initialLeadId, flowLeads = [] }) => {
+const LeadsView = ({ showToast, initialLeadId, flowLeads = [], onNavigateToCampaign }) => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [activeTab, setActiveTab] = useState('liste');
 
@@ -118,6 +77,7 @@ const LeadsView = ({ showToast, initialLeadId, flowLeads = [] }) => {
                   lead={selectedLead}
                   showToast={showToast}
                   onClose={handleCloseLead}
+                  onNavigateToCampaign={onNavigateToCampaign}
                 />
               </div>
             </>

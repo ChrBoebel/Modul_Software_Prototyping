@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, RotateCcw, X, CheckCircle } from 'lucide-react';
+import { ArrowLeft, RotateCcw, X, CheckCircle, ExternalLink, MapPin } from 'lucide-react';
+import { getAvailabilityForAddress } from '../../produkt-mapping/availabilityLogic';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 const FlowPreviewModal = ({
   isOpen,
@@ -9,7 +11,8 @@ const FlowPreviewModal = ({
   campaignName,
   campaignId,
   startNodeId,
-  onLeadCreated
+  onLeadCreated,
+  onNavigateToLead
 }) => {
   const nodeMap = useMemo(() => new Map(nodes.map(node => [node.id, node])), [nodes]);
   const getNode = useCallback((id) => nodeMap.get(id), [nodeMap]);
@@ -23,6 +26,11 @@ const FlowPreviewModal = ({
   const [isComplete, setIsComplete] = useState(false);
   const [collectedAnswers, setCollectedAnswers] = useState([]);
   const [leadCreated, setLeadCreated] = useState(false);
+  const [createdLeadId, setCreatedLeadId] = useState(null);
+
+  // Load product mapping data from localStorage
+  const [products] = useLocalStorage('swk:productCatalog', []);
+  const [rules] = useLocalStorage('swk:availabilityRules', []);
 
   const questionCount = useMemo(
     () => nodes.filter(n => n.type === 'question').length,
@@ -44,6 +52,7 @@ const FlowPreviewModal = ({
     setIsComplete(false);
     setCollectedAnswers([]);
     setLeadCreated(false);
+    setCreatedLeadId(null);
   }, [isOpen, effectiveStartId]);
 
   // Calculate total score from collected answers
@@ -61,6 +70,84 @@ const FlowPreviewModal = ({
     );
     return contactAnswer?.answer || '';
   }, [collectedAnswers]);
+
+  // Detect address from answers and check availability
+  const addressAvailability = useMemo(() => {
+    // Find answers that look like address fields
+    const addressAnswers = collectedAnswers.filter(a =>
+      a.inputType === 'Eingabe' && (
+        a.question?.toLowerCase().includes('adresse') ||
+        a.question?.toLowerCase().includes('straße') ||
+        a.question?.toLowerCase().includes('strasse') ||
+        a.question?.toLowerCase().includes('plz') ||
+        a.question?.toLowerCase().includes('postleitzahl') ||
+        a.question?.toLowerCase().includes('ort') ||
+        a.question?.toLowerCase().includes('stadt')
+      )
+    );
+
+    if (addressAnswers.length === 0) return null;
+
+    // Try to extract address components
+    let postalCode = '';
+    let city = '';
+    let street = '';
+    let houseNumber = '';
+
+    for (const ans of addressAnswers) {
+      const q = ans.question?.toLowerCase() || '';
+      const v = ans.answer?.trim() || '';
+
+      if (q.includes('plz') || q.includes('postleitzahl')) {
+        postalCode = v;
+      } else if (q.includes('ort') || q.includes('stadt')) {
+        city = v;
+      } else if (q.includes('straße') || q.includes('strasse')) {
+        // Try to extract street and house number
+        const match = v.match(/^(.+?)\s+(\d+\s*\w*)$/);
+        if (match) {
+          street = match[1];
+          houseNumber = match[2];
+        } else {
+          street = v;
+        }
+      } else if (q.includes('adresse')) {
+        // Full address - try to parse
+        const parts = v.split(',').map(p => p.trim());
+        if (parts.length >= 2) {
+          // First part: street + number, second part: PLZ + city
+          const streetMatch = parts[0].match(/^(.+?)\s+(\d+\s*\w*)$/);
+          if (streetMatch) {
+            street = streetMatch[1];
+            houseNumber = streetMatch[2];
+          } else {
+            street = parts[0];
+          }
+          const plzCityMatch = parts[1].match(/^(\d{5})\s+(.+)$/);
+          if (plzCityMatch) {
+            postalCode = plzCityMatch[1];
+            city = plzCityMatch[2];
+          }
+        }
+      }
+    }
+
+    // If we have at least a postal code or street, check availability
+    if (!postalCode && !street) return null;
+
+    const address = { postalCode, city, street, houseNumber };
+
+    try {
+      const result = getAvailabilityForAddress(address, { products, rules });
+      return {
+        address,
+        ...result
+      };
+    } catch (e) {
+      console.warn('Availability check failed:', e);
+      return null;
+    }
+  }, [collectedAnswers, products, rules]);
 
   // Detect product interest from answers
   const detectedProduct = useMemo(() => {
@@ -107,6 +194,7 @@ const FlowPreviewModal = ({
     setIsComplete(false);
     setCollectedAnswers([]);
     setLeadCreated(false);
+    setCreatedLeadId(null);
   };
 
   // Create a lead from collected flow data
@@ -131,6 +219,16 @@ const FlowPreviewModal = ({
     // Base score: 50, plus collected scores
     const normalizedScore = Math.min(100, Math.max(0, 50 + totalScore * 5));
 
+    // Format address from availability check
+    const formattedAddress = addressAvailability?.address
+      ? [
+          addressAvailability.address.street,
+          addressAvailability.address.houseNumber,
+          addressAvailability.address.postalCode,
+          addressAvailability.address.city
+        ].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim()
+      : '';
+
     const newLead = {
       id: Date.now(),
       leadNumber,
@@ -143,7 +241,7 @@ const FlowPreviewModal = ({
         lastName: '',
         email,
         phone,
-        address: '',
+        address: formattedAddress,
         customerType: 'private'
       },
       interest: {
@@ -156,6 +254,15 @@ const FlowPreviewModal = ({
         score: normalizedScore,
         flowAnswers: collectedAnswers
       },
+      // Include availability data in lead
+      availability: addressAvailability ? {
+        isServiceable: addressAvailability.isServiceable,
+        availableProducts: addressAvailability.availableProducts.map(p => ({
+          id: p.id,
+          name: p.name
+        })),
+        checkedAddress: addressAvailability.address
+      } : null,
       flowId: campaignId || 'default',
       assignedTo: '',
       notes: `Lead generiert durch Flow: ${campaignName || 'Unbekannt'}`,
@@ -165,7 +272,8 @@ const FlowPreviewModal = ({
 
     onLeadCreated(newLead);
     setLeadCreated(true);
-  }, [onLeadCreated, leadCreated, extractedContact, totalScore, collectedAnswers, campaignName, campaignId, detectedProduct]);
+    setCreatedLeadId(newLead.id);
+  }, [onLeadCreated, leadCreated, extractedContact, totalScore, collectedAnswers, campaignName, campaignId, detectedProduct, addressAvailability]);
 
   const handleBack = () => {
     setHistory(prev => {
@@ -351,6 +459,27 @@ const FlowPreviewModal = ({
                       <span className="summary-label">Beantwortete Fragen:</span>
                       <span className="summary-value">{collectedAnswers.length}</span>
                     </div>
+                    {addressAvailability && (
+                      <div className="summary-item">
+                        <span className="summary-label">
+                          <MapPin size={14} style={{ display: 'inline', marginRight: '4px' }} />
+                          Verfügbare Produkte:
+                        </span>
+                        <span className="summary-value">
+                          {addressAvailability.isServiceable ? (
+                            <span className="availability-badges">
+                              {addressAvailability.availableProducts.map(p => (
+                                <span key={p.id} className="badge success" style={{ marginRight: '4px' }}>
+                                  {p.name}
+                                </span>
+                              ))}
+                            </span>
+                          ) : (
+                            <span className="badge warning">Keine Produkte an dieser Adresse</span>
+                          )}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
@@ -516,7 +645,20 @@ const FlowPreviewModal = ({
                 <RotateCcw size={14} />
                 Weiteren Lead
               </button>
-              <button type="button" className="btn btn-primary" onClick={onClose}>
+              {onNavigateToLead && createdLeadId && (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    onNavigateToLead(createdLeadId);
+                    onClose();
+                  }}
+                >
+                  <ExternalLink size={14} />
+                  Lead ansehen
+                </button>
+              )}
+              <button type="button" className="btn btn-ghost" onClick={onClose}>
                 Schließen
               </button>
             </>

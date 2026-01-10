@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs } from '../ui';
 import FlowKampagnenTab from './tabs/FlowKampagnenTab';
 import FlowEditorTab from './tabs/FlowEditorTab';
@@ -10,9 +10,18 @@ const TABS = [
   { id: 'globale-werte', label: 'Globale Werte' }
 ];
 
-const LMFlowsView = ({ showToast, onLeadCreated }) => {
+const LMFlowsView = ({ showToast, onLeadCreated, onNavigateToLead, initialCampaignId }) => {
   const [activeTab, setActiveTab] = useState('kampagnen');
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+
+  // Auto-open campaign if initialCampaignId is provided
+  useEffect(() => {
+    if (initialCampaignId) {
+      // Create a minimal campaign object - FlowEditorTab will load appropriate flow
+      setSelectedCampaign({ id: initialCampaignId });
+      setActiveTab('flow-editor');
+    }
+  }, [initialCampaignId]);
 
   const handleEditFlow = (campaign) => {
     setSelectedCampaign(campaign);
@@ -36,6 +45,7 @@ const LMFlowsView = ({ showToast, onLeadCreated }) => {
             campaign={selectedCampaign}
             onClose={handleCloseEditor}
             onLeadCreated={onLeadCreated}
+            onNavigateToLead={onNavigateToLead}
           />
         );
       case 'globale-werte':

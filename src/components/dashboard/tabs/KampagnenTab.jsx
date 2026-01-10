@@ -6,7 +6,7 @@ import {
   BarChart3
 } from 'lucide-react';
 
-const KampagnenTab = ({ showToast }) => {
+const KampagnenTab = ({ showToast, onNavigate }) => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPeriod, setFilterPeriod] = useState('30d');
@@ -194,9 +194,13 @@ const KampagnenTab = ({ showToast }) => {
                         className="btn btn-sm btn-link"
                         onClick={(e) => {
                           e.stopPropagation();
-                          showToast(`Kampagne ${camp.name} bearbeiten`);
+                          if (onNavigate) {
+                            onNavigate('lm-flows', { campaignId: camp.id });
+                          } else {
+                            showToast(`Kampagne ${camp.name} bearbeiten`);
+                          }
                         }}
-                        aria-label={`Einstellungen für ${camp.name} öffnen`}
+                        aria-label={`Flow-Editor für ${camp.name} öffnen`}
                       >
                         <Settings size={14} />
                       </button>
