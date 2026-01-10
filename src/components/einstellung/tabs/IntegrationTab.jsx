@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   RefreshCw,
   Settings,
@@ -7,39 +8,69 @@ import {
   Link2
 } from 'lucide-react';
 import { Button, Badge, StatusIndicator } from '../../ui';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
+
+// Default integrations data
+const defaultIntegrations = [
+  {
+    id: 'int-001',
+    name: 'SAP CRM',
+    type: 'CRM',
+    description: 'Synchronisation von Kundendaten und Lead-Status',
+    status: 'connected',
+    lastSync: '2025-01-16 14:30',
+    iconType: 'database'
+  },
+  {
+    id: 'int-002',
+    name: 'Microsoft Dynamics',
+    type: 'ERP',
+    description: 'Auftragsverwaltung und Rechnungsstellung',
+    status: 'connected',
+    lastSync: '2025-01-16 12:15',
+    iconType: 'cloud'
+  },
+  {
+    id: 'int-003',
+    name: 'Mailchimp',
+    type: 'Email',
+    description: 'Newsletter-Marketing und Kampagnen-Sync',
+    status: 'error',
+    lastSync: '2025-01-15 08:00',
+    error: 'API Key abgelaufen',
+    iconType: 'link'
+  }
+];
+
+const iconMap = {
+  database: Database,
+  cloud: Cloud,
+  link: Link2
+};
 
 const IntegrationTab = ({ showToast }) => {
-  // Mock integrations data
-  const integrations = [
-    {
-      id: 'int-001',
-      name: 'SAP CRM',
-      type: 'CRM',
-      description: 'Synchronisation von Kundendaten und Lead-Status',
-      status: 'connected',
-      lastSync: '2025-01-16 14:30',
-      icon: Database
-    },
-    {
-      id: 'int-002',
-      name: 'Microsoft Dynamics',
-      type: 'ERP',
-      description: 'Auftragsverwaltung und Rechnungsstellung',
-      status: 'connected',
-      lastSync: '2025-01-16 12:15',
-      icon: Cloud
-    },
-    {
-      id: 'int-003',
-      name: 'Mailchimp',
-      type: 'Email',
-      description: 'Newsletter-Marketing und Kampagnen-Sync',
-      status: 'error',
-      lastSync: '2025-01-15 08:00',
-      error: 'API Key abgelaufen',
-      icon: Link2
-    }
-  ];
+  // Use localStorage for integrations so Dashboard can read it
+  const [integrations, setIntegrations] = useLocalStorage('swk:integrations', defaultIntegrations);
+
+  // Handle sync - update lastSync timestamp
+  const handleSync = useCallback((integrationId) => {
+    const now = new Date().toLocaleString('de-DE', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).replace(',', '');
+
+    setIntegrations(prev => prev.map(int =>
+      int.id === integrationId
+        ? { ...int, lastSync: now, status: 'connected', error: undefined }
+        : int
+    ));
+
+    const integration = integrations.find(i => i.id === integrationId);
+    showToast(`${integration?.name || 'Integration'} synchronisiert`);
+  }, [integrations, setIntegrations, showToast]);
 
   const getStatusIndicatorStatus = (status) => {
     const statusMap = {
@@ -71,7 +102,7 @@ const IntegrationTab = ({ showToast }) => {
 
         <div className="integration-cards-grid">
           {integrations.map((integration) => {
-            const Icon = integration.icon;
+            const Icon = iconMap[integration.iconType] || Database;
             return (
               <div key={integration.id} className="integration-card">
                 <div className="integration-header">
@@ -114,7 +145,7 @@ const IntegrationTab = ({ showToast }) => {
                     variant="secondary"
                     size="sm"
                     icon={RefreshCw}
-                    onClick={() => showToast(`${integration.name} synchronisieren`)}
+                    onClick={() => handleSync(integration.id)}
                     ariaLabel={`${integration.name} synchronisieren`}
                   >
                     Sync

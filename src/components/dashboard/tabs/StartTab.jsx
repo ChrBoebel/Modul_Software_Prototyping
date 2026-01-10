@@ -1,8 +1,14 @@
 import { useState, useMemo } from 'react';
 import {
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  MapPin,
+  Package,
+  Cloud,
+  AlertCircle,
+  CheckCircle
 } from 'lucide-react';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import {
   BarChart,
   Bar,
@@ -19,6 +25,82 @@ import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
 
 const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
+  // Load product mapping data from localStorage
+  const [products] = useLocalStorage('swk:productCatalog', []);
+  const [rules] = useLocalStorage('swk:availabilityRules', []);
+  const [addresses] = useLocalStorage('swk:addresses', []);
+
+  // Load integration status from localStorage (shared with Settings)
+  const [integrations] = useLocalStorage('swk:integrations', []);
+
+  // Calculate integration status summary
+  const integrationStatus = useMemo(() => {
+    if (!integrations || integrations.length === 0) {
+      return { hasError: false, connectedCount: 0, errorCount: 0, lastSync: null };
+    }
+
+    const connected = integrations.filter(i => i.status === 'connected');
+    const errors = integrations.filter(i => i.status === 'error');
+
+    // Find the most recent sync
+    let latestSync = null;
+    for (const int of integrations) {
+      if (int.lastSync) {
+        if (!latestSync || int.lastSync > latestSync) {
+          latestSync = int.lastSync;
+        }
+      }
+    }
+
+    return {
+      hasError: errors.length > 0,
+      connectedCount: connected.length,
+      errorCount: errors.length,
+      total: integrations.length,
+      lastSync: latestSync,
+      errorIntegrations: errors.map(e => e.name)
+    };
+  }, [integrations]);
+
+  // Calculate product coverage stats
+  const productStats = useMemo(() => {
+    const activeProducts = products.filter(p => p.active !== false);
+    const activeRules = rules.filter(r => r.active);
+
+    // Count unique PLZs covered by rules
+    const coveredPlzs = new Set(activeRules.map(r => r.postalCode).filter(Boolean));
+
+    // Count products per rule
+    const productCounts = new Map();
+    for (const rule of activeRules) {
+      const productIds = Array.isArray(rule.productIds) ? rule.productIds : [];
+      for (const pid of productIds) {
+        productCounts.set(pid, (productCounts.get(pid) || 0) + 1);
+      }
+    }
+
+    // Get top 3 products by rule coverage
+    const topProducts = [...productCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([id, count]) => {
+        const product = products.find(p => p.id === id);
+        return {
+          id,
+          name: product?.name || id,
+          ruleCount: count
+        };
+      });
+
+    return {
+      totalProducts: activeProducts.length,
+      totalRules: activeRules.length,
+      coveredPlzCount: coveredPlzs.size,
+      addressCount: addresses.length,
+      topProducts
+    };
+  }, [products, rules, addresses]);
+
   // Map interest type to German product name
   const produktMap = {
     'solar': 'Solar PV',
@@ -261,10 +343,174 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
               </table>
             </div>
           </div>
+
+          {/* Produkt-Abdeckung Card */}
+          <div className="card">
+            <div className="card-header">
+              <h3>
+                <MapPin size={16} style={{ display: 'inline', marginRight: '8px' }} />
+                Produkt-Abdeckung
+              </h3>
+            </div>
+            <div style={{ padding: '1rem 0' }}>
+              {/* Quick Stats */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '1rem',
+                marginBottom: '1.5rem'
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.secondary }}>
+                    {productStats.totalProducts}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Produkte aktiv</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.primary }}>
+                    {productStats.coveredPlzCount}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>PLZ abgedeckt</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.slate500 }}>
+                    {productStats.totalRules}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Regeln aktiv</div>
+                </div>
+              </div>
+
+              {/* Top Products */}
+              {productStats.topProducts.length > 0 && (
+                <div>
+                  <div style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    color: 'var(--text-tertiary)',
+                    textTransform: 'uppercase',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Top Produkte nach Abdeckung
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {productStats.topProducts.map((prod, idx) => (
+                      <div
+                        key={prod.id}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '0.5rem 0.75rem',
+                          backgroundColor: 'var(--slate-50)',
+                          borderRadius: '6px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: idx === 0 ? theme.colors.secondary : idx === 1 ? theme.colors.slate400 : theme.colors.slate300,
+                            color: '#fff',
+                            fontSize: '0.75rem',
+                            fontWeight: 600
+                          }}>
+                            {idx + 1}
+                          </span>
+                          <span style={{ fontWeight: 500, fontSize: '0.875rem' }}>{prod.name}</span>
+                        </div>
+                        <span className="badge neutral" style={{ fontSize: '0.75rem' }}>
+                          {prod.ruleCount} Regeln
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {productStats.topProducts.length === 0 && (
+                <div style={{
+                  textAlign: 'center',
+                  padding: '1rem',
+                  color: 'var(--text-tertiary)',
+                  fontSize: '0.875rem'
+                }}>
+                  <Package size={24} style={{ marginBottom: '0.5rem', opacity: 0.5 }} />
+                  <p>Keine Produkt-Regeln konfiguriert</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Right Column */}
         <div className="start-right">
+          {/* Integration Status Banner */}
+          {integrations.length > 0 && (
+            <div
+              className="card"
+              style={{
+                padding: '0.75rem 1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                backgroundColor: integrationStatus.hasError ? 'var(--danger-light)' : 'var(--success-light)',
+                border: `1px solid ${integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'}`,
+                borderRadius: '8px',
+                marginBottom: '1rem'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                {integrationStatus.hasError ? (
+                  <AlertCircle size={20} style={{ color: 'var(--danger)' }} />
+                ) : (
+                  <CheckCircle size={20} style={{ color: 'var(--success)' }} />
+                )}
+                <div>
+                  <div style={{
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'
+                  }}>
+                    {integrationStatus.hasError
+                      ? `${integrationStatus.errorCount} Integration${integrationStatus.errorCount > 1 ? 'en' : ''} mit Fehler`
+                      : `${integrationStatus.connectedCount}/${integrationStatus.total} Integrationen verbunden`
+                    }
+                  </div>
+                  {integrationStatus.lastSync && (
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                      Letzter Sync: {integrationStatus.lastSync}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <button
+                type="button"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)',
+                  cursor: 'pointer',
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  textDecoration: 'underline'
+                }}
+                onClick={() => {
+                  if (onNavigate) {
+                    onNavigate('einstellung');
+                  } else {
+                    showToast('Einstellungen öffnen');
+                  }
+                }}
+              >
+                {integrationStatus.hasError ? 'Fehler beheben' : 'Details'}
+              </button>
+            </div>
+          )}
+
           {/* Lead-Eingang Chart */}
           <div className="card">
             <div className="card-header">
