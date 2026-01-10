@@ -76,6 +76,12 @@ function App() {
     setNavParams({ campaignId: flowId });
   }, []);
 
+  // Navigate to Produkt-Mapping with address for availability check
+  const handleNavigateToProduktMapping = useCallback((address) => {
+    setCurrentView('produkt-mapping');
+    setNavParams({ checkAddress: address });
+  }, []);
+
   const renderView = () => {
     switch (currentView) {
       case 'dashboard':
@@ -83,7 +89,7 @@ function App() {
       case 'lm-flows':
         return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
       case 'leads':
-        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} />;
+        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} onNavigateToProduktMapping={handleNavigateToProduktMapping} />;
       case 'produkt-mapping':
         return <ProduktMappingView showToast={showToast} />;
 

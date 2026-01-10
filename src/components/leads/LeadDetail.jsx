@@ -25,7 +25,7 @@ import {
   getStatusLabel
 } from '../produkt-mapping/availabilityLogic';
 
-const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign }) => {
+const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigateToProduktMapping }) => {
   const [activeStatus, setActiveStatus] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     source: true,
@@ -460,6 +460,19 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign }) => {
               <p style={{ fontSize: '0.875rem', color: 'var(--warning)' }}>
                 Keine Produkte an dieser Adresse verfügbar
               </p>
+            )}
+            {/* Button to navigate to Produkt-Mapping for address check */}
+            {onNavigateToProduktMapping && personalData.address && (
+              <div style={{ marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-light)' }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => onNavigateToProduktMapping(personalData.address)}
+                >
+                  <MapPin size={14} />
+                  Adresse im Mapping prüfen
+                </button>
+              </div>
             )}
           </div>
         </CollapsibleSection>

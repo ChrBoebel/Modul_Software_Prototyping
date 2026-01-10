@@ -50,7 +50,7 @@ const ProduktMappingView = ({ showToast }) => {
   const [rules, setRules, rulesApi] = useLocalStorage(STORAGE_KEYS.rules, defaultRules);
   const [addresses, setAddresses, addressesApi] = useLocalStorage(STORAGE_KEYS.addresses, defaultAddresses);
   const [availability, setAvailability, availabilityApi] = useLocalStorage(STORAGE_KEYS.availability, defaultAvailability);
-  const [availabilityStatus] = useLocalStorage(STORAGE_KEYS.availabilityStatus, defaultAvailabilityStatus);
+  const [availabilityStatus, setAvailabilityStatus, availabilityStatusApi] = useLocalStorage(STORAGE_KEYS.availabilityStatus, defaultAvailabilityStatus);
   const [customZones, setCustomZones, customZonesApi] = useLocalStorage(STORAGE_KEYS.customZones, []);
 
   // Product CRUD
@@ -135,6 +135,7 @@ const ProduktMappingView = ({ showToast }) => {
     rulesApi.reset();
     addressesApi.reset();
     availabilityApi.reset();
+    availabilityStatusApi.reset();
     customZonesApi.reset();
     showToast?.('Demo-Daten zurückgesetzt');
   };

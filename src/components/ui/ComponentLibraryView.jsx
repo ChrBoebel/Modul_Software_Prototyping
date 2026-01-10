@@ -9,7 +9,11 @@ import {
   TrendingUp,
   Activity,
   BarChart3,
-  Zap
+  Zap,
+  ChevronDown,
+  Info,
+  MapPin,
+  Filter
 } from 'lucide-react';
 
 import { Button } from './Button';
@@ -29,6 +33,13 @@ import { SearchBox } from './SearchBox';
 import { ToggleGroup } from './ToggleGroup';
 import { Modal } from './Modal';
 import { Panel } from './Panel';
+import { Toast } from './Toast';
+import { UndoToast } from './UndoToast';
+import { Tooltip, TooltipButton } from './Tooltip';
+import { FilterChip, FilterChipGroup } from './FilterChip';
+import { ProductGroupSelector } from './ProductGroupSelector';
+import { CollapsibleSection, CollapsibleCard } from './CollapsibleSection';
+import GeoMap from './GeoMap';
 
 const SECTIONS = [
   { id: 'buttons', label: 'Buttons' },
@@ -38,8 +49,10 @@ const SECTIONS = [
   { id: 'kpis', label: 'KPI Cards' },
   { id: 'forms', label: 'Formulare' },
   { id: 'navigation', label: 'Navigation' },
+  { id: 'filter', label: 'Filter' },
   { id: 'feedback', label: 'Feedback' },
-  { id: 'layout', label: 'Layout' }
+  { id: 'layout', label: 'Layout' },
+  { id: 'maps', label: 'Maps' }
 ];
 
 const ComponentSection = ({ title, description, children }) => (
@@ -407,13 +420,85 @@ const NavigationSection = () => {
   );
 };
 
+const FilterSection = () => {
+  const [activeFilters, setActiveFilters] = useState(['status:aktiv', 'produkt:solar']);
+  const [selectedProducts, setSelectedProducts] = useState(['glasfaser-1000']);
+
+  const sampleProducts = [
+    { id: 'glasfaser-1000', name: 'Glasfaser 1000', category: 'Internet' },
+    { id: 'glasfaser-500', name: 'Glasfaser 500', category: 'Internet' },
+    { id: 'strom-basic', name: 'Strom Basic', category: 'Energie' },
+    { id: 'strom-premium', name: 'Strom Premium', category: 'Energie' }
+  ];
+
+  const handleRemoveFilter = (filter) => {
+    setActiveFilters(prev => prev.filter(f => f !== filter));
+  };
+
+  return (
+    <ComponentSection
+      title="Filter"
+      description="Filterkomponenten für Listen und Tabellen."
+    >
+      <ComponentShowcase
+        title="FilterChip"
+        code={`<FilterChip
+  label="Status: Aktiv"
+  onRemove={() => handleRemove()}
+/>
+<FilterChip label="Produkt: Solar" removable={false} />`}
+      >
+        <div className="preview-row">
+          <FilterChip label="Status: Aktiv" onRemove={() => {}} />
+          <FilterChip label="Produkt: Solar" onRemove={() => {}} />
+          <FilterChip label="Nicht entfernbar" />
+        </div>
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="FilterChipGroup"
+        code={`<FilterChipGroup
+  filters={activeFilters}
+  onRemove={(filter) => handleRemove(filter)}
+  onClearAll={() => setFilters([])}
+/>`}
+      >
+        <FilterChipGroup
+          filters={activeFilters}
+          onRemove={handleRemoveFilter}
+          onClearAll={() => setActiveFilters([])}
+        />
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="ProductGroupSelector"
+        code={`<ProductGroupSelector
+  products={products}
+  selectedIds={selected}
+  onChange={setSelected}
+/>`}
+      >
+        <div style={{ maxWidth: '400px' }}>
+          <ProductGroupSelector
+            products={sampleProducts}
+            selectedIds={selectedProducts}
+            onChange={setSelectedProducts}
+          />
+        </div>
+      </ComponentShowcase>
+    </ComponentSection>
+  );
+};
+
 const FeedbackSection = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showUndoToast, setShowUndoToast] = useState(false);
 
   return (
     <ComponentSection
       title="Feedback"
-      description="Modals und Dialoge für Benutzer-Feedback."
+      description="Modals, Toasts und Tooltips für Benutzer-Feedback."
     >
       <ComponentShowcase
         title="Modal"
@@ -442,17 +527,65 @@ const FeedbackSection = () => {
           <p>Dies ist der Inhalt des Modals. Hier können beliebige Komponenten platziert werden.</p>
         </Modal>
       </ComponentShowcase>
+
+      <ComponentShowcase
+        title="Toast"
+        code={`<Toast show={true} message="Aktion erfolgreich!" />
+<Toast show={true} message="Fehler aufgetreten" variant="error" />`}
+      >
+        <div className="preview-row">
+          <Button variant="secondary" onClick={() => setShowToast(true)}>Toast anzeigen</Button>
+        </div>
+        <Toast show={showToast} message="Aktion erfolgreich ausgeführt!" onClose={() => setShowToast(false)} />
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="UndoToast"
+        code={`<UndoToast
+  show={true}
+  message="Element gelöscht"
+  onUndo={() => restoreItem()}
+  onClose={() => setShow(false)}
+  duration={8000}
+/>`}
+      >
+        <div className="preview-row">
+          <Button variant="danger" onClick={() => setShowUndoToast(true)}>Löschen (mit Undo)</Button>
+        </div>
+        <UndoToast
+          show={showUndoToast}
+          message="Element wurde gelöscht"
+          onUndo={() => { setShowUndoToast(false); }}
+          onClose={() => setShowUndoToast(false)}
+        />
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="Tooltip"
+        code={`<Tooltip content="Hilfetext">
+  <Button>Hover mich</Button>
+</Tooltip>
+<TooltipButton icon={Info} tooltip="Info Text" />`}
+      >
+        <div className="preview-row">
+          <Tooltip content="Dies ist ein Hilfetext">
+            <Button variant="secondary">Hover für Tooltip</Button>
+          </Tooltip>
+          <TooltipButton icon={Info} tooltip="Zusätzliche Informationen zum Element" />
+        </div>
+      </ComponentShowcase>
     </ComponentSection>
   );
 };
 
 const LayoutSection = () => {
   const [showPanel, setShowPanel] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({ section1: true, section2: false });
 
   return (
     <ComponentSection
       title="Layout"
-      description="Panels, Avatare und Status-Indikatoren."
+      description="Panels, Avatare, Status-Indikatoren und aufklappbare Bereiche."
     >
       <ComponentShowcase
         title="Avatar"
@@ -508,6 +641,108 @@ const LayoutSection = () => {
           </div>
         </Panel>
       </ComponentShowcase>
+
+      <ComponentShowcase
+        title="CollapsibleSection"
+        code={`<CollapsibleSection
+  id="details"
+  icon={Info}
+  title="Details"
+  defaultExpanded={true}
+>
+  <p>Inhalt der Section...</p>
+</CollapsibleSection>`}
+      >
+        <div className="preview-stack" style={{ maxWidth: '400px' }}>
+          <CollapsibleSection
+            id="section1"
+            icon={Info}
+            title="Persönliche Daten"
+            defaultExpanded={expandedSections.section1}
+          >
+            <p>Max Mustermann<br />max@example.com<br />+49 123 456789</p>
+          </CollapsibleSection>
+          <CollapsibleSection
+            id="section2"
+            icon={Settings}
+            title="Einstellungen"
+            defaultExpanded={expandedSections.section2}
+          >
+            <p>Benachrichtigungen: Aktiv<br />Newsletter: Inaktiv</p>
+          </CollapsibleSection>
+        </div>
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="CollapsibleCard"
+        code={`<CollapsibleCard
+  title="Karteninhalt"
+  defaultExpanded={false}
+>
+  <p>Inhalt der Card...</p>
+</CollapsibleCard>`}
+      >
+        <div style={{ maxWidth: '400px' }}>
+          <CollapsibleCard title="Zusätzliche Informationen">
+            <p>Dies ist eine aufklappbare Card mit weiteren Details zum Element.</p>
+          </CollapsibleCard>
+        </div>
+      </ComponentShowcase>
+    </ComponentSection>
+  );
+};
+
+const MapsSection = () => {
+  const sampleLocations = [
+    { id: 1, lat: 47.6779, lng: 9.1732, label: 'Konstanz Zentrum' },
+    { id: 2, lat: 47.6821, lng: 9.1654, label: 'Bahnhof' }
+  ];
+
+  return (
+    <ComponentSection
+      title="Maps"
+      description="Kartenkomponenten für geografische Darstellungen."
+    >
+      <ComponentShowcase
+        title="GeoMap"
+        code={`<GeoMap
+  center={[47.6779, 9.1732]}
+  zoom={13}
+  markers={[
+    { lat: 47.6779, lng: 9.1732, label: 'Standort' }
+  ]}
+  height="300px"
+/>`}
+      >
+        <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden' }}>
+          <GeoMap
+            center={[47.6779, 9.1732]}
+            zoom={13}
+            markers={sampleLocations}
+          />
+        </div>
+      </ComponentShowcase>
+
+      <ComponentShowcase
+        title="DrawableGeoMap (Info)"
+        code={`<DrawableGeoMap
+  center={[47.6779, 9.1732]}
+  zoom={13}
+  onZoneCreated={(zone) => handleZone(zone)}
+  drawingEnabled={true}
+/>`}
+      >
+        <div className="preview-stack">
+          <p>Die <strong>DrawableGeoMap</strong> erweitert die GeoMap um Zeichenfunktionen:</p>
+          <ul style={{ marginLeft: '1.5rem', lineHeight: '1.6' }}>
+            <li>Polygone zeichnen (Zonen definieren)</li>
+            <li>Escape-Taste zum Abbrechen</li>
+            <li>Crosshair-Cursor im Zeichenmodus</li>
+            <li>Zone-Callbacks für CRUD-Operationen</li>
+          </ul>
+          <p><em>Siehe Produkt-Mapping → Map-Overview für ein Live-Beispiel.</em></p>
+        </div>
+      </ComponentShowcase>
     </ComponentSection>
   );
 };
@@ -532,10 +767,14 @@ const ComponentLibraryView = () => {
         return <FormsSection />;
       case 'navigation':
         return <NavigationSection />;
+      case 'filter':
+        return <FilterSection />;
       case 'feedback':
         return <FeedbackSection />;
       case 'layout':
         return <LayoutSection />;
+      case 'maps':
+        return <MapsSection />;
       default:
         return <ButtonsSection />;
     }

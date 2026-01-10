@@ -25,6 +25,9 @@ import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
 
 const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
+  // State for selected campaign (null = show all campaigns combined)
+  const [selectedCampaignId, setSelectedCampaignId] = useState(null);
+
   // Load product mapping data from localStorage
   const [products] = useLocalStorage('swk:productCatalog', []);
   const [rules] = useLocalStorage('swk:availabilityRules', []);
@@ -142,22 +145,77 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
       .slice(0, 5); // Top 5
   }, [flowLeads]);
 
-  // Mock data for Campaigns Overview
+  // Campaigns with funnel data for each campaign
   const campaigns = [
-    { id: 'camp-001', name: 'Solar Frühling 2025', status: 'Aktiv', leads30d: 145, qualiQuote: '35%', trend: 'up' },
-    { id: 'camp-002', name: 'Wärmepumpen Aktion', status: 'Pausiert', leads30d: 89, qualiQuote: '42%', trend: 'down' },
-    { id: 'camp-003', name: 'E-Auto Förderung', status: 'Aktiv', leads30d: 67, qualiQuote: '28%', trend: 'up' },
-    { id: 'camp-004', name: 'Ökostrom Wechsel', status: 'Prüfung', leads30d: 234, qualiQuote: '18%', trend: 'stable' }
+    {
+      id: 'camp-001',
+      name: 'Solar Frühling 2025',
+      status: 'Aktiv',
+      leads30d: 145,
+      qualiQuote: '35%',
+      trend: 'up',
+      funnelData: { started: 1200, contact: 720, questionnaire: 540, qualified: 145, closed: 51 }
+    },
+    {
+      id: 'camp-002',
+      name: 'Wärmepumpen Aktion',
+      status: 'Pausiert',
+      leads30d: 89,
+      qualiQuote: '42%',
+      trend: 'down',
+      funnelData: { started: 850, contact: 510, questionnaire: 380, qualified: 89, closed: 37 }
+    },
+    {
+      id: 'camp-003',
+      name: 'E-Auto Förderung',
+      status: 'Aktiv',
+      leads30d: 67,
+      qualiQuote: '28%',
+      trend: 'up',
+      funnelData: { started: 620, contact: 350, questionnaire: 245, qualified: 67, closed: 19 }
+    },
+    {
+      id: 'camp-004',
+      name: 'Ökostrom Wechsel',
+      status: 'Prüfung',
+      leads30d: 234,
+      qualiQuote: '18%',
+      trend: 'stable',
+      funnelData: { started: 2330, contact: 920, questionnaire: 685, qualified: 157, closed: 13 }
+    }
   ];
 
-  // Funnel data - Strict Brand Colors
-  const rawFunnelSteps = [
-    { label: 'Formulare gestartet', value: 5000, fill: theme.colors.primary }, // Red
-    { label: 'Kontaktdaten', value: 2500, fill: theme.colors.primaryDark }, // Dark Red
-    { label: 'Fragebogen', value: 1850, fill: theme.colors.secondary }, // Blue
-    { label: 'System-Qualifiziert', value: 458, fill: theme.colors.secondaryDark }, // Dark Blue
-    { label: 'Erfolgreicher Anschluss', value: 120, fill: theme.colors.slate500 } // Slate
-  ];
+  // Get selected campaign or null for "all"
+  const selectedCampaign = selectedCampaignId
+    ? campaigns.find(c => c.id === selectedCampaignId)
+    : null;
+
+  // Dynamic funnel data based on selected campaign
+  const rawFunnelSteps = useMemo(() => {
+    let data;
+
+    if (selectedCampaign) {
+      // Use funnel data from selected campaign
+      data = selectedCampaign.funnelData;
+    } else {
+      // Combine all campaigns
+      data = campaigns.reduce((acc, camp) => ({
+        started: acc.started + camp.funnelData.started,
+        contact: acc.contact + camp.funnelData.contact,
+        questionnaire: acc.questionnaire + camp.funnelData.questionnaire,
+        qualified: acc.qualified + camp.funnelData.qualified,
+        closed: acc.closed + camp.funnelData.closed
+      }), { started: 0, contact: 0, questionnaire: 0, qualified: 0, closed: 0 });
+    }
+
+    return [
+      { label: 'Formulare gestartet', value: data.started, fill: theme.colors.primary },
+      { label: 'Kontaktdaten', value: data.contact, fill: theme.colors.primaryDark },
+      { label: 'Fragebogen', value: data.questionnaire, fill: theme.colors.secondary },
+      { label: 'System-Qualifiziert', value: data.qualified, fill: theme.colors.secondaryDark },
+      { label: 'Erfolgreicher Anschluss', value: data.closed, fill: theme.colors.slate500 }
+    ];
+  }, [selectedCampaign]);
 
   // Calculate percentages and enrichment
   const funnelSteps = rawFunnelSteps.map((step, index, array) => {
@@ -307,50 +365,106 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {campaigns.map((camp) => (
-                    <tr key={camp.id} style={{ transition: 'background-color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--slate-50)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-                      <td className="font-bold text-sm">{camp.name}</td>
-                      <td>
-                        <span className={`badge ${getStatusBadge(camp.status)}`}>
-                          {camp.status}
-                        </span>
-                      </td>
-                      <td className="text-sm">{camp.leads30d}</td>
-                      <td className="text-sm">{camp.qualiQuote}</td>
-                      <td>
-                        {camp.trend === 'up' && (
-                          <>
-                            <ArrowUpRight size={16} style={{ color: theme.colors.success }} aria-hidden="true" />
-                            <span className="sr-only">Steigend</span>
-                          </>
-                        )}
-                        {camp.trend === 'down' && (
-                          <>
-                            <ArrowDownRight size={16} style={{ color: theme.colors.danger }} aria-hidden="true" />
-                            <span className="sr-only">Fallend</span>
-                          </>
-                        )}
-                        {camp.trend === 'stable' && (
-                          <>
-                            <span className="text-muted" aria-hidden="true">→</span>
-                            <span className="sr-only">Stabil</span>
-                          </>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {campaigns.map((camp) => {
+                    const isSelected = selectedCampaignId === camp.id;
+                    return (
+                      <tr
+                        key={camp.id}
+                        onClick={() => setSelectedCampaignId(isSelected ? null : camp.id)}
+                        style={{
+                          transition: 'all 0.2s',
+                          cursor: 'pointer',
+                          backgroundColor: isSelected ? 'var(--primary-light)' : 'transparent',
+                          borderLeft: isSelected ? `3px solid ${theme.colors.primary}` : '3px solid transparent'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = 'var(--slate-50)';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={isSelected}
+                        aria-label={`Kampagne ${camp.name} ${isSelected ? 'abwählen' : 'auswählen'} für Funnel-Anzeige`}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setSelectedCampaignId(isSelected ? null : camp.id);
+                          }
+                        }}
+                      >
+                        <td className="font-bold text-sm">
+                          {camp.name}
+                          {isSelected && (
+                            <span style={{
+                              marginLeft: '0.5rem',
+                              fontSize: '0.625rem',
+                              color: theme.colors.primary,
+                              fontWeight: 600
+                            }}>
+                              ● AKTIV
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <span className={`badge ${getStatusBadge(camp.status)}`}>
+                            {camp.status}
+                          </span>
+                        </td>
+                        <td className="text-sm">{camp.leads30d}</td>
+                        <td className="text-sm">{camp.qualiQuote}</td>
+                        <td>
+                          {camp.trend === 'up' && (
+                            <>
+                              <ArrowUpRight size={16} style={{ color: theme.colors.success }} aria-hidden="true" />
+                              <span className="sr-only">Steigend</span>
+                            </>
+                          )}
+                          {camp.trend === 'down' && (
+                            <>
+                              <ArrowDownRight size={16} style={{ color: theme.colors.danger }} aria-hidden="true" />
+                              <span className="sr-only">Fallend</span>
+                            </>
+                          )}
+                          {camp.trend === 'stable' && (
+                            <>
+                              <span className="text-muted" aria-hidden="true">→</span>
+                              <span className="sr-only">Stabil</span>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
           </div>
 
           {/* Produkt-Abdeckung Card */}
-          <div className="card">
-            <div className="card-header">
+          <div
+            className="card"
+            style={{ cursor: 'pointer', transition: 'box-shadow 0.2s' }}
+            onClick={() => onNavigate && onNavigate('produkt-mapping')}
+            onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+            onMouseLeave={(e) => e.currentTarget.style.boxShadow = ''}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onNavigate && onNavigate('produkt-mapping');
+              }
+            }}
+            aria-label="Produkt-Mapping öffnen"
+          >
+            <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3>
                 <MapPin size={16} style={{ display: 'inline', marginRight: '8px' }} />
                 Produkt-Abdeckung
               </h3>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Details →</span>
             </div>
             <div style={{ padding: '1rem 0' }}>
               {/* Quick Stats */}
@@ -539,20 +653,49 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
 
           {/* Lead Journey Funnel */}
           <div className="card">
-            <div className="card-header" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
+            <div className="card-header" style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                 <h3>Conversion Funnel</h3>
-                <p className="text-muted text-sm" style={{ marginTop: '4px' }}>Performance über alle Stufen</p>
+                <div style={{
+                  background: 'var(--success-light)',
+                  color: 'var(--success)',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '999px',
+                  fontWeight: 600,
+                  fontSize: '0.875rem'
+                }}>
+                  {((funnelSteps[4]?.value / funnelSteps[0]?.value) * 100 || 0).toFixed(1)}% Gesamt
+                </div>
               </div>
-              <div style={{ 
-                background: 'var(--success-light)', 
-                color: 'var(--success)', 
-                padding: '0.5rem 1rem', 
-                borderRadius: '999px',
-                fontWeight: 600,
-                fontSize: '0.875rem'
-              }}>
-                2.4% Gesamt
+
+              {/* Campaign Selector */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>Kampagne:</span>
+                <select
+                  value={selectedCampaignId || ''}
+                  onChange={(e) => setSelectedCampaignId(e.target.value || null)}
+                  style={{
+                    flex: 1,
+                    padding: '0.5rem 0.75rem',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '6px',
+                    backgroundColor: selectedCampaignId ? 'var(--primary-light)' : 'var(--bg-secondary)',
+                    color: selectedCampaignId ? theme.colors.primary : 'var(--text-primary)',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    transition: 'all 0.2s'
+                  }}
+                  aria-label="Kampagne für Funnel auswählen"
+                >
+                  <option value="">Alle Kampagnen (Gesamt)</option>
+                  {campaigns.map(camp => (
+                    <option key={camp.id} value={camp.id}>
+                      {camp.name} — {camp.status} • {camp.leads30d} Leads
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             
