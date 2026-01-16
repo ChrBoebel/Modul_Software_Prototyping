@@ -211,8 +211,6 @@ const MapController = ({
             onDrawStart?.();
         }
 
-        // const handleDrawStop = () => { onDrawEnd?.(); };
-
         const handleEdited = (e) => {
             const layers = e.layers;
             layers.eachLayer((layer) => {
