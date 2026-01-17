@@ -2,12 +2,9 @@ import { useCallback } from 'react';
 import {
   RefreshCw,
   Settings,
-  AlertCircle,
-  Database,
-  Cloud,
-  Link2
+  AlertCircle
 } from 'lucide-react';
-import { Button, Badge, StatusIndicator } from '../../ui';
+import { Button, Badge, StatusIndicator, Avatar } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 // Default integrations data
@@ -42,11 +39,6 @@ const defaultIntegrations = [
   }
 ];
 
-const iconMap = {
-  database: Database,
-  cloud: Cloud,
-  link: Link2
-};
 
 const IntegrationTab = ({ showToast }) => {
   // Use localStorage for integrations so Dashboard can read it
@@ -102,13 +94,10 @@ const IntegrationTab = ({ showToast }) => {
 
         <div className="integration-cards-grid">
           {integrations.map((integration) => {
-            const Icon = iconMap[integration.iconType] || Database;
             return (
               <div key={integration.id} className="integration-card">
                 <div className="integration-header">
-                  <div className="integration-icon">
-                    <Icon size={24} aria-hidden="true" />
-                  </div>
+                  <Avatar name={integration.name} size="md" usePlaceholder type="company" />
                   <div className="integration-info">
                     <h4>{integration.name}</h4>
                     <span className="integration-type">{integration.type}</span>

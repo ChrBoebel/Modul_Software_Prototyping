@@ -1068,11 +1068,15 @@
   }
 
   .lead-name {
-    @apply font-semibold text-black;
+    @apply font-semibold text-black block;
   }
 
   .lead-id-subtext {
-    @apply text-xs text-slate-400 font-mono;
+    @apply text-xs text-slate-400 font-mono block;
+  }
+
+  .lead-contact-subtext {
+    @apply text-xs text-slate-500 block;
   }
 
   .lead-detail {

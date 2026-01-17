@@ -50,19 +50,28 @@ export const transformLead = (lead) => {
   // Handle both leads.json format and flow-generated leads
   const score = lead.qualification?.score ?? lead.leadScore ?? 0;
   const interestType = lead.interest?.type || '';
+  const customer = lead.customer || {};
+  const isBusiness = customer.customerType === 'business';
+
+  // For business: show company name, for private: show person name
+  const displayName = isBusiness && customer.companyName
+    ? customer.companyName
+    : `${customer.firstName || ''} ${customer.lastName || ''}`.trim() || lead.name || 'Unbekannt';
 
   return {
     id: lead.id,
     leadId: lead.leadNumber || lead.leadId || lead.id,
     status: getAmpelStatus(score),
     leadScore: score,
+    scoreBreakdown: lead.qualification?.scoreBreakdown || [],
     produkt: produktMap[interestType] || lead.produkt || 'Unbekannt',
     timestamp: formatTimestamp(lead.timestamp),
-    name: lead.customer
-      ? `${lead.customer.firstName || ''} ${lead.customer.lastName || ''}`.trim()
-      : lead.name || 'Unbekannt',
-    email: lead.customer?.email || lead.email || '',
-    phone: lead.customer?.phone || lead.phone || '',
+    name: displayName,
+    contactPerson: isBusiness ? customer.contactPerson : null,
+    customerType: customer.customerType || 'private',
+    industry: customer.industry || null,
+    email: customer.email || lead.email || '',
+    phone: customer.phone || lead.phone || '',
     zugewiesenAn: lead.assignedTo || 'Nicht zugewiesen',
     // Preserve original data for detail view
     originalData: lead

@@ -64,6 +64,7 @@
 
     /* Layout */
     --sidebar-width: 280px;
+    --sidebar-current-width: 280px;
     --header-height: 64px;
     --radius-sm: 4px;
     --radius-md: 8px;

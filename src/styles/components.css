@@ -44,14 +44,16 @@
 
   .main-content {
     @apply flex-1 py-8 px-10;
-    margin-left: var(--sidebar-width);
+    margin-left: var(--sidebar-current-width, var(--sidebar-width));
     max-width: 1600px;
+    transition: margin-left 0.3s ease;
   }
 
   /* Sidebar */
   .sidebar {
     @apply fixed top-0 left-0 h-screen flex flex-col py-6 z-50 bg-white border-r border-slate-200 shadow-sm;
     width: var(--sidebar-width);
+    transition: width 0.3s ease;
   }
 
   .sidebar-footer {

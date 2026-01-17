@@ -23,18 +23,53 @@ import {
 } from 'recharts';
 import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
+import defaultProducts from '../../../data/productCatalog.json';
+import defaultRules from '../../../data/availabilityRules.json';
+import { Avatar } from '../../ui/Avatar';
+
+// Default integration data (same as IntegrationTab)
+const defaultIntegrations = [
+  {
+    id: 'int-001',
+    name: 'SAP CRM',
+    type: 'CRM',
+    description: 'Synchronisation von Kundendaten und Lead-Status',
+    status: 'connected',
+    lastSync: '2025-01-16 14:30',
+    iconType: 'database'
+  },
+  {
+    id: 'int-002',
+    name: 'Microsoft Dynamics',
+    type: 'ERP',
+    description: 'Auftragsverwaltung und Rechnungsstellung',
+    status: 'connected',
+    lastSync: '2025-01-16 12:15',
+    iconType: 'cloud'
+  },
+  {
+    id: 'int-003',
+    name: 'Mailchimp',
+    type: 'Email',
+    description: 'Newsletter-Marketing und Kampagnen-Sync',
+    status: 'error',
+    lastSync: '2025-01-15 08:00',
+    error: 'API Key abgelaufen',
+    iconType: 'link'
+  }
+];
 
 const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
   // State for selected campaign (null = show all campaigns combined)
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
 
-  // Load product mapping data from localStorage
-  const [products] = useLocalStorage('swk:productCatalog', []);
-  const [rules] = useLocalStorage('swk:availabilityRules', []);
+  // Load product mapping data from localStorage (with default demo data)
+  const [products] = useLocalStorage('swk:productCatalog', defaultProducts);
+  const [rules] = useLocalStorage('swk:availabilityRules', defaultRules);
   const [addresses] = useLocalStorage('swk:addresses', []);
 
-  // Load integration status from localStorage (shared with Settings)
-  const [integrations] = useLocalStorage('swk:integrations', []);
+  // Load integration status from localStorage (shared with Settings, with default demo data)
+  const [integrations] = useLocalStorage('swk:integrations', defaultIntegrations);
 
   // Calculate integration status summary
   const integrationStatus = useMemo(() => {
@@ -132,15 +167,26 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
   const priorityLeads = useMemo(() => {
     const allLeads = [...flowLeads, ...leadsData.leads];
     return allLeads
-      .map(lead => ({
-        id: lead.leadNumber,
-        numericId: lead.id,
-        name: `${lead.customer?.firstName || ''} ${lead.customer?.lastName || ''}`.trim() || 'Neuer Lead',
-        score: lead.qualification?.score || 0,
-        product: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
-        timestamp: formatTime(lead.timestamp),
-        status: lead.status
-      }))
+      .map(lead => {
+        const customer = lead.customer || {};
+        const isBusiness = customer.customerType === 'business';
+        const displayName = isBusiness && customer.companyName
+          ? customer.companyName
+          : `${customer.firstName || ''} ${customer.lastName || ''}`.trim() || 'Neuer Lead';
+
+        return {
+          id: lead.leadNumber,
+          numericId: lead.id,
+          name: displayName,
+          contactPerson: isBusiness ? customer.contactPerson : null,
+          customerType: customer.customerType || 'private',
+          score: lead.qualification?.score || 0,
+          scoreBreakdown: lead.qualification?.scoreBreakdown || [],
+          product: produktMap[lead.interest?.type] || lead.interest?.type || 'Unbekannt',
+          timestamp: formatTime(lead.timestamp),
+          status: lead.status
+        };
+      })
       .sort((a, b) => b.score - a.score) // Sort by score descending
       .slice(0, 5); // Top 5
   }, [flowLeads]);
@@ -329,14 +375,31 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                       }}
                     >
                       <td>
-                        <span className="score-badge high">{lead.score}</span>
+                        <span
+                          className="score-badge high"
+                          title={lead.scoreBreakdown?.length > 0
+                            ? `Score-Zusammensetzung:\n${lead.scoreBreakdown.map(s => `${s.label}: ${s.points > 0 ? '+' : ''}${s.points}`).join('\n')}`
+                            : `Score: ${lead.score}`
+                          }
+                          style={{ cursor: 'help' }}
+                        >
+                          {lead.score}
+                        </span>
                       </td>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                          <div className="avatar-circle" aria-hidden="true">
-                            {lead.name.split(' ').map(n => n[0]).join('')}
+                          <Avatar
+                            name={lead.name}
+                            size="sm"
+                            usePlaceholder
+                            type={lead.customerType === 'business' ? 'company' : 'person'}
+                          />
+                          <div>
+                            <span style={{ fontWeight: 600, fontSize: '0.875rem', display: 'block' }}>{lead.name}</span>
+                            {lead.contactPerson && (
+                              <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.contactPerson}</span>
+                            )}
                           </div>
-                          <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{lead.name}</span>
                         </div>
                       </td>
                       <td className="text-sm">{lead.product}</td>

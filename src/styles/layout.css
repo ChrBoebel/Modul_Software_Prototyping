@@ -81,6 +81,54 @@
   .nav-chevron {
     color: var(--primary);
   }
+
+  /* Sidebar Collapse Toggle Button */
+  .sidebar-collapse-btn {
+    @apply flex items-center justify-center gap-2 w-full mt-4 py-2 px-3 rounded-lg cursor-pointer text-slate-400 bg-slate-50 border-0 text-xs font-medium;
+    transition: var(--transition);
+  }
+
+  .sidebar-collapse-btn:hover {
+    @apply bg-slate-100 text-slate-600;
+  }
+
+  .sidebar.collapsed .sidebar-collapse-btn {
+    @apply mt-3 p-2;
+  }
+
+  /* Collapsed Tenant Button */
+  .tenant-button-collapsed {
+    @apply flex items-center justify-center p-3 bg-white border border-slate-200 rounded-xl;
+  }
+
+  /* Collapsed Sidebar Styles */
+  .sidebar.collapsed {
+    width: 72px;
+  }
+
+  .sidebar.collapsed .tenant-switcher {
+    @apply px-3;
+  }
+
+  .sidebar.collapsed .nav-container {
+    @apply px-2;
+  }
+
+  .sidebar.collapsed .nav-item-new {
+    @apply justify-center px-0 py-3;
+  }
+
+  .sidebar.collapsed .sidebar-footer {
+    @apply px-4 py-4;
+  }
+
+  .sidebar.collapsed .user-profile {
+    @apply justify-center;
+  }
+
+  .sidebar.collapsed .user-avatar {
+    @apply w-9 h-9 text-xs;
+  }
 }
 
 /* ==========================================================================

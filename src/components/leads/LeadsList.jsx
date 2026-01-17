@@ -6,7 +6,7 @@ import {
   Mail,
   Circle
 } from 'lucide-react';
-import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup } from '../ui';
+import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup, Avatar } from '../ui';
 import leadsData from '../../data/leads.json';
 import { transformLead } from '../../utils/leadUtils';
 
@@ -179,9 +179,20 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
                 }}
               >
                 <td className="lead-name-cell">
-                  <div className="lead-name-info">
-                    <span className="lead-name">{lead.name}</span>
-                    <span className="lead-id-subtext">{lead.leadId}</span>
+                  <div className="lead-name-info" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Avatar
+                      name={lead.name}
+                      size="sm"
+                      usePlaceholder
+                      type={lead.customerType === 'business' ? 'company' : 'person'}
+                    />
+                    <div>
+                      <span className="lead-name">{lead.name}</span>
+                      {lead.contactPerson && (
+                        <span className="lead-contact-subtext">{lead.contactPerson}</span>
+                      )}
+                      <span className="lead-id-subtext">{lead.leadId}</span>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -194,7 +205,14 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
                   </span>
                 </td>
                 <td>
-                  <span className={`score-badge ${getScoreBadge(lead.leadScore)}`}>
+                  <span
+                    className={`score-badge ${getScoreBadge(lead.leadScore)}`}
+                    title={lead.scoreBreakdown?.length > 0
+                      ? `Score-Zusammensetzung:\n${lead.scoreBreakdown.map(s => `${s.label}: ${s.points > 0 ? '+' : ''}${s.points}`).join('\n')}`
+                      : `Score: ${lead.leadScore}`
+                    }
+                    style={{ cursor: 'help' }}
+                  >
                     {lead.leadScore}
                   </span>
                 </td>

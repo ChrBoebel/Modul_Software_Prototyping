@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   GitBranch,
@@ -7,8 +7,11 @@ import {
   Settings,
   ChevronDown,
   ChevronRight,
-  Palette
+  Palette,
+  PanelLeftClose,
+  PanelLeft
 } from 'lucide-react';
+import { Avatar } from '../ui/Avatar';
 
 // Navigation Items
 const NAV_ITEMS = [
@@ -52,6 +55,19 @@ const NAV_ITEMS = [
 
 export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
   const [tenantOpen, setTenantOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebar-collapsed');
+    return saved === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sidebar-collapsed', collapsed);
+    // Update CSS variable for main content margin
+    document.documentElement.style.setProperty(
+      '--sidebar-current-width',
+      collapsed ? '72px' : '280px'
+    );
+  }, [collapsed]);
 
   const handleNavClick = (viewId) => {
     onViewChange(viewId);
@@ -59,32 +75,46 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
 
   const isNavActive = (navId) => activeView === navId;
 
+  const toggleCollapse = () => {
+    setCollapsed(!collapsed);
+    if (!collapsed) {
+      setTenantOpen(false); // Close tenant dropdown when collapsing
+    }
+  };
+
   return (
     <>
       <aside
         id="app-sidebar"
-        className={`sidebar ${isOpen ? 'open' : ''}`}
+        className={`sidebar ${isOpen ? 'open' : ''} ${collapsed ? 'collapsed' : ''}`}
         aria-label="Hauptnavigation"
       >
         {/* Tenant Switcher */}
         <div className="tenant-switcher">
-          <button
-            type="button"
-            className="tenant-button"
-            onClick={() => setTenantOpen(!tenantOpen)}
-            aria-expanded={tenantOpen}
-            aria-haspopup="listbox"
-          >
-            <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: 'auto' }} />
-
-            <ChevronDown size={16} className={`tenant-chevron ${tenantOpen ? 'open' : ''}`} />
-          </button>
-          {tenantOpen && (
-            <div className="tenant-dropdown" role="listbox">
-              <div className="tenant-option active" role="option" aria-selected="true">Stadtwerke Konstanz (Hauptmandant)</div>
-              <div className="tenant-option" role="option">Bädergesellschaft</div>
-              <div className="tenant-option" role="option">Bodensee-Schiffsbetriebe</div>
+          {collapsed ? (
+            <div className="tenant-button-collapsed" title="Stadtwerke Konstanz">
+              <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: '24px', objectFit: 'contain' }} />
             </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="tenant-button"
+                onClick={() => setTenantOpen(!tenantOpen)}
+                aria-expanded={tenantOpen}
+                aria-haspopup="listbox"
+              >
+                <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: 'auto' }} />
+                <ChevronDown size={16} className={`tenant-chevron ${tenantOpen ? 'open' : ''}`} />
+              </button>
+              {tenantOpen && (
+                <div className="tenant-dropdown" role="listbox">
+                  <div className="tenant-option active" role="option" aria-selected="true">Stadtwerke Konstanz (Hauptmandant)</div>
+                  <div className="tenant-option" role="option">Bädergesellschaft</div>
+                  <div className="tenant-option" role="option">Bodensee-Schiffsbetriebe</div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -102,13 +132,18 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
                     onClick={() => handleNavClick(item.id)}
                     type="button"
                     aria-current={isActive ? 'page' : undefined}
+                    title={collapsed ? item.label : undefined}
                   >
                     <Icon size={20} />
-                    <div className="nav-item-content">
-                      <span className="nav-item-label">{item.label}</span>
-                      <span className="nav-item-desc">{item.description}</span>
-                    </div>
-                    {isActive && <ChevronRight size={14} className="nav-chevron" />}
+                    {!collapsed && (
+                      <>
+                        <div className="nav-item-content">
+                          <span className="nav-item-label">{item.label}</span>
+                          <span className="nav-item-desc">{item.description}</span>
+                        </div>
+                        {isActive && <ChevronRight size={14} className="nav-chevron" />}
+                      </>
+                    )}
                   </button>
                 );
               })}
@@ -117,13 +152,27 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-profile">
-            <div className="user-avatar">MM</div>
-            <div className="user-info">
-              <div className="user-name">Max Mustermann</div>
-              <div className="user-role">Vertrieb</div>
-            </div>
+          <div className="user-profile" title={collapsed ? 'Max Mustermann - Vertrieb' : undefined}>
+            <Avatar name="Max Mustermann" size={collapsed ? 'sm' : 'md'} usePlaceholder />
+            {!collapsed && (
+              <div className="user-info">
+                <div className="user-name">Max Mustermann</div>
+                <div className="user-role">Vertrieb</div>
+              </div>
+            )}
           </div>
+
+          {/* Collapse Toggle Button */}
+          <button
+            type="button"
+            className="sidebar-collapse-btn"
+            onClick={toggleCollapse}
+            title={collapsed ? 'Sidebar ausklappen' : 'Sidebar einklappen'}
+            aria-label={collapsed ? 'Sidebar ausklappen' : 'Sidebar einklappen'}
+          >
+            {collapsed ? <PanelLeft size={16} /> : <PanelLeftClose size={16} />}
+            {!collapsed && <span>Einklappen</span>}
+          </button>
         </div>
       </aside>
 

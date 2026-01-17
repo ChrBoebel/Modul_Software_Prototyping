@@ -19,6 +19,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { Avatar } from '../ui/Avatar';
 import {
   getCombinedAvailabilityForAddress,
   getStatusBadgeVariant,
@@ -258,8 +259,12 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
     <div className="lead-detail" role="region" aria-label={`Details für Lead ${lead.leadId}`}>
       {/* Header */}
       <div className="detail-header">
-        <div className="header-info">
-          <h3>Lead {lead.leadId} Details</h3>
+        <div className="header-info" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Avatar name={lead.name} size="lg" usePlaceholder type="person" />
+          <div>
+            <h3 style={{ margin: 0 }}>{lead.name}</h3>
+            <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.leadId}</span>
+          </div>
           <span className={`score-badge ${lead.leadScore >= 80 ? 'high' : lead.leadScore >= 50 ? 'medium' : 'low'}`}>
             Score: {lead.leadScore}
           </span>

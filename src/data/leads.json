@@ -23,6 +23,13 @@
       },
       "qualification": {
         "score": 85,
+        "scoreBreakdown": [
+          { "label": "Eigentümer", "points": 25 },
+          { "label": "Dachzustand gut", "points": 20 },
+          { "label": "Stromverbrauch >4000 kWh", "points": 15 },
+          { "label": "Budget vorhanden", "points": 15 },
+          { "label": "Zeitraum 1-3 Monate", "points": 10 }
+        ],
         "roofCondition": "good",
         "ownership": "owner",
         "electricityConsumption": 4500,
@@ -42,12 +49,16 @@
       "status": "contacted",
       "priority": "medium",
       "customer": {
+        "companyName": "Weber & Partner GmbH",
+        "contactPerson": "Thomas Weber",
         "firstName": "Thomas",
         "lastName": "Weber",
-        "email": "t.weber@firma.de",
+        "email": "t.weber@weber-partner.de",
         "phone": "+49 7531 234567",
         "address": "Industriestraße 12, 78467 Konstanz",
-        "customerType": "business"
+        "customerType": "business",
+        "industry": "Beratung",
+        "employees": "25-50"
       },
       "interest": {
         "type": "heatpump",
@@ -57,6 +68,13 @@
       },
       "qualification": {
         "score": 72,
+        "scoreBreakdown": [
+          { "label": "Gewerbekunde", "points": 20 },
+          { "label": "Gebäude 200-500m²", "points": 15 },
+          { "label": "Sanierung geplant", "points": 15 },
+          { "label": "Budget >50.000€", "points": 12 },
+          { "label": "Bestandskunde SWK", "points": 10 }
+        ],
         "heatingSystem": "Gas",
         "buildingAge": "1995",
         "buildingSize": 450,
@@ -91,6 +109,13 @@
       },
       "qualification": {
         "score": 92,
+        "scoreBreakdown": [
+          { "label": "E-Auto vorhanden", "points": 25 },
+          { "label": "Privater Stellplatz", "points": 20 },
+          { "label": "Moderne Elektrik", "points": 20 },
+          { "label": "Bestandskunde SWK", "points": 15 },
+          { "label": "Sofortige Umsetzung", "points": 12 }
+        ],
         "parkingType": "private",
         "electricInstallation": "modern",
         "vehicleModel": "Tesla Model 3",
@@ -125,6 +150,13 @@
       },
       "qualification": {
         "score": 45,
+        "scoreBreakdown": [
+          { "label": "Interesse vorhanden", "points": 15 },
+          { "label": "Stromverbrauch <3000 kWh", "points": 10 },
+          { "label": "Vertrag >6 Monate", "points": -10 },
+          { "label": "Zeitraum flexibel", "points": 5 },
+          { "label": "Neukunde", "points": 25 }
+        ],
         "currentConsumption": 2800,
         "currentContract": "läuft noch 8 Monate",
         "currentProvider": "Andere"
@@ -158,6 +190,13 @@
       },
       "qualification": {
         "score": 95,
+        "scoreBreakdown": [
+          { "label": "Eigentümer", "points": 25 },
+          { "label": "Dachzustand exzellent", "points": 25 },
+          { "label": "Stromverbrauch >5000 kWh", "points": 20 },
+          { "label": "Bestandskunde SWK", "points": 15 },
+          { "label": "Zeitraum 1-3 Monate", "points": 10 }
+        ],
         "roofCondition": "excellent",
         "ownership": "owner",
         "electricityConsumption": 5200,
@@ -170,6 +209,141 @@
       "nextActionDate": "2025-02-01",
       "conversionDate": "2025-01-13",
       "conversionValue": 24500
+    },
+    {
+      "id": 6,
+      "leadNumber": "LEAD-2025-0006",
+      "timestamp": "2025-01-16T09:00:00",
+      "source": "Empfehlung",
+      "status": "new",
+      "priority": "high",
+      "customer": {
+        "companyName": "Bodensee Hotel AG",
+        "contactPerson": "Klaus Zimmermann",
+        "firstName": "Klaus",
+        "lastName": "Zimmermann",
+        "email": "k.zimmermann@bodensee-hotel.de",
+        "phone": "+49 7531 678901",
+        "address": "Hafenstraße 15, 78462 Konstanz",
+        "customerType": "business",
+        "industry": "Hotellerie",
+        "employees": "50-100"
+      },
+      "interest": {
+        "type": "solar",
+        "details": "PV-Anlage für Hoteldach, ca. 50 kWp",
+        "budgetRange": "80000-120000",
+        "timeframe": "3-6 Monate"
+      },
+      "qualification": {
+        "score": 88,
+        "scoreBreakdown": [
+          { "label": "Großkunde >50 MA", "points": 25 },
+          { "label": "Großes Dach verfügbar", "points": 20 },
+          { "label": "Hoher Eigenverbrauch", "points": 20 },
+          { "label": "Budget vorhanden", "points": 15 },
+          { "label": "Empfehlung", "points": 8 }
+        ],
+        "roofCondition": "good",
+        "ownership": "owner",
+        "electricityConsumption": 85000,
+        "currentProvider": "SWK"
+      },
+      "flowId": "flow-solar-commercial",
+      "assignedTo": "Thomas Berger",
+      "notes": "Hotelbetrieb mit hohem Stromverbrauch, ideal für Eigenverbrauch",
+      "nextAction": "Vor-Ort-Termin vereinbaren",
+      "nextActionDate": "2025-01-23"
+    },
+    {
+      "id": 7,
+      "leadNumber": "LEAD-2025-0007",
+      "timestamp": "2025-01-16T10:30:00",
+      "source": "Messe",
+      "status": "qualified",
+      "priority": "medium",
+      "customer": {
+        "companyName": "Autohaus Müller GmbH",
+        "contactPerson": "Sabine Müller",
+        "firstName": "Sabine",
+        "lastName": "Müller",
+        "email": "s.mueller@autohaus-mueller.de",
+        "phone": "+49 7531 789012",
+        "address": "Automeile 8, 78467 Konstanz",
+        "customerType": "business",
+        "industry": "Automobilhandel",
+        "employees": "25-50"
+      },
+      "interest": {
+        "type": "charging_station",
+        "details": "5x Schnelllader für Kundenbereich",
+        "budgetRange": "50000-75000",
+        "timeframe": "1-3 Monate"
+      },
+      "qualification": {
+        "score": 78,
+        "scoreBreakdown": [
+          { "label": "Gewerbekunde", "points": 20 },
+          { "label": "E-Mobilität Branche", "points": 20 },
+          { "label": "Mehrere Ladepunkte", "points": 15 },
+          { "label": "Budget vorhanden", "points": 13 },
+          { "label": "Zeitraum 1-3 Monate", "points": 10 }
+        ],
+        "parkingType": "commercial",
+        "electricInstallation": "modern",
+        "plannedChargers": 5,
+        "currentProvider": "Andere"
+      },
+      "flowId": "flow-wallbox-commercial",
+      "assignedTo": "Sarah Klein",
+      "notes": "Autohaus verkauft E-Autos, will Ladeinfrastruktur anbieten",
+      "nextAction": "Technische Begehung",
+      "nextActionDate": "2025-01-20"
+    },
+    {
+      "id": 8,
+      "leadNumber": "LEAD-2025-0008",
+      "timestamp": "2025-01-15T15:45:00",
+      "source": "Telefon",
+      "status": "contacted",
+      "priority": "medium",
+      "customer": {
+        "companyName": "Bäckerei Kraus e.K.",
+        "contactPerson": "Hans Kraus",
+        "firstName": "Hans",
+        "lastName": "Kraus",
+        "email": "info@baeckerei-kraus.de",
+        "phone": "+49 7531 890123",
+        "address": "Marktplatz 3, 78464 Konstanz",
+        "customerType": "business",
+        "industry": "Lebensmittel",
+        "employees": "10-25"
+      },
+      "interest": {
+        "type": "heatpump",
+        "details": "Prozesswärme für Backstube",
+        "budgetRange": "30000-50000",
+        "timeframe": "6-12 Monate"
+      },
+      "qualification": {
+        "score": 65,
+        "scoreBreakdown": [
+          { "label": "Gewerbekunde", "points": 20 },
+          { "label": "Hoher Wärmebedarf", "points": 15 },
+          { "label": "Bestandskunde SWK", "points": 15 },
+          { "label": "Budget vorhanden", "points": 10 },
+          { "label": "Zeitraum 6-12 Monate", "points": 5 }
+        ],
+        "heatingSystem": "Gas",
+        "buildingAge": "1985",
+        "buildingSize": 280,
+        "currentProvider": "SWK"
+      },
+      "flowId": "flow-heatpump-commercial",
+      "assignedTo": "Lisa Wagner",
+      "notes": "Traditionsbäckerei, hoher Energieverbrauch für Backöfen",
+      "nextAction": "Energieberatung anbieten",
+      "nextActionDate": "2025-01-25"
     }
   ],
   "flows": [

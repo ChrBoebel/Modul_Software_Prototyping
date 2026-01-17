@@ -12,13 +12,13 @@ import {
   Clock,
   BarChart3,
   ArrowRight,
-  User,
   Mail,
   Phone,
   Settings
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
 import { theme } from '../../../theme/colors';
+import { Avatar } from '../../ui/Avatar';
 import {
   BarChart,
   Bar,
@@ -192,9 +192,7 @@ const ClosingOverview = ({ showToast }) => {
               {salesReps.map(rep => (
                 <div key={rep.id} className="sales-rep-card">
                   <div className="rep-header">
-                    <div className="rep-avatar" aria-hidden="true">
-                      <User size={24} />
-                    </div>
+                    <Avatar name={rep.name} size="lg" usePlaceholder type="person" />
                     <div className="rep-info">
                       <h4>{rep.name}</h4>
                       <span className="rep-department">{rep.department}</span>
@@ -252,9 +250,7 @@ const ClosingOverview = ({ showToast }) => {
               {integrations.map(integration => (
                 <div key={integration.id} className="integration-card">
                   <div className="integration-header">
-                    <div className="integration-icon" aria-hidden="true">
-                      <Link2 size={20} />
-                    </div>
+                    <Avatar name={integration.name} size="md" usePlaceholder type="company" />
                     <div className="integration-info">
                       <h4>{integration.name}</h4>
                       <span className="integration-type">{integration.type.toUpperCase()}</span>
