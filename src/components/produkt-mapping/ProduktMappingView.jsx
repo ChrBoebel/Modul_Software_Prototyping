@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Download, RotateCcw, MapPin, Package, Search, Home, Layers } from 'lucide-react';
-import { Button, Card, Tabs } from '../ui';
+import { Button, Tabs } from '../ui';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import defaultProducts from '../../data/productCatalog.json';
 import defaultRules from '../../data/availabilityRules.json';
@@ -156,40 +156,29 @@ const ProduktMappingView = ({ showToast }) => {
     <div className="view-container">
       <h1 className="sr-only">Produkt- &amp; Verfügbarkeits-Mapping</h1>
 
-      <Card
-        headerTitle="Produkt- & Verfügbarkeits-Mapping"
-        headerActions={(
-          <div className="action-buttons">
-            <Button
-              variant="secondary"
-              size="sm"
-              icon={Download}
-              onClick={handleExport}
-              ariaLabel="Export als JSON herunterladen"
-            >
-              Export
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              icon={RotateCcw}
-              onClick={handleReset}
-              ariaLabel="Demo-Daten zurücksetzen"
-            >
-              Reset
-            </Button>
-          </div>
-        )}
-        hoverable={false}
-      >
-        <p>
-          Hier legst du fest, welche Produkte an welchen Adressen verfügbar sind.
-          Nutze <strong>Mapping-Regeln</strong> für Bereiche (PLZ, Straßen) oder <strong>Adress-Mapping</strong> für einzelne Adressen.
-        </p>
-        <small>
-          Hinweis: Demo-Daten werden im Browser gespeichert (localStorage). Wenn du neue Demo-Daten aus dem Repo sehen willst, klicke oben auf „Reset".
-        </small>
-      </Card>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold">Produkt- & Verfügbarkeits-Mapping</h2>
+        <div className="action-buttons">
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={Download}
+            onClick={handleExport}
+            ariaLabel="Export als JSON herunterladen"
+          >
+            Export
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={RotateCcw}
+            onClick={handleReset}
+            ariaLabel="Demo-Daten zurücksetzen"
+          >
+            Reset
+          </Button>
+        </div>
+      </div>
 
       <Tabs
         tabs={TABS}

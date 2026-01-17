@@ -5,10 +5,14 @@ import {
   Edit,
   Plus,
 } from 'lucide-react';
+import { Panel, Input, Button } from '../../ui';
 
 const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [newCampaign, setNewCampaign] = useState({ name: '', description: '' });
+
   // Mock campaign data
-  const campaigns = [
+  const [campaigns, setCampaigns] = useState([
     {
       id: 'camp-001',
       name: 'Kampagne Strom',
@@ -49,7 +53,28 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       createdAt: '2024-11-15',
       updatedAt: '2025-01-10 11:00'
     }
-  ];
+  ]);
+
+  const handleCreateCampaign = () => {
+    if (!newCampaign.name.trim()) {
+      showToast?.('Bitte einen Namen eingeben');
+      return;
+    }
+    const campaign = {
+      id: `camp-${Date.now()}`,
+      name: newCampaign.name,
+      description: newCampaign.description || 'Neue Kampagne',
+      status: 'entwurf',
+      type: 'note',
+      leads: 0,
+      createdAt: new Date().toISOString().split('T')[0],
+      updatedAt: new Date().toLocaleString('de-DE')
+    };
+    setCampaigns(prev => [campaign, ...prev]);
+    setNewCampaign({ name: '', description: '' });
+    setPanelOpen(false);
+    showToast?.(`Kampagne "${campaign.name}" erstellt`);
+  };
 
   const getStatusBadge = (status) => {
     const statusMap = {
@@ -73,7 +98,11 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       <h2 className="sr-only">Flow Kampagnen Übersicht</h2>
       {/* Header */}
       <div className="tab-header">
-        <button className="btn btn-primary" aria-label="Neue Kampagne erstellen">
+        <button
+          className="btn btn-primary"
+          aria-label="Neue Kampagne erstellen"
+          onClick={() => setPanelOpen(true)}
+        >
           <Plus size={16} aria-hidden="true" />
           Neue Kampagne
         </button>
@@ -132,6 +161,37 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
           </div>
         ))}
       </div>
+
+      {/* Neue Kampagne Panel */}
+      <Panel
+        isOpen={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        title="Neue Kampagne erstellen"
+        width="400px"
+      >
+        <div className="flex flex-col gap-4">
+          <Input
+            label="Kampagnen-Name"
+            value={newCampaign.name}
+            onChange={(e) => setNewCampaign(prev => ({ ...prev, name: e.target.value }))}
+            placeholder="z.B. Solar Frühling 2025"
+          />
+          <Input
+            label="Beschreibung"
+            value={newCampaign.description}
+            onChange={(e) => setNewCampaign(prev => ({ ...prev, description: e.target.value }))}
+            placeholder="Kurze Beschreibung der Kampagne"
+          />
+          <div className="flex gap-2 justify-end mt-4">
+            <Button variant="secondary" onClick={() => setPanelOpen(false)}>
+              Abbrechen
+            </Button>
+            <Button variant="primary" onClick={handleCreateCampaign}>
+              Erstellen
+            </Button>
+          </div>
+        </div>
+      </Panel>
     </div>
   );
 };
