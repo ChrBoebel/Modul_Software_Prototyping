@@ -1,14 +1,24 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import {
   RefreshCw,
   ExternalLink,
   Phone,
   Mail,
-  Circle
+  Circle,
+  CheckCircle,
+  XCircle,
+  HelpCircle
 } from 'lucide-react';
 import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup, Avatar } from '../ui';
 import leadsData from '../../data/leads.json';
 import { transformLead } from '../../utils/leadUtils';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { getCombinedAvailabilityForAddress } from '../produkt-mapping/availabilityLogic';
+import defaultProducts from '../../data/productCatalog.json';
+import defaultRules from '../../data/availabilityRules.json';
+import defaultAddresses from '../../data/addresses.json';
+import defaultAvailability from '../../data/availability.json';
+import defaultAvailabilityStatus from '../../data/availabilityStatus.json';
 
 const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -17,6 +27,13 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
 
   // Current user (simulated)
   const currentUser = 'Max Mustermann';
+
+  // Load product mapping data for availability check
+  const [products] = useLocalStorage('swk:productCatalog', defaultProducts);
+  const [rules] = useLocalStorage('swk:availabilityRules', defaultRules);
+  const [addresses] = useLocalStorage('swk:addresses', defaultAddresses);
+  const [availability] = useLocalStorage('swk:availability', defaultAvailability);
+  const [availabilityStatus] = useLocalStorage('swk:availabilityStatus', defaultAvailabilityStatus);
 
   // Transform and merge leads from JSON data with flow-generated leads
   const leads = useMemo(() => {
@@ -49,6 +66,60 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
     };
     return tooltips[status] || status;
   };
+
+  // Get availability status for a lead
+  const getLeadAvailability = useCallback((lead) => {
+    const customer = lead.originalData?.customer;
+    if (!customer?.address && !customer?.postalCode) {
+      return { status: 'unknown', label: '—', icon: HelpCircle, tooltip: 'Keine Adresse bekannt' };
+    }
+
+    // Parse address from string or object
+    let addressObj = null;
+    if (typeof customer.address === 'string' && customer.address.trim()) {
+      // Parse string address like "Hauptstraße 45, 78462 Konstanz"
+      const parts = customer.address.split(',').map(s => s.trim());
+      if (parts.length >= 2) {
+        const streetMatch = parts[0].match(/^(.+?)\s+(\d+\w*)$/);
+        const cityMatch = parts[1].match(/^(\d{5})\s+(.+)$/);
+        if (streetMatch && cityMatch) {
+          addressObj = {
+            street: streetMatch[1],
+            houseNumber: streetMatch[2],
+            postalCode: cityMatch[1],
+            city: cityMatch[2]
+          };
+        }
+      }
+    } else if (customer.postalCode) {
+      addressObj = {
+        postalCode: customer.postalCode,
+        street: customer.street || '',
+        houseNumber: customer.houseNumber || '',
+        city: customer.city || ''
+      };
+    }
+
+    if (!addressObj) return { status: 'unknown', label: '—', icon: HelpCircle, tooltip: 'Adresse nicht parsbar' };
+
+    try {
+      const result = getCombinedAvailabilityForAddress(addressObj, {
+        products, rules, addresses, availability, availabilityStatus
+      });
+      if (result.isServiceable) {
+        const productCount = result.availableProducts?.length || 0;
+        return {
+          status: 'serviceable',
+          label: 'Versorgbar',
+          icon: CheckCircle,
+          tooltip: `${productCount} Produkt${productCount !== 1 ? 'e' : ''} verfügbar`
+        };
+      }
+      return { status: 'not-serviceable', label: 'Nicht versorgbar', icon: XCircle, tooltip: 'Keine Produkte an dieser Adresse' };
+    } catch {
+      return { status: 'unknown', label: '—', icon: HelpCircle, tooltip: 'Fehler bei Prüfung' };
+    }
+  }, [products, rules, addresses, availability, availabilityStatus]);
 
   const filteredLeads = leads.filter(lead => {
     const matchesStatus = filterStatus === 'all' || lead.status === filterStatus;
@@ -158,6 +229,7 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
               <th>Name</th>
               <th>Status</th>
               <th>Score</th>
+              <th>Verfügbarkeit</th>
               <th>Produkt</th>
               <th>Aktion</th>
             </tr>
@@ -215,6 +287,21 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
                   >
                     {lead.leadScore}
                   </span>
+                </td>
+                <td>
+                  {(() => {
+                    const avail = getLeadAvailability(lead);
+                    const IconComponent = avail.icon;
+                    return (
+                      <span
+                        className={`availability-badge ${avail.status}`}
+                        title={avail.tooltip}
+                      >
+                        <IconComponent size={14} />
+                        <span>{avail.label}</span>
+                      </span>
+                    );
+                  })()}
                 </td>
                 <td>{lead.produkt}</td>
                 <td className="actions-cell">

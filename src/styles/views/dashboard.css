@@ -3,17 +3,20 @@
    ========================================================================== */
 @layer components {
   .start-tab {
-    @apply flex flex-col gap-6;
+    @apply flex flex-col gap-4;
+    overflow-x: hidden;
   }
 
   .start-grid {
-    @apply grid gap-6;
+    @apply grid gap-4;
     grid-template-columns: 1fr 1fr;
+    overflow: hidden;
   }
 
   .start-left,
   .start-right {
-    @apply flex flex-col gap-6;
+    @apply flex flex-col gap-4;
+    min-width: 0; /* Prevent overflow */
   }
 
   .timestamp-cell {

@@ -4,12 +4,18 @@ import {
   Pause,
   Edit,
   Plus,
+  Package,
 } from 'lucide-react';
 import { Panel, Input, Button } from '../../ui';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import defaultProducts from '../../../data/productCatalog.json';
 
 const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
   const [panelOpen, setPanelOpen] = useState(false);
-  const [newCampaign, setNewCampaign] = useState({ name: '', description: '' });
+  const [newCampaign, setNewCampaign] = useState({ name: '', description: '', productIds: [] });
+
+  // Load products from localStorage
+  const [products] = useLocalStorage('swk:productCatalog', defaultProducts);
 
   // Mock campaign data
   const [campaigns, setCampaigns] = useState([
@@ -20,6 +26,7 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       status: 'eingeordnet',
       type: 'aktiv',
       leads: 145,
+      productIds: ['glasfaser-1000', 'glasfaser-500'],
       createdAt: '2025-01-10',
       updatedAt: '2025-01-15 14:30'
     },
@@ -30,6 +37,7 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       status: 'eingeordnet',
       type: 'aktiv',
       leads: 89,
+      productIds: ['kabel-400'],
       createdAt: '2025-01-05',
       updatedAt: '2025-01-14 09:15'
     },
@@ -40,6 +48,7 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       status: 'eingeordnet',
       type: 'note',
       leads: 67,
+      productIds: [],
       createdAt: '2024-12-20',
       updatedAt: '2025-01-12 16:45'
     },
@@ -50,6 +59,7 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       status: 'pausiert',
       type: 'note',
       leads: 34,
+      productIds: ['dsl-100', 'dsl-50'],
       createdAt: '2024-11-15',
       updatedAt: '2025-01-10 11:00'
     }
@@ -67,14 +77,28 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
       status: 'entwurf',
       type: 'note',
       leads: 0,
+      productIds: newCampaign.productIds || [],
       createdAt: new Date().toISOString().split('T')[0],
       updatedAt: new Date().toLocaleString('de-DE')
     };
     setCampaigns(prev => [campaign, ...prev]);
-    setNewCampaign({ name: '', description: '' });
+    setNewCampaign({ name: '', description: '', productIds: [] });
     setPanelOpen(false);
     showToast?.(`Kampagne "${campaign.name}" erstellt`);
   };
+
+  // Toggle product selection for new campaign
+  const toggleProductSelection = (productId) => {
+    setNewCampaign(prev => ({
+      ...prev,
+      productIds: prev.productIds.includes(productId)
+        ? prev.productIds.filter(id => id !== productId)
+        : [...prev.productIds, productId]
+    }));
+  };
+
+  // Get active products for selection
+  const activeProducts = products.filter(p => p.config?.active !== false);
 
   const getStatusBadge = (status) => {
     const statusMap = {
@@ -126,6 +150,25 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
                 </span>
               </div>
             </div>
+            {/* Product badges */}
+            {campaign.productIds?.length > 0 && (
+              <div className="campaign-product-badges" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
+                <Package size={14} style={{ color: 'var(--text-tertiary)', marginRight: '2px' }} />
+                {campaign.productIds.slice(0, 3).map(productId => {
+                  const product = products.find(p => p.id === productId);
+                  return product ? (
+                    <span key={productId} className="badge neutral" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
+                      {product.name}
+                    </span>
+                  ) : null;
+                })}
+                {campaign.productIds.length > 3 && (
+                  <span className="badge neutral" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
+                    +{campaign.productIds.length - 3}
+                  </span>
+                )}
+              </div>
+            )}
 
             <div className="campaign-card-stats">
               <div className="stat">
@@ -182,6 +225,50 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
             onChange={(e) => setNewCampaign(prev => ({ ...prev, description: e.target.value }))}
             placeholder="Kurze Beschreibung der Kampagne"
           />
+          {/* Product Selection */}
+          <div className="form-group">
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, fontSize: '0.875rem' }}>
+              Produkte zuordnen
+            </label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', maxHeight: '150px', overflowY: 'auto', padding: '8px', background: 'var(--slate-50)', borderRadius: '8px' }}>
+              {activeProducts.length > 0 ? (
+                activeProducts.map(product => (
+                  <label
+                    key={product.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 10px',
+                      background: newCampaign.productIds.includes(product.id) ? 'var(--primary-light)' : 'white',
+                      border: `1px solid ${newCampaign.productIds.includes(product.id) ? 'var(--primary)' : 'var(--slate-200)'}`,
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={newCampaign.productIds.includes(product.id)}
+                      onChange={() => toggleProductSelection(product.id)}
+                      style={{ width: '14px', height: '14px' }}
+                    />
+                    <span>{product.name}</span>
+                  </label>
+                ))
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>
+                  Keine aktiven Produkte vorhanden
+                </span>
+              )}
+            </div>
+            {newCampaign.productIds.length > 0 && (
+              <p style={{ marginTop: '6px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                {newCampaign.productIds.length} Produkt{newCampaign.productIds.length !== 1 ? 'e' : ''} ausgewählt
+              </p>
+            )}
+          </div>
           <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setPanelOpen(false)}>
               Abbrechen

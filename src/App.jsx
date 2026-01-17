@@ -91,7 +91,7 @@ function App() {
       case 'leads':
         return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} onNavigateToProduktMapping={handleNavigateToProduktMapping} />;
       case 'produkt-mapping':
-        return <ProduktMappingView showToast={showToast} />;
+        return <ProduktMappingView showToast={showToast} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
 
       case 'einstellung':
         return <EinstellungView showToast={showToast} />;

@@ -19,7 +19,9 @@ import {
   ResponsiveContainer,
   FunnelChart,
   Funnel,
-  Cell
+  Cell,
+  PieChart,
+  Pie
 } from 'recharts';
 import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
@@ -130,14 +132,31 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
         };
       });
 
+    // Calculate coverage percentage (simplified: rules exist = covered)
+    const totalPlzGermany = 8000; // Approximate number of PLZ areas in Germany
+    const coveragePercent = Math.min(100, Math.round((coveredPlzs.size / totalPlzGermany) * 100 * 10)); // Scale up for visibility
+
     return {
       totalProducts: activeProducts.length,
       totalRules: activeRules.length,
       coveredPlzCount: coveredPlzs.size,
       addressCount: addresses.length,
-      topProducts
+      topProducts,
+      coveragePercent
     };
   }, [products, rules, addresses]);
+
+  // Data for availability distribution pie chart
+  const availabilityChartData = useMemo(() => {
+    const totalRules = rules.filter(r => r.active).length;
+    const totalProducts = products.filter(p => p.config?.active !== false).length;
+
+    return [
+      { name: 'Produkte', value: totalProducts, color: theme.colors.secondary },
+      { name: 'Regeln', value: totalRules, color: theme.colors.primary },
+      { name: 'PLZ', value: productStats.coveredPlzCount, color: theme.colors.success }
+    ];
+  }, [rules, products, productStats.coveredPlzCount]);
 
   // Map interest type to German product name
   const produktMap = {
@@ -529,31 +548,37 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
               </h3>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Details →</span>
             </div>
-            <div style={{ padding: '1rem 0' }}>
+            <div style={{ padding: '0.5rem 0' }}>
               {/* Quick Stats */}
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1rem',
-                marginBottom: '1.5rem'
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: '0.5rem',
+                marginBottom: '0.75rem'
               }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.secondary }}>
+                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
                     {productStats.totalProducts}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Produkte aktiv</div>
+                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Produkte</div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.primary }}>
+                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
                     {productStats.coveredPlzCount}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>PLZ abgedeckt</div>
+                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>PLZ</div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.slate500 }}>
+                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.slate500 }}>
                     {productStats.totalRules}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Regeln aktiv</div>
+                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Regeln</div>
+                </div>
+                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.success }}>
+                    {productStats.coveragePercent}%
+                  </div>
+                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Abdeckung</div>
                 </div>
               </div>
 
@@ -561,15 +586,15 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
               {productStats.topProducts.length > 0 && (
                 <div>
                   <div style={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.625rem',
                     fontWeight: 600,
                     color: 'var(--text-tertiary)',
                     textTransform: 'uppercase',
-                    marginBottom: '0.5rem'
+                    marginBottom: '0.375rem'
                   }}>
-                    Top Produkte nach Abdeckung
+                    Top Produkte
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                     {productStats.topProducts.map((prod, idx) => (
                       <div
                         key={prod.id}
@@ -577,30 +602,31 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
-                          padding: '0.5rem 0.75rem',
+                          padding: '0.375rem 0.5rem',
                           backgroundColor: 'var(--slate-50)',
-                          borderRadius: '6px'
+                          borderRadius: '4px'
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', minWidth: 0 }}>
                           <span style={{
-                            width: '20px',
-                            height: '20px',
-                            borderRadius: '4px',
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '3px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: idx === 0 ? theme.colors.secondary : idx === 1 ? theme.colors.slate400 : theme.colors.slate300,
                             color: '#fff',
-                            fontSize: '0.75rem',
-                            fontWeight: 600
+                            fontSize: '0.625rem',
+                            fontWeight: 600,
+                            flexShrink: 0
                           }}>
                             {idx + 1}
                           </span>
-                          <span style={{ fontWeight: 500, fontSize: '0.875rem' }}>{prod.name}</span>
+                          <span style={{ fontWeight: 500, fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{prod.name}</span>
                         </div>
-                        <span className="badge neutral" style={{ fontSize: '0.75rem' }}>
-                          {prod.ruleCount} Regeln
+                        <span style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', flexShrink: 0 }}>
+                          {prod.ruleCount}
                         </span>
                       </div>
                     ))}
@@ -608,15 +634,48 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                 </div>
               )}
 
-              {productStats.topProducts.length === 0 && (
+              {/* Mini Pie Chart */}
+              {(productStats.totalProducts > 0 || productStats.totalRules > 0) && (
+                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: 50, height: 50, flexShrink: 0 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={availabilityChartData}
+                          dataKey="value"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={12}
+                          outerRadius={22}
+                          paddingAngle={2}
+                        >
+                          {availabilityChartData.map((entry, idx) => (
+                            <Cell key={`cell-${idx}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem 0.75rem' }}>
+                    {availabilityChartData.map((item, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.625rem' }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                        <span style={{ color: 'var(--text-secondary)' }}>{item.name}: {item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {productStats.topProducts.length === 0 && productStats.totalRules === 0 && (
                 <div style={{
                   textAlign: 'center',
-                  padding: '1rem',
+                  padding: '0.5rem',
                   color: 'var(--text-tertiary)',
-                  fontSize: '0.875rem'
+                  fontSize: '0.75rem'
                 }}>
-                  <Package size={24} style={{ marginBottom: '0.5rem', opacity: 0.5 }} />
-                  <p>Keine Produkt-Regeln konfiguriert</p>
+                  <Package size={18} style={{ marginBottom: '0.25rem', opacity: 0.5 }} />
+                  <p>Keine Regeln</p>
                 </div>
               )}
             </div>
@@ -630,39 +689,32 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
             <div
               className="card"
               style={{
-                padding: '0.75rem 1rem',
+                padding: '0.5rem 0.75rem',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 backgroundColor: integrationStatus.hasError ? 'var(--danger-light)' : 'var(--success-light)',
                 border: `1px solid ${integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'}`,
-                borderRadius: '8px',
-                marginBottom: '1rem'
+                borderRadius: '6px',
+                marginBottom: '0.75rem'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 {integrationStatus.hasError ? (
-                  <AlertCircle size={20} style={{ color: 'var(--danger)' }} />
+                  <AlertCircle size={16} style={{ color: 'var(--danger)', flexShrink: 0 }} />
                 ) : (
-                  <CheckCircle size={20} style={{ color: 'var(--success)' }} />
+                  <CheckCircle size={16} style={{ color: 'var(--success)', flexShrink: 0 }} />
                 )}
-                <div>
-                  <div style={{
-                    fontWeight: 600,
-                    fontSize: '0.875rem',
-                    color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'
-                  }}>
-                    {integrationStatus.hasError
-                      ? `${integrationStatus.errorCount} Integration${integrationStatus.errorCount > 1 ? 'en' : ''} mit Fehler`
-                      : `${integrationStatus.connectedCount}/${integrationStatus.total} Integrationen verbunden`
-                    }
-                  </div>
-                  {integrationStatus.lastSync && (
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-                      Letzter Sync: {integrationStatus.lastSync}
-                    </div>
-                  )}
-                </div>
+                <span style={{
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'
+                }}>
+                  {integrationStatus.hasError
+                    ? `${integrationStatus.errorCount} Fehler`
+                    : `${integrationStatus.connectedCount}/${integrationStatus.total} verbunden`
+                  }
+                </span>
               </div>
               <button
                 type="button"
@@ -671,7 +723,7 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   border: 'none',
                   color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)',
                   cursor: 'pointer',
-                  fontSize: '0.75rem',
+                  fontSize: '0.6875rem',
                   fontWeight: 500,
                   textDecoration: 'underline'
                 }}
@@ -683,7 +735,7 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   }
                 }}
               >
-                {integrationStatus.hasError ? 'Fehler beheben' : 'Details'}
+                {integrationStatus.hasError ? 'Beheben' : 'Details'}
               </button>
             </div>
           )}
@@ -693,7 +745,7 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
             <div className="card-header">
               <h3>Lead-Eingang & Qualität</h3>
             </div>
-            <div style={{ width: '100%', height: 220 }}>
+            <div style={{ width: '100%', height: 180 }}>
               <ResponsiveContainer>
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--slate-200)" />
@@ -716,16 +768,16 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
 
           {/* Lead Journey Funnel */}
           <div className="card">
-            <div className="card-header" style={{ marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+            <div className="card-header" style={{ marginBottom: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <h3>Conversion Funnel</h3>
                 <div style={{
                   background: 'var(--success-light)',
                   color: 'var(--success)',
-                  padding: '0.5rem 1rem',
+                  padding: '0.25rem 0.75rem',
                   borderRadius: '999px',
                   fontWeight: 600,
-                  fontSize: '0.875rem'
+                  fontSize: '0.75rem'
                 }}>
                   {((funnelSteps[4]?.value / funnelSteps[0]?.value) * 100 || 0).toFixed(1)}% Gesamt
                 </div>
@@ -733,14 +785,14 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
 
               {/* Campaign Selector */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>Kampagne:</span>
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>Kampagne:</span>
                 <select
                   value={selectedCampaignId || ''}
                   onChange={(e) => setSelectedCampaignId(e.target.value || null)}
                   style={{
                     flex: 1,
-                    padding: '0.5rem 0.75rem',
-                    fontSize: '0.875rem',
+                    padding: '0.375rem 0.5rem',
+                    fontSize: '0.75rem',
                     fontWeight: 500,
                     border: '1px solid var(--border-color)',
                     borderRadius: '6px',
@@ -752,19 +804,19 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   }}
                   aria-label="Kampagne für Funnel auswählen"
                 >
-                  <option value="">Alle Kampagnen (Gesamt)</option>
+                  <option value="">Alle Kampagnen</option>
                   {campaigns.map(camp => (
                     <option key={camp.id} value={camp.id}>
-                      {camp.name} — {camp.status} • {camp.leads30d} Leads
+                      {camp.name} • {camp.leads30d} Leads
                     </option>
                   ))}
                 </select>
               </div>
             </div>
             
-            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', minHeight: '320px', paddingBottom: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', minHeight: '240px' }}>
               {/* Chart Side - Pure Shapes */}
-              <div style={{ width: '35%', height: 300 }}>
+              <div style={{ width: '30%', minWidth: '120px', height: 220 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <FunnelChart>
                     <Tooltip content={<CustomFunnelTooltip />} cursor={{ fill: 'transparent' }} />
@@ -788,13 +840,13 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
               </div>
 
               {/* Data Side - Clean List */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 0 }}>
                 {funnelSteps.map((step, index) => (
-                  <div key={index} style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
+                  <div key={index} style={{
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '0.75rem',
+                    padding: '0.5rem 0.75rem',
                     borderRadius: '8px',
                     backgroundColor: 'var(--slate-50)',
                     border: '1px solid transparent',
@@ -811,15 +863,16 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div style={{ 
-                        width: '12px', 
-                        height: '12px', 
-                        borderRadius: '4px', 
-                        backgroundColor: step.fill 
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, flex: 1 }}>
+                      <div style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '3px',
+                        backgroundColor: step.fill,
+                        flexShrink: 0
                       }} />
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.9375rem' }}>{step.label}</span>
+                      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                        <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.8125rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{step.label}</span>
                         {index > 0 && (
                           <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
                             {step.conversionRate}% Konversion
@@ -833,12 +886,12 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                       </div>
                     </div>
                     
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                      <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                      <span style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
                         {step.value.toLocaleString()}
                       </span>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
-                        {step.percentageOfTotal}%
+                      <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
+                        ({step.percentageOfTotal}%)
                       </span>
                     </div>
                   </div>
@@ -847,40 +900,27 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
             </div>
             
             {/* Minimalist Footer Stats */}
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: '1fr 1px 1fr', 
-              gap: '1rem', 
-              paddingTop: '1.5rem', 
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '2rem',
+              paddingTop: '0.75rem',
               borderTop: '1px solid var(--border-color)',
-              marginTop: '0.5rem',
-              alignItems: 'center'
+              marginTop: '0.5rem'
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
-                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-tertiary)', fontWeight: 600 }}>Qualifizierung</span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.secondary }}>
-                    {((funnelSteps[3].value / funnelSteps[1].value) * 100).toFixed(1)}%
-                  </span>
-                  <span style={{ fontSize: '0.875rem', color: 'var(--success)' }}>
-                    <ArrowUpRight size={14} style={{ display: 'inline' }} /> +2.1%
-                  </span>
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Quali:</span>
+                <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
+                  {((funnelSteps[3].value / funnelSteps[1].value) * 100).toFixed(1)}%
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--success)' }}>+2.1%</span>
               </div>
-              
-              {/* Vertical Divider */}
-              <div style={{ height: '40px', backgroundColor: 'var(--slate-200)' }}></div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
-                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-tertiary)', fontWeight: 600 }}>Abschluss</span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 700, color: theme.colors.primary }}>
-                    {((funnelSteps[4].value / funnelSteps[3].value) * 100).toFixed(1)}%
-                  </span>
-                  <span style={{ fontSize: '0.875rem', color: 'var(--text-tertiary)' }}>
-                    <span style={{ color: 'var(--text-tertiary)' }}>~</span> 0.0%
-                  </span>
-                </div>
+              <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--slate-200)' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Abschluss:</span>
+                <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
+                  {((funnelSteps[4].value / funnelSteps[3].value) * 100).toFixed(1)}%
+                </span>
               </div>
             </div>
           </div>

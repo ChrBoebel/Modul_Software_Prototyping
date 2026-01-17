@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Save, Play, X, Plus, Trash2, HelpCircle, ListChecks, CheckSquare, Sliders, Type, ChevronDown, Image, FileText, FormInput, MessageSquare, Layers, Undo2, Redo2 } from 'lucide-react';
+import { Save, Play, X, Plus, Trash2, HelpCircle, ListChecks, CheckSquare, Sliders, Type, ChevronDown, Image, FileText, FormInput, MessageSquare, Layers, Undo2, Redo2, Package } from 'lucide-react';
 import { StructuredFlowCanvas, useFlowHistory, useFlowKeyboardShortcuts } from '../structured-flow';
 import FlowPreviewModal from '../preview/FlowPreviewModal';
 import { getExampleFlowForCampaign } from '../exampleFlows';
 import { Button } from '../../ui';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import defaultProducts from '../../../data/productCatalog.json';
 
 const INPUT_TYPES = ['Single-Choice', 'Multi-Choice', 'Range-Slider', 'Eingabe', 'Dropdown'];
 
@@ -18,7 +20,8 @@ const COMPONENT_CATEGORIES = [
       { id: 'multi-choice', label: 'Multi-Choice', icon: CheckSquare, description: 'Mehrere Antworten möglich' },
       { id: 'range-slider', label: 'Range-Slider', icon: Sliders, description: 'Wert auf Skala wählen' },
       { id: 'text-input', label: 'Texteingabe', icon: Type, description: 'Freie Texteingabe' },
-      { id: 'dropdown', label: 'Dropdown', icon: ChevronDown, description: 'Auswahl aus Liste' }
+      { id: 'dropdown', label: 'Dropdown', icon: ChevronDown, description: 'Auswahl aus Liste' },
+      { id: 'product-select', label: 'Produkt-Frage', icon: Package, description: 'Produkte aus Katalog' }
     ]
   },
   {
@@ -60,6 +63,10 @@ const createDefaultCard = (title = 'Neue Frage') => ({
 
 const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated, onNavigateToLead }) => {
   const example = useMemo(() => getExampleFlowForCampaign(campaign?.id), [campaign?.id]);
+
+  // Load products from localStorage for product-select questions
+  const [products] = useLocalStorage('swk:productCatalog', defaultProducts);
+  const activeProducts = useMemo(() => products.filter(p => p.config?.active !== false), [products]);
 
   const {
     nodes,
@@ -146,6 +153,7 @@ const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated, onNavigate
     // Determine node type based on element
     const nodeType = element.type;
     const isQuestion = nodeType === 'question';
+    const isProductSelect = element.id === 'product-select';
 
     const nextNumber = isQuestion
       ? nodes.filter(n => n.type === 'question').length + 1
@@ -162,16 +170,23 @@ const FlowEditorTab = ({ showToast, campaign, onClose, onLeadCreated, onNavigate
       }, true);
 
       if (nextCardId && isQuestion) {
+        // Auto-populate answers for product-select from product catalog
+        const answers = isProductSelect
+          ? activeProducts.map(p => p.name)
+          : ['Antwort 1', 'Antwort 2'];
+
         // Create card with the specific input type (skipHistory - already recorded by insertNode)
         updateCard(nextCardId, {
           ...createDefaultCard(element.label),
-          inputType: element.inputType || 'Single-Choice'
+          inputType: element.inputType || 'Single-Choice',
+          answers,
+          isProductQuestion: isProductSelect
         }, element.label, true);
       }
 
       showToast(`${element.label} hinzugefügt`);
     }
-  }, [insertNode, nodes, showToast, updateCard, updateNode]);
+  }, [insertNode, nodes, showToast, updateCard, updateNode, activeProducts]);
 
   // Handle creating a branch
   const handleBranchNode = useCallback((nodeId) => {

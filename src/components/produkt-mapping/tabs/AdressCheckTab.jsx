@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback } from 'react';
-import { Copy } from 'lucide-react';
-import { Badge, Button, Card, DataTable, Input, Select } from '../../ui';
+import { Copy, UserPlus } from 'lucide-react';
+import { Badge, Button, Card, DataTable, Input, Select, Panel } from '../../ui';
 import {
   getCombinedAvailabilityForAddress,
   formatRuleScope,
@@ -74,10 +74,14 @@ const AdressCheckTab = ({
   addresses = [],
   availability = [],
   availabilityStatus = [],
-  showToast
+  showToast,
+  onLeadCreated,
+  onNavigateToLead
 }) => {
   const [selectedSampleId, setSelectedSampleId] = useState(ADDRESS_SAMPLES[0].id);
   const [address, setAddress] = useState(() => ADDRESS_SAMPLES[0].value);
+  const [showLeadPanel, setShowLeadPanel] = useState(false);
+  const [newLeadData, setNewLeadData] = useState({ firstName: '', lastName: '', email: '', phone: '' });
 
   const combinedAvailability = useMemo(() =>
     getCombinedAvailabilityForAddress(address, {
@@ -176,6 +180,64 @@ const AdressCheckTab = ({
     });
   }, [address, showToast]);
 
+  // Handle creating a lead from the address check
+  const handleCreateLead = useCallback(() => {
+    if (!combinedAvailability.isServiceable) {
+      showToast?.('Adresse ist nicht versorgbar');
+      return;
+    }
+
+    const timestamp = new Date().toISOString();
+    const year = new Date().getFullYear();
+    const leadNumber = `LEAD-${year}-${String(Date.now()).slice(-4)}`;
+
+    const newLead = {
+      id: Date.now(),
+      leadNumber,
+      timestamp,
+      source: 'Adress-Check',
+      status: 'new',
+      priority: 'medium',
+      customer: {
+        firstName: newLeadData.firstName,
+        lastName: newLeadData.lastName,
+        email: newLeadData.email,
+        phone: newLeadData.phone,
+        address: `${address.street} ${address.houseNumber}, ${address.postalCode} ${address.city}`,
+        postalCode: address.postalCode,
+        city: address.city,
+        street: address.street,
+        houseNumber: address.houseNumber,
+        customerType: 'private'
+      },
+      interest: {
+        type: 'energy_contract',
+        details: `Verfügbare Produkte: ${combinedAvailability.availableProducts.map(p => p.product?.name || p.name).join(', ')}`
+      },
+      qualification: {
+        score: 60
+      },
+      availability: {
+        isServiceable: combinedAvailability.isServiceable,
+        availableProducts: combinedAvailability.availableProducts.map(p => ({
+          id: p.product?.id || p.id,
+          name: p.product?.name || p.name
+        })),
+        checkedAddress: address
+      },
+      notes: 'Lead erstellt über Adress-Check'
+    };
+
+    onLeadCreated?.(newLead);
+    setShowLeadPanel(false);
+    setNewLeadData({ firstName: '', lastName: '', email: '', phone: '' });
+    showToast?.(`Lead ${leadNumber} erstellt`);
+
+    if (onNavigateToLead) {
+      onNavigateToLead(newLead.id);
+    }
+  }, [address, combinedAvailability, newLeadData, onLeadCreated, onNavigateToLead, showToast]);
+
   const availableCount = combinedAvailability.combinedProducts.filter(
     cp => cp.status?.value === 'available'
   ).length;
@@ -241,6 +303,18 @@ const AdressCheckTab = ({
             ariaLabel="Adresse kopieren"
             title="Adresse in Zwischenablage kopieren"
           />
+
+          {/* Lead erstellen Button - nur wenn versorgbar und Callback vorhanden */}
+          {combinedAvailability.isServiceable && onLeadCreated && (
+            <Button
+              variant="primary"
+              size="sm"
+              icon={UserPlus}
+              onClick={() => setShowLeadPanel(true)}
+            >
+              Lead erstellen
+            </Button>
+          )}
         </div>
 
         {combinedAvailability.matchedAddress && (
@@ -289,6 +363,71 @@ const AdressCheckTab = ({
           />
         </div>
       </Card>
+
+      {/* Lead Creation Panel */}
+      <Panel
+        isOpen={showLeadPanel}
+        onClose={() => setShowLeadPanel(false)}
+        title="Lead aus Adresse erstellen"
+        width="400px"
+      >
+        <div className="flex flex-col gap-4">
+          {/* Address Summary */}
+          <div style={{
+            padding: '12px',
+            background: 'var(--success-light)',
+            borderRadius: '8px',
+            marginBottom: '8px'
+          }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+              {address.street} {address.houseNumber}, {address.postalCode} {address.city}
+            </p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+              {combinedAvailability.availableProducts.length} Produkt{combinedAvailability.availableProducts.length !== 1 ? 'e' : ''} verfügbar
+            </p>
+          </div>
+
+          <Input
+            label="Vorname"
+            value={newLeadData.firstName}
+            onChange={(e) => setNewLeadData(prev => ({ ...prev, firstName: e.target.value }))}
+            placeholder="Max"
+          />
+          <Input
+            label="Nachname"
+            value={newLeadData.lastName}
+            onChange={(e) => setNewLeadData(prev => ({ ...prev, lastName: e.target.value }))}
+            placeholder="Mustermann"
+          />
+          <Input
+            label="E-Mail"
+            type="email"
+            value={newLeadData.email}
+            onChange={(e) => setNewLeadData(prev => ({ ...prev, email: e.target.value }))}
+            placeholder="max@example.de"
+          />
+          <Input
+            label="Telefon"
+            type="tel"
+            value={newLeadData.phone}
+            onChange={(e) => setNewLeadData(prev => ({ ...prev, phone: e.target.value }))}
+            placeholder="+49 123 456789"
+          />
+
+          <div className="flex gap-2 justify-end mt-4">
+            <Button variant="secondary" onClick={() => setShowLeadPanel(false)}>
+              Abbrechen
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleCreateLead}
+              disabled={!newLeadData.firstName && !newLeadData.lastName && !newLeadData.email}
+            >
+              Lead erstellen
+            </Button>
+          </div>
+        </div>
+      </Panel>
     </div>
   );
 };

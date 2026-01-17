@@ -114,21 +114,21 @@
 
   /* Cards */
   .card {
-    @apply bg-white border border-slate-200 rounded-xl shadow p-6 mb-6;
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm p-4 mb-4;
     transition: var(--transition);
+    overflow: hidden;
   }
 
   .card:hover {
-    @apply shadow-md border-slate-300;
-    transform: translateY(-1px);
+    @apply shadow border-slate-300;
   }
 
   .card-header {
-    @apply flex items-center justify-between mb-6;
+    @apply flex items-center justify-between mb-4;
   }
 
   .card-header h3 {
-    @apply text-lg font-semibold text-black;
+    @apply text-base font-semibold text-black;
   }
 
   .card.full-width {
@@ -137,22 +137,23 @@
 
   /* KPI Cards */
   .kpi-bar {
-    @apply grid gap-6 mb-8;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    @apply grid gap-4 mb-6;
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .kpi-card {
-    @apply bg-white border border-slate-200 rounded-xl p-6 flex items-center gap-5 shadow-sm;
+    @apply bg-white border border-slate-200 rounded-lg p-4 flex items-center gap-3 shadow-sm;
     transition: var(--transition);
+    min-width: 0; /* Prevent overflow */
   }
 
   .kpi-card:hover {
     @apply shadow-md;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .kpi-icon {
-    @apply w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 text-slate-600;
+    @apply w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-slate-100 text-slate-600;
   }
 
   .kpi-icon.variant-primary {
@@ -176,15 +177,15 @@
   }
 
   .kpi-content {
-    @apply flex flex-col;
+    @apply flex flex-col min-w-0;
   }
 
   .kpi-value {
-    @apply text-3xl font-bold text-black leading-tight tracking-tight;
+    @apply text-xl font-bold text-black leading-tight tracking-tight truncate;
   }
 
   .kpi-label {
-    @apply text-sm text-slate-600 font-medium;
+    @apply text-xs text-slate-600 font-medium truncate;
   }
 
   /* Buttons */
@@ -269,20 +270,23 @@
 
   /* Tables */
   .table-wrapper {
-    @apply overflow-x-auto border border-slate-200 rounded-xl;
+    @apply overflow-x-auto border border-slate-200 rounded-lg;
+    max-width: 100%;
   }
 
   .data-table {
-    @apply w-full bg-white text-[15px];
+    @apply w-full bg-white text-[13px];
     border-collapse: collapse;
+    table-layout: auto;
   }
 
   .data-table th {
-    @apply py-3.5 px-6 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-50 border-b border-slate-200;
+    @apply py-2.5 px-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 bg-slate-50 border-b border-slate-200;
+    white-space: nowrap;
   }
 
   .data-table td {
-    @apply py-4 px-6 border-b border-slate-200 text-black;
+    @apply py-2.5 px-3 border-b border-slate-200 text-black;
   }
 
   .data-table tbody tr:last-child td {
@@ -491,6 +495,30 @@
 
   .trend-stable {
     @apply text-slate-400 font-bold;
+  }
+
+  /* Availability Badge */
+  .availability-badge {
+    @apply inline-flex items-center gap-1 py-1 px-2 rounded text-xs font-medium;
+  }
+
+  .availability-badge.serviceable {
+    background: var(--success-light);
+    color: var(--success);
+  }
+
+  .availability-badge.not-serviceable {
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .availability-badge.partial {
+    background: var(--warning-light);
+    color: var(--warning-dark, var(--warning));
+  }
+
+  .availability-badge.unknown {
+    @apply bg-slate-100 text-slate-400;
   }
 
   /* Toggle Switch */

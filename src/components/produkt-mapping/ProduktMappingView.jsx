@@ -44,7 +44,7 @@ const downloadJson = (filename, data) => {
   URL.revokeObjectURL(url);
 };
 
-const ProduktMappingView = ({ showToast }) => {
+const ProduktMappingView = ({ showToast, onLeadCreated, onNavigateToLead }) => {
   const [activeTab, setActiveTab] = useState('produkte'); // Start with products as first step in workflow
   const [products, setProducts, productsApi] = useLocalStorage(STORAGE_KEYS.products, defaultProducts);
   const [rules, setRules, rulesApi] = useLocalStorage(STORAGE_KEYS.rules, defaultRules);
@@ -243,6 +243,8 @@ const ProduktMappingView = ({ showToast }) => {
           availability={availability}
           availabilityStatus={availabilityStatus}
           showToast={showToast}
+          onLeadCreated={onLeadCreated}
+          onNavigateToLead={onNavigateToLead}
         />
       )}
     </div>
