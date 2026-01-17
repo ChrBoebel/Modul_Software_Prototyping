@@ -49,7 +49,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
       case 'kampagnen':
         return <KampagnenTab showToast={showToast} onNavigate={onNavigate} />;
       case 'news-feed':
-        return <NewsFeedTab showToast={showToast} />;
+        return <NewsFeedTab showToast={showToast} onNavigate={onNavigate} flowLeads={flowLeads} />;
       case 'traffic':
         return <TrafficTab showToast={showToast} />;
       default:

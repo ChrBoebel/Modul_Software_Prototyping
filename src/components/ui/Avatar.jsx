@@ -1,10 +1,12 @@
 const sizeClasses = {
+  xs: 'avatar-xs',
   sm: 'avatar-sm',
   md: 'avatar-md',
   lg: 'avatar-lg'
 };
 
 const sizePx = {
+  xs: 24,
   sm: 28,
   md: 40,
   lg: 48

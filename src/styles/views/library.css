@@ -278,6 +278,10 @@
     @apply rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 text-slate-600;
   }
 
+  .avatar-xs {
+    @apply text-[10px] font-semibold;
+  }
+
   .avatar-sm {
     @apply text-xs;
   }
