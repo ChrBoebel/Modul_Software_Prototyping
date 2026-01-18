@@ -129,22 +129,37 @@ export const Avatar = ({
     setImageError(true);
   };
 
+  // Check if this is a company logo (not a person photo)
+  const isCompanyLogo = type === 'company' && imageSrc && !imageSrc.includes('pravatar') && !imageSrc.includes('ui-avatars');
+
   if (imageSrc && !imageError) {
     return (
-      <img
-        src={imageSrc}
-        alt={name || 'Avatar'}
-        className={`avatar ${sizeClasses[size]} avatar-${variant} ${className}`.trim()}
+      <div
         style={{
           width: sizeValue,
           height: sizeValue,
           borderRadius: '50%',
-          objectFit: 'cover',
-          backgroundColor: '#f1f5f9',
-          border: '2px solid #e2e8f0'
+          backgroundColor: '#ffffff',
+          border: '2px solid #e2e8f0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          padding: isCompanyLogo ? '6px' : '0'
         }}
-        onError={handleImageError}
-      />
+      >
+        <img
+          src={imageSrc}
+          alt={name || 'Avatar'}
+          className={`avatar ${sizeClasses[size]} avatar-${variant} ${className}`.trim()}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain'
+          }}
+          onError={handleImageError}
+        />
+      </div>
     );
   }
 
