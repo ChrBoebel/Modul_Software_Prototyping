@@ -19,7 +19,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { Avatar } from '../ui/Avatar';
+import { Avatar, Tooltip } from '../ui';
 import {
   getCombinedAvailabilityForAddress,
   getStatusBadgeVariant,
@@ -281,33 +281,39 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
 
       {/* Status Buttons */}
       <div className="status-buttons">
-        <button
-          type="button"
-          className={`btn ${activeStatus === 'kontakt' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => handleStatusChange('kontakt')}
-          aria-pressed={activeStatus === 'kontakt'}
-        >
-          <Phone size={16} />
-          Kontakt
-        </button>
-        <button
-          type="button"
-          className={`btn ${activeStatus === 'priorisieren' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => handleStatusChange('priorisieren')}
-          aria-pressed={activeStatus === 'priorisieren'}
-        >
-          <ThumbsUp size={16} />
-          Priorisieren
-        </button>
-        <button
-          type="button"
-          className={`btn ${activeStatus === 'abgelehnt' ? 'btn-danger' : 'btn-secondary'}`}
-          onClick={() => handleStatusChange('abgelehnt')}
-          aria-pressed={activeStatus === 'abgelehnt'}
-        >
-          <ThumbsDown size={16} />
-          Abgelehnt
-        </button>
+        <Tooltip content="Lead als kontaktiert markieren">
+          <button
+            type="button"
+            className={`btn ${activeStatus === 'kontakt' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => handleStatusChange('kontakt')}
+            aria-pressed={activeStatus === 'kontakt'}
+          >
+            <Phone size={16} />
+            Kontakt
+          </button>
+        </Tooltip>
+        <Tooltip content="Lead für Vertrieb priorisieren">
+          <button
+            type="button"
+            className={`btn ${activeStatus === 'priorisieren' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => handleStatusChange('priorisieren')}
+            aria-pressed={activeStatus === 'priorisieren'}
+          >
+            <ThumbsUp size={16} />
+            Priorisieren
+          </button>
+        </Tooltip>
+        <Tooltip content="Lead als nicht qualifiziert markieren">
+          <button
+            type="button"
+            className={`btn ${activeStatus === 'abgelehnt' ? 'btn-danger' : 'btn-secondary'}`}
+            onClick={() => handleStatusChange('abgelehnt')}
+            aria-pressed={activeStatus === 'abgelehnt'}
+          >
+            <ThumbsDown size={16} />
+            Abgelehnt
+          </button>
+        </Tooltip>
       </div>
 
       {/* Content Sections */}

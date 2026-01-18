@@ -9,6 +9,8 @@ export { DataTable } from './DataTable';
 export { KPICard, KPIBar } from './KPICard';
 export { Avatar } from './Avatar';
 export { StatusIndicator } from './StatusIndicator';
+export { ScoreBadge } from './ScoreBadge';
+export { StatusBadge } from './StatusBadge';
 
 // Form Elements
 export { Input } from './Input';

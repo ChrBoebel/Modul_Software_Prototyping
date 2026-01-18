@@ -27,7 +27,7 @@ import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
 import defaultProducts from '../../../data/productCatalog.json';
 import defaultRules from '../../../data/availabilityRules.json';
-import { Avatar } from '../../ui/Avatar';
+import { Avatar, ScoreBadge, Tooltip as UiTooltip } from '../../ui';
 
 // Default integration data (same as IntegrationTab)
 const defaultIntegrations = [
@@ -394,16 +394,10 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                       }}
                     >
                       <td>
-                        <span
-                          className="score-badge high"
-                          title={lead.scoreBreakdown?.length > 0
-                            ? `Score-Zusammensetzung:\n${lead.scoreBreakdown.map(s => `${s.label}: ${s.points > 0 ? '+' : ''}${s.points}`).join('\n')}`
-                            : `Score: ${lead.score}`
-                          }
-                          style={{ cursor: 'help' }}
-                        >
-                          {lead.score}
-                        </span>
+                        <ScoreBadge
+                          score={lead.score}
+                          breakdown={lead.scoreBreakdown}
+                        />
                       </td>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -562,24 +556,30 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   </div>
                   <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Produkte</div>
                 </div>
-                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
-                    {productStats.coveredPlzCount}
+                <UiTooltip content="Postleitzahlen mit aktiven Verfügbarkeitsregeln">
+                  <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
+                      {productStats.coveredPlzCount}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>PLZ</div>
                   </div>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>PLZ</div>
-                </div>
-                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.slate500 }}>
-                    {productStats.totalRules}
+                </UiTooltip>
+                <UiTooltip content="Aktive Regeln die Produktverfügbarkeit definieren">
+                  <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.slate500 }}>
+                      {productStats.totalRules}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Regeln</div>
                   </div>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Regeln</div>
-                </div>
-                <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.success }}>
-                    {productStats.coveragePercent}%
+                </UiTooltip>
+                <UiTooltip content="Verhältnis zu ~8000 deutschen PLZ-Bereichen">
+                  <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.success }}>
+                      {productStats.coveragePercent}%
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Abdeckung</div>
                   </div>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Abdeckung</div>
-                </div>
+                </UiTooltip>
               </div>
 
               {/* Top Products */}
@@ -771,16 +771,19 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
             <div className="card-header" style={{ marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <h3>Conversion Funnel</h3>
-                <div style={{
-                  background: 'var(--success-light)',
-                  color: 'var(--success)',
-                  padding: '0.25rem 0.75rem',
-                  borderRadius: '999px',
-                  fontWeight: 600,
-                  fontSize: '0.75rem'
-                }}>
-                  {((funnelSteps[4]?.value / funnelSteps[0]?.value) * 100 || 0).toFixed(1)}% Gesamt
-                </div>
+                <UiTooltip content="Gesamt-Conversion: Abschlüsse / gestartete Formulare">
+                  <div style={{
+                    background: 'var(--success-light)',
+                    color: 'var(--success)',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '999px',
+                    fontWeight: 600,
+                    fontSize: '0.75rem',
+                    cursor: 'help'
+                  }}>
+                    {((funnelSteps[4]?.value / funnelSteps[0]?.value) * 100 || 0).toFixed(1)}% Gesamt
+                  </div>
+                </UiTooltip>
               </div>
 
               {/* Campaign Selector */}
@@ -908,20 +911,24 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
               borderTop: '1px solid var(--border-color)',
               marginTop: '0.5rem'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Quali:</span>
-                <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
-                  {((funnelSteps[3].value / funnelSteps[1].value) * 100).toFixed(1)}%
-                </span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--success)' }}>+2.1%</span>
-              </div>
+              <UiTooltip content="Qualifizierungsquote: (Qualifiziert / Kontaktdaten) × 100">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'help' }}>
+                  <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Quali:</span>
+                  <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
+                    {((funnelSteps[3].value / funnelSteps[1].value) * 100).toFixed(1)}%
+                  </span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--success)' }}>+2.1%</span>
+                </div>
+              </UiTooltip>
               <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--slate-200)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Abschluss:</span>
-                <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
-                  {((funnelSteps[4].value / funnelSteps[3].value) * 100).toFixed(1)}%
-                </span>
-              </div>
+              <UiTooltip content="Abschlussquote: (Anschluss / Qualifiziert) × 100">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'help' }}>
+                  <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Abschluss:</span>
+                  <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
+                    {((funnelSteps[4].value / funnelSteps[3].value) * 100).toFixed(1)}%
+                  </span>
+                </div>
+              </UiTooltip>
             </div>
           </div>
         </div>

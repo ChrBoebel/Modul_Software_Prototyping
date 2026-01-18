@@ -3,8 +3,10 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Settings,
-  BarChart3
+  BarChart3,
+  HelpCircle
 } from 'lucide-react';
+import { Tooltip } from '../../ui';
 
 const KampagnenTab = ({ showToast, onNavigate }) => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
@@ -132,12 +134,30 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                 <tr>
                   <th>Kampagne</th>
                   <th>Status</th>
-                  <th>Events</th>
+                  <th>
+                    <Tooltip content="Alle Tracking-Events: Seitenaufrufe, Klicks, Conversions">
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
+                        Events <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      </span>
+                    </Tooltip>
+                  </th>
                   <th>Impressions</th>
                   <th>Clicks</th>
-                  <th>CTR</th>
+                  <th>
+                    <Tooltip content="Click-Through-Rate: (Clicks / Impressions) × 100">
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
+                        CTR <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      </span>
+                    </Tooltip>
+                  </th>
                   <th>Leads 30d</th>
-                  <th>Quali-Quote</th>
+                  <th>
+                    <Tooltip content="Anteil qualifizierter Leads an allen Kampagnen-Leads">
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
+                        Quali-Quote <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      </span>
+                    </Tooltip>
+                  </th>
                   <th>Trend</th>
                   <th></th>
                 </tr>

@@ -61,10 +61,34 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
     <div className="view-container">
       <h1 className="sr-only">Dashboard Übersicht</h1>
       <KPIBar>
-        <KPICard icon={Users} value={kpis.visitors} label="Besucher gesamt" variant="primary" />
-        <KPICard icon={TrendingUp} value={kpis.totalLeads} label="Leads gesamt" variant="secondary" />
-        <KPICard icon={CheckCircle} value={kpis.qualifiedLeads} label="qualifiziert Leads" variant="success" />
-        <KPICard icon={Percent} value={kpis.conversionRate} label="Conversion-Rate" variant="warning" />
+        <KPICard
+          icon={Users}
+          value={kpis.visitors}
+          label="Besucher gesamt"
+          variant="primary"
+          tooltip="Anzahl aller Website-Besucher im gewählten Zeitraum"
+        />
+        <KPICard
+          icon={TrendingUp}
+          value={kpis.totalLeads}
+          label="Leads gesamt"
+          variant="secondary"
+          tooltip="Anzahl aller erfassten Kontaktanfragen"
+        />
+        <KPICard
+          icon={CheckCircle}
+          value={kpis.qualifiedLeads}
+          label="qualifiziert Leads"
+          variant="success"
+          tooltip="Leads mit Score ≥50, die für den Vertrieb relevant sind"
+        />
+        <KPICard
+          icon={Percent}
+          value={kpis.conversionRate}
+          label="Conversion-Rate"
+          variant="warning"
+          tooltip="Berechnung: (Leads / Besucher) × 100"
+        />
       </KPIBar>
 
       <Tabs

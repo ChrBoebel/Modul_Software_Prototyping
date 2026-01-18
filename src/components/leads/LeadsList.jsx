@@ -9,7 +9,7 @@ import {
   XCircle,
   HelpCircle
 } from 'lucide-react';
-import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup, Avatar } from '../ui';
+import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup, Avatar, ScoreBadge, StatusBadge } from '../ui';
 import leadsData from '../../data/leads.json';
 import { transformLead } from '../../utils/leadUtils';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -268,38 +268,44 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
                   </div>
                 </td>
                 <td>
-                  <span
-                    className={`status-badge-ampel ${getStatusBadge(lead.status).class}`}
-                    title={getStatusTooltip(lead.status)}
-                  >
-                    <Circle size={10} fill="currentColor" />
-                    <span>{getStatusBadge(lead.status).label}</span>
-                  </span>
+                  <StatusBadge
+                    status={lead.status}
+                    label={getStatusBadge(lead.status).label}
+                    icon={Circle}
+                    variant={getStatusBadge(lead.status).class}
+                    size="sm"
+                    tooltip={{
+                      title: getStatusBadge(lead.status).label,
+                      description: getStatusTooltip(lead.status)
+                    }}
+                  />
                 </td>
                 <td>
-                  <span
-                    className={`score-badge ${getScoreBadge(lead.leadScore)}`}
-                    title={lead.scoreBreakdown?.length > 0
-                      ? `Score-Zusammensetzung:\n${lead.scoreBreakdown.map(s => `${s.label}: ${s.points > 0 ? '+' : ''}${s.points}`).join('\n')}`
-                      : `Score: ${lead.leadScore}`
-                    }
-                    style={{ cursor: 'help' }}
-                  >
-                    {lead.leadScore}
-                  </span>
+                  <ScoreBadge
+                    score={lead.leadScore}
+                    breakdown={lead.scoreBreakdown}
+                  />
                 </td>
                 <td>
                   {(() => {
                     const avail = getLeadAvailability(lead);
-                    const IconComponent = avail.icon;
+                    const variantMap = {
+                      'serviceable': 'success',
+                      'not-serviceable': 'danger',
+                      'unknown': 'neutral'
+                    };
                     return (
-                      <span
-                        className={`availability-badge ${avail.status}`}
-                        title={avail.tooltip}
-                      >
-                        <IconComponent size={14} />
-                        <span>{avail.label}</span>
-                      </span>
+                      <StatusBadge
+                        status={avail.status}
+                        label={avail.label}
+                        icon={avail.icon}
+                        variant={variantMap[avail.status] || 'neutral'}
+                        size="sm"
+                        tooltip={{
+                          title: avail.label,
+                          description: avail.tooltip
+                        }}
+                      />
                     );
                   })()}
                 </td>

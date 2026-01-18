@@ -1,4 +1,5 @@
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Tooltip } from './Tooltip';
 
 const variantClasses = {
   primary: 'kpi-primary',
@@ -21,11 +22,12 @@ export const KPICard = ({
   variant = 'primary',
   trend,
   unit,
+  tooltip,
   className = ''
 }) => {
   const TrendIcon = trend?.direction ? trendIcons[trend.direction] : null;
 
-  return (
+  const content = (
     <div className={`kpi-card ${className}`.trim()}>
       {Icon && (
         <div className={`kpi-icon ${variantClasses[variant]}`}>
@@ -47,6 +49,12 @@ export const KPICard = ({
       </div>
     </div>
   );
+
+  if (tooltip) {
+    return <Tooltip content={tooltip} position="bottom">{content}</Tooltip>;
+  }
+
+  return content;
 };
 
 export const KPIBar = ({ children, className = '' }) => (

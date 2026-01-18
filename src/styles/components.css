@@ -484,6 +484,93 @@
     @apply bg-slate-100 text-slate-400;
   }
 
+  /* General Tooltip Animation */
+  @keyframes tooltipIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Score Tooltip */
+  .score-tooltip {
+    pointer-events: none;
+    animation: tooltipIn 0.12s ease-out;
+  }
+
+  .score-tooltip-content {
+    @apply bg-white rounded-xl shadow-lg border border-slate-200;
+    min-width: 180px;
+    padding: 12px 14px;
+  }
+
+  .score-tooltip-header {
+    @apply flex items-center gap-2 pb-2 mb-2 border-b border-slate-100;
+  }
+
+  .score-tooltip-indicator {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+
+  .score-tooltip-indicator.high {
+    background: var(--success);
+  }
+
+  .score-tooltip-indicator.medium {
+    background: var(--warning);
+  }
+
+  .score-tooltip-indicator.low {
+    background: var(--danger);
+  }
+
+  .score-tooltip-label {
+    @apply text-[13px] font-semibold text-slate-700;
+  }
+
+  .score-tooltip-value {
+    @apply text-[12px] text-slate-400 ml-auto font-medium;
+  }
+
+  .score-tooltip-breakdown {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .score-tooltip-row {
+    @apply flex items-center justify-between text-[12px];
+  }
+
+  .score-tooltip-item-label {
+    @apply text-slate-500;
+  }
+
+  .score-tooltip-item-points {
+    @apply font-semibold tabular-nums;
+  }
+
+  .score-tooltip-item-points.positive {
+    color: var(--success);
+  }
+
+  .score-tooltip-item-points.negative {
+    color: var(--danger);
+  }
+
+  .score-tooltip-arrow {
+    @apply absolute left-1/2 -translate-x-1/2;
+    bottom: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));
+  }
+
   /* Trend Indicators */
   .trend-up {
     color: var(--success);
