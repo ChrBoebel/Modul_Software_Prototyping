@@ -142,8 +142,9 @@ const MapController = ({
         }
 
         try {
-            if (L.drawLocal) {
-                L.drawLocal = GERMAN_DRAW_STRINGS;
+            // Properly patch German localization without replacing entire object
+            if (L.drawLocal && L.drawLocal.draw && L.drawLocal.draw.handlers && L.drawLocal.draw.handlers.polygon) {
+                L.drawLocal.draw.handlers.polygon.tooltip = GERMAN_DRAW_STRINGS.draw.handlers.polygon.tooltip;
             }
 
             const drawnItems = new L.FeatureGroup();

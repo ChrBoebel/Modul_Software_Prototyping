@@ -14,6 +14,32 @@ const sizePx = {
   lg: 48
 };
 
+// Company logo files (stored in /public/logos/)
+const COMPANY_LOGOS = {
+  'rewe': '/logos/rewe.png',
+  'mercedes': '/logos/mercedes.png',
+  'siemens': '/logos/siemens.png',
+  'sparkasse': '/logos/sparkasse.png',
+  'sap': '/logos/sap.png',
+  'microsoft': '/logos/microsoft.png',
+  'mailchimp': '/logos/mailchimp.png',
+  'bosch': '/logos/bosch.png',
+  'bmw': '/logos/bmw.png',
+  'porsche': '/logos/porsche.png',
+  'audi': '/logos/audi.png',
+  'volkswagen': '/logos/volkswagen.png',
+  'vw': '/logos/volkswagen.png',
+  'allianz': '/logos/allianz.png',
+  'telekom': '/logos/telekom.png',
+  'vodafone': '/logos/vodafone.png',
+  'google': '/logos/google.png',
+  'amazon': '/logos/amazon.png',
+  'apple': '/logos/apple.png',
+  'ibm': '/logos/ibm.png',
+  'oracle': '/logos/oracle.png',
+  'salesforce': '/logos/salesforce.png',
+};
+
 // Company brand colors for avatar backgrounds
 const COMPANY_COLORS = {
   // Tech
@@ -61,6 +87,19 @@ const COMPANY_COLORS = {
   'mailchimp': { bg: 'FFE01B', text: '000' },
 };
 
+// Get company logo path if available
+const getCompanyLogo = (companyName) => {
+  if (!companyName) return null;
+  const nameLower = companyName.toLowerCase();
+
+  for (const [key, logoPath] of Object.entries(COMPANY_LOGOS)) {
+    if (nameLower.includes(key)) {
+      return logoPath;
+    }
+  }
+  return null;
+};
+
 // Get company brand colors or generate one based on company name
 const getCompanyBrandColors = (companyName) => {
   if (!companyName) return null;
@@ -104,7 +143,13 @@ const getPlaceholderUrl = (name, size, type = 'person') => {
   const hash = name ? name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
 
   if (type === 'company') {
-    // Get company brand colors (known brands or generated)
+    // First check if we have a local logo file for this company
+    const logoPath = getCompanyLogo(name);
+    if (logoPath) {
+      return logoPath;
+    }
+
+    // Fallback to text-based avatar with brand colors
     const brandColors = getCompanyBrandColors(name);
     const bg = brandColors?.bg || '1e293b';
     const text = brandColors?.text || 'fff';
@@ -145,6 +190,9 @@ export const Avatar = ({
   };
 
   if (imageSrc && !imageError) {
+    // For company logos, use contain to show full logo; for people use cover
+    const isCompanyLogo = type === 'company' && getCompanyLogo(name);
+
     return (
       <img
         src={imageSrc}
@@ -154,8 +202,10 @@ export const Avatar = ({
           width: sizeValue,
           height: sizeValue,
           borderRadius: '50%',
-          objectFit: 'cover',
-          border: '2px solid #e2e8f0'
+          objectFit: isCompanyLogo ? 'contain' : 'cover',
+          backgroundColor: isCompanyLogo ? '#fff' : 'transparent',
+          border: '2px solid #e2e8f0',
+          padding: isCompanyLogo ? '2px' : '0'
         }}
         onError={handleImageError}
       />

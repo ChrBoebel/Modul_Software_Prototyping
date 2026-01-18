@@ -274,10 +274,33 @@
   border: 1px solid rgba(255, 255, 255, 0.8);
   z-index: 1000;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  pointer-events: none; /* Allow clicks to pass through to map */
 }
 
 .map-overlay-panel:hover {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Fix: Allow clicks to pass through overlays to map during drawing */
+.map-help-box {
+  pointer-events: none;
+}
+
+.map-technology-legend {
+  pointer-events: none;
+}
+
+/* Zone list container allows click-through, but buttons capture events */
+.map-zone-list-container {
+  pointer-events: none;
+}
+
+.map-zone-list,
+.map-zone-item,
+.map-zone-action-btn,
+.map-overlay-panel button,
+.map-overlay-panel input {
+  pointer-events: auto;
 }
 
 /* Map Search Box */
@@ -670,6 +693,7 @@
   box-shadow: 0 4px 16px rgba(35, 88, 161, 0.3);
   animation: slideInUp 0.3s ease;
   max-width: 400px;
+  pointer-events: none; /* Allow clicks to pass through to map */
 }
 
 .map-help-box-icon {

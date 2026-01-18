@@ -262,7 +262,7 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
       {/* Header */}
       <div className="detail-header">
         <div className="header-info" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Avatar name={lead.name} size="lg" usePlaceholder type="person" />
+          <Avatar name={lead.name} size="lg" usePlaceholder type={lead.customerType === 'business' ? 'company' : 'person'} />
           <div>
             <h3 style={{ margin: 0 }}>{lead.name}</h3>
             <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.leadId}</span>
