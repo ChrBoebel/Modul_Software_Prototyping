@@ -1,0 +1,312 @@
+# SWK Admin Dashboard
+
+Ein React-basiertes Admin-Dashboard für die Stadtwerke Konstanz (SWK) zur Verwaltung von Lead-Marketing-Flows, Produktverfügbarkeit und Kundenleads.
+
+## Inhaltsverzeichnis
+
+- [Voraussetzungen](#voraussetzungen)
+- [Installation](#installation)
+- [Entwicklung](#entwicklung)
+- [Projektstruktur](#projektstruktur)
+- [Architektur](#architektur)
+- [Hauptbereiche](#hauptbereiche)
+- [Komponenten-Bibliothek](#komponenten-bibliothek)
+- [Styling](#styling)
+- [Datenmanagement](#datenmanagement)
+
+## Voraussetzungen
+
+- Node.js 18+
+- npm oder yarn
+
+## Installation
+
+```bash
+# Abhängigkeiten installieren
+npm install
+
+# Entwicklungsserver starten
+npm run dev
+```
+
+## Entwicklung
+
+| Befehl | Beschreibung |
+|--------|--------------|
+| `npm run dev` | Startet den Vite-Entwicklungsserver mit Hot Reload |
+| `npm run build` | Erstellt einen optimierten Production-Build |
+| `npm run preview` | Vorschau des Production-Builds |
+
+## Projektstruktur
+
+```
+src/
+├── components/
+│   ├── dashboard/          # Dashboard-Ansicht mit KPIs und Tabs
+│   ├── einstellung/        # Einstellungen und Integrationen
+│   ├── layout/             # MainLayout und Sidebar
+│   ├── leads/              # Lead-Verwaltung (Liste und Detail)
+│   ├── lm-flows/           # Lead-Marketing Flow-Editor
+│   │   ├── structured-flow/  # Visueller Flow-Builder
+│   │   ├── tabs/             # Flow-Editor Tabs
+│   │   └── preview/          # Flow-Vorschau
+│   ├── map/                # Kartenkomponenten (Konstanz)
+│   ├── produkt-mapping/    # Produktverfügbarkeit und Geo-Mapping
+│   └── ui/                 # Wiederverwendbare UI-Komponenten
+├── data/                   # Mock-Daten (JSON)
+├── hooks/                  # Custom React Hooks
+├── styles/                 # CSS-Dateien nach Bereich
+│   └── views/              # View-spezifische Styles
+├── theme/                  # Farb- und Design-Tokens
+├── utils/                  # Hilfsfunktionen
+├── App.jsx                 # Haupt-App mit View-Routing
+├── main.jsx                # React-Einstiegspunkt
+└── index.css               # CSS-Imports und Tailwind
+```
+
+## Architektur
+
+### Tech-Stack
+
+| Technologie | Verwendung |
+|-------------|------------|
+| React 18 | UI-Framework |
+| Vite | Build-Tool und Dev-Server |
+| Tailwind CSS | Utility-First Styling |
+| Recharts | Datenvisualisierung (Charts) |
+| React-Leaflet | Kartenintegration |
+| ReactFlow | Flow-Diagramme |
+| Lucide React | Icon-Bibliothek |
+
+### Navigationskonzept
+
+Die Anwendung verwendet **Client-Side View Switching** ohne React Router. Die `App.jsx` verwaltet den aktuellen View-State und reicht Navigation-Callbacks an Kind-Komponenten weiter.
+
+```jsx
+// Navigation zwischen Views
+const handleNavigate = (viewId, params) => {
+  setCurrentView(viewId);
+  setNavParams(params);
+};
+```
+
+Views kommunizieren über Callback-Props:
+- `onNavigate` - Allgemeine Navigation
+- `onNavigateToCampaign` - Zur Kampagnen-Bearbeitung
+- `onNavigateToLead` - Zur Lead-Detailansicht
+- `onNavigateToProduktMapping` - Zur Verfügbarkeitsprüfung
+
+### State Management
+
+- **Lokaler Component State** für UI-Zustand
+- **Prop Drilling** für View-übergreifende Daten
+- **localStorage** für persistente Daten (z.B. Flow-generierte Leads unter `swk:flow-leads`)
+
+## Hauptbereiche
+
+### Dashboard (`/components/dashboard/`)
+
+Übersichtsseite mit KPIs und Metriken.
+
+**Tabs:**
+- Start - Hauptübersicht mit KPI-Cards
+- Kampagnen - Kampagnen-Performance
+- News-Feed - Aktivitäten und Updates
+- Traffic - Besucherstatistiken
+
+### LM-Flows (`/components/lm-flows/`)
+
+Visueller Editor für Lead-Marketing-Flows.
+
+**Tabs:**
+- Kampagnen - Übersicht aller Flow-Kampagnen
+- Flow-Editor - Visueller Flow-Builder
+- Globale Werte - Übergreifende Konfiguration
+
+**Flow-Editor System (`structured-flow/`):**
+
+| Datei | Funktion |
+|-------|----------|
+| `StructuredFlowCanvas.jsx` | Haupt-Canvas für Flow-Visualisierung |
+| `FlowNode.jsx` | Rendering einzelner Nodes mit Konfiguration |
+| `FlowConnector.jsx` | Verbindungslinien zwischen Nodes |
+| `useFlowState.js` | State-Management für Flows |
+| `useFlowHistory.js` | Undo/Redo-Funktionalität |
+| `exampleFlows.js` | Vordefinierte Flow-Templates |
+
+### Leads (`/components/leads/`)
+
+Verwaltung von Kundenleads.
+
+- `LeadsView.jsx` - Container mit Filterung
+- `LeadsList.jsx` - Tabellarische Übersicht
+- `LeadDetail.jsx` - Detailansicht eines Leads
+
+### Produkt-Mapping (`/components/produkt-mapping/`)
+
+Verwaltung der Produktverfügbarkeit nach geografischen Regionen.
+
+**Tabs:**
+- Map-Overview - Kartenbasierte Übersicht
+- Adress-Check - Verfügbarkeitsprüfung pro Adresse
+- Adress-Mapping - Zuordnung von Adressen
+- Produktkatalog - Produktübersicht
+- Mapping-Regeln - Logik-Konfiguration
+
+### Einstellung (`/components/einstellung/`)
+
+Systemkonfiguration und Integrationen.
+
+- Integration - Externe Systeme anbinden
+- Sync-Protokoll - Synchronisations-Logs
+
+## Komponenten-Bibliothek
+
+Alle wiederverwendbaren UI-Komponenten befinden sich in `src/components/ui/` und werden über `index.js` exportiert.
+
+### Import-Konvention
+
+```jsx
+// Barrel-Import verwenden
+import { Button, Card, Tabs, Modal } from '../ui';
+```
+
+### Verfügbare Komponenten
+
+**Basis-Elemente:**
+- `Button` - Buttons mit Varianten (primary, secondary, danger)
+- `Badge` - Status-Labels
+- `Card`, `CardHeader`, `CardBody`, `CardFooter` - Karten-Layout
+
+**Formulare:**
+- `Input` - Textfelder
+- `Select` - Dropdowns
+- `TextArea` - Mehrzeilige Eingabe
+- `Toggle` - Schalter
+- `Checkbox` - Checkboxen
+- `SearchBox` - Suchfeld mit Icon
+
+**Daten-Anzeige:**
+- `DataTable` - Tabellenkomponente
+- `KPICard`, `KPIBar` - KPI-Visualisierung
+- `Avatar` - Benutzer-Avatar
+- `StatusIndicator` - Status-Anzeige
+- `ScoreBadge`, `StatusBadge` - Bewertungs-Badges
+- `Sparkline`, `SparkBar` - Mini-Charts
+
+**Navigation und Feedback:**
+- `Tabs`, `TabPanel` - Tab-Navigation
+- `ToggleGroup` - Button-Gruppe
+- `Toast` - Benachrichtigungen
+- `Modal` - Dialoge
+- `Panel` - Seitenpanel
+- `Tooltip`, `TooltipButton` - Tooltips
+
+**Filter und Auswahl:**
+- `FilterChip`, `FilterChipGroup` - Filter-Chips
+- `ProductGroupSelector` - Produktgruppen-Auswahl
+- `CollapsibleSection`, `CollapsibleCard` - Aufklappbare Bereiche
+
+**Karten:**
+- `GeoMap` - Leaflet-Karte (nur Anzeige)
+- `DrawableGeoMap` - Karte mit Zeichenfunktion
+
+## Styling
+
+### CSS-Architektur
+
+Die Anwendung kombiniert Tailwind CSS mit benutzerdefinierten CSS-Dateien.
+
+```css
+/* src/index.css - Import-Reihenfolge */
+@import "tailwindcss/base";
+@import "./styles/base.css";
+
+@import "tailwindcss/components";
+@import "./styles/components.css";
+@import "./styles/layout.css";
+@import "./styles/views/*.css";
+
+@import "tailwindcss/utilities";
+@import "./styles/utilities.css";
+```
+
+### Farbschema
+
+Die Markenfarben sind in `tailwind.config.js` und `src/theme/colors.js` definiert.
+
+| Farbe | Hex | Verwendung |
+|-------|-----|------------|
+| SWK Rot | `#E2001A` | Primärfarbe, CTAs |
+| SWK Blau | `#2358A1` | Akzentfarbe, Links |
+| Slate Scale | `#f8fafc` - `#0f172a` | Neutrale Grautöne |
+
+**Verwendung in JavaScript (z.B. Recharts):**
+
+```jsx
+import { theme, chartColors } from '../theme/colors';
+
+// Einzelne Farbe
+const primaryColor = theme.colors.primary;
+
+// Chart-Palette
+const colors = chartColors.main;
+```
+
+### Schriftart
+
+Die Anwendung verwendet die Schriftart **Outfit** mit folgenden Größen:
+- `h1`: 40px, 900 weight
+- `h2`: 24px, 700 weight
+- `h3`: 18px, 700 weight
+
+## Datenmanagement
+
+### Mock-Daten
+
+Alle Testdaten befinden sich in `src/data/` als JSON-Dateien:
+
+| Datei | Inhalt |
+|-------|--------|
+| `leads.json` | Lead-Datensätze |
+| `closing.json` | Abschluss- und Vertriebsdaten |
+| `productCatalog.json` | Produktkatalog |
+| `availability*.json` | Verfügbarkeitsdaten |
+| `konstanzAddresses.json` | Adressdaten Konstanz |
+| `konstanzStreets.json` | Straßenverzeichnis |
+
+### Aggregation
+
+```jsx
+// src/data/mockData.js
+import { mockData } from '../data/mockData';
+
+// Zugriff auf Daten
+const leads = mockData.leads;
+const salesReps = mockData.salesReps;
+```
+
+### Persistenz
+
+Flow-generierte Leads werden im localStorage gespeichert:
+
+```jsx
+// Schlüssel: swk:flow-leads
+const STORAGE_KEY = 'swk:flow-leads';
+```
+
+Der Custom Hook `useLocalStorage` vereinfacht die Arbeit mit persistenten Daten:
+
+```jsx
+import { useLocalStorage } from '../hooks/useLocalStorage';
+
+const [data, setData, { reset }] = useLocalStorage('key', defaultValue);
+```
+
+## Konventionen
+
+- **Dateiendung**: `.jsx` für React-Komponenten
+- **Sprache**: Deutsche Bezeichnungen für Domain-Konzepte (Lead, Kampagne, Einstellung)
+- **Props**: Views erhalten `showToast` für Benachrichtigungen
+- **Navigation**: Callback-Props für View-Wechsel
+- **Styling**: Tailwind-Klassen bevorzugt, Custom CSS nur bei Bedarf
