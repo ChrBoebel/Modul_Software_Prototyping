@@ -23,12 +23,20 @@ export const KPICard = ({
   trend,
   unit,
   tooltip,
+  onClick,
   className = ''
 }) => {
   const TrendIcon = trend?.direction ? trendIcons[trend.direction] : null;
 
   const content = (
-    <div className={`kpi-card ${className}`.trim()}>
+    <div
+      className={`kpi-card ${onClick ? 'kpi-clickable' : ''} ${className}`.trim()}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : undefined }}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}
+    >
       {Icon && (
         <div className={`kpi-icon ${variantClasses[variant]}`}>
           <Icon size={20} aria-hidden="true" />

@@ -9,14 +9,15 @@ import {
   ResponsiveContainer,
   Legend
 } from 'recharts';
-import { TrendingUp, TrendingDown, Users, Target, ArrowUpRight, Globe, Mail, MousePointer, Share2, Search, Link2 } from 'lucide-react';
-import { theme, chartColors } from '../../../theme/colors';
+import { Users, Target, Percent, Award, Globe, Mail, MousePointer, Share2, Search, Link2 } from 'lucide-react';
+import { theme } from '../../../theme/colors';
 import { Tooltip } from '../../ui/Tooltip';
+import { KPICard, KPIBar } from '../../ui/KPICard';
 
 const TrafficTab = ({ showToast }) => {
   const [filterPeriod, setFilterPeriod] = useState('7d');
 
-  // Mock traffic data by source - using brand color palette
+  // Mock traffic data by source
   const trafficBySource = [
     { source: 'Google Ads', besucher: 12500, leads: 340, icon: MousePointer },
     { source: 'Facebook', besucher: 8900, leads: 180, icon: Share2 },
@@ -41,7 +42,7 @@ const TrafficTab = ({ showToast }) => {
   const totals = useMemo(() => {
     const totalBesucher = trafficBySource.reduce((sum, s) => sum + s.besucher, 0);
     const totalLeads = trafficBySource.reduce((sum, s) => sum + s.leads, 0);
-    const conversionRate = ((totalLeads / totalBesucher) * 100).toFixed(1);
+    const conversionRate = ((totalLeads / totalBesucher) * 100).toFixed(2);
     const topSource = trafficBySource.reduce((max, s) => s.besucher > max.besucher ? s : max, trafficBySource[0]);
     const maxBesucher = Math.max(...trafficBySource.map(s => s.besucher));
 
@@ -141,164 +142,39 @@ const TrafficTab = ({ showToast }) => {
         </select>
       </div>
 
-      {/* KPI Summary Row - matching StartTab style */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '12px'
-      }}>
-        {/* Besucher */}
-        <Tooltip content="Summe aller Website-Besucher aus allen Quellen" position="bottom">
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-            border: `1px solid ${theme.colors.slate100}`,
-            cursor: 'help'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor: theme.colors.primaryLight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Users size={18} color={theme.colors.primary} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '11px', color: theme.colors.slate500, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Besucher
-                </p>
-                <p style={{ margin: '2px 0 0 0', fontSize: '20px', fontWeight: 700, color: theme.colors.slate800 }}>
-                  {totals.totalBesucher.toLocaleString('de-DE')}
-                </p>
-              </div>
-            </div>
-            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <TrendingUp size={14} color={theme.colors.secondary} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.secondary }}>+12.5%</span>
-              <span style={{ fontSize: '11px', color: theme.colors.slate400, marginLeft: '4px' }}>vs. Vorwoche</span>
-            </div>
-          </div>
-        </Tooltip>
-
-        {/* Leads */}
-        <Tooltip content="Anzahl generierter Kontaktanfragen" position="bottom">
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-            border: `1px solid ${theme.colors.slate100}`,
-            cursor: 'help'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor: theme.colors.secondaryLight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Target size={18} color={theme.colors.secondary} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '11px', color: theme.colors.slate500, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Leads
-                </p>
-                <p style={{ margin: '2px 0 0 0', fontSize: '20px', fontWeight: 700, color: theme.colors.slate800 }}>
-                  {totals.totalLeads.toLocaleString('de-DE')}
-                </p>
-              </div>
-            </div>
-            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <TrendingUp size={14} color={theme.colors.secondary} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.secondary }}>+8.2%</span>
-              <span style={{ fontSize: '11px', color: theme.colors.slate400, marginLeft: '4px' }}>vs. Vorwoche</span>
-            </div>
-          </div>
-        </Tooltip>
-
-        {/* Conversion Rate */}
-        <Tooltip content="Berechnung: (Leads / Besucher) × 100" position="bottom">
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-            border: `1px solid ${theme.colors.slate100}`,
-            cursor: 'help'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor: theme.colors.slate100,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <ArrowUpRight size={18} color={theme.colors.slate600} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '11px', color: theme.colors.slate500, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Conversion
-                </p>
-                <p style={{ margin: '2px 0 0 0', fontSize: '20px', fontWeight: 700, color: theme.colors.slate800 }}>
-                  {totals.conversionRate}%
-                </p>
-              </div>
-            </div>
-            <div style={{ marginTop: '8px' }}>
-              <span style={{ fontSize: '11px', color: theme.colors.slate400 }}>Besucher → Lead</span>
-            </div>
-          </div>
-        </Tooltip>
-
-        {/* Top Quelle */}
-        <Tooltip content="Traffic-Quelle mit den meisten Besuchern" position="bottom">
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-            border: `1px solid ${theme.colors.slate100}`,
-            cursor: 'help'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor: theme.colors.primaryLight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <MousePointer size={18} color={theme.colors.primary} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '11px', color: theme.colors.slate500, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Top Quelle
-                </p>
-                <p style={{ margin: '2px 0 0 0', fontSize: '20px', fontWeight: 700, color: theme.colors.slate800 }}>
-                  {totals.topSource.source}
-                </p>
-              </div>
-            </div>
-            <div style={{ marginTop: '8px' }}>
-              <span style={{ fontSize: '11px', color: theme.colors.slate400 }}>{totals.topSource.besucher.toLocaleString('de-DE')} Besucher</span>
-            </div>
-          </div>
-        </Tooltip>
-      </div>
+      {/* KPI Bar - same style as global dashboard */}
+      <KPIBar>
+        <KPICard
+          icon={Users}
+          value={totals.totalBesucher.toLocaleString('de-DE')}
+          label="Besucher gesamt"
+          variant="primary"
+          trend={{ direction: 'up', value: '+12.5%' }}
+          tooltip="Summe aller Website-Besucher aus allen Quellen"
+        />
+        <KPICard
+          icon={Target}
+          value={totals.totalLeads.toLocaleString('de-DE')}
+          label="Leads gesamt"
+          variant="secondary"
+          trend={{ direction: 'up', value: '+8.2%' }}
+          tooltip="Anzahl generierter Kontaktanfragen"
+        />
+        <KPICard
+          icon={Percent}
+          value={totals.conversionRate}
+          label="Conversion-Rate"
+          unit="%"
+          tooltip="Berechnung: (Leads / Besucher) × 100"
+        />
+        <KPICard
+          icon={Award}
+          value={totals.topSource.source}
+          label="Top Quelle"
+          variant="primary"
+          tooltip="Traffic-Quelle mit den meisten Besuchern"
+        />
+      </KPIBar>
 
       {/* Main Content Grid */}
       <div style={{

@@ -137,14 +137,15 @@
 
   /* KPI Cards */
   .kpi-bar {
-    @apply grid gap-4 mb-6;
-    grid-template-columns: repeat(4, 1fr);
+    @apply flex flex-wrap gap-3 mb-6;
   }
 
   .kpi-card {
-    @apply bg-white border border-slate-200 rounded-lg p-4 flex items-center gap-3 shadow-sm;
+    @apply bg-white border border-slate-200 rounded-lg py-3 px-4 flex items-center gap-3 shadow-sm;
     transition: var(--transition);
     min-width: 0; /* Prevent overflow */
+    flex: 1 1 auto;
+    max-width: 220px;
   }
 
   .kpi-card:hover {
