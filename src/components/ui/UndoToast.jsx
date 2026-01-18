@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X, RotateCcw, Check, AlertCircle, Info } from 'lucide-react';
+import { theme } from '../../theme/colors';
 
 /**
- * UndoToast - Toast mit Undo-Action
+ * UndoToast - Toast mit Undo-Action (SWK Brand Design)
  *
  * @param {string} message - Nachricht (z.B. "Regel gelöscht")
  * @param {function} onUndo - Callback für Undo-Aktion
@@ -45,30 +46,31 @@ export const UndoToast = ({
     onClose?.();
   };
 
+  // SWK Brand Colors
   const typeConfig = {
     success: {
       icon: Check,
-      bgColor: 'bg-emerald-600',
-      iconBg: 'bg-emerald-700',
-      progressColor: 'bg-emerald-400'
+      bgColor: theme.colors.secondary,      // SWK Blue
+      iconBg: theme.colors.secondaryDark,
+      progressColor: '#5b8fd4'              // Lighter blue
     },
     error: {
       icon: AlertCircle,
-      bgColor: 'bg-red-600',
-      iconBg: 'bg-red-700',
-      progressColor: 'bg-red-400'
+      bgColor: theme.colors.primary,        // SWK Red
+      iconBg: theme.colors.primaryDark,
+      progressColor: '#f87171'              // Lighter red
     },
     info: {
       icon: Info,
-      bgColor: 'bg-swk-blue',
-      iconBg: 'bg-swk-blue/80',
-      progressColor: 'bg-blue-400'
+      bgColor: theme.colors.slate700,       // Dark slate
+      iconBg: theme.colors.slate800,
+      progressColor: theme.colors.slate400
     },
     warning: {
       icon: AlertCircle,
-      bgColor: 'bg-amber-500',
-      iconBg: 'bg-amber-600',
-      progressColor: 'bg-amber-300'
+      bgColor: theme.colors.slate600,       // Medium slate
+      iconBg: theme.colors.slate700,
+      progressColor: theme.colors.slate400
     }
   };
 
@@ -77,53 +79,70 @@ export const UndoToast = ({
 
   return (
     <div
-      className={`
-        fixed bottom-4 right-4
-        flex items-stretch
-        min-w-[320px] max-w-md
-        ${config.bgColor}
-        text-white
-        rounded-lg
-        shadow-lg
-        overflow-hidden
-        z-50
-        animate-in slide-in-from-bottom-4 fade-in duration-300
-      `}
+      style={{
+        position: 'fixed',
+        bottom: '16px',
+        right: '16px',
+        display: 'flex',
+        alignItems: 'stretch',
+        minWidth: '320px',
+        maxWidth: '400px',
+        backgroundColor: config.bgColor,
+        color: 'white',
+        borderRadius: '12px',
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden',
+        zIndex: 9999,
+        animation: 'toastSlideIn 0.3s ease-out'
+      }}
       role="alert"
       aria-live="polite"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Icon */}
-      <div className={`flex items-center justify-center px-3 ${config.iconBg}`}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0 12px',
+        backgroundColor: config.iconBg
+      }}>
         <Icon size={20} />
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-4 py-3">
-        <p className="font-medium">{message}</p>
+      <div style={{ flex: 1, padding: '12px 16px' }}>
+        <p style={{ fontWeight: 500, margin: 0, fontSize: '14px' }}>{message}</p>
         {isPaused && (
-          <p className="text-xs opacity-75 mt-0.5">
+          <p style={{ fontSize: '11px', opacity: 0.75, marginTop: '2px', margin: 0 }}>
             Pausiert - Maus entfernen zum Fortsetzen
           </p>
         )}
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-1 px-2">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '0 8px' }}>
         {onUndo && (
           <button
             type="button"
             onClick={handleUndo}
-            className="
-              flex items-center gap-1.5
-              px-3 py-1.5
-              text-sm font-medium
-              bg-white/20
-              hover:bg-white/30
-              rounded
-              transition-colors
-            "
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              fontSize: '13px',
+              fontWeight: 500,
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
           >
             <RotateCcw size={14} />
             Rückgängig
@@ -132,12 +151,20 @@ export const UndoToast = ({
         <button
           type="button"
           onClick={onClose}
-          className="
-            p-1.5
-            hover:bg-white/20
-            rounded
-            transition-colors
-          "
+          style={{
+            padding: '6px',
+            backgroundColor: 'transparent',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
           aria-label="Schließen"
         >
           <X size={18} />
@@ -145,12 +172,37 @@ export const UndoToast = ({
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '3px',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+      }}>
         <div
-          className={`h-full ${config.progressColor} transition-all duration-100 ease-linear`}
-          style={{ width: `${progress}%` }}
+          style={{
+            height: '100%',
+            backgroundColor: config.progressColor,
+            transition: 'width 0.1s linear',
+            width: `${progress}%`
+          }}
         />
       </div>
+
+      {/* Animation keyframes */}
+      <style>{`
+        @keyframes toastSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };
