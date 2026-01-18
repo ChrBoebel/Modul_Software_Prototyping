@@ -32,7 +32,7 @@ const COMPANY_LOGOS = {
   'commerzbank': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Commerzbank_Logo_2009.svg/200px-Commerzbank_Logo_2009.svg.png',
   'deutsche bank': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Deutsche_Bank_logo_without_wordmark.svg/200px-Deutsche_Bank_logo_without_wordmark.svg.png',
   // Retail
-  'rewe': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Rewe_Markt_Logo.svg/200px-Rewe_Markt_Logo.svg.png',
+  'rewe': 'https://upload.wikimedia.org/wikipedia/de/thumb/a/a5/REWE-Zentral-AG.svg/200px-REWE-Zentral-AG.svg.png',
   'lidl': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Lidl-Logo.svg/200px-Lidl-Logo.svg.png',
   'aldi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Aldi_S%C3%BCd_2017_logo.svg/200px-Aldi_S%C3%BCd_2017_logo.svg.png',
   'edeka': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Edeka_logo.svg/200px-Edeka_logo.svg.png',
