@@ -49,15 +49,15 @@
       "status": "contacted",
       "priority": "medium",
       "customer": {
-        "companyName": "Weber & Partner GmbH",
+        "companyName": "Siemens AG Niederlassung Konstanz",
         "contactPerson": "Thomas Weber",
         "firstName": "Thomas",
         "lastName": "Weber",
-        "email": "t.weber@weber-partner.de",
+        "email": "t.weber@siemens.com",
         "phone": "+49 7531 234567",
         "address": "Industriestraße 12, 78467 Konstanz",
         "customerType": "business",
-        "industry": "Beratung",
+        "industry": "Technologie",
         "employees": "25-50"
       },
       "interest": {
@@ -218,15 +218,15 @@
       "status": "new",
       "priority": "high",
       "customer": {
-        "companyName": "Bodensee Hotel AG",
+        "companyName": "REWE Group Logistikzentrum",
         "contactPerson": "Klaus Zimmermann",
         "firstName": "Klaus",
         "lastName": "Zimmermann",
-        "email": "k.zimmermann@bodensee-hotel.de",
+        "email": "k.zimmermann@rewe-group.com",
         "phone": "+49 7531 678901",
         "address": "Hafenstraße 15, 78462 Konstanz",
         "customerType": "business",
-        "industry": "Hotellerie",
+        "industry": "Einzelhandel",
         "employees": "50-100"
       },
       "interest": {
@@ -263,11 +263,11 @@
       "status": "qualified",
       "priority": "medium",
       "customer": {
-        "companyName": "Autohaus Müller GmbH",
+        "companyName": "Mercedes-Benz Autohaus Konstanz",
         "contactPerson": "Sabine Müller",
         "firstName": "Sabine",
         "lastName": "Müller",
-        "email": "s.mueller@autohaus-mueller.de",
+        "email": "s.mueller@mercedes-benz.de",
         "phone": "+49 7531 789012",
         "address": "Automeile 8, 78467 Konstanz",
         "customerType": "business",
@@ -308,15 +308,15 @@
       "status": "contacted",
       "priority": "medium",
       "customer": {
-        "companyName": "Bäckerei Kraus e.K.",
+        "companyName": "Sparkasse Bodensee",
         "contactPerson": "Hans Kraus",
         "firstName": "Hans",
         "lastName": "Kraus",
-        "email": "info@baeckerei-kraus.de",
+        "email": "info@sparkasse-bodensee.de",
         "phone": "+49 7531 890123",
         "address": "Marktplatz 3, 78464 Konstanz",
         "customerType": "business",
-        "industry": "Lebensmittel",
+        "industry": "Finanzdienstleistung",
         "employees": "10-25"
       },
       "interest": {
