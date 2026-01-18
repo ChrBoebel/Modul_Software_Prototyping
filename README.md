@@ -9,6 +9,7 @@ Ein React-basiertes Admin-Dashboard für die Stadtwerke Konstanz (SWK) zur Verwa
 - [Entwicklung](#entwicklung)
 - [Projektstruktur](#projektstruktur)
 - [Architektur](#architektur)
+- [UX-Philosophie](#ux-philosophie)
 - [Hauptbereiche](#hauptbereiche)
 - [Komponenten-Bibliothek](#komponenten-bibliothek)
 - [Styling](#styling)
@@ -101,6 +102,262 @@ Views kommunizieren über Callback-Props:
 - **Lokaler Component State** für UI-Zustand
 - **Prop Drilling** für View-übergreifende Daten
 - **localStorage** für persistente Daten (z.B. Flow-generierte Leads unter `swk:flow-leads`)
+
+## UX-Philosophie
+
+Das Dashboard folgt etablierten UX-Prinzipien und Design-Philosophien, um eine effiziente und fehlertolerante Benutzeroberfläche zu gewährleisten.
+
+### Design-Grundsätze
+
+#### Datenvisualisierung nach Edward Tufte
+
+Die Anwendung orientiert sich an den Prinzipien von Edward Tufte zur effektiven Datenvisualisierung:
+
+**Data-Ink Ratio**: Maximierung des Informationsgehalts bei minimalem visuellen Aufwand. Unnötige Dekorationen werden vermieden, jedes visuelle Element dient der Informationsvermittlung.
+
+**Sparklines**: Kleine, wortgrosse Grafiken direkt im Kontext der Daten. Die KPI-Cards integrieren Sparklines zur Trendvisualisierung ohne separate Chart-Bereiche zu erfordern.
+
+```jsx
+// KPICard mit integrierter Sparkline
+<KPICard
+  value="265"
+  label="Besucher"
+  sparklineData={[180, 220, 195, 240, 265]}
+  trend={{ direction: 'up', value: '+12%' }}
+/>
+```
+
+**Small Multiples**: Wiederholung gleicher Visualisierungstypen ermoeglicht schnellen Vergleich. Die KPI-Bar zeigt mehrere Metriken im identischen Format nebeneinander.
+
+#### Stephen Few - Information Dashboard Design
+
+**Contextual Information**: Jeder Datenpunkt wird mit Kontext versehen. Trends zeigen nicht nur den aktuellen Wert, sondern auch die Entwicklung (Pfeil, Prozentangabe, Sparkline).
+
+**Progressive Disclosure**: Informationen werden schrittweise offenbart. Uebersichten zeigen aggregierte Daten, Details sind per Klick erreichbar.
+
+| Ebene | Beispiel | Interaktion |
+|-------|----------|-------------|
+| Uebersicht | KPI-Cards im Dashboard | Sofort sichtbar |
+| Details | Lead-Liste mit Filterung | Tab-Navigation |
+| Einzelansicht | Lead-Detailseite | Klick auf Zeile |
+
+### Feedback-Systeme
+
+#### Benachrichtigungen
+
+Die Anwendung verwendet ein mehrstufiges Feedback-System:
+
+**Toast-Nachrichten**: Kurze, nicht-blockierende Benachrichtigungen fuer erfolgreiche Aktionen.
+
+```jsx
+showToast('Lead erfolgreich erstellt');
+```
+
+**Undo-Toast**: Erweiterte Benachrichtigung mit Rueckgaengig-Option fuer destruktive Aktionen. Beinhaltet:
+- Fortschrittsbalken mit Countdown (8 Sekunden Standard)
+- Pause bei Hover (verhindert versehentliches Verschwinden)
+- Explizite Undo-Aktion
+
+```jsx
+showUndoToast({
+  message: 'Regel geloescht',
+  onUndo: () => restoreRule(rule),
+  duration: 8000
+});
+```
+
+**Typ-basierte Visualisierung**:
+
+| Typ | Farbe | Verwendung |
+|-----|-------|------------|
+| success | SWK Blau | Erfolgreiche Aktionen |
+| error | SWK Rot | Fehlermeldungen |
+| info | Slate Dunkel | Informationen |
+| warning | Slate Mittel | Warnungen |
+
+#### Visuelle Zustaende
+
+Jedes interaktive Element kommuniziert seinen Zustand visuell:
+
+- **Default**: Grundzustand ohne Interaktion
+- **Hover**: Leichte Hervorhebung bei Mausueber
+- **Focus**: Deutlicher Fokusring fuer Tastaturnavigation
+- **Active**: Gedrueckter Zustand
+- **Disabled**: Ausgegraut, nicht interaktiv
+
+```css
+/* Focus-State mit Brand-Farbe */
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+```
+
+### Fehlertoleranz und Reversibilitaet
+
+#### Undo-Patterns
+
+Destruktive Aktionen sind reversibel gestaltet:
+
+1. **Soft Delete**: Loeschungen werden nicht sofort ausgefuehrt
+2. **Zeitfenster**: 8 Sekunden Zeit fuer Rueckgaengig-Aktion
+3. **Explizite Bestaetigung**: Bei kritischen Aktionen zusaetzliche Bestaetigung
+
+#### Formular-Validierung
+
+- Inline-Validierung waehrend der Eingabe
+- Klare Fehlermeldungen am Eingabefeld
+- Erhaltung eingegebener Daten bei Fehlern
+
+### Accessibility (Barrierefreiheit)
+
+Die Anwendung folgt WCAG 2.1 Richtlinien:
+
+#### Semantisches HTML
+
+```jsx
+// Korrekte ARIA-Attribute
+<div
+  role="dialog"
+  aria-modal="true"
+  aria-label={title}
+>
+```
+
+#### Tastaturnavigation
+
+Alle interaktiven Elemente sind per Tastatur erreichbar:
+
+| Taste | Funktion |
+|-------|----------|
+| Tab | Zum naechsten Element |
+| Shift+Tab | Zum vorherigen Element |
+| Enter/Space | Element aktivieren |
+| Escape | Modal/Overlay schliessen |
+
+```jsx
+// Keyboard-Support fuer klickbare Karten
+<div
+  role="button"
+  tabIndex={0}
+  onKeyDown={(e) => e.key === 'Enter' && onClick()}
+>
+```
+
+#### Screen Reader Support
+
+- `aria-live="polite"` fuer dynamische Inhalte (Toasts)
+- `aria-hidden="true"` fuer dekorative Icons
+- `sr-only` Klasse fuer Screen-Reader-only Texte
+
+```jsx
+<h1 className="sr-only">LM-Flows Editor</h1>
+<Icon size={20} aria-hidden="true" />
+```
+
+#### Farbkontrast
+
+Die Farbpalette gewaehrleistet ausreichenden Kontrast:
+
+- Text auf Hintergrund: Mindestens 4.5:1
+- Grosse Texte (h1, h2): Mindestens 3:1
+- Interaktive Elemente: Deutlich erkennbar
+
+### Responsive Design
+
+#### Mobile-First Ansatz
+
+Die Sidebar passt sich der Bildschirmgroesse an:
+
+- **Desktop** (> 768px): Fixierte Sidebar, 280px Breite
+- **Tablet**: Collapsible Sidebar, 72px minimiert
+- **Mobile** (< 768px): Overlay-Sidebar mit Hamburger-Menu
+
+```jsx
+// Sidebar-Zustand wird persistiert
+useEffect(() => {
+  localStorage.setItem('sidebar-collapsed', collapsed);
+  document.documentElement.style.setProperty(
+    '--sidebar-current-width',
+    collapsed ? '72px' : '280px'
+  );
+}, [collapsed]);
+```
+
+#### Flexible Layouts
+
+- CSS Grid fuer Dashboard-Layouts
+- Flexbox fuer Komponenten-Anordnung
+- Relative Einheiten (rem, %) statt fixer Pixel
+
+### Konsistenz
+
+#### Komponenten-Varianten
+
+Jede Komponente bietet konsistente Varianten:
+
+```jsx
+// Button-Varianten
+<Button variant="primary">Hauptaktion</Button>
+<Button variant="secondary">Sekundaer</Button>
+<Button variant="danger">Loeschen</Button>
+<Button variant="link">Link-Style</Button>
+```
+
+#### Einheitliche Interaktionsmuster
+
+| Aktion | Pattern |
+|--------|---------|
+| Oeffnen | Klick auf Element |
+| Schliessen | X-Button oder Escape |
+| Bestaetigen | Primaerer Button rechts |
+| Abbrechen | Sekundaerer Button links |
+| Loeschen | Danger-Button mit Bestaetigung |
+
+#### Spacing und Groessen
+
+Konsistente Abstufungen basierend auf 4px-Grid:
+
+| Token | Wert | Verwendung |
+|-------|------|------------|
+| `--radius-sm` | 4px | Kleine Elemente |
+| `--radius-md` | 8px | Standard |
+| `--radius-lg` | 12px | Cards |
+| `--radius-xl` | 16px | Modals |
+
+### Informationsarchitektur
+
+#### Visuelle Hierarchie
+
+Die Typografie schafft klare Hierarchien:
+
+| Ebene | Stil | Beispiel |
+|-------|------|----------|
+| H1 | 40px, Black (900) | Seitentitel |
+| H2 | 24px, Bold (700) | Abschnittstitel |
+| H3 | 18px, Bold (700) | Card-Header |
+| Body | 16px, Light (300) | Fliesstext |
+| Small | 14px, Regular | Metadaten |
+
+#### Navigation
+
+Klare Navigationshierarchie:
+
+1. **Primaer**: Sidebar mit Hauptbereichen
+2. **Sekundaer**: Tabs innerhalb von Views
+3. **Tertiaer**: Inline-Links und Aktionen
+
+#### Leere Zustaende
+
+Jede Datenliste zeigt einen informativen leeren Zustand:
+
+```jsx
+<DataTable
+  data={[]}
+  emptyMessage="Keine Leads vorhanden"
+/>
+```
 
 ## Hauptbereiche
 
