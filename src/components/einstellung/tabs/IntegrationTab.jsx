@@ -1,11 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   RefreshCw,
   Settings,
-  AlertCircle
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  Clock
 } from 'lucide-react';
 import { Button, Badge, StatusIndicator, Avatar } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { theme } from '../../../theme/colors';
 
 // Default integrations data
 const defaultIntegrations = [
@@ -84,9 +88,165 @@ const IntegrationTab = ({ showToast }) => {
     return labelMap[status] || 'Unbekannt';
   };
 
+  // Calculate health summary
+  const healthSummary = useMemo(() => {
+    const connected = integrations.filter(i => i.status === 'connected').length;
+    const errors = integrations.filter(i => i.status === 'error').length;
+    const total = integrations.length;
+
+    // Find most recent sync
+    const lastSync = integrations
+      .filter(i => i.lastSync)
+      .sort((a, b) => b.lastSync.localeCompare(a.lastSync))[0]?.lastSync || '-';
+
+    const healthPercent = total > 0 ? Math.round((connected / total) * 100) : 0;
+
+    return { connected, errors, total, lastSync, healthPercent };
+  }, [integrations]);
+
   return (
     <div className="integration-tab">
       <h2 className="sr-only">Integrationen Verwaltung</h2>
+
+      {/* Health Dashboard */}
+      <div className="section" style={{ marginBottom: '1.5rem' }}>
+        <div className="section-header">
+          <h3>Integration Health</h3>
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '1rem',
+          background: 'white',
+          borderRadius: 'var(--radius-lg)',
+          padding: '1rem',
+          border: '1px solid var(--slate-200)'
+        }}>
+          {/* Health Score - Uses SWK brand colors */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '0.75rem',
+            borderRight: '1px solid var(--slate-100)'
+          }}>
+            <div style={{
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: healthSummary.healthPercent >= 80
+                ? theme.colors.secondaryLight
+                : healthSummary.healthPercent >= 50
+                  ? theme.colors.slate100
+                  : theme.colors.primaryLight,
+              marginBottom: '0.5rem'
+            }}>
+              <span style={{
+                fontSize: '1rem',
+                fontWeight: 700,
+                color: healthSummary.healthPercent >= 80
+                  ? theme.colors.secondary
+                  : healthSummary.healthPercent >= 50
+                    ? theme.colors.slate600
+                    : theme.colors.primary
+              }}>
+                {healthSummary.healthPercent}%
+              </span>
+            </div>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>
+              Health Score
+            </span>
+          </div>
+
+          {/* Connected - Uses SWK Blue */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.75rem',
+            borderRight: '1px solid var(--slate-100)'
+          }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: theme.colors.secondaryLight
+            }}>
+              <CheckCircle size={20} color={theme.colors.secondary} />
+            </div>
+            <div>
+              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: theme.colors.secondary }}>
+                {healthSummary.connected}
+              </div>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Verbunden</span>
+            </div>
+          </div>
+
+          {/* Errors - Uses SWK Red */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.75rem',
+            borderRight: '1px solid var(--slate-100)'
+          }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: healthSummary.errors > 0 ? theme.colors.primaryLight : 'var(--slate-50)'
+            }}>
+              <XCircle size={20} color={healthSummary.errors > 0 ? theme.colors.primary : 'var(--slate-400)'} />
+            </div>
+            <div>
+              <div style={{
+                fontSize: '1.25rem',
+                fontWeight: 700,
+                color: healthSummary.errors > 0 ? theme.colors.primary : 'var(--text-secondary)'
+              }}>
+                {healthSummary.errors}
+              </div>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Fehler</span>
+            </div>
+          </div>
+
+          {/* Last Sync */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            padding: '0.75rem'
+          }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'var(--slate-50)'
+            }}>
+              <Clock size={20} color="var(--slate-500)" />
+            </div>
+            <div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {healthSummary.lastSync.split(' ')[1] || healthSummary.lastSync}
+              </div>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Letzter Sync</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="section">
         <div className="section-header">
           <h3>System-Integration</h3>

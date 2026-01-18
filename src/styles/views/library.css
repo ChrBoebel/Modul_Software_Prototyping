@@ -106,7 +106,7 @@
   }
 
   .flow-component-icon.content {
-    @apply bg-green-50 text-green-600;
+    @apply bg-[#2358A1]/10 text-[#2358A1]; /* SWK Blue */
   }
 
   .flow-component-icon.form {

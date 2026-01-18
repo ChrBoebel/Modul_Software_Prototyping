@@ -1,13 +1,14 @@
 import { useState, useMemo } from 'react';
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
-  Legend
+  Legend,
+  ReferenceLine
 } from 'recharts';
 import { Users, Target, Percent, Award, Globe, Mail, MousePointer, Share2, Search, Link2, ExternalLink } from 'lucide-react';
 import { theme } from '../../../theme/colors';
@@ -49,6 +50,13 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
     return { totalBesucher, totalLeads, conversionRate, topSource, maxBesucher };
   }, []);
 
+  // Calculate averages for reference lines (Tufte's principle: show context)
+  const averages = useMemo(() => {
+    const avgBesucher = Math.round(trafficTimeline.reduce((sum, d) => sum + d.besucher, 0) / trafficTimeline.length);
+    const avgLeads = Math.round(trafficTimeline.reduce((sum, d) => sum + d.leads, 0) / trafficTimeline.length);
+    return { avgBesucher, avgLeads };
+  }, []);
+
   // Handle source click - navigate to leads filtered by source
   const handleSourceClick = (sourceName) => {
     if (onNavigate) {
@@ -63,51 +71,91 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
     }
   };
 
-  // Custom tooltip for chart
+  // Improved tooltip with Conversion-Rate (Few's principle: contextual metrics)
   const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div style={{
-          background: 'white',
-          border: 'none',
-          borderRadius: '12px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-          padding: '12px 16px',
-          minWidth: '140px'
+    if (!active || !payload?.length) return null;
+
+    const besucher = payload.find(p => p.dataKey === 'besucher')?.value || 0;
+    const leads = payload.find(p => p.dataKey === 'leads')?.value || 0;
+    const conversionRate = besucher > 0 ? ((leads / besucher) * 100).toFixed(2) : '0.00';
+
+    return (
+      <div style={{
+        background: 'white',
+        border: `1px solid ${theme.colors.slate200}`,
+        borderRadius: '12px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        padding: '14px 16px',
+        minWidth: '180px'
+      }}>
+        {/* Day Label */}
+        <p style={{
+          margin: '0 0 10px 0',
+          fontSize: '12px',
+          fontWeight: 700,
+          color: theme.colors.slate800,
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
         }}>
-          <p style={{
-            margin: '0 0 8px 0',
-            fontSize: '13px',
-            fontWeight: 600,
-            color: theme.colors.slate700
-          }}>
-            {label}
-          </p>
-          {payload.map((entry, index) => (
-            <div key={index} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginTop: '4px'
-            }}>
-              <span style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: entry.color
-              }} />
-              <span style={{ fontSize: '12px', color: theme.colors.slate500 }}>
-                {entry.name}:
-              </span>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.slate700 }}>
-                {entry.value.toLocaleString('de-DE')}
-              </span>
-            </div>
-          ))}
+          {label}
+        </p>
+
+        {/* Besucher Row */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '8px'
+        }}>
+          <span style={{
+            width: '12px',
+            height: '3px',
+            backgroundColor: theme.colors.primary,
+            borderRadius: '1px'
+          }} />
+          <span style={{ fontSize: '11px', color: theme.colors.slate500, flex: 1 }}>Besucher:</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.slate700 }}>
+            {besucher.toLocaleString('de-DE')}
+          </span>
         </div>
-      );
-    }
-    return null;
+
+        {/* Leads Row */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '10px',
+          paddingBottom: '10px',
+          borderBottom: `1px solid ${theme.colors.slate100}`
+        }}>
+          <svg width="12" height="3" viewBox="0 0 12 3" style={{ flexShrink: 0 }}>
+            <line x1="0" y1="1.5" x2="4" y2="1.5" stroke={theme.colors.secondary} strokeWidth="2" strokeLinecap="round" />
+            <line x1="6" y1="1.5" x2="10" y2="1.5" stroke={theme.colors.secondary} strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <span style={{ fontSize: '11px', color: theme.colors.slate500, flex: 1 }}>Leads:</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.slate700 }}>
+            {leads.toLocaleString('de-DE')}
+          </span>
+        </div>
+
+        {/* Conversion Rate - Calculated Metric */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          fontSize: '11px'
+        }}>
+          <span style={{ color: theme.colors.slate500 }}>Conversion:</span>
+          <span style={{
+            fontWeight: 700,
+            color: parseFloat(conversionRate) > 3 ? theme.colors.success : theme.colors.slate600,
+            fontSize: '12px'
+          }}>
+            {conversionRate}%
+          </span>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -214,18 +262,13 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
             Traffic Verlauf
           </h4>
           <ResponsiveContainer width="100%" height={240}>
-            <AreaChart data={trafficTimeline}>
-              <defs>
-                <linearGradient id="colorBesucher" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={theme.colors.primary} stopOpacity={0.12}/>
-                  <stop offset="95%" stopColor={theme.colors.primary} stopOpacity={0}/>
-                </linearGradient>
-                <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={theme.colors.secondary} stopOpacity={0.12}/>
-                  <stop offset="95%" stopColor={theme.colors.secondary} stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.slate100} vertical={false} />
+            <LineChart data={trafficTimeline} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
+              <CartesianGrid
+                strokeDasharray="0"
+                stroke={theme.colors.slate100}
+                vertical={false}
+                opacity={0.7}
+              />
               <XAxis
                 dataKey="date"
                 stroke={theme.colors.slate300}
@@ -233,45 +276,109 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                 tickLine={false}
                 axisLine={false}
               />
+              {/* Left Y-Axis for Besucher (Cleveland's dual-scale principle) */}
               <YAxis
-                stroke={theme.colors.slate300}
-                fontSize={12}
+                yAxisId="left"
+                stroke={theme.colors.primary}
+                fontSize={11}
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(v) => v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}
+                width={45}
+                label={{
+                  value: 'Besucher',
+                  angle: -90,
+                  position: 'insideLeft',
+                  style: { fontSize: 10, fill: theme.colors.primary, fontWeight: 500 },
+                  offset: 5
+                }}
               />
-              <RechartsTooltip content={<CustomTooltip />} />
+              {/* Right Y-Axis for Leads - separate scale for visibility */}
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                stroke={theme.colors.secondary}
+                fontSize={11}
+                tickLine={false}
+                axisLine={false}
+                width={45}
+                label={{
+                  value: 'Leads',
+                  angle: 90,
+                  position: 'insideRight',
+                  style: { fontSize: 10, fill: theme.colors.secondary, fontWeight: 500 },
+                  offset: 5
+                }}
+              />
+              <RechartsTooltip
+                content={<CustomTooltip />}
+                cursor={{ stroke: theme.colors.slate200, strokeWidth: 1 }}
+              />
               <Legend
                 verticalAlign="top"
                 align="right"
-                height={36}
-                iconType="circle"
-                iconSize={8}
-                wrapperStyle={{ fontSize: '12px' }}
+                height={32}
+                iconType="line"
+                wrapperStyle={{ fontSize: '12px', paddingBottom: '8px' }}
               />
-              <Area
+
+              {/* Reference Line for Average Besucher - Tufte's context principle */}
+              <ReferenceLine
+                yAxisId="left"
+                y={averages.avgBesucher}
+                stroke={theme.colors.slate300}
+                strokeDasharray="4 4"
+                strokeWidth={1}
+                label={{
+                  value: `Ø ${(averages.avgBesucher / 1000).toFixed(1)}k`,
+                  position: 'insideTopLeft',
+                  fontSize: 9,
+                  fill: theme.colors.slate400
+                }}
+              />
+
+              {/* Reference Line for Average Leads */}
+              <ReferenceLine
+                yAxisId="right"
+                y={averages.avgLeads}
+                stroke={theme.colors.slate300}
+                strokeDasharray="2 2"
+                strokeWidth={1}
+                label={{
+                  value: `Ø ${averages.avgLeads}`,
+                  position: 'insideTopRight',
+                  fontSize: 9,
+                  fill: theme.colors.slate400
+                }}
+              />
+
+              {/* Besucher Line - Solid, prominent (Cleveland's visual hierarchy) */}
+              <Line
+                yAxisId="left"
                 type="monotone"
                 dataKey="besucher"
                 stroke={theme.colors.primary}
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorBesucher)"
+                strokeWidth={2.5}
+                dot={false}
+                activeDot={{ r: 6, fill: theme.colors.primary, stroke: 'white', strokeWidth: 2 }}
                 name="Besucher"
-                dot={{ r: 3, fill: theme.colors.primary, strokeWidth: 0 }}
-                activeDot={{ r: 5, fill: theme.colors.primary, stroke: 'white', strokeWidth: 2 }}
+                isAnimationActive={false}
               />
-              <Area
+
+              {/* Leads Line - Dashed pattern for differentiation (Accessibility) */}
+              <Line
+                yAxisId="right"
                 type="monotone"
                 dataKey="leads"
                 stroke={theme.colors.secondary}
                 strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorLeads)"
-                name="Leads"
-                dot={{ r: 3, fill: theme.colors.secondary, strokeWidth: 0 }}
+                strokeDasharray="6 3"
+                dot={false}
                 activeDot={{ r: 5, fill: theme.colors.secondary, stroke: 'white', strokeWidth: 2 }}
+                name="Leads"
+                isAnimationActive={false}
               />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         </div>
 

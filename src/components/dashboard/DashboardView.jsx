@@ -30,6 +30,23 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
     conversion: [2.8, 3.2, 2.9, 3.4, 3.6, 3.1, 3.4]
   }), []);
 
+  // Calculate trend from sparkline data (Few's principle: provide context)
+  const calculateTrend = (data) => {
+    if (!data || data.length < 2) return null;
+    const first = data[0];
+    const last = data[data.length - 1];
+    const change = ((last - first) / first * 100).toFixed(1);
+    const direction = last > first ? 'up' : last < first ? 'down' : 'stable';
+    return { direction, value: `${change > 0 ? '+' : ''}${change}%` };
+  };
+
+  const trends = useMemo(() => ({
+    visitors: calculateTrend(sparklineData.visitors),
+    leads: calculateTrend(sparklineData.leads),
+    qualified: calculateTrend(sparklineData.qualified),
+    conversion: calculateTrend(sparklineData.conversion)
+  }), [sparklineData]);
+
   // Calculate KPIs from leads data (including flow-generated leads)
   const kpis = useMemo(() => {
     const jsonLeads = leadsData.leads || [];
@@ -76,6 +93,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           variant="primary"
           tooltip="Anzahl aller Website-Besucher im gewählten Zeitraum"
           sparklineData={sparklineData.visitors}
+          trend={trends.visitors}
         />
         <KPICard
           icon={TrendingUp}
@@ -84,14 +102,16 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           variant="secondary"
           tooltip="Anzahl aller erfassten Kontaktanfragen"
           sparklineData={sparklineData.leads}
+          trend={trends.leads}
         />
         <KPICard
           icon={CheckCircle}
           value={kpis.qualifiedLeads}
-          label="qualifiziert Leads"
+          label="Qualifizierte Leads"
           variant="success"
           tooltip="Leads mit Score ≥50, die für den Vertrieb relevant sind"
           sparklineData={sparklineData.qualified}
+          trend={trends.qualified}
         />
         <KPICard
           icon={Percent}
@@ -100,6 +120,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           variant="warning"
           tooltip="Berechnung: (Leads / Besucher) × 100"
           sparklineData={sparklineData.conversion}
+          trend={trends.conversion}
         />
       </KPIBar>
 

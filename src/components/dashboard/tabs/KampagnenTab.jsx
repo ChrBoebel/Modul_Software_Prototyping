@@ -7,6 +7,25 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { Tooltip } from '../../ui';
+import { theme } from '../../../theme/colors';
+
+// CTR color coding (Few's principle: visual benchmarks)
+// Uses SWK brand colors: Blue (good), Slate (medium), Red (poor)
+const getCtrColor = (ctrString) => {
+  const ctr = parseFloat(ctrString);
+  if (ctr >= 6) return { bg: theme.colors.secondaryLight, text: theme.colors.secondary };
+  if (ctr >= 3) return { bg: theme.colors.slate100, text: theme.colors.slate600 };
+  return { bg: theme.colors.primaryLight, text: theme.colors.primary };
+};
+
+// Quali-Quote color coding (higher is better)
+// Uses SWK brand colors: Blue (good), Slate (medium), Red (poor)
+const getQualiColor = (qualiString) => {
+  const quali = parseFloat(qualiString);
+  if (quali >= 35) return { bg: theme.colors.secondaryLight, text: theme.colors.secondary };
+  if (quali >= 25) return { bg: theme.colors.slate100, text: theme.colors.slate600 };
+  return { bg: theme.colors.primaryLight, text: theme.colors.primary };
+};
 
 const KampagnenTab = ({ showToast, onNavigate }) => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
@@ -186,9 +205,33 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                     <td>{camp.events.toLocaleString('de-DE')}</td>
                     <td>{camp.impressions.toLocaleString('de-DE')}</td>
                     <td>{camp.clicks.toLocaleString('de-DE')}</td>
-                    <td>{camp.ctr}</td>
+                    <td>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '2px 8px',
+                        borderRadius: 4,
+                        fontSize: '0.8125rem',
+                        fontWeight: 600,
+                        backgroundColor: getCtrColor(camp.ctr).bg,
+                        color: getCtrColor(camp.ctr).text
+                      }}>
+                        {camp.ctr}
+                      </span>
+                    </td>
                     <td>{camp.leads}</td>
-                    <td>{camp.qualiQuote}</td>
+                    <td>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '2px 8px',
+                        borderRadius: 4,
+                        fontSize: '0.8125rem',
+                        fontWeight: 600,
+                        backgroundColor: getQualiColor(camp.qualiQuote).bg,
+                        color: getQualiColor(camp.qualiQuote).text
+                      }}>
+                        {camp.qualiQuote}
+                      </span>
+                    </td>
                     <td>
                       {camp.trend === 'up' && (
                         <>

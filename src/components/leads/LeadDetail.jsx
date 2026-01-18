@@ -18,8 +18,10 @@ import {
   MapPin,
   ExternalLink
 } from 'lucide-react';
+import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Avatar, Tooltip } from '../ui';
+import { theme } from '../../theme/colors';
 import {
   getCombinedAvailabilityForAddress,
   getStatusBadgeVariant,
@@ -265,9 +267,43 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
             <h3 style={{ margin: 0 }}>{lead.name}</h3>
             <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.leadId}</span>
           </div>
-          <span className={`score-badge ${lead.leadScore >= 80 ? 'high' : lead.leadScore >= 50 ? 'medium' : 'low'}`}>
-            Score: {lead.leadScore}
-          </span>
+          {/* Score Radial Gauge - replaces simple badge (Tufte: maximize data-ink) */}
+          {/* Uses SWK brand colors: Blue (high), Slate (medium), Red (low) */}
+          <div style={{ position: 'relative', width: 64, height: 64 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <RadialBarChart
+                cx="50%"
+                cy="50%"
+                innerRadius="70%"
+                outerRadius="100%"
+                data={[{ value: lead.leadScore, fill: lead.leadScore >= 80 ? theme.colors.secondary : lead.leadScore >= 50 ? theme.colors.slate500 : theme.colors.primary }]}
+                startAngle={90}
+                endAngle={-270}
+              >
+                <RadialBar
+                  dataKey="value"
+                  cornerRadius={10}
+                  background={{ fill: theme.colors.slate100 }}
+                />
+              </RadialBarChart>
+            </ResponsiveContainer>
+            {/* Center Score Label */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center'
+            }}>
+              <span style={{
+                fontSize: '1rem',
+                fontWeight: 700,
+                color: lead.leadScore >= 80 ? theme.colors.secondary : lead.leadScore >= 50 ? theme.colors.slate600 : theme.colors.primary
+              }}>
+                {lead.leadScore}
+              </span>
+            </div>
+          </div>
         </div>
         <button 
           type="button" 

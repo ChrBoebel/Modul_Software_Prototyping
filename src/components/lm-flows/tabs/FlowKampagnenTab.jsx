@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Play,
   Pause,
@@ -9,6 +9,15 @@ import {
 import { Panel, Input, Button } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import defaultProducts from '../../../data/productCatalog.json';
+import { theme } from '../../../theme/colors';
+
+// Generate funnel data from lead count (mock simulation)
+const generateFunnelData = (leads) => {
+  const qualified = Math.round(leads * 0.65); // 65% qualification rate
+  const contacted = Math.round(qualified * 0.55); // 55% contacted
+  const converted = Math.round(contacted * 0.25); // 25% conversion
+  return { leads, qualified, contacted, converted };
+};
 
 const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
   const [panelOpen, setPanelOpen] = useState(false);
@@ -170,16 +179,63 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
               </div>
             )}
 
-            <div className="campaign-card-stats">
-              <div className="stat">
-                <span className="stat-label">Leads</span>
-                <span className="stat-value">{campaign.leads}</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">aktualisiert</span>
-                <span className="stat-value">{campaign.updatedAt}</span>
-              </div>
-            </div>
+            {/* Mini Lead Funnel - Few's principle: show data in context */}
+            {(() => {
+              const funnel = generateFunnelData(campaign.leads);
+              const maxWidth = funnel.leads;
+              return (
+                <div className="campaign-card-stats" style={{ flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.6875rem', marginBottom: '0.25rem' }}>
+                    <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Lead Funnel</span>
+                    <span style={{ color: 'var(--text-tertiary)' }}>{campaign.updatedAt}</span>
+                  </div>
+                  {/* Funnel Bars - Uses SWK brand colors */}
+                  {[
+                    { label: 'Leads', value: funnel.leads, color: theme.colors.slate400 },
+                    { label: 'Qualifiziert', value: funnel.qualified, color: theme.colors.slate500 },
+                    { label: 'Kontaktiert', value: funnel.contacted, color: theme.colors.primary },
+                    { label: 'Konvertiert', value: funnel.converted, color: theme.colors.secondary }
+                  ].map((step, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', width: 60, flexShrink: 0 }}>
+                        {step.label}
+                      </span>
+                      <div style={{ flex: 1, height: 6, backgroundColor: 'var(--slate-100)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{
+                          width: `${maxWidth > 0 ? (step.value / maxWidth * 100) : 0}%`,
+                          height: '100%',
+                          backgroundColor: step.color,
+                          borderRadius: 3,
+                          transition: 'width 0.3s ease'
+                        }} />
+                      </div>
+                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: step.color, width: 28, textAlign: 'right' }}>
+                        {step.value}
+                      </span>
+                    </div>
+                  ))}
+                  {/* Conversion Rate - Uses SWK Blue */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginTop: '0.25rem',
+                    paddingTop: '0.25rem',
+                    borderTop: '1px solid var(--slate-100)'
+                  }}>
+                    <span style={{
+                      fontSize: '0.625rem',
+                      padding: '2px 6px',
+                      borderRadius: 4,
+                      backgroundColor: theme.colors.secondaryLight,
+                      color: theme.colors.secondary,
+                      fontWeight: 600
+                    }}>
+                      Conv: {funnel.leads > 0 ? ((funnel.converted / funnel.leads) * 100).toFixed(1) : 0}%
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div className="campaign-card-actions">
               <button

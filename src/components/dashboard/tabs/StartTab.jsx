@@ -21,7 +21,8 @@ import {
   Funnel,
   Cell,
   PieChart,
-  Pie
+  Pie,
+  ReferenceLine
 } from 'recharts';
 import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
@@ -334,6 +335,11 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
     { name: 'Sa', qualified: 8, unqualified: 3, rejected: 1 },
     { name: 'So', qualified: 5, unqualified: 2, rejected: 0 },
   ];
+
+  // Calculate average total leads per day (Tufte: provide context)
+  const avgTotalLeads = Math.round(
+    chartData.reduce((sum, d) => sum + d.qualified + d.unqualified + d.rejected, 0) / chartData.length
+  );
 
   const getStatusBadge = (status) => {
     const map = {
@@ -654,33 +660,64 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                 </div>
               )}
 
-              {/* Mini Pie Chart */}
+              {/* Stacked Bar - replaces Pie Chart (Tufte: maximize data-ink ratio) */}
               {(productStats.totalProducts > 0 || productStats.totalRules > 0) && (
-                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <div style={{ width: 50, height: 50, flexShrink: 0 }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={availabilityChartData}
-                          dataKey="value"
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={12}
-                          outerRadius={22}
-                          paddingAngle={2}
-                        >
-                          {availabilityChartData.map((entry, idx) => (
-                            <Cell key={`cell-${idx}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem 0.75rem' }}>
+                <div style={{ marginTop: '0.75rem' }}>
+                  {/* 100% Stacked Bar */}
+                  {(() => {
+                    const total = availabilityChartData.reduce((sum, d) => sum + d.value, 0);
+                    return (
+                      <div style={{
+                        display: 'flex',
+                        height: 8,
+                        borderRadius: 4,
+                        overflow: 'hidden',
+                        backgroundColor: 'var(--slate-100)'
+                      }}>
+                        {availabilityChartData.map((item, idx) => {
+                          const width = total > 0 ? (item.value / total * 100) : 0;
+                          return width > 0 ? (
+                            <div
+                              key={idx}
+                              style={{
+                                width: `${width}%`,
+                                backgroundColor: item.color,
+                                transition: 'width 0.3s ease'
+                              }}
+                              title={`${item.name}: ${item.value}`}
+                            />
+                          ) : null;
+                        })}
+                      </div>
+                    );
+                  })()}
+                  {/* Legend with values */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginTop: '0.5rem',
+                    gap: '0.5rem'
+                  }}>
                     {availabilityChartData.map((item, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.625rem' }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: item.color, flexShrink: 0 }} />
-                        <span style={{ color: 'var(--text-secondary)' }}>{item.name}: {item.value}</span>
+                      <div key={idx} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.625rem'
+                      }}>
+                        <span style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: 2,
+                          background: item.color,
+                          flexShrink: 0
+                        }} />
+                        <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>
+                          {item.value}
+                        </span>
+                        <span style={{ color: 'var(--text-tertiary)' }}>
+                          {item.name}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -767,13 +804,27 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
             </div>
             <div style={{ width: '100%', height: 180 }}>
               <ResponsiveContainer>
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <BarChart data={chartData} margin={{ top: 10, right: 30, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--slate-200)" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--slate-500)' }} dy={10} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--slate-500)' }} />
                   <Tooltip
                     cursor={{ fill: 'var(--slate-50)' }}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  />
+                  {/* Reference Line for Average - Tufte's context principle */}
+                  <ReferenceLine
+                    y={avgTotalLeads}
+                    stroke={theme.colors.slate400}
+                    strokeDasharray="4 4"
+                    strokeWidth={1.5}
+                    label={{
+                      value: `Ø ${avgTotalLeads}`,
+                      position: 'right',
+                      fontSize: 11,
+                      fill: theme.colors.slate500,
+                      fontWeight: 500
+                    }}
                   />
                   {/* Blue for Qualified (Success) */}
                   <Bar dataKey="qualified" stackId="a" fill={theme.colors.secondary} radius={[0, 0, 4, 4]} barSize={32} name="Qualifiziert" />

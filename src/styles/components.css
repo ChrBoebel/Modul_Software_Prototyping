@@ -215,7 +215,7 @@
   }
 
   .kpi-trend.trend-up {
-    @apply text-green-600;
+    @apply text-[#2358A1]; /* SWK Blue - positive trends */
   }
 
   .kpi-trend.trend-down {
