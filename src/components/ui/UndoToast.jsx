@@ -113,9 +113,9 @@ export const UndoToast = ({
 
       {/* Content */}
       <div style={{ flex: 1, padding: '12px 16px' }}>
-        <p style={{ fontWeight: 500, margin: 0, fontSize: '14px' }}>{message}</p>
+        <p style={{ fontWeight: 500, margin: 0, fontSize: '14px', color: 'white' }}>{message}</p>
         {isPaused && (
-          <p style={{ fontSize: '11px', opacity: 0.75, marginTop: '2px', margin: 0 }}>
+          <p style={{ fontSize: '11px', opacity: 0.85, marginTop: '4px', margin: 0, color: 'white' }}>
             Pausiert - Maus entfernen zum Fortsetzen
           </p>
         )}
