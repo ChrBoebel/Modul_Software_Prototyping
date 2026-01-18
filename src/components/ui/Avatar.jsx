@@ -14,59 +14,51 @@ const sizePx = {
   lg: 48
 };
 
-// Known company logos mapping (German companies & common brands)
+// Known company logos mapping - using reliable Wikipedia/direct URLs
 const COMPANY_LOGOS = {
-  // German utilities & energy
-  'swk': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/SWK_Stadtwerke_Krefeld_logo.svg/200px-SWK_Stadtwerke_Krefeld_logo.svg.png',
-  'stadtwerke': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/SWK_Stadtwerke_Krefeld_logo.svg/200px-SWK_Stadtwerke_Krefeld_logo.svg.png',
-  'enbw': 'https://logo.clearbit.com/enbw.com',
-  'rwe': 'https://logo.clearbit.com/rwe.com',
-  'eon': 'https://logo.clearbit.com/eon.de',
-  'vattenfall': 'https://logo.clearbit.com/vattenfall.de',
   // Tech companies
-  'sap': 'https://logo.clearbit.com/sap.com',
-  'siemens': 'https://logo.clearbit.com/siemens.com',
-  'bosch': 'https://logo.clearbit.com/bosch.com',
-  'mercedes': 'https://logo.clearbit.com/mercedes-benz.com',
-  'bmw': 'https://logo.clearbit.com/bmw.com',
-  'porsche': 'https://logo.clearbit.com/porsche.com',
-  'audi': 'https://logo.clearbit.com/audi.com',
-  'volkswagen': 'https://logo.clearbit.com/volkswagen.de',
-  'vw': 'https://logo.clearbit.com/volkswagen.de',
+  'sap': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/200px-SAP_2011_logo.svg.png',
+  'siemens': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Siemens-logo.svg/200px-Siemens-logo.svg.png',
+  'bosch': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/200px-Bosch-logo.svg.png',
+  'mercedes': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/200px-Mercedes-Logo.svg.png',
+  'bmw': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/200px-BMW.svg.png',
+  'porsche': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Porsche_logo.svg/200px-Porsche_logo.svg.png',
+  'audi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/200px-Audi-Logo_2016.svg.png',
+  'volkswagen': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/200px-Volkswagen_logo_2019.svg.png',
+  'vw': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/200px-Volkswagen_logo_2019.svg.png',
   // Banks & Finance
-  'deutsche bank': 'https://logo.clearbit.com/deutsche-bank.de',
-  'commerzbank': 'https://logo.clearbit.com/commerzbank.de',
-  'sparkasse': 'https://logo.clearbit.com/sparkasse.de',
-  'allianz': 'https://logo.clearbit.com/allianz.de',
+  'sparkasse': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sparkasse.svg/200px-Sparkasse.svg.png',
+  'allianz': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Allianz_logo.svg/200px-Allianz_logo.svg.png',
+  'commerzbank': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Commerzbank_Logo_2009.svg/200px-Commerzbank_Logo_2009.svg.png',
+  'deutsche bank': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Deutsche_Bank_logo_without_wordmark.svg/200px-Deutsche_Bank_logo_without_wordmark.svg.png',
   // Retail
-  'lidl': 'https://logo.clearbit.com/lidl.de',
-  'aldi': 'https://logo.clearbit.com/aldi.de',
-  'rewe': 'https://logo.clearbit.com/rewe.de',
-  'edeka': 'https://logo.clearbit.com/edeka.de',
-  'dm': 'https://logo.clearbit.com/dm.de',
-  // Consulting & Services
-  'kpmg': 'https://logo.clearbit.com/kpmg.com',
-  'pwc': 'https://logo.clearbit.com/pwc.com',
-  'deloitte': 'https://logo.clearbit.com/deloitte.com',
-  'mckinsey': 'https://logo.clearbit.com/mckinsey.com',
+  'rewe': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Rewe_Markt_Logo.svg/200px-Rewe_Markt_Logo.svg.png',
+  'lidl': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Lidl-Logo.svg/200px-Lidl-Logo.svg.png',
+  'aldi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Aldi_S%C3%BCd_2017_logo.svg/200px-Aldi_S%C3%BCd_2017_logo.svg.png',
+  'edeka': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Edeka_logo.svg/200px-Edeka_logo.svg.png',
+  'dm': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Dm_Logo.svg/200px-Dm_Logo.svg.png',
   // Tech & Software
-  'microsoft': 'https://logo.clearbit.com/microsoft.com',
-  'google': 'https://logo.clearbit.com/google.com',
-  'amazon': 'https://logo.clearbit.com/amazon.com',
-  'apple': 'https://logo.clearbit.com/apple.com',
-  'ibm': 'https://logo.clearbit.com/ibm.com',
-  'oracle': 'https://logo.clearbit.com/oracle.com',
-  'salesforce': 'https://logo.clearbit.com/salesforce.com',
+  'microsoft': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/200px-Microsoft_logo_%282012%29.svg.png',
+  'google': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png',
+  'amazon': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png',
+  'apple': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/200px-Apple_logo_black.svg.png',
+  'ibm': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/200px-IBM_logo.svg.png',
+  'oracle': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/200px-Oracle_logo.svg.png',
+  'salesforce': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/200px-Salesforce.com_logo.svg.png',
   // Telecom
-  'telekom': 'https://logo.clearbit.com/telekom.de',
-  'vodafone': 'https://logo.clearbit.com/vodafone.de',
-  'o2': 'https://logo.clearbit.com/o2online.de',
-  // Construction & Industry
-  'hochtief': 'https://logo.clearbit.com/hochtief.de',
-  'basf': 'https://logo.clearbit.com/basf.com',
-  'bayer': 'https://logo.clearbit.com/bayer.com',
-  'thyssen': 'https://logo.clearbit.com/thyssenkrupp.com',
-  'thyssenkrupp': 'https://logo.clearbit.com/thyssenkrupp.com',
+  'telekom': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Deutsche_Telekom_2022.svg/200px-Deutsche_Telekom_2022.svg.png',
+  'vodafone': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Vodafone_icon.svg/200px-Vodafone_icon.svg.png',
+  // Energy
+  'enbw': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/EnBW-Logo.svg/200px-EnBW-Logo.svg.png',
+  'rwe': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/RWE_Logo_2020.svg/200px-RWE_Logo_2020.svg.png',
+  'eon': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/E.ON_Logo.svg/200px-E.ON_Logo.svg.png',
+  // Industry
+  'basf': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/BASF-Logo_bw.svg/200px-BASF-Logo_bw.svg.png',
+  'bayer': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Logo_Bayer.svg/200px-Logo_Bayer.svg.png',
+  'thyssenkrupp': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Thyssenkrupp_AG_Logo_2015.svg/200px-Thyssenkrupp_AG_Logo_2015.svg.png',
+  // CRM/ERP Systems
+  'dynamics': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/200px-Microsoft_logo_%282012%29.svg.png',
+  'mailchimp': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Mailchimp_Logo.svg/200px-Mailchimp_Logo.svg.png',
 };
 
 // Try to find a logo for a company name
@@ -75,23 +67,14 @@ const getCompanyLogo = (companyName) => {
 
   const nameLower = companyName.toLowerCase();
 
-  // Check direct matches
+  // Check direct matches in known logos
   for (const [key, url] of Object.entries(COMPANY_LOGOS)) {
     if (nameLower.includes(key)) {
       return url;
     }
   }
 
-  // Try to extract domain from company name
-  const cleanName = nameLower
-    .replace(/gmbh|ag|kg|ohg|gbr|e\.v\.|mbh|co\.|&|partner|und|\s+/gi, '')
-    .trim();
-
-  if (cleanName.length > 2) {
-    // Try Clearbit with guessed domain
-    return `https://logo.clearbit.com/${cleanName}.de`;
-  }
-
+  // No match found - will use initials fallback
   return null;
 };
 
@@ -155,10 +138,10 @@ export const Avatar = ({
         style={{
           width: sizeValue,
           height: sizeValue,
-          borderRadius: type === 'company' ? '8px' : '50%',
-          objectFit: 'contain',
-          backgroundColor: type === 'company' ? '#f8fafc' : 'transparent',
-          padding: type === 'company' ? '4px' : '0'
+          borderRadius: '50%',
+          objectFit: 'cover',
+          backgroundColor: '#f1f5f9',
+          border: '2px solid #e2e8f0'
         }}
         onError={handleImageError}
       />
@@ -171,7 +154,7 @@ export const Avatar = ({
       style={{
         width: sizeValue,
         height: sizeValue,
-        borderRadius: type === 'company' ? '8px' : '50%'
+        borderRadius: '50%'
       }}
       aria-label={name}
       title={name}
