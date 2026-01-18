@@ -20,10 +20,11 @@ import defaultAddresses from '../../data/addresses.json';
 import defaultAvailability from '../../data/availability.json';
 import defaultAvailabilityStatus from '../../data/availabilityStatus.json';
 
-const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) => {
+const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [], initialSourceFilter }) => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [leadsFilter, setLeadsFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState(initialSourceFilter || null);
 
   // Current user (simulated)
   const currentUser = 'Max Mustermann';
@@ -127,7 +128,8 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
       lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lead.leadId.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesOwner = leadsFilter === 'all' || lead.zugewiesenAn === currentUser;
-    return matchesStatus && matchesSearch && matchesOwner;
+    const matchesSource = !sourceFilter || lead.originalData?.source === sourceFilter;
+    return matchesStatus && matchesSearch && matchesOwner && matchesSource;
   });
 
   const myLeadsCount = leads.filter(l => l.zugewiesenAn === currentUser).length;
@@ -145,13 +147,14 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
   ];
 
   // Check if any filters are active
-  const hasActiveFilters = filterStatus !== 'all' || leadsFilter !== 'all' || searchTerm !== '';
+  const hasActiveFilters = filterStatus !== 'all' || leadsFilter !== 'all' || searchTerm !== '' || sourceFilter !== null;
 
   // Clear all filters
   const clearAllFilters = () => {
     setFilterStatus('all');
     setLeadsFilter('all');
     setSearchTerm('');
+    setSourceFilter(null);
   };
 
   return (
@@ -216,6 +219,12 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [] }) 
             <FilterChip
               label={`Suche: "${searchTerm}"`}
               onRemove={() => setSearchTerm('')}
+            />
+          )}
+          {sourceFilter && (
+            <FilterChip
+              label={`Quelle: ${sourceFilter}`}
+              onRemove={() => setSourceFilter(null)}
             />
           )}
         </FilterChipGroup>

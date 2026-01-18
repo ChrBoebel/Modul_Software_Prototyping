@@ -1,5 +1,7 @@
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Tooltip } from './Tooltip';
+import { Sparkline } from './Sparkline';
+import { theme } from '../../theme/colors';
 
 const variantClasses = {
   primary: 'kpi-primary',
@@ -7,6 +9,14 @@ const variantClasses = {
   success: 'kpi-success',
   warning: 'kpi-warning',
   danger: 'kpi-danger'
+};
+
+const variantColors = {
+  primary: theme.colors.primary,
+  secondary: theme.colors.secondary,
+  success: theme.colors.success,
+  warning: theme.colors.warning,
+  danger: theme.colors.danger
 };
 
 const trendIcons = {
@@ -24,9 +34,11 @@ export const KPICard = ({
   unit,
   tooltip,
   onClick,
+  sparklineData,
   className = ''
 }) => {
   const TrendIcon = trend?.direction ? trendIcons[trend.direction] : null;
+  const sparklineColor = variantColors[variant] || theme.colors.slate400;
 
   const content = (
     <div
@@ -54,6 +66,19 @@ export const KPICard = ({
           )}
         </div>
         <span className="kpi-label">{label}</span>
+        {/* Sparkline for trend context - Tufte's data-ink principle */}
+        {sparklineData && sparklineData.length > 1 && (
+          <div className="kpi-sparkline">
+            <Sparkline
+              data={sparklineData}
+              width={56}
+              height={16}
+              color={sparklineColor}
+              strokeWidth={1.5}
+              showEndDot={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

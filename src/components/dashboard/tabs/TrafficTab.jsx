@@ -9,12 +9,12 @@ import {
   ResponsiveContainer,
   Legend
 } from 'recharts';
-import { Users, Target, Percent, Award, Globe, Mail, MousePointer, Share2, Search, Link2 } from 'lucide-react';
+import { Users, Target, Percent, Award, Globe, Mail, MousePointer, Share2, Search, Link2, ExternalLink } from 'lucide-react';
 import { theme } from '../../../theme/colors';
 import { Tooltip } from '../../ui/Tooltip';
 import { KPICard, KPIBar } from '../../ui/KPICard';
 
-const TrafficTab = ({ showToast }) => {
+const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
   const [filterPeriod, setFilterPeriod] = useState('7d');
 
   // Mock traffic data by source
@@ -48,6 +48,20 @@ const TrafficTab = ({ showToast }) => {
 
     return { totalBesucher, totalLeads, conversionRate, topSource, maxBesucher };
   }, []);
+
+  // Handle source click - navigate to leads filtered by source
+  const handleSourceClick = (sourceName) => {
+    if (onNavigate) {
+      onNavigate('leads', { sourceFilter: sourceName });
+    }
+  };
+
+  // Handle campaign navigation
+  const handleCampaignClick = () => {
+    if (onTabChange) {
+      onTabChange('kampagnen');
+    }
+  };
 
   // Custom tooltip for chart
   const CustomTooltip = ({ active, payload, label }) => {
@@ -172,7 +186,8 @@ const TrafficTab = ({ showToast }) => {
           value={totals.topSource.source}
           label="Top Quelle"
           variant="primary"
-          tooltip="Traffic-Quelle mit den meisten Besuchern"
+          tooltip="Klicken um Kampagnen anzuzeigen"
+          onClick={handleCampaignClick}
         />
       </KPIBar>
 
@@ -242,6 +257,8 @@ const TrafficTab = ({ showToast }) => {
                 fillOpacity={1}
                 fill="url(#colorBesucher)"
                 name="Besucher"
+                dot={{ r: 3, fill: theme.colors.primary, strokeWidth: 0 }}
+                activeDot={{ r: 5, fill: theme.colors.primary, stroke: 'white', strokeWidth: 2 }}
               />
               <Area
                 type="monotone"
@@ -251,6 +268,8 @@ const TrafficTab = ({ showToast }) => {
                 fillOpacity={1}
                 fill="url(#colorLeads)"
                 name="Leads"
+                dot={{ r: 3, fill: theme.colors.secondary, strokeWidth: 0 }}
+                activeDot={{ r: 5, fill: theme.colors.secondary, stroke: 'white', strokeWidth: 2 }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -272,7 +291,7 @@ const TrafficTab = ({ showToast }) => {
           }}>
             Traffic nach Quelle
           </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {trafficBySource.map((source, index) => {
               const Icon = source.icon;
               const percentage = ((source.besucher / totals.maxBesucher) * 100).toFixed(0);
@@ -280,7 +299,24 @@ const TrafficTab = ({ showToast }) => {
               const isHighConversion = parseFloat(convRate) > 3;
 
               return (
-                <div key={index}>
+                <div
+                  key={index}
+                  onClick={() => handleSourceClick(source.source)}
+                  style={{
+                    padding: '10px',
+                    margin: '-10px',
+                    marginBottom: '0',
+                    borderRadius: '8px',
+                    cursor: onNavigate ? 'pointer' : 'default',
+                    transition: 'background-color 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (onNavigate) e.currentTarget.style.backgroundColor = theme.colors.slate50;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -307,13 +343,18 @@ const TrafficTab = ({ showToast }) => {
                         {source.source}
                       </span>
                     </div>
-                    <span style={{
-                      fontSize: '13px',
-                      fontWeight: 600,
-                      color: theme.colors.slate800
-                    }}>
-                      {source.besucher.toLocaleString('de-DE')}
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        color: theme.colors.slate800
+                      }}>
+                        {source.besucher.toLocaleString('de-DE')}
+                      </span>
+                      {onNavigate && (
+                        <ExternalLink size={12} color={theme.colors.slate400} />
+                      )}
+                    </div>
                   </div>
                   <div style={{
                     height: '6px',

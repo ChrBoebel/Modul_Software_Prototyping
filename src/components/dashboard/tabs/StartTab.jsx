@@ -488,7 +488,27 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                             {camp.status}
                           </span>
                         </td>
-                        <td className="text-sm">{camp.leads30d}</td>
+                        <td className="text-sm">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ minWidth: '28px' }}>{camp.leads30d}</span>
+                            {/* Inline bar - Few's principle of embedded graphics */}
+                            <div style={{
+                              width: '40px',
+                              height: '6px',
+                              backgroundColor: 'var(--slate-100)',
+                              borderRadius: '3px',
+                              overflow: 'hidden'
+                            }}>
+                              <div style={{
+                                width: `${Math.min(100, (camp.leads30d / 250) * 100)}%`,
+                                height: '100%',
+                                backgroundColor: theme.colors.secondary,
+                                borderRadius: '3px',
+                                transition: 'width 0.3s ease'
+                              }} />
+                            </div>
+                          </div>
+                        </td>
                         <td className="text-sm">{camp.qualiQuote}</td>
                         <td>
                           {camp.trend === 'up' && (
@@ -763,6 +783,28 @@ const StartTab = ({ showToast, onTabChange, onNavigate, flowLeads = [] }) => {
                   <Bar dataKey="rejected" stackId="a" fill={theme.colors.primary} radius={[4, 4, 0, 0]} barSize={32} name="Abgelehnt" />
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+            {/* Legend - Following Tufte's principle of direct labeling */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '1.5rem',
+              paddingTop: '0.5rem',
+              borderTop: '1px solid var(--slate-100)',
+              marginTop: '0.5rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.secondary }} />
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Qualifiziert</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.slate400 }} />
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Offen</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.primary }} />
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Abgelehnt</span>
+              </div>
             </div>
           </div>
 

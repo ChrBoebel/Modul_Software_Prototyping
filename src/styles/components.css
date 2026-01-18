@@ -153,6 +153,15 @@
     transform: translateY(-1px);
   }
 
+  .kpi-card.kpi-clickable:hover {
+    @apply shadow-lg border-primary/30;
+    transform: translateY(-2px);
+  }
+
+  .kpi-card.kpi-clickable:active {
+    transform: translateY(0);
+  }
+
   .kpi-icon {
     @apply w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-slate-100 text-slate-600;
   }
@@ -187,6 +196,34 @@
 
   .kpi-label {
     @apply text-xs text-slate-600 font-medium truncate;
+  }
+
+  .kpi-sparkline {
+    @apply mt-1;
+  }
+
+  .kpi-value-wrapper {
+    @apply flex items-center gap-1.5 flex-wrap;
+  }
+
+  .kpi-unit {
+    @apply text-sm font-medium text-slate-500;
+  }
+
+  .kpi-trend {
+    @apply flex items-center gap-0.5 text-xs font-semibold;
+  }
+
+  .kpi-trend.trend-up {
+    @apply text-green-600;
+  }
+
+  .kpi-trend.trend-down {
+    @apply text-red-600;
+  }
+
+  .kpi-trend.trend-stable {
+    @apply text-slate-500;
   }
 
   /* Buttons */

@@ -11,6 +11,7 @@ export { Avatar } from './Avatar';
 export { StatusIndicator } from './StatusIndicator';
 export { ScoreBadge } from './ScoreBadge';
 export { StatusBadge } from './StatusBadge';
+export { Sparkline, SparkBar } from './Sparkline';
 
 // Form Elements
 export { Input } from './Input';

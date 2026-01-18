@@ -89,7 +89,7 @@ function App() {
       case 'lm-flows':
         return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
       case 'leads':
-        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} onNavigateToProduktMapping={handleNavigateToProduktMapping} />;
+        return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} initialSourceFilter={navParams.sourceFilter} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} onNavigateToProduktMapping={handleNavigateToProduktMapping} />;
       case 'produkt-mapping':
         return <ProduktMappingView showToast={showToast} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
 

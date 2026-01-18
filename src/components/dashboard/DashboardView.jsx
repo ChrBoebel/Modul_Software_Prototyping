@@ -22,6 +22,14 @@ const TABS = [
 const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
   const [activeTab, setActiveTab] = useState('start');
 
+  // Mock sparkline data for 7-day trend visualization (Tufte's "small multiples")
+  const sparklineData = useMemo(() => ({
+    visitors: [180, 220, 195, 240, 265, 250, 265],
+    leads: [5, 8, 6, 9, 11, 7, 9],
+    qualified: [2, 3, 2, 4, 3, 2, 3],
+    conversion: [2.8, 3.2, 2.9, 3.4, 3.6, 3.1, 3.4]
+  }), []);
+
   // Calculate KPIs from leads data (including flow-generated leads)
   const kpis = useMemo(() => {
     const jsonLeads = leadsData.leads || [];
@@ -51,7 +59,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
       case 'news-feed':
         return <NewsFeedTab showToast={showToast} onNavigate={onNavigate} flowLeads={flowLeads} />;
       case 'traffic':
-        return <TrafficTab showToast={showToast} />;
+        return <TrafficTab showToast={showToast} onNavigate={onNavigate} onTabChange={setActiveTab} />;
       default:
         return <StartTab showToast={showToast} onNavigate={onNavigate} />;
     }
@@ -67,6 +75,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           label="Besucher gesamt"
           variant="primary"
           tooltip="Anzahl aller Website-Besucher im gewählten Zeitraum"
+          sparklineData={sparklineData.visitors}
         />
         <KPICard
           icon={TrendingUp}
@@ -74,6 +83,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           label="Leads gesamt"
           variant="secondary"
           tooltip="Anzahl aller erfassten Kontaktanfragen"
+          sparklineData={sparklineData.leads}
         />
         <KPICard
           icon={CheckCircle}
@@ -81,6 +91,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           label="qualifiziert Leads"
           variant="success"
           tooltip="Leads mit Score ≥50, die für den Vertrieb relevant sind"
+          sparklineData={sparklineData.qualified}
         />
         <KPICard
           icon={Percent}
@@ -88,6 +99,7 @@ const DashboardView = ({ showToast, onNavigate, flowLeads = [] }) => {
           label="Conversion-Rate"
           variant="warning"
           tooltip="Berechnung: (Leads / Besucher) × 100"
+          sparklineData={sparklineData.conversion}
         />
       </KPIBar>
 

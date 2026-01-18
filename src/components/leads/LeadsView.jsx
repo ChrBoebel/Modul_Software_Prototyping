@@ -12,7 +12,7 @@ const TABS = [
   { id: 'pipeline', label: 'Pipeline / Closing', icon: TrendingUp }
 ];
 
-const LeadsView = ({ showToast, initialLeadId, flowLeads = [], onNavigateToCampaign, onNavigateToProduktMapping }) => {
+const LeadsView = ({ showToast, initialLeadId, initialSourceFilter, flowLeads = [], onNavigateToCampaign, onNavigateToProduktMapping }) => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [activeTab, setActiveTab] = useState('liste');
 
@@ -61,6 +61,7 @@ const LeadsView = ({ showToast, initialLeadId, flowLeads = [], onNavigateToCampa
               onSelectLead={handleSelectLead}
               selectedLeadId={selectedLead?.id}
               flowLeads={flowLeads}
+              initialSourceFilter={initialSourceFilter}
             />
           </div>
 
