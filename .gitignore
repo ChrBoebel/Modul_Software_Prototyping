@@ -9,6 +9,11 @@ AGENTS.md
 
 # Claude
 .claude/
+CLAUDE.md
+
+# Dokumentation (privat)
+dokumente/
+styleguide.md
 
 # Build
 dist/
