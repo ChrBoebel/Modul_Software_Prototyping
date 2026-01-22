@@ -47,7 +47,7 @@ src/
 │   ├── einstellung/        # Einstellungen und Integrationen
 │   ├── layout/             # MainLayout und Sidebar
 │   ├── leads/              # Lead-Verwaltung (Liste und Detail)
-│   ├── lm-flows/           # Lead-Marketing Flow-Editor
+│   ├── marketing-flows/    # Lead-Marketing Flow-Editor
 │   │   ├── structured-flow/  # Visueller Flow-Builder
 │   │   ├── tabs/             # Flow-Editor Tabs
 │   │   └── preview/          # Flow-Vorschau
@@ -252,7 +252,7 @@ Alle interaktiven Elemente sind per Tastatur erreichbar:
 - `sr-only` Klasse fuer Screen-Reader-only Texte
 
 ```jsx
-<h1 className="sr-only">LM-Flows Editor</h1>
+<h1 className="sr-only">Marketing-Flows Editor</h1>
 <Icon size={20} aria-hidden="true" />
 ```
 
@@ -371,7 +371,7 @@ Jede Datenliste zeigt einen informativen leeren Zustand:
 - News-Feed - Aktivitäten und Updates
 - Traffic - Besucherstatistiken
 
-### LM-Flows (`/components/lm-flows/`)
+### Marketing-Flows (`/components/marketing-flows/`)
 
 Visueller Editor für Lead-Marketing-Flows.
 

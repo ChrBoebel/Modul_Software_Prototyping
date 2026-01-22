@@ -10,7 +10,7 @@ const TABS = [
   { id: 'globale-werte', label: 'Globale Werte' }
 ];
 
-const LMFlowsView = ({ showToast, onLeadCreated, onNavigateToLead, initialCampaignId }) => {
+const MarketingFlowsView = ({ showToast, onLeadCreated, onNavigateToLead, initialCampaignId }) => {
   const [activeTab, setActiveTab] = useState('kampagnen');
   const [selectedCampaign, setSelectedCampaign] = useState(null);
 
@@ -57,16 +57,16 @@ const LMFlowsView = ({ showToast, onLeadCreated, onNavigateToLead, initialCampai
 
   return (
     <div className="view-container">
-      <h1 className="sr-only">LM-Flows Editor</h1>
+      <h1 className="sr-only">Marketing-Flows Editor</h1>
       <Tabs
         tabs={TABS}
         activeTab={activeTab}
         onChange={setActiveTab}
-        ariaLabel="LM-Flows Bereiche"
+        ariaLabel="Marketing-Flows Bereiche"
       />
       {renderTabContent()}
     </div>
   );
 };
 
-export default LMFlowsView;
+export default MarketingFlowsView;

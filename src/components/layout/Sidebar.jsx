@@ -22,9 +22,9 @@ const NAV_ITEMS = [
     description: 'Übersicht & KPIs'
   },
   {
-    id: 'lm-flows',
+    id: 'marketing-flows',
     icon: GitBranch,
-    label: 'LM-Flows',
+    label: 'Marketing-Flows',
     description: 'Flow-Editor & Cards'
   },
   {

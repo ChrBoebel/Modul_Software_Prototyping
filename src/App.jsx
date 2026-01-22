@@ -5,7 +5,7 @@ import { useToast } from './hooks/useToast';
 
 // New Views
 import DashboardView from './components/dashboard/DashboardView';
-import LMFlowsView from './components/lm-flows/LMFlowsView';
+import MarketingFlowsView from './components/marketing-flows/MarketingFlowsView';
 import LeadsView from './components/leads/LeadsView';
 import EinstellungView from './components/einstellung/EinstellungView';
 import ComponentLibraryView from './components/ui/ComponentLibraryView';
@@ -17,7 +17,7 @@ const STORAGE_KEY = 'swk:flow-leads';
 
 const VIEW_NAMES = {
   dashboard: 'Dashboard',
-  'lm-flows': 'LM-Flows',
+  'marketing-flows': 'Marketing-Flows',
   leads: 'Leads',
   'produkt-mapping': 'Produkt-Mapping',
 
@@ -72,7 +72,7 @@ function App() {
 
   // Navigate to campaign editor (used from lead detail)
   const handleNavigateToCampaign = useCallback((flowId) => {
-    setCurrentView('lm-flows');
+    setCurrentView('marketing-flows');
     setNavParams({ campaignId: flowId });
   }, []);
 
@@ -86,8 +86,8 @@ function App() {
     switch (currentView) {
       case 'dashboard':
         return <DashboardView showToast={showToast} onNavigate={handleNavigate} flowLeads={flowLeads} />;
-      case 'lm-flows':
-        return <LMFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
+      case 'marketing-flows':
+        return <MarketingFlowsView showToast={showToast} initialCampaignId={navParams.campaignId} onLeadCreated={handleLeadCreated} onNavigateToLead={handleNavigateToLead} />;
       case 'leads':
         return <LeadsView showToast={showToast} initialLeadId={navParams.leadId} initialSourceFilter={navParams.sourceFilter} flowLeads={flowLeads} onNavigateToCampaign={handleNavigateToCampaign} onNavigateToProduktMapping={handleNavigateToProduktMapping} />;
       case 'produkt-mapping':

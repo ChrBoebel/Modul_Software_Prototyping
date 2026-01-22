@@ -258,7 +258,7 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                         onClick={(e) => {
                           e.stopPropagation();
                           if (onNavigate) {
-                            onNavigate('lm-flows', { campaignId: camp.id });
+                            onNavigate('marketing-flows', { campaignId: camp.id });
                           } else {
                             showToast(`Kampagne ${camp.name} bearbeiten`);
                           }
