@@ -12,8 +12,8 @@ export const theme = {
     secondaryLight: '#eff6ff',
     
     // Semantic
-    success: '#2358A1',
-    warning: '#64748b',
+    success: '#16a34a',
+    warning: '#d97706',
     danger: '#dc2626',
     info: '#3b82f6',
     

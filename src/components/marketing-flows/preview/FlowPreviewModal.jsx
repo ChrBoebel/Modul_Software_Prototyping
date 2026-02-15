@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, RotateCcw, X, CheckCircle, ExternalLink, MapPin } from 'lucide-react';
+import { ArrowLeft, RotateCcw, CheckCircle, ExternalLink } from 'lucide-react';
 import { getAvailabilityForAddress } from '../../produkt-mapping/availabilityLogic';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { calculateNormalizedScore } from './previewUtils';
+import PreviewHeader from './PreviewHeader';
+import FlowSummaryView from './FlowSummaryView';
+import PreviewStepRenderer from './PreviewStepRenderer';
 
 const FlowPreviewModal = ({
   isOpen,
@@ -217,7 +221,7 @@ const FlowPreviewModal = ({
 
     // Calculate normalized score (0-100 scale)
     // Base score: 50, plus collected scores
-    const normalizedScore = Math.min(100, Math.max(0, 50 + totalScore * 5));
+    const normalizedScore = calculateNormalizedScore(totalScore);
 
     // Format address from availability check
     const formattedAddress = addressAvailability?.address
@@ -388,28 +392,14 @@ const FlowPreviewModal = ({
   return (
     <div className="flow-preview-overlay" role="dialog" aria-modal="true" aria-label="Flow Preview">
       <div className="flow-preview-modal">
-        <div className="flow-preview-header">
-          <div className="flow-preview-title">
-            <h3>{campaignName || 'Flow Preview'}</h3>
-            {!isComplete && (
-              <>
-                <span className="flow-preview-progress">
-                  {visitedQuestionCount}/{questionCount} Schritte
-                </span>
-                <div className="flow-preview-progress-bar" aria-hidden="true">
-                  <div
-                    className="flow-preview-progress-bar-fill"
-                    style={{ width: `${progressRatio * 100}%` }}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-
-          <button type="button" className="btn-icon" onClick={onClose} aria-label="Preview schließen">
-            <X size={16} />
-          </button>
-        </div>
+        <PreviewHeader
+          campaignName={campaignName}
+          isComplete={isComplete}
+          visitedQuestionCount={visitedQuestionCount}
+          questionCount={questionCount}
+          progressRatio={progressRatio}
+          onClose={onClose}
+        />
 
         <div className="flow-preview-body">
           <div
@@ -417,191 +407,31 @@ const FlowPreviewModal = ({
             className="flow-preview-step"
           >
             {isComplete && (
-            <div className="flow-preview-end">
-              {leadCreated ? (
-                <>
-                  <div className="flow-preview-success">
-                    <CheckCircle size={48} className="text-green-500" />
-                  </div>
-                  <h4>Lead erfolgreich erstellt!</h4>
-                  <p>Der Lead wurde mit Score {Math.min(100, Math.max(0, 50 + totalScore * 5))} angelegt.</p>
-                </>
-              ) : (
-                <>
-                  <h4>Flow beendet</h4>
-                  <p>Alle Schritte wurden durchlaufen.</p>
+              <FlowSummaryView
+                leadCreated={leadCreated}
+                totalScore={totalScore}
+                detectedProduct={detectedProduct}
+                extractedContact={extractedContact}
+                collectedAnswers={collectedAnswers}
+                addressAvailability={addressAvailability}
+              />
+            )}
 
-                  {/* Summary of collected data */}
-                  <div className="flow-preview-summary">
-                    <div className="summary-item">
-                      <span className="summary-label">Gesammelter Score:</span>
-                      <span className="summary-value">{totalScore} Punkte → Lead-Score: {Math.min(100, Math.max(0, 50 + totalScore * 5))}</span>
-                    </div>
-                    {detectedProduct && (
-                      <div className="summary-item">
-                        <span className="summary-label">Erkanntes Produkt:</span>
-                        <span className="summary-value">
-                          {detectedProduct === 'solar' && 'Solar PV'}
-                          {detectedProduct === 'heatpump' && 'Wärmepumpe'}
-                          {detectedProduct === 'energy_contract' && 'Stromtarif'}
-                          {detectedProduct === 'charging_station' && 'E-Mobilität'}
-                          {detectedProduct === 'energy_storage' && 'Speicher'}
-                        </span>
-                      </div>
-                    )}
-                    {extractedContact && (
-                      <div className="summary-item">
-                        <span className="summary-label">Kontakt:</span>
-                        <span className="summary-value">{extractedContact}</span>
-                      </div>
-                    )}
-                    <div className="summary-item">
-                      <span className="summary-label">Beantwortete Fragen:</span>
-                      <span className="summary-value">{collectedAnswers.length}</span>
-                    </div>
-                    {addressAvailability && (
-                      <div className="summary-item">
-                        <span className="summary-label">
-                          <MapPin size={14} style={{ display: 'inline', marginRight: '4px' }} />
-                          Verfügbare Produkte:
-                        </span>
-                        <span className="summary-value">
-                          {addressAvailability.isServiceable ? (
-                            <span className="availability-badges">
-                              {addressAvailability.availableProducts.map(p => (
-                                <span key={p.id} className="badge success" style={{ marginRight: '4px' }}>
-                                  {p.name}
-                                </span>
-                              ))}
-                            </span>
-                          ) : (
-                            <span className="badge warning">Keine Produkte an dieser Adresse</span>
-                          )}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
-            {!isComplete && !currentNode && (
-            <div className="flow-preview-empty">
-              <p>Kein Flow vorhanden.</p>
-            </div>
-          )}
-
-            {!isComplete && currentNode && (currentNode.type === 'module' || currentNode.type === 'start') && (currentNode.children?.length || 0) > 1 && (
-            <div className="flow-preview-branch">
-              <h4>{currentNode.label}</h4>
-              <p>Wähle den nächsten Pfad:</p>
-              <div className="flow-preview-answers">
-                {currentNode.children.map((childId) => {
-                  const child = getNode(childId);
-                  return (
-                    <button
-                      key={childId}
-                      type="button"
-                      className="flow-preview-answer single"
-                      onClick={() => goToNode(childId)}
-                    >
-                      {child?.label || childId}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-            {!isComplete && currentNode && currentNode.type === 'question' && (
-            <div className="flow-preview-question-card">
-              <h4 className="flow-preview-question">
-                {currentCard?.title || currentNode.label}
-              </h4>
-
-              {currentCard?.description && (
-                <p className="flow-preview-description">{currentCard.description}</p>
-              )}
-
-              {(inputType === 'Eingabe') && (
-                <input
-                  type="text"
-                  className="flow-preview-input"
-                  placeholder="Deine Antwort..."
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                />
-              )}
-
-              {(inputType === 'Range-Slider') && (
-                <div className="flow-preview-range">
-                  <input
-                    type="range"
-                    min="0"
-                    max="10"
-                    value={inputValue || 5}
-                    onChange={(e) => setInputValue(e.target.value)}
-                  />
-                  <div className="flow-preview-range-value">{inputValue || 5}</div>
-                </div>
-              )}
-
-              {inputType !== 'Eingabe' && inputType !== 'Range-Slider' && (
-                <>
-                  {answers.length === 0 && (
-                    <p className="flow-preview-hint">
-                      Keine Antwortoptionen definiert – der Preview springt mit „Weiter“ fort.
-                    </p>
-                  )}
-
-                  {answers.length > 0 && inputType === 'Dropdown' && (
-                    <select
-                      className="flow-preview-select"
-                      value={selectedAnswers[0] ?? ''}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          setSelectedAnswers([]);
-                          return;
-                        }
-                        setSelectedAnswers([Number(value)]);
-                      }}
-                      aria-label="Auswahl"
-                    >
-                      <option value="">Bitte auswählen…</option>
-                      {answers.map((answer, index) => (
-                        <option key={index} value={index}>{answer}</option>
-                      ))}
-                    </select>
-                  )}
-
-                  {answers.length > 0 && inputType !== 'Dropdown' && (
-                    <div
-                      className="flow-preview-answers"
-                      role={inputType === 'Multi-Choice' ? 'group' : 'radiogroup'}
-                      aria-label="Antwortoptionen"
-                    >
-                      {answers.map((answer, index) => {
-                        const isSelected = selectedAnswers.includes(index);
-                        return (
-                          <button
-                            key={index}
-                            type="button"
-                            className={`flow-preview-answer ${inputType === 'Multi-Choice' ? 'multi' : 'single'} ${isSelected ? 'selected' : ''}`}
-                            onClick={() => toggleAnswer(index)}
-                            aria-pressed={isSelected}
-                          >
-                            {answer}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+            {!isComplete && (
+              <PreviewStepRenderer
+                currentNode={currentNode}
+                currentCard={currentCard}
+                inputType={inputType}
+                answers={answers}
+                inputValue={inputValue}
+                onInputChange={setInputValue}
+                selectedAnswers={selectedAnswers}
+                onToggleAnswer={toggleAnswer}
+                onSelectAnswers={setSelectedAnswers}
+                getNode={getNode}
+                goToNode={goToNode}
+              />
+            )}
           </div>
         </div>
 

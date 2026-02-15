@@ -12,8 +12,10 @@ import {
 import { Button, Badge, SearchBox, Select, ToggleGroup, FilterChip, FilterChipGroup, Avatar, ScoreBadge, StatusBadge } from '../ui';
 import leadsData from '../../data/leads.json';
 import { transformLead } from '../../utils/leadUtils';
+import { getLeadQualityBadge } from '../../utils/statusUtils';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { getCombinedAvailabilityForAddress } from '../produkt-mapping/availabilityLogic';
+import { parseCustomerAddress } from '../../utils/addressParser';
 import defaultProducts from '../../data/productCatalog.json';
 import defaultRules from '../../data/availabilityRules.json';
 import defaultAddresses from '../../data/addresses.json';
@@ -44,15 +46,6 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [], in
     return [...transformedFlowLeads, ...jsonLeads];
   }, [flowLeads]);
 
-  const getStatusBadge = (status) => {
-    const statusMap = {
-      'hoch': { class: 'success', label: 'Hoch', color: 'var(--success)' },
-      'mittel': { class: 'warning', label: 'Mittel', color: 'var(--warning)' },
-      'niedrig': { class: 'danger', label: 'Niedrig', color: 'var(--danger)' }
-    };
-    return statusMap[status] || { class: 'neutral', label: status, color: 'var(--slate-400)' };
-  };
-
   const getScoreBadge = (score) => {
     if (score >= 80) return 'high';
     if (score >= 50) return 'medium';
@@ -75,32 +68,7 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [], in
       return { status: 'unknown', label: '—', icon: HelpCircle, tooltip: 'Keine Adresse bekannt' };
     }
 
-    // Parse address from string or object
-    let addressObj = null;
-    if (typeof customer.address === 'string' && customer.address.trim()) {
-      // Parse string address like "Hauptstraße 45, 78462 Konstanz"
-      const parts = customer.address.split(',').map(s => s.trim());
-      if (parts.length >= 2) {
-        const streetMatch = parts[0].match(/^(.+?)\s+(\d+\w*)$/);
-        const cityMatch = parts[1].match(/^(\d{5})\s+(.+)$/);
-        if (streetMatch && cityMatch) {
-          addressObj = {
-            street: streetMatch[1],
-            houseNumber: streetMatch[2],
-            postalCode: cityMatch[1],
-            city: cityMatch[2]
-          };
-        }
-      }
-    } else if (customer.postalCode) {
-      addressObj = {
-        postalCode: customer.postalCode,
-        street: customer.street || '',
-        houseNumber: customer.houseNumber || '',
-        city: customer.city || ''
-      };
-    }
-
+    const addressObj = parseCustomerAddress(customer);
     if (!addressObj) return { status: 'unknown', label: '—', icon: HelpCircle, tooltip: 'Adresse nicht parsbar' };
 
     try {
@@ -279,12 +247,12 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [], in
                 <td>
                   <StatusBadge
                     status={lead.status}
-                    label={getStatusBadge(lead.status).label}
+                    label={getLeadQualityBadge(lead.status).label}
                     icon={Circle}
-                    variant={getStatusBadge(lead.status).class}
+                    variant={getLeadQualityBadge(lead.status).class}
                     size="sm"
                     tooltip={{
-                      title: getStatusBadge(lead.status).label,
+                      title: getLeadQualityBadge(lead.status).label,
                       description: getStatusTooltip(lead.status)
                     }}
                   />

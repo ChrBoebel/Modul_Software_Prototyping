@@ -59,10 +59,6 @@ const AdressMappingTab = ({
   const [filterTech, setFilterTech] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
 
-  // Filters (Mocking visual "active" state for now since wireframes just show "Filter v")
-  // In a real app these would toggle dropdowns.
-  const FILTERS = ['Status', 'Technologie', 'PLZ', 'Straße', 'Label', 'Kampagne'];
-
   // Product options
   const productOptions = useMemo(() =>
     products

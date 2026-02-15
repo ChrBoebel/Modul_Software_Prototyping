@@ -43,26 +43,33 @@ npm run dev
 ```
 src/
 ├── components/
-│   ├── dashboard/          # Dashboard-Ansicht mit KPIs und Tabs
-│   ├── einstellung/        # Einstellungen und Integrationen
-│   ├── layout/             # MainLayout und Sidebar
-│   ├── leads/              # Lead-Verwaltung (Liste und Detail)
-│   ├── marketing-flows/    # Lead-Marketing Flow-Editor
+│   ├── dashboard/            # Dashboard-Ansicht mit KPIs und Tabs
+│   │   └── tabs/
+│   │       └── start-tab/    # Sub-Komponenten des Start-Tabs
+│   ├── einstellung/          # Einstellungen und Integrationen
+│   ├── layout/               # MainLayout und Sidebar
+│   ├── leadjourney/          # Lead-Journey und Closing-Übersicht
+│   ├── leads/                # Lead-Verwaltung
+│   │   └── lead-detail/      # Sub-Komponenten der Lead-Detailansicht
+│   ├── marketing-flows/      # Lead-Marketing Flow-Editor
 │   │   ├── structured-flow/  # Visueller Flow-Builder
-│   │   ├── tabs/             # Flow-Editor Tabs
+│   │   ├── tabs/
+│   │   │   └── flow-editor/  # Sub-Komponenten des Flow-Editors
 │   │   └── preview/          # Flow-Vorschau
-│   ├── map/                # Kartenkomponenten (Konstanz)
-│   ├── produkt-mapping/    # Produktverfügbarkeit und Geo-Mapping
-│   └── ui/                 # Wiederverwendbare UI-Komponenten
-├── data/                   # Mock-Daten (JSON)
-├── hooks/                  # Custom React Hooks
-├── styles/                 # CSS-Dateien nach Bereich
-│   └── views/              # View-spezifische Styles
-├── theme/                  # Farb- und Design-Tokens
-├── utils/                  # Hilfsfunktionen
-├── App.jsx                 # Haupt-App mit View-Routing
-├── main.jsx                # React-Einstiegspunkt
-└── index.css               # CSS-Imports und Tailwind
+│   ├── map/                  # Kartenkomponenten (Konstanz)
+│   ├── produkt-mapping/      # Produktverfügbarkeit und Geo-Mapping
+│   └── ui/                   # Wiederverwendbare UI-Komponenten
+│       ├── component-library/ # Showcase-Sections der Component Library
+│       └── drawable-geo-map/  # Sub-Komponenten der zeichenbaren Karte
+├── data/                     # Mock-Daten (JSON)
+├── hooks/                    # Custom React Hooks
+├── styles/                   # CSS-Dateien nach Bereich
+│   └── views/                # View-spezifische Styles
+├── theme/                    # Farb- und Design-Tokens
+├── utils/                    # Shared Hilfsfunktionen
+├── App.jsx                   # Haupt-App mit View-Routing
+├── main.jsx                  # React-Einstiegspunkt
+└── index.css                 # CSS-Imports und Tailwind
 ```
 
 ## Architektur
@@ -76,7 +83,6 @@ src/
 | Tailwind CSS | Utility-First Styling |
 | Recharts | Datenvisualisierung (Charts) |
 | React-Leaflet | Kartenintegration |
-| ReactFlow | Flow-Diagramme |
 | Lucide React | Icon-Bibliothek |
 
 ### Navigationskonzept
@@ -170,10 +176,10 @@ showUndoToast({
 
 | Typ | Farbe | Verwendung |
 |-----|-------|------------|
-| success | SWK Blau | Erfolgreiche Aktionen |
-| error | SWK Rot | Fehlermeldungen |
-| info | Slate Dunkel | Informationen |
-| warning | Slate Mittel | Warnungen |
+| success | Grün (`#16a34a`) | Erfolgreiche Aktionen |
+| error | SWK Rot (`#E2001A`) | Fehlermeldungen |
+| info | Blau (`#3b82f6`) | Informationen |
+| warning | Orange (`#d97706`) | Warnungen |
 
 #### Visuelle Zustaende
 
@@ -387,8 +393,8 @@ Visueller Editor für Lead-Marketing-Flows.
 | `StructuredFlowCanvas.jsx` | Haupt-Canvas für Flow-Visualisierung |
 | `FlowNode.jsx` | Rendering einzelner Nodes mit Konfiguration |
 | `FlowConnector.jsx` | Verbindungslinien zwischen Nodes |
-| `useFlowState.js` | State-Management für Flows |
-| `useFlowHistory.js` | Undo/Redo-Funktionalität |
+| `useFlowHistory.js` | State-Management mit Undo/Redo |
+| `QuickAddMenu.jsx` | Kontextmenü zum Hinzufügen von Nodes |
 | `exampleFlows.js` | Vordefinierte Flow-Templates |
 
 ### Leads (`/components/leads/`)
@@ -482,10 +488,21 @@ Die Anwendung kombiniert Tailwind CSS mit benutzerdefinierten CSS-Dateien.
 @import "tailwindcss/components";
 @import "./styles/components.css";
 @import "./styles/layout.css";
-@import "./styles/views/*.css";
+@import "./styles/views/content-types.css";
+@import "./styles/views/analytics.css";
+@import "./styles/views/leads.css";
+@import "./styles/views/dashboard.css";
+@import "./styles/views/flow.css";
+@import "./styles/views/cards.css";
+@import "./styles/views/journey.css";
+@import "./styles/views/timeline.css";
+@import "./styles/views/settings.css";
+@import "./styles/views/library.css";
+@import "./styles/views/mapping.css";
 
 @import "tailwindcss/utilities";
 @import "./styles/utilities.css";
+@import "./styles/vendor.css";
 ```
 
 ### Farbschema
@@ -496,6 +513,9 @@ Die Markenfarben sind in `tailwind.config.js` und `src/theme/colors.js` definier
 |-------|-----|------------|
 | SWK Rot | `#E2001A` | Primärfarbe, CTAs |
 | SWK Blau | `#2358A1` | Akzentfarbe, Links |
+| Success | `#16a34a` | Erfolgs-Anzeigen |
+| Warning | `#d97706` | Warnungen |
+| Danger | `#dc2626` | Fehler, destruktive Aktionen |
 | Slate Scale | `#f8fafc` - `#0f172a` | Neutrale Grautöne |
 
 **Verwendung in JavaScript (z.B. Recharts):**
@@ -525,23 +545,17 @@ Alle Testdaten befinden sich in `src/data/` als JSON-Dateien:
 
 | Datei | Inhalt |
 |-------|--------|
-| `leads.json` | Lead-Datensätze |
+| `leads.json` | Lead-Datensätze mit Flows und Status-Optionen |
 | `closing.json` | Abschluss- und Vertriebsdaten |
 | `productCatalog.json` | Produktkatalog |
-| `availability*.json` | Verfügbarkeitsdaten |
-| `konstanzAddresses.json` | Adressdaten Konstanz |
-| `konstanzStreets.json` | Straßenverzeichnis |
-
-### Aggregation
-
-```jsx
-// src/data/mockData.js
-import { mockData } from '../data/mockData';
-
-// Zugriff auf Daten
-const leads = mockData.leads;
-const salesReps = mockData.salesReps;
-```
+| `availability.json` | Verfügbarkeitsdaten pro Adresse |
+| `availabilityRules.json` | Regeln für Produktverfügbarkeit |
+| `availabilityStatus.json` | Status-Definitionen |
+| `addresses.json` | Adressdaten |
+| `konstanzStreets.json` | Straßenverzeichnis Konstanz |
+| `defaultIntegrations.json` | Standard-Integrationen (SAP, Dynamics, Mailchimp) |
+| `users.json` | Benutzerdaten |
+| `settings.json` | Anwendungseinstellungen |
 
 ### Persistenz
 
@@ -560,6 +574,16 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 const [data, setData, { reset }] = useLocalStorage('key', defaultValue);
 ```
 
+## Shared Utilities
+
+Wiederverwendbare Hilfsfunktionen in `src/utils/`:
+
+| Datei | Funktion |
+|-------|----------|
+| `leadUtils.js` | `transformLead()`, `getProduktName()`, `getQualityStatus()`, `formatTimestamp()` |
+| `statusUtils.js` | `getCampaignStatusVariant()`, `getLeadQualityBadge()` |
+| `addressParser.js` | `parseCustomerAddress()` - Parst Kunden-Adressen aus verschiedenen Formaten |
+
 ## Konventionen
 
 - **Dateiendung**: `.jsx` für React-Komponenten
@@ -567,3 +591,5 @@ const [data, setData, { reset }] = useLocalStorage('key', defaultValue);
 - **Props**: Views erhalten `showToast` für Benachrichtigungen
 - **Navigation**: Callback-Props für View-Wechsel
 - **Styling**: Tailwind-Klassen bevorzugt, Custom CSS nur bei Bedarf
+- **Komponenten-Aufteilung**: Dateien sollen unter ~400 Zeilen bleiben, große Komponenten werden in Sub-Komponenten in eigenen Unterordnern aufgeteilt
+- **Shared Logic**: Duplizierter Code wird in `src/utils/` oder `src/data/` zentralisiert

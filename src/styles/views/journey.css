@@ -176,7 +176,7 @@
 
   .node-config-panel {
     @apply w-[300px] bg-white border-l border-slate-200 p-6 z-20 overflow-y-auto absolute right-0 top-0 bottom-0;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
+    box-shadow: -4px 0 15px rgb(0 0 0 / 0.05);
     animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 

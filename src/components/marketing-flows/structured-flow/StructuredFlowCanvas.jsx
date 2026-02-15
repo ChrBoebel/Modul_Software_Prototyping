@@ -71,9 +71,6 @@ const StructuredFlowCanvas = ({
         ...p,
         scale: Math.min(Math.max(p.scale + delta, 0.5), 2)
       }));
-    } else {
-       // Optional: Pan with wheel if not zooming
-       // setTransform(p => ({ ...p, y: p.y - e.deltaY, x: p.x - e.deltaX }));
     }
   };
   

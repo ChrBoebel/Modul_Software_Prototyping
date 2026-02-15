@@ -29,10 +29,10 @@
     --primary-light: var(--swk-red-light);
     --accent: var(--swk-blue);
     --accent-hover: var(--swk-blue-dark);
-    --success: #2358A1;
-    --success-light: #eff6ff;
-    --warning: #64748b;
-    --warning-light: #f1f5f9;
+    --success: #16a34a;
+    --success-light: #f0fdf4;
+    --warning: #d97706;
+    --warning-light: #fffbeb;
     --danger: #dc2626;
     --danger-hover: #b91c1c;
     --danger-light: #fef2f2;

@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { MainLayout } from './components/layout/MainLayout';
 import { Toast } from './components/ui/Toast';
 import { useToast } from './hooks/useToast';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 // New Views
 import DashboardView from './components/dashboard/DashboardView';
@@ -31,19 +32,7 @@ function App() {
   const { toast, showToast } = useToast();
 
   // Flow-generated leads stored in localStorage
-  const [flowLeads, setFlowLeads] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  // Persist flow leads to localStorage
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(flowLeads));
-  }, [flowLeads]);
+  const [flowLeads, setFlowLeads] = useLocalStorage(STORAGE_KEY, []);
 
   // Handle new lead created from flow
   const handleLeadCreated = useCallback((newLead) => {

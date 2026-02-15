@@ -1,0 +1,479 @@
+/* ==========================================================================
+   Analytics & Dashboard Widget Styles
+   Funnel, Referral, Churn, NPS, News Feed, Thresholds/Scoring,
+   and shared utility components (avatar, change-badge, variable)
+   ========================================================================== */
+@layer components {
+
+  /* Funnel Visualization */
+  .funnel-visualization {
+    @apply flex flex-col items-center gap-2 py-8;
+  }
+
+  .funnel-stage {
+    @apply flex flex-col items-center gap-2 w-full;
+  }
+
+  .funnel-bar {
+    @apply h-12 bg-slate-200 rounded-xl flex items-center justify-between px-6 text-white font-semibold min-w-[200px] max-w-full shadow-sm;
+    transition: width 0.5s ease;
+  }
+
+  .funnel-label {
+    @apply text-sm;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+  }
+
+  .funnel-value {
+    @apply text-base;
+  }
+
+  .funnel-conversion {
+    @apply flex items-center justify-center gap-2 text-xs text-slate-600 py-1 px-3 bg-slate-100 rounded-full border border-slate-200 font-medium -my-1 z-10;
+  }
+
+  /* Funnel Chart */
+  .funnel-chart-wrapper {
+    @apply w-full h-80 relative;
+  }
+
+  /* Avatar Circle */
+  .avatar-circle {
+    @apply w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0;
+  }
+
+  /* News Feed Timeline - Compact Design */
+  .news-feed-list {
+    @apply relative py-4 px-5;
+  }
+
+  .news-feed-list::before {
+    content: '';
+    @apply absolute w-px bg-slate-100;
+    left: 31px;
+    top: 3.5rem;
+    bottom: 1rem;
+  }
+
+  .timeline-group {
+    @apply relative;
+  }
+
+  .news-item {
+    @apply relative flex gap-3 py-2.5 z-10;
+    transition: all 0.15s ease;
+    border-bottom: 1px solid var(--slate-100);
+  }
+
+  .news-item:last-child {
+    border-bottom: none;
+  }
+
+  .news-item:focus-visible {
+    @apply outline-none;
+  }
+
+  .news-item:focus-visible .news-content-card {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+  }
+
+  .news-icon-wrapper {
+    @apply w-7 h-7 rounded-full flex items-center justify-center shrink-0 z-[2];
+    box-shadow: 0 0 0 3px white;
+    transition: all 0.15s ease;
+  }
+
+  .news-item:hover .news-icon-wrapper {
+    transform: scale(1.1);
+  }
+
+  .news-content-card {
+    @apply flex-1 py-2 px-3 rounded-lg relative flex flex-col gap-0.5;
+    transition: all 0.15s ease;
+  }
+
+  .news-item:hover .news-content-card {
+    @apply bg-slate-50;
+  }
+
+  .news-header {
+    @apply flex justify-between items-center gap-2;
+  }
+
+  .news-message {
+    @apply text-[13px] font-medium text-slate-700 leading-tight;
+  }
+
+  .news-details {
+    @apply text-[12px] text-slate-500 leading-snug;
+  }
+
+  .news-meta {
+    @apply flex items-center gap-2 text-[11px] text-slate-400 mt-0.5;
+  }
+
+  .news-meta .badge {
+    @apply text-[10px] py-0.5 px-1.5;
+  }
+
+  .news-meta-item {
+    @apply flex items-center gap-1.5 text-slate-400;
+  }
+
+  .news-time {
+    @apply text-[11px] text-slate-300 whitespace-nowrap;
+  }
+
+  .news-meta-item + .news-time::before {
+    content: '\B7';
+    @apply mx-1.5 text-slate-300;
+  }
+
+  .news-footer {
+    @apply text-xs text-slate-500;
+  }
+
+  .news-date-header {
+    @apply relative z-10 pt-2 pb-3 flex;
+    padding-left: 2.5rem;
+  }
+
+  .news-date-header h4 {
+    @apply text-[10px] font-semibold text-slate-400 uppercase tracking-widest;
+  }
+
+  /* News action button styling */
+  .news-item .btn-link {
+    @apply opacity-0 text-[11px] font-medium;
+    transition: all 0.15s ease;
+  }
+
+  .news-item:hover .btn-link {
+    @apply opacity-100;
+  }
+
+  /* Empty state */
+  .news-feed-empty {
+    @apply flex flex-col items-center justify-center py-12 text-center;
+  }
+
+  .news-feed-empty-icon {
+    @apply w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3 text-slate-400;
+  }
+
+  .news-feed-empty-text {
+    @apply text-slate-400 text-sm;
+  }
+
+  /* Referral */
+  .referral-stats-summary {
+    @apply grid gap-4 p-6 bg-slate-50 rounded-lg mb-6;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-box {
+    @apply flex flex-col items-center text-center;
+  }
+
+  .stat-box .stat-value {
+    @apply text-2xl font-bold text-black;
+  }
+
+  .stat-box.highlight .stat-value {
+    color: var(--primary);
+  }
+
+  .stat-box .stat-label {
+    @apply text-[13px] text-slate-400;
+  }
+
+  .referral-tree {
+    @apply flex flex-col gap-4;
+  }
+
+  .referrer-node {
+    @apply border border-slate-200 rounded-lg overflow-hidden;
+  }
+
+  .referrer-header {
+    @apply p-4 bg-slate-50 flex justify-between items-center border-b border-slate-200;
+  }
+
+  .referrer-info {
+    @apply flex items-center gap-3 font-semibold;
+  }
+
+  .referrer-reward {
+    @apply text-sm font-semibold;
+    color: var(--success);
+  }
+
+  .referrals-list {
+    @apply py-2;
+  }
+
+  .referral-item {
+    @apply flex items-center gap-4 py-3 px-6 text-sm text-slate-600;
+  }
+
+  .referral-item:not(:last-child) {
+    @apply border-b border-slate-100;
+  }
+
+  .ref-name {
+    @apply font-medium text-black w-[150px];
+  }
+
+  .ref-product {
+    @apply w-[120px];
+  }
+
+  .ref-status {
+    @apply flex items-center gap-2 text-xs;
+  }
+
+  .ref-status.completed {
+    color: var(--success);
+  }
+
+  .ref-status.pending {
+    color: var(--warning);
+  }
+
+  .ref-value {
+    @apply ml-auto font-semibold;
+  }
+
+  /* Churn */
+  .churn-summary {
+    @apply flex gap-4;
+  }
+
+  .risk-count {
+    @apply text-[13px] font-semibold py-1 px-3 rounded-full;
+  }
+
+  .risk-count.high {
+    background-color: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .risk-count.medium {
+    background-color: var(--warning-light);
+    color: var(--warning);
+  }
+
+  .risk-count.low {
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+
+  .churn-metrics-bar {
+    @apply grid gap-4 mb-6;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .churn-metrics-bar .metric-card {
+    @apply p-4 border border-slate-200 rounded-lg text-center flex flex-col bg-white;
+  }
+
+  .risk-factors {
+    @apply flex gap-2 flex-wrap;
+  }
+
+  .risk-factor {
+    @apply text-xs bg-slate-100 py-0.5 px-2 rounded text-slate-600;
+  }
+
+  .recommendation {
+    @apply text-[13px] font-medium;
+    color: var(--primary);
+  }
+
+  /* NPS */
+  .nps-display {
+    @apply flex items-center gap-12 py-8;
+  }
+
+  .nps-score-large {
+    @apply flex flex-col items-center p-8 bg-slate-50 rounded-full w-40 h-40 justify-center;
+    border: 4px solid var(--primary);
+  }
+
+  .nps-score-large .score {
+    @apply text-5xl font-bold leading-none;
+    color: var(--primary);
+  }
+
+  .nps-score-large .label {
+    @apply text-sm text-slate-600 mt-1;
+  }
+
+  .nps-breakdown {
+    @apply flex-1 flex flex-col gap-4;
+  }
+
+  .nps-segment {
+    @apply flex items-center gap-4 py-3 px-4 rounded-lg;
+  }
+
+  .nps-segment.promoters {
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+
+  .nps-segment.passives {
+    background-color: var(--warning-light);
+    color: var(--warning);
+  }
+
+  .nps-segment.detractors {
+    background-color: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .nps-segment .percentage {
+    @apply text-xl font-bold min-w-[60px];
+  }
+
+  .nps-segment .label {
+    @apply font-semibold;
+  }
+
+  .feedback-list {
+    @apply flex flex-col gap-4;
+  }
+
+  .feedback-item {
+    @apply flex gap-4 p-4 border-b border-slate-200;
+  }
+
+  .feedback-item:last-child {
+    @apply border-b-0;
+  }
+
+  .feedback-score {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg shrink-0;
+  }
+
+  .feedback-content {
+    @apply flex-1;
+  }
+
+  .feedback-header {
+    @apply flex justify-between mb-2;
+  }
+
+  .feedback-header strong {
+    @apply text-black;
+  }
+
+  .feedback-header span {
+    @apply text-xs text-slate-400;
+  }
+
+  .feedback-content p {
+    @apply m-0 text-sm text-slate-600;
+  }
+
+  /* Thresholds */
+  .thresholds-card .card-header {
+    @apply mb-6;
+  }
+
+  .thresholds-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .threshold-item {
+    @apply flex flex-col gap-2 p-4 bg-slate-50 rounded-lg border border-slate-200;
+  }
+
+  .threshold-label {
+    @apply flex flex-col gap-1 text-sm text-slate-600;
+  }
+
+  .threshold-badge {
+    @apply inline-flex items-center justify-center py-1 px-2 rounded font-semibold text-xs w-fit;
+  }
+
+  .threshold-badge.variant-mql {
+    background-color: var(--swk-blue-light);
+    color: var(--swk-blue);
+  }
+
+  .threshold-badge.variant-sql {
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+
+  .threshold-badge.variant-hot {
+    background-color: var(--danger-light);
+    color: var(--danger);
+  }
+
+  .scoring-table tr.inactive {
+    @apply opacity-60 bg-slate-50;
+  }
+
+  .rule-info {
+    @apply flex flex-col;
+  }
+
+  .rule-info strong {
+    @apply text-black;
+  }
+
+  .rule-info span {
+    @apply text-xs text-slate-600;
+  }
+
+  .category-badge {
+    @apply inline-flex items-center gap-2 py-1 px-3 bg-slate-100 rounded-full text-xs text-slate-600 font-medium;
+  }
+
+  .condition-code {
+    @apply font-mono text-[13px] py-1 px-2 bg-slate-100 rounded;
+    color: var(--primary);
+  }
+
+  .points-input {
+    @apply w-20 text-right font-semibold;
+  }
+
+  .points-input.positive {
+    color: var(--success);
+  }
+
+  .points-input.negative {
+    color: var(--danger);
+  }
+
+  /* Change Badge */
+  .change-badge {
+    @apply inline-flex items-center gap-1 font-semibold;
+  }
+
+  .change-badge.positive {
+    color: var(--success);
+  }
+
+  .change-badge.negative {
+    color: var(--danger);
+  }
+
+  /* Variable Key */
+  .variable-key {
+    @apply inline-block py-0.5 px-1.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs text-slate-600 mb-1;
+  }
+
+  .variable-label {
+    @apply font-medium text-black;
+  }
+
+  .variable-input {
+    @apply w-[120px] py-1 px-2 text-sm;
+  }
+}

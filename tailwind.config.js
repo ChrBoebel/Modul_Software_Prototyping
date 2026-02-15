@@ -40,12 +40,12 @@ export default {
           hover: '#1a437d',
         },
         success: {
-          DEFAULT: '#2358A1',
-          light: '#eff6ff',
+          DEFAULT: '#16a34a',
+          light: '#f0fdf4',
         },
         warning: {
-          DEFAULT: '#64748b',
-          light: '#f1f5f9',
+          DEFAULT: '#d97706',
+          light: '#fffbeb',
         },
         danger: {
           DEFAULT: '#dc2626',

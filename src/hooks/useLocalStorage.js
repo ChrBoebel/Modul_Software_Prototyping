@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const safeParseJson = (value) => {
   if (value === null || value === undefined) return null;
@@ -10,21 +10,24 @@ const safeParseJson = (value) => {
 };
 
 export const useLocalStorage = (key, defaultValue) => {
-  const defaultValueMemo = useMemo(() => defaultValue, [defaultValue]);
+  const defaultValueRef = useRef(defaultValue);
 
   const [state, setState] = useState(() => {
-    if (typeof window === 'undefined') return defaultValueMemo;
+    if (typeof window === 'undefined') return defaultValue;
     const stored = safeParseJson(window.localStorage.getItem(key));
-    return stored === null ? defaultValueMemo : stored;
+    return stored === null ? defaultValue : stored;
   });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(key, JSON.stringify(state));
+    try {
+      window.localStorage.setItem(key, JSON.stringify(state));
+    } catch {
+      // Storage full or unavailable
+    }
   }, [key, state]);
 
-  const reset = () => setState(defaultValueMemo);
+  const reset = useCallback(() => setState(defaultValueRef.current), []);
 
   return [state, setState, { reset }];
 };
-

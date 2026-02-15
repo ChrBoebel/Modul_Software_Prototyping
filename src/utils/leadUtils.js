@@ -3,7 +3,7 @@
  */
 
 // Map interest type codes to German product names
-const produktMap = {
+export const produktMap = {
   'solar': 'Solar PV',
   'heatpump': 'Wärmepumpe',
   'charging_station': 'E-Mobilität',

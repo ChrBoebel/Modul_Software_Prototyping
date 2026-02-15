@@ -21,44 +21,8 @@ import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
 import defaultProducts from '../../../data/productCatalog.json';
 import defaultRules from '../../../data/availabilityRules.json';
-
-// Default integrations (same as StartTab/IntegrationTab)
-const defaultIntegrations = [
-  {
-    id: 'int-001',
-    name: 'SAP CRM',
-    type: 'CRM',
-    status: 'connected',
-    lastSync: '2025-01-16 14:30'
-  },
-  {
-    id: 'int-002',
-    name: 'Microsoft Dynamics',
-    type: 'ERP',
-    status: 'connected',
-    lastSync: '2025-01-16 12:15'
-  },
-  {
-    id: 'int-003',
-    name: 'Mailchimp',
-    type: 'Email',
-    status: 'error',
-    error: 'API Key abgelaufen',
-    lastSync: '2025-01-15 08:00'
-  }
-];
-
-// Product type to German label mapping
-const getProductLabel = (type) => {
-  const map = {
-    'solar': 'Solar PV',
-    'heatpump': 'Wärmepumpe',
-    'charging_station': 'E-Mobilität',
-    'energy_contract': 'Stromvertrag',
-    'energy_storage': 'Speicher'
-  };
-  return map[type] || type || 'Unbekannt';
-};
+import defaultIntegrations from '../../../data/defaultIntegrations.json';
+import { getProduktName } from '../../../utils/leadUtils';
 
 // Format timestamp for display
 const formatEventTime = (date) => {
@@ -141,7 +105,7 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
         eventType: 'LEAD_NEW',
         title: 'Neuer Lead eingegangen',
         message: `${displayName} hat das Formular ausgefüllt.`,
-        details: `Produkt: ${getProductLabel(lead.interest?.type)} • Score: ${lead.qualification?.score || 0}`,
+        details: `Produkt: ${getProduktName(lead.interest?.type)} • Score: ${lead.qualification?.score || 0}`,
         leadId: lead.id,
         customer: {
           name: displayName,
@@ -219,7 +183,7 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
           eventType: 'MAPPING_PRODUCT',
           title: product.updatedAt ? 'Produkt aktualisiert' : 'Neues Produkt angelegt',
           message: `${product.name} wurde ${product.updatedAt ? 'aktualisiert' : 'erstellt'}.`,
-          details: `Typ: ${getProductLabel(product.type)} • Status: ${product.active ? 'Aktiv' : 'Inaktiv'}`,
+          details: `Typ: ${getProduktName(product.type)} • Status: ${product.active ? 'Aktiv' : 'Inaktiv'}`,
           productId: product.id
         });
       }

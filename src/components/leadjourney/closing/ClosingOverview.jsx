@@ -19,21 +19,6 @@ import {
 import { mockData } from '../../../data/mockData';
 import { theme } from '../../../theme/colors';
 import { Avatar } from '../../ui/Avatar';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  FunnelChart,
-  Funnel,
-  LabelList,
-  Cell,
-  LineChart,
-  Line
-} from 'recharts';
 
 const ClosingOverview = ({ showToast }) => {
   const [activeTab, setActiveTab] = useState('sales');

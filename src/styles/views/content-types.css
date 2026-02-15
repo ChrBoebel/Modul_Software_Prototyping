@@ -1,0 +1,489 @@
+/* ==========================================================================
+   Content Type Card & Grid Styles
+   Lead Magnets, Journeys, Templates, Assets, Sales Reps,
+   Integrations, Timers, Coupons, Product Breakdown
+   ========================================================================== */
+@layer components {
+
+  /* Lead Magnets Grid */
+  .lead-magnets-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .lead-magnet-card {
+    @apply bg-white border border-slate-200 rounded-xl p-6 flex flex-col gap-5 relative overflow-hidden;
+    transition: var(--transition);
+  }
+
+  .lead-magnet-card:hover {
+    @apply shadow-md border-slate-300;
+    transform: translateY(-2px);
+  }
+
+  .magnet-header {
+    @apply flex items-start gap-4;
+  }
+
+  .magnet-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center shrink-0;
+    color: var(--primary);
+    background-color: var(--primary-light);
+  }
+
+  .magnet-info {
+    @apply flex-1 min-w-0;
+  }
+
+  .magnet-info h4 {
+    @apply text-base font-semibold text-black mb-1 leading-tight;
+  }
+
+  .magnet-type {
+    @apply text-xs text-slate-400 uppercase tracking-wider font-semibold;
+  }
+
+  .magnet-description {
+    @apply text-sm text-slate-600 leading-relaxed;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .magnet-metrics {
+    @apply grid gap-4 pt-4 border-t border-b border-slate-200;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metric {
+    @apply flex flex-col items-start min-w-0;
+  }
+
+  .metric.highlight .metric-value {
+    color: var(--primary);
+  }
+
+  .metric-value {
+    @apply text-base font-bold text-black leading-tight;
+  }
+
+  .metric-label {
+    @apply text-xs text-slate-400;
+  }
+
+  .magnet-funnel {
+    @apply bg-slate-50 rounded-lg p-4 mt-auto;
+  }
+
+  .magnet-funnel h5 {
+    @apply text-xs uppercase text-slate-400 mb-3 font-semibold;
+  }
+
+  .funnel-steps {
+    @apply flex flex-col gap-3;
+  }
+
+  .funnel-step {
+    @apply flex items-center gap-3 text-xs;
+  }
+
+  .step-bar {
+    @apply flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden;
+  }
+
+  .step-fill {
+    @apply h-full rounded-full;
+    transition: width 0.5s ease;
+  }
+
+  .step-info {
+    @apply w-[150px] flex justify-between items-center text-slate-600;
+  }
+
+  .step-name {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+  }
+
+  .step-dropoff {
+    @apply flex items-center gap-0.5 font-semibold;
+    color: var(--danger);
+  }
+
+  /* Journeys Grid */
+  .journeys-grid,
+  .templates-grid,
+  .assets-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .assets-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .list-header {
+    @apply flex justify-between items-center mb-6;
+  }
+
+  .journey-card,
+  .template-card,
+  .asset-card {
+    @apply bg-white border border-slate-200 rounded-xl p-6 flex flex-col gap-5 relative h-full;
+    transition: var(--transition);
+  }
+
+  .journey-card:hover,
+  .template-card:hover,
+  .asset-card:hover {
+    @apply shadow-md border-slate-300;
+    transform: translateY(-2px);
+  }
+
+  .journey-header,
+  .template-header {
+    @apply flex justify-between items-start gap-4;
+  }
+
+  .journey-info h4,
+  .template-info h4,
+  .asset-info h4 {
+    @apply text-base font-semibold text-black mb-1 leading-tight;
+  }
+
+  .journey-info p {
+    @apply text-sm text-slate-600 leading-relaxed mb-0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .journey-stats {
+    @apply grid gap-3 py-4 border-t border-b border-slate-200;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .journey-stats .stat {
+    @apply flex items-center gap-2 text-[13px] text-slate-600;
+  }
+
+  .journey-stats .stat.highlight {
+    color: var(--primary);
+    @apply font-medium;
+  }
+
+  .journey-meta {
+    @apply flex justify-between text-xs text-slate-400;
+  }
+
+  .journey-actions,
+  .template-actions,
+  .asset-actions {
+    @apply flex gap-2 mt-auto flex-wrap;
+  }
+
+  /* Template Card */
+  .template-category {
+    @apply text-xs text-slate-400 uppercase tracking-wider font-semibold;
+  }
+
+  .template-subject {
+    @apply flex items-center gap-2 text-sm text-slate-600 italic bg-slate-50 p-2 rounded;
+  }
+
+  .template-stats {
+    @apply grid gap-2 text-center py-3 border-t border-slate-200;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .template-stats .stat {
+    @apply flex flex-col;
+  }
+
+  .template-stats .stat-value {
+    @apply font-semibold text-black;
+  }
+
+  .template-stats .stat-label {
+    @apply text-xs text-slate-400;
+  }
+
+  .ab-test-result {
+    @apply text-[13px] p-2 rounded flex justify-between font-medium;
+    background-color: var(--success-light);
+    color: var(--success);
+  }
+
+  /* Asset Card */
+  .asset-preview {
+    @apply h-[120px] bg-slate-50 rounded-lg flex items-center justify-center text-slate-400;
+  }
+
+  .asset-meta {
+    @apply flex justify-between text-xs text-slate-400 mt-1;
+  }
+
+  .asset-downloads {
+    @apply flex items-center gap-1 text-xs text-slate-600 mt-2;
+  }
+
+  /* Product Breakdown */
+  .product-breakdown {
+    @apply flex flex-col gap-4;
+  }
+
+  .product-row {
+    @apply flex justify-between items-center p-3 border border-slate-200 rounded-lg bg-white;
+  }
+
+  .product-info {
+    @apply flex flex-col;
+  }
+
+  .product-name {
+    @apply font-semibold text-black;
+  }
+
+  .product-leads {
+    @apply text-xs text-slate-400;
+  }
+
+  .product-metrics {
+    @apply flex gap-4 items-center text-sm;
+  }
+
+  .product-metrics .metric {
+    @apply text-slate-600;
+  }
+
+  .product-metrics .metric.highlight {
+    color: var(--primary);
+    @apply font-semibold;
+  }
+
+  /* Sales Reps Grid */
+  .sales-reps-grid,
+  .integrations-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .sales-rep-card,
+  .integration-card {
+    @apply bg-white border border-slate-200 rounded-xl p-6 flex flex-col gap-4;
+    transition: var(--transition);
+  }
+
+  .sales-rep-card:hover,
+  .integration-card:hover {
+    @apply shadow-md border-slate-300;
+    transform: translateY(-2px);
+  }
+
+  .rep-header,
+  .integration-header {
+    @apply flex items-center gap-4;
+  }
+
+  .rep-avatar {
+    @apply w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600;
+  }
+
+  .integration-icon {
+    @apply w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center;
+    color: var(--primary);
+  }
+
+  .rep-info,
+  .integration-info {
+    @apply flex-1;
+  }
+
+  .rep-info h4,
+  .integration-info h4 {
+    @apply text-base font-semibold mb-0.5;
+  }
+
+  .rep-department,
+  .integration-type {
+    @apply text-xs text-slate-400 uppercase tracking-wider font-semibold;
+  }
+
+  .rep-contact {
+    @apply flex flex-col gap-2 text-sm text-slate-600;
+  }
+
+  .rep-contact a {
+    @apply flex items-center gap-2 no-underline text-inherit;
+    transition: color 0.2s;
+  }
+
+  .rep-contact a:hover {
+    color: var(--primary);
+  }
+
+  .rep-stats {
+    @apply grid gap-2 pt-4 border-t border-slate-200 mt-auto;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .rep-stats .stat {
+    @apply flex flex-col items-center text-center;
+  }
+
+  .rep-stats .stat-value {
+    @apply font-semibold text-sm text-black;
+  }
+
+  .rep-stats .stat-label {
+    @apply text-[10px] text-slate-400 uppercase;
+  }
+
+  .rep-stats .stat.highlight .stat-value {
+    color: var(--primary);
+  }
+
+  /* Integration */
+  .integration-status {
+    @apply flex items-center gap-2 text-xs font-semibold;
+  }
+
+  .integration-description {
+    @apply text-sm text-slate-600 leading-relaxed;
+  }
+
+  .integration-meta {
+    @apply grid gap-2 p-3 bg-slate-50 rounded-lg;
+  }
+
+  .meta-item {
+    @apply flex items-center gap-2 text-xs text-slate-600;
+  }
+
+  .integration-error {
+    @apply flex items-center gap-2 text-xs p-2 rounded;
+    color: var(--danger);
+    background-color: var(--danger-light);
+  }
+
+  .integration-actions {
+    @apply flex gap-2 mt-auto;
+  }
+
+  .error-message {
+    color: var(--danger);
+    @apply text-sm;
+  }
+
+  /* Timers Grid */
+  .timers-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .timer-card {
+    @apply bg-white border border-slate-200 rounded-xl p-6 flex flex-col gap-5;
+    transition: var(--transition);
+  }
+
+  .timer-card:hover {
+    @apply shadow-md border-slate-300;
+    transform: translateY(-2px);
+  }
+
+  .timer-header {
+    @apply flex items-start gap-4;
+  }
+
+  .timer-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center shrink-0 bg-slate-50;
+    color: var(--primary);
+  }
+
+  .timer-info {
+    @apply flex-1;
+  }
+
+  .timer-info h4 {
+    @apply text-base font-semibold text-black mb-1;
+  }
+
+  .timer-info p {
+    @apply text-sm text-slate-600 leading-snug;
+  }
+
+  .timer-config {
+    @apply flex gap-4 p-3 bg-slate-50 rounded-lg;
+  }
+
+  .config-item {
+    @apply flex items-center gap-2 text-[13px] text-slate-600;
+  }
+
+  .timer-stats {
+    @apply grid gap-2 py-4 border-t border-b border-slate-200 text-center;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .timer-stats .stat {
+    @apply flex flex-col;
+  }
+
+  .timer-stats .stat-value {
+    @apply font-semibold text-black;
+  }
+
+  .timer-stats .stat.highlight .stat-value {
+    color: var(--primary);
+  }
+
+  .timer-stats .stat-label {
+    @apply text-xs text-slate-400;
+  }
+
+  .timer-actions {
+    @apply flex gap-2 mt-auto;
+  }
+
+  /* Coupons */
+  .coupons-list {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .coupon-card {
+    @apply border border-slate-200 rounded-lg p-4 bg-white;
+  }
+
+  .coupon-header {
+    @apply flex items-center gap-2 mb-3;
+  }
+
+  .coupon-code {
+    @apply font-mono font-semibold py-1 px-2 bg-slate-100 rounded text-base;
+  }
+
+  .coupon-status {
+    @apply text-xs font-semibold ml-auto uppercase;
+  }
+
+  .coupon-description {
+    @apply text-sm text-slate-600 mb-3;
+  }
+
+  .coupon-details {
+    @apply flex justify-between text-xs text-slate-400 mb-2;
+  }
+
+  .coupon-progress {
+    @apply h-1.5 bg-slate-100 rounded-full overflow-hidden;
+  }
+
+  .progress-bar {
+    @apply h-full rounded-full;
+    background-color: var(--primary);
+  }
+}

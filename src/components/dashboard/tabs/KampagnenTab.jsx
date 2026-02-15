@@ -7,6 +7,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { Tooltip } from '../../ui';
+import { getCampaignStatusVariant } from '../../../utils/statusUtils';
 import { theme } from '../../../theme/colors';
 
 // CTR color coding (Few's principle: visual benchmarks)
@@ -95,15 +96,6 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
       trend: 'up'
     }
   ];
-
-  const getStatusBadge = (status) => {
-    const statusMap = {
-      'Aktiv': 'success',
-      'Pausiert': 'warning',
-      'Prüfung': 'info'
-    };
-    return statusMap[status] || 'neutral';
-  };
 
   const filteredCampaigns = campaigns.filter(camp =>
     filterStatus === 'all' || camp.status === filterStatus
@@ -198,7 +190,7 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                   >
                     <td className="campaign-name">{camp.name}</td>
                     <td>
-                      <span className={`badge ${getStatusBadge(camp.status)}`}>
+                      <span className={`badge ${getCampaignStatusVariant(camp.status)}`}>
                         {camp.status}
                       </span>
                     </td>

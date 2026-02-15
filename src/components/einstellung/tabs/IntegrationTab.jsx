@@ -10,38 +10,7 @@ import {
 import { Button, Badge, StatusIndicator, Avatar } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import { theme } from '../../../theme/colors';
-
-// Default integrations data
-const defaultIntegrations = [
-  {
-    id: 'int-001',
-    name: 'SAP CRM',
-    type: 'CRM',
-    description: 'Synchronisation von Kundendaten und Lead-Status',
-    status: 'connected',
-    lastSync: '2025-01-16 14:30',
-    iconType: 'database'
-  },
-  {
-    id: 'int-002',
-    name: 'Microsoft Dynamics',
-    type: 'ERP',
-    description: 'Auftragsverwaltung und Rechnungsstellung',
-    status: 'connected',
-    lastSync: '2025-01-16 12:15',
-    iconType: 'cloud'
-  },
-  {
-    id: 'int-003',
-    name: 'Mailchimp',
-    type: 'Email',
-    description: 'Newsletter-Marketing und Kampagnen-Sync',
-    status: 'error',
-    lastSync: '2025-01-15 08:00',
-    error: 'API Key abgelaufen',
-    iconType: 'link'
-  }
-];
+import defaultIntegrations from '../../../data/defaultIntegrations.json';
 
 
 const IntegrationTab = ({ showToast }) => {
