@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import { getProductColor } from '../../../theme/productColors';
+import { theme } from '../../../theme/colors';
 import { GERMAN_DRAW_STRINGS } from './utils';
 
 /**
@@ -45,7 +46,7 @@ const MapController = ({
 
         // Add zones as layers
         zones.forEach(zone => {
-            const color = zone.productId ? getProductColor(zone.productId) : '#94A3B8';
+            const color = zone.productId ? getProductColor(zone.productId) : theme.colors.slate400;
             const polygon = L.polygon(zone.coordinates, {
                 color: color,
                 fillColor: color,
@@ -87,12 +88,12 @@ const MapController = ({
                 polygonDrawerRef.current = new L.Draw.Polygon(map, {
                     allowIntersection: false,
                     drawError: {
-                        color: '#ef4444',
+                        color: theme.colors.availabilityNone,
                         message: '<strong>Fehler:</strong> Linien d\u00FCrfen sich nicht kreuzen!'
                     },
                     shapeOptions: {
-                        color: '#3b82f6',
-                        fillColor: '#3b82f6',
+                        color: theme.colors.availabilityKabel,
+                        fillColor: theme.colors.availabilityKabel,
                         fillOpacity: 0.2,
                         weight: 2,
                         dashArray: '5, 5'

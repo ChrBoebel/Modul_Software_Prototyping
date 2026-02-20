@@ -1,5 +1,6 @@
 import { Eye, EyeOff, Trash2 } from 'lucide-react';
 import { getProductColor } from '../../../theme/productColors';
+import { theme } from '../../../theme/colors';
 import { calculateArea, formatArea } from './utils';
 
 /**
@@ -29,7 +30,7 @@ const ZoneListOverlay = ({
             </div>
             <div className="map-zone-list">
                 {zones.map(zone => {
-                    const color = zone.productId ? getProductColor(zone.productId) : '#94A3B8';
+                    const color = zone.productId ? getProductColor(zone.productId) : theme.colors.slate400;
                     const area = calculateArea(zone.coordinates);
                     const isHidden = hiddenZones?.has(zone.id);
                     const isHovered = hoveredZoneId === zone.id;

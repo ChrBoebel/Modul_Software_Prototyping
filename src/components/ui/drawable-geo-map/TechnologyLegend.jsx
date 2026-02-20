@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Layers } from 'lucide-react';
 import { TECHNOLOGY_COLORS } from '../../../theme/productColors';
+import { theme } from '../../../theme/colors';
 
 /**
  * Technology Legend Component
@@ -45,7 +46,7 @@ const TechnologyLegend = ({ zones, products }) => {
                 <div className="flex items-center gap-2 text-xs mt-1 pt-1 border-t border-slate-200">
                     <span
                         className="w-3 h-3 rounded-sm shrink-0"
-                        style={{ backgroundColor: '#94A3B8' }}
+                        style={{ backgroundColor: theme.colors.slate400 }}
                     />
                     <span className="text-slate-500">Kein Produkt</span>
                 </div>
