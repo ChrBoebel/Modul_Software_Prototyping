@@ -3,6 +3,7 @@
  * Following Edward Tufte's principle of "small, high-resolution graphics
  * embedded in a context of words, numbers, images"
  */
+import { theme } from '../../theme/colors';
 
 const Sparkline = ({
   data = [],
@@ -78,8 +79,8 @@ const Sparkline = ({
       {/* Min/Max indicators */}
       {showMinMax && (
         <>
-          <circle cx={minPoint.x} cy={minPoint.y} r={2} fill="#ef4444" />
-          <circle cx={maxPoint.x} cy={maxPoint.y} r={2} fill="#22c55e" />
+          <circle cx={minPoint.x} cy={minPoint.y} r={2} fill={theme.colors.availabilityNone} />
+          <circle cx={maxPoint.x} cy={maxPoint.y} r={2} fill={theme.colors.availabilityFtth} />
         </>
       )}
 

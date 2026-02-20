@@ -483,6 +483,7 @@ Die Anwendung kombiniert Tailwind CSS mit benutzerdefinierten CSS-Dateien.
 ```css
 /* src/index.css - Import-Reihenfolge */
 @import "tailwindcss/base";
+@import "./styles/tokens.css"; /* generiert aus src/theme/designTokens.js */
 @import "./styles/base.css";
 
 @import "tailwindcss/components";
@@ -507,7 +508,21 @@ Die Anwendung kombiniert Tailwind CSS mit benutzerdefinierten CSS-Dateien.
 
 ### Farbschema
 
-Die Markenfarben sind in `tailwind.config.js` und `src/theme/colors.js` definiert.
+Alle Design-Entscheidungen (Farben, Typografie, Radius, Shadows, Layout, Motion, Produktpaletten) liegen zentral in:
+
+- `src/theme/designTokens.js`
+
+Darauf basieren:
+
+- `tailwind.config.js` (Tailwind Theme)
+- `src/styles/tokens.css` (generierte CSS-Variablen für alle Stylesheets)
+- `src/theme/colors.js` und `src/theme/productColors.js` (kompatible JS-Wrapper)
+
+Die CSS-Variablen werden automatisch vor `dev/build/preview` generiert. Manuell geht es mit:
+
+```bash
+npm run tokens:build
+```
 
 | Farbe | Hex | Verwendung |
 |-------|-----|------------|

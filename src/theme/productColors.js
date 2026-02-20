@@ -8,44 +8,9 @@
  *
  * Within each family: Darker = faster speeds, Lighter = slower speeds
  */
+import { designTokens } from './designTokens';
 
-// SWK Corporate Design Colors
-const SWK_BLUE = '#2358A1';
-const SWK_RED = '#E2001A';
-
-export const TECHNOLOGY_COLORS = {
-  FTTH: {
-    name: 'Glasfaser',
-    base: SWK_BLUE,
-    shades: [
-      '#1a437d',  // glasfaser-1000 (darkest = fastest)
-      '#2358A1',  // glasfaser-500 (SWK Blue)
-      '#3b6db5',  // glasfaser-250
-      '#6b93c7',  // glasfaser-100
-      '#a8c0dd',  // glasfaser-50 (lightest = slowest)
-    ]
-  },
-  KABEL: {
-    name: 'Kabel',
-    base: SWK_RED,
-    shades: [
-      '#b90015',  // kabel-1000 (darkest)
-      '#E2001A',  // kabel-500 (SWK Red)
-      '#e63347',  // kabel-400
-      '#ed6675',  // kabel-250
-      '#f5a3ab',  // kabel-200 (lightest)
-    ]
-  },
-  DSL: {
-    name: 'DSL',
-    base: '#64748b',
-    shades: [
-      '#475569',  // dsl-100 (slate-600)
-      '#64748b',  // dsl-50 (slate-500)
-      '#94a3b8',  // dsl-16 (slate-400)
-    ]
-  }
-};
+export const TECHNOLOGY_COLORS = designTokens.productPalette;
 
 // Direct mapping from product ID to color
 export const PRODUCT_COLORS = {
@@ -70,7 +35,7 @@ export const PRODUCT_COLORS = {
  * @returns {string} Hex color code
  */
 export const getProductColor = (productId) => {
-  return PRODUCT_COLORS[productId] || '#94A3B8'; // slate-400 fallback
+  return PRODUCT_COLORS[productId] || designTokens.colors.slate400;
 };
 
 /**

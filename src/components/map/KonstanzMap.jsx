@@ -3,12 +3,13 @@ import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaf
 import 'leaflet/dist/leaflet.css';
 import { Search, Maximize2, Minimize2, Focus, X } from 'lucide-react';
 import streets from '../../data/konstanzStreets.json';
+import { designTokens } from '../../theme/designTokens';
 
 const TECH_COLORS = {
-  FTTH: '#22c55e',
-  KABEL: '#3b82f6',
-  DSL: '#f59e0b',
-  NONE: '#ef4444'
+  FTTH: designTokens.colors.availabilityFtth,
+  KABEL: designTokens.colors.availabilityKabel,
+  DSL: designTokens.colors.availabilityDsl,
+  NONE: designTokens.colors.availabilityNone
 };
 
 const TECH_LABELS = {
@@ -221,7 +222,7 @@ const InteractiveMarker = ({ street, isHighlighted, onHover }) => {
       radius={hovered || isHighlighted ? 8 : 5}
       pathOptions={{
         fillColor: TECH_COLORS[street.product.tech],
-        color: hovered || isHighlighted ? '#fff' : 'rgba(255,255,255,0.8)',
+        color: hovered || isHighlighted ? designTokens.colors.white : designTokens.colors.overlayWhite80,
         weight: hovered || isHighlighted ? 2 : 1,
         fillOpacity: hovered || isHighlighted ? 1 : 0.85
       }}

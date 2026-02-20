@@ -50,24 +50,24 @@
 }
 
 .badge.striped.success {
-    background-color: rgba(35, 88, 161, 0.1);
+    background-color: var(--swk-blue-light);
     /* SWK Blue */
-    color: #2358A1;
-    border-color: rgba(35, 88, 161, 0.3);
+    color: var(--swk-blue);
+    border-color: var(--swk-blue);
 }
 
 .badge.striped.warning {
-    background-color: rgba(100, 116, 139, 0.1);
+    background-color: var(--warning-light);
     /* Slate 500 */
-    color: #64748b;
-    border-color: rgba(100, 116, 139, 0.3);
+    color: var(--warning);
+    border-color: var(--warning);
 }
 
 .badge.striped.danger {
-    background-color: rgba(226, 0, 26, 0.1);
+    background-color: var(--primary-light);
     /* SWK Red */
-    color: #E2001A;
-    border-color: rgba(226, 0, 26, 0.3);
+    color: var(--primary);
+    border-color: var(--primary);
 }
 
 /* Table Specifics */
@@ -129,9 +129,9 @@
 }
 
 .action-btn-square.danger:hover {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border-color: #ef4444;
+    background-color: var(--danger-light);
+    color: var(--danger);
+    border-color: var(--danger);
 }
 
 /* Sidebar / Modal Details Styles */

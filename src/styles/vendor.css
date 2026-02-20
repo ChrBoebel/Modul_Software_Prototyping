@@ -670,8 +670,8 @@
 }
 
 .map-zone-action-btn.danger:hover {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
 /* Help Box for Drawing */

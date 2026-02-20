@@ -230,7 +230,7 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
           <Avatar name={lead.name} size="lg" usePlaceholder type={lead.customerType === 'business' ? 'company' : 'person'} />
           <div>
             <h3 style={{ margin: 0 }}>{lead.name}</h3>
-            <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.leadId}</span>
+            <span style={{ fontSize: '0.75rem', color: theme.colors.slate500 }}>{lead.leadId}</span>
           </div>
           {/* Score Radial Gauge - replaces simple badge (Tufte: maximize data-ink) */}
           {/* Uses SWK brand colors: Blue (high), Slate (medium), Red (low) */}

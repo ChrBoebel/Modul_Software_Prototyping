@@ -203,8 +203,8 @@ export const Avatar = ({
           height: sizeValue,
           borderRadius: '50%',
           objectFit: isCompanyLogo ? 'contain' : 'cover',
-          backgroundColor: isCompanyLogo ? '#fff' : 'transparent',
-          border: '2px solid #e2e8f0',
+          backgroundColor: isCompanyLogo ? 'var(--bg-surface)' : 'transparent',
+          border: '2px solid var(--border-color)',
           padding: isCompanyLogo ? '2px' : '0'
         }}
         onError={handleImageError}

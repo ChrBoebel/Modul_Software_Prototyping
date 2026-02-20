@@ -154,7 +154,7 @@ export const StatusBadge = ({
               <span style={{
                 fontSize: '13px',
                 fontWeight: 600,
-                color: '#1e293b'
+                color: 'var(--slate-800)'
               }}>
                 {tooltip.title || label}
               </span>
@@ -162,7 +162,7 @@ export const StatusBadge = ({
             {tooltip.description && (
               <p style={{
                 fontSize: '12px',
-                color: '#64748b',
+                color: 'var(--slate-500)',
                 margin: 0,
                 lineHeight: 1.4
               }}>

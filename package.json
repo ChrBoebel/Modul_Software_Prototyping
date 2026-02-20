@@ -4,8 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "tokens:build": "node ./scripts/generate-design-tokens.mjs",
+    "predev": "npm run tokens:build",
     "dev": "vite",
+    "prebuild": "npm run tokens:build",
     "build": "vite build",
+    "prepreview": "npm run tokens:build",
     "preview": "vite preview"
   },
   "dependencies": {

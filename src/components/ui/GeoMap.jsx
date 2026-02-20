@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { getProductColor, getTechnologyFromProductId, TECHNOLOGY_COLORS } from '../../theme/productColors';
+import { theme } from '../../theme/colors';
 import { Maximize2, Minimize2, Focus, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Fix for default Leaflet icons in Vite/React
@@ -112,7 +113,7 @@ const MapLegend = ({
 
                 const isCollapsed = collapsedGroups.has(tech);
                 const visibleCount = getVisibleCount(techProducts);
-                const techColor = TECHNOLOGY_COLORS[tech]?.color || '#666';
+                const techColor = TECHNOLOGY_COLORS[tech]?.base || theme.colors.muted;
 
                 return (
                     <div key={tech} className="map-legend-group">
@@ -219,7 +220,7 @@ const InteractivePolygon = ({ polygon, products, isHovered, onHover }) => {
                 {polygon.isLegacyZone ? (
                     <div style={{ fontSize: '14px' }}>
                         <strong style={{ display: 'block', marginBottom: '4px' }}>{polygon.title}</strong>
-                        {polygon.description && <div style={{ color: '#666' }}>{polygon.description}</div>}
+                        {polygon.description && <div style={{ color: theme.colors.muted }}>{polygon.description}</div>}
                     </div>
                 ) : (
                     <div style={{ fontSize: '14px', minWidth: '160px' }}>
@@ -241,8 +242,8 @@ const InteractivePolygon = ({ polygon, products, isHovered, onHover }) => {
                             borderRadius: '6px',
                             fontSize: '13px',
                             fontWeight: 500,
-                            backgroundColor: polygon.effect === 'allow' ? 'rgba(5, 150, 105, 0.1)' : 'rgba(220, 38, 38, 0.1)',
-                            color: polygon.effect === 'allow' ? '#059669' : '#dc2626'
+                            backgroundColor: polygon.effect === 'allow' ? theme.colors.availabilityAllowLight : theme.colors.availabilityDenyLight,
+                            color: polygon.effect === 'allow' ? theme.colors.availabilityAllow : theme.colors.danger
                         }}>
                             {polygon.effect === 'allow' ? '✓ Verfügbar' : '✗ Nicht verfügbar'}
                         </div>
@@ -378,7 +379,7 @@ const GeoMap = ({
                         <Popup>
                             <div style={{ fontSize: '14px' }}>
                                 <strong style={{ display: 'block', marginBottom: '4px' }}>{marker.title}</strong>
-                                {marker.description && <div style={{ color: '#666' }}>{marker.description}</div>}
+                                {marker.description && <div style={{ color: theme.colors.muted }}>{marker.description}</div>}
                             </div>
                         </Popup>
                     </Marker>

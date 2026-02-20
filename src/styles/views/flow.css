@@ -415,11 +415,11 @@
   }
 
   .flow-node.option-node {
-    border-color: #f59e0b;
+    border-color: var(--warning-accent);
   }
 
   .flow-node.option-node .node-header {
-    background: #f59e0b;
+    background: var(--warning-accent);
   }
 
   /* Leadscore Config */
@@ -847,4 +847,3 @@
     @apply hidden;
   }
 }
-

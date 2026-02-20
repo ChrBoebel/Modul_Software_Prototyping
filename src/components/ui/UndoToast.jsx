@@ -52,13 +52,13 @@ export const UndoToast = ({
       icon: Check,
       bgColor: theme.colors.secondary,      // SWK Blue
       iconBg: theme.colors.secondaryDark,
-      progressColor: '#5b8fd4'              // Lighter blue
+      progressColor: theme.colors.toastProgressSecondary
     },
     error: {
       icon: AlertCircle,
       bgColor: theme.colors.primary,        // SWK Red
       iconBg: theme.colors.primaryDark,
-      progressColor: '#f87171'              // Lighter red
+      progressColor: theme.colors.toastProgressPrimary
     },
     info: {
       icon: Info,

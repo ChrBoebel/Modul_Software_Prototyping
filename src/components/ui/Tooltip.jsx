@@ -265,10 +265,10 @@ export const Tooltip = ({
             padding: '8px 12px',
             fontSize: '12px',
             fontWeight: 500,
-            color: '#334155',
-            backgroundColor: 'white',
+            color: 'var(--slate-700)',
+            backgroundColor: 'var(--bg-surface)',
             borderRadius: '10px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)',
+            boxShadow: 'var(--shadow-lg)',
             whiteSpace: 'nowrap',
             maxWidth: '280px'
           }}>
