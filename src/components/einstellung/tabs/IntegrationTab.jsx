@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { Button, Badge, StatusIndicator, Avatar } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
-import { theme } from '../../../theme/colors';
 import defaultIntegrations from '../../../data/defaultIntegrations.json';
 
 
@@ -57,6 +56,12 @@ const IntegrationTab = ({ showToast }) => {
     return labelMap[status] || 'Unbekannt';
   };
 
+  const getHealthTone = (score) => {
+    if (score >= 80) return 'bg-[var(--swk-blue-light)] text-[var(--secondary)]';
+    if (score >= 50) return 'bg-[var(--slate-100)] text-[var(--slate-600)]';
+    return 'bg-[var(--primary-light)] text-[var(--primary)]';
+  };
+
   // Calculate health summary
   const healthSummary = useMemo(() => {
     const connected = integrations.filter(i => i.status === 'connected').length;
@@ -78,139 +83,61 @@ const IntegrationTab = ({ showToast }) => {
       <h2 className="sr-only">Integrationen Verwaltung</h2>
 
       {/* Health Dashboard */}
-      <div className="section" style={{ marginBottom: '1.5rem' }}>
+      <div className="section mb-6">
         <div className="section-header">
           <h3>Integration Health</h3>
         </div>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '1rem',
-          background: 'white',
-          borderRadius: 'var(--radius-lg)',
-          padding: '1rem',
-          border: '1px solid var(--slate-200)'
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 bg-white rounded-[var(--radius-lg)] p-4 border border-[var(--slate-200)]">
           {/* Health Score - Uses SWK brand colors */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '0.75rem',
-            borderRight: '1px solid var(--slate-100)'
-          }}>
-            <div style={{
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: healthSummary.healthPercent >= 80
-                ? theme.colors.secondaryLight
-                : healthSummary.healthPercent >= 50
-                  ? theme.colors.slate100
-                  : theme.colors.primaryLight,
-              marginBottom: '0.5rem'
-            }}>
-              <span style={{
-                fontSize: '1rem',
-                fontWeight: 700,
-                color: healthSummary.healthPercent >= 80
-                  ? theme.colors.secondary
-                  : healthSummary.healthPercent >= 50
-                    ? theme.colors.slate600
-                    : theme.colors.primary
-              }}>
+          <div className="flex flex-col items-center p-3 xl:border-r xl:border-[var(--slate-100)]">
+            <div
+              className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${getHealthTone(healthSummary.healthPercent)}`}
+            >
+              <span className="text-base font-bold">
                 {healthSummary.healthPercent}%
               </span>
             </div>
-            <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>
+            <span className="text-[0.6875rem] text-[var(--text-tertiary)] font-medium">
               Health Score
             </span>
           </div>
 
           {/* Connected - Uses SWK Blue */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.75rem',
-            borderRight: '1px solid var(--slate-100)'
-          }}>
-            <div style={{
-              width: 40,
-              height: 40,
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: theme.colors.secondaryLight
-            }}>
-              <CheckCircle size={20} color={theme.colors.secondary} />
+          <div className="flex items-center gap-3 p-3 xl:border-r xl:border-[var(--slate-100)]">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[var(--swk-blue-light)]">
+              <CheckCircle size={20} className="text-[var(--secondary)]" />
             </div>
             <div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: theme.colors.secondary }}>
+              <div className="text-xl font-bold text-[var(--secondary)]">
                 {healthSummary.connected}
               </div>
-              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Verbunden</span>
+              <span className="text-[0.6875rem] text-[var(--text-tertiary)]">Verbunden</span>
             </div>
           </div>
 
           {/* Errors - Uses SWK Red */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.75rem',
-            borderRight: '1px solid var(--slate-100)'
-          }}>
-            <div style={{
-              width: 40,
-              height: 40,
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: healthSummary.errors > 0 ? theme.colors.primaryLight : 'var(--slate-50)'
-            }}>
-              <XCircle size={20} color={healthSummary.errors > 0 ? theme.colors.primary : 'var(--slate-400)'} />
+          <div className="flex items-center gap-3 p-3 xl:border-r xl:border-[var(--slate-100)]">
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${healthSummary.errors > 0 ? 'bg-[var(--primary-light)]' : 'bg-[var(--slate-50)]'}`}>
+              <XCircle size={20} className={healthSummary.errors > 0 ? 'text-[var(--primary)]' : 'text-[var(--slate-400)]'} />
             </div>
             <div>
-              <div style={{
-                fontSize: '1.25rem',
-                fontWeight: 700,
-                color: healthSummary.errors > 0 ? theme.colors.primary : 'var(--text-secondary)'
-              }}>
+              <div className={`text-xl font-bold ${healthSummary.errors > 0 ? 'text-[var(--primary)]' : 'text-[var(--text-secondary)]'}`}>
                 {healthSummary.errors}
               </div>
-              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Fehler</span>
+              <span className="text-[0.6875rem] text-[var(--text-tertiary)]">Fehler</span>
             </div>
           </div>
 
           {/* Last Sync */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.75rem'
-          }}>
-            <div style={{
-              width: 40,
-              height: 40,
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'var(--slate-50)'
-            }}>
-              <Clock size={20} color="var(--slate-500)" />
+          <div className="flex items-center gap-3 p-3">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[var(--slate-50)]">
+              <Clock size={20} className="text-[var(--slate-500)]" />
             </div>
             <div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              <div className="text-sm font-semibold text-[var(--text-primary)]">
                 {healthSummary.lastSync.split(' ')[1] || healthSummary.lastSync}
               </div>
-              <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>Letzter Sync</span>
+              <span className="text-[0.6875rem] text-[var(--text-tertiary)]">Letzter Sync</span>
             </div>
           </div>
         </div>

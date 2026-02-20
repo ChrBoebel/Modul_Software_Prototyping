@@ -159,3 +159,30 @@
     font-size: 0.75rem;
     color: var(--text-secondary);
 }
+
+.map-zone-stat-row {
+    --map-zone-stat-width: 0%;
+    --map-zone-stat-color: var(--slate-400);
+    --map-zone-stat-color-soft: rgba(148, 163, 184, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.map-zone-stat-bar-fill {
+    width: var(--map-zone-stat-width);
+    background-color: var(--map-zone-stat-color);
+}
+
+.map-zone-stat-area {
+    color: var(--map-zone-stat-color);
+}
+
+.map-zone-stat-product {
+    background-color: var(--map-zone-stat-color-soft);
+    color: var(--map-zone-stat-color);
+}
+
+.map-zone-product-swatch {
+    background-color: var(--map-zone-product-color, var(--slate-400));
+}

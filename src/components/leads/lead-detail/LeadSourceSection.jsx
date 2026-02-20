@@ -23,7 +23,7 @@ const LeadSourceSection = ({ lead, flowAnswers, onNavigateToCampaign }) => (
       )}
     </div>
     {onNavigateToCampaign && lead?.originalData?.flowId && (
-      <div style={{ marginTop: '1rem' }}>
+      <div className="mt-4">
         <button
           type="button"
           className="btn btn-secondary btn-sm"

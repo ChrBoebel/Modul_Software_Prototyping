@@ -8,24 +8,23 @@ import {
 } from 'lucide-react';
 import { Tooltip } from '../../ui';
 import { getCampaignStatusVariant } from '../../../utils/statusUtils';
-import { theme } from '../../../theme/colors';
 
 // CTR color coding (Few's principle: visual benchmarks)
 // Uses SWK brand colors: Blue (good), Slate (medium), Red (poor)
-const getCtrColor = (ctrString) => {
+const getCtrTone = (ctrString) => {
   const ctr = parseFloat(ctrString);
-  if (ctr >= 6) return { bg: theme.colors.secondaryLight, text: theme.colors.secondary };
-  if (ctr >= 3) return { bg: theme.colors.slate100, text: theme.colors.slate600 };
-  return { bg: theme.colors.primaryLight, text: theme.colors.primary };
+  if (ctr >= 6) return 'bg-[var(--swk-blue-light)] text-[var(--secondary)]';
+  if (ctr >= 3) return 'bg-[var(--slate-100)] text-[var(--slate-600)]';
+  return 'bg-[var(--primary-light)] text-[var(--primary)]';
 };
 
 // Quali-Quote color coding (higher is better)
 // Uses SWK brand colors: Blue (good), Slate (medium), Red (poor)
-const getQualiColor = (qualiString) => {
+const getQualiTone = (qualiString) => {
   const quali = parseFloat(qualiString);
-  if (quali >= 35) return { bg: theme.colors.secondaryLight, text: theme.colors.secondary };
-  if (quali >= 25) return { bg: theme.colors.slate100, text: theme.colors.slate600 };
-  return { bg: theme.colors.primaryLight, text: theme.colors.primary };
+  if (quali >= 35) return 'bg-[var(--swk-blue-light)] text-[var(--secondary)]';
+  if (quali >= 25) return 'bg-[var(--slate-100)] text-[var(--slate-600)]';
+  return 'bg-[var(--primary-light)] text-[var(--primary)]';
 };
 
 const KampagnenTab = ({ showToast, onNavigate }) => {
@@ -147,8 +146,8 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                   <th>Status</th>
                   <th>
                     <Tooltip content="Alle Tracking-Events: Seitenaufrufe, Klicks, Conversions">
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
-                        Events <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      <span className="inline-flex items-center gap-1 cursor-help">
+                        Events <HelpCircle size={12} className="opacity-50" />
                       </span>
                     </Tooltip>
                   </th>
@@ -156,16 +155,16 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                   <th>Clicks</th>
                   <th>
                     <Tooltip content="Click-Through-Rate: (Clicks / Impressions) × 100">
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
-                        CTR <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      <span className="inline-flex items-center gap-1 cursor-help">
+                        CTR <HelpCircle size={12} className="opacity-50" />
                       </span>
                     </Tooltip>
                   </th>
                   <th>Leads 30d</th>
                   <th>
                     <Tooltip content="Anteil qualifizierter Leads an allen Kampagnen-Leads">
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'help' }}>
-                        Quali-Quote <HelpCircle size={12} style={{ opacity: 0.5 }} />
+                      <span className="inline-flex items-center gap-1 cursor-help">
+                        Quali-Quote <HelpCircle size={12} className="opacity-50" />
                       </span>
                     </Tooltip>
                   </th>
@@ -177,7 +176,7 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                 {filteredCampaigns.map((camp) => (
                   <tr
                     key={camp.id}
-                    className={selectedCampaign?.id === camp.id ? 'selected' : ''}
+                    className={`cursor-pointer transition-colors ${selectedCampaign?.id === camp.id ? 'selected' : ''}`}
                     onClick={() => setSelectedCampaign(camp)}
                     tabIndex="0"
                     onKeyDown={(e) => {
@@ -186,7 +185,6 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                         setSelectedCampaign(camp);
                       }
                     }}
-                    style={{ cursor: 'pointer' }}
                   >
                     <td className="campaign-name">{camp.name}</td>
                     <td>
@@ -198,29 +196,13 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
                     <td>{camp.impressions.toLocaleString('de-DE')}</td>
                     <td>{camp.clicks.toLocaleString('de-DE')}</td>
                     <td>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '2px 8px',
-                        borderRadius: 4,
-                        fontSize: '0.8125rem',
-                        fontWeight: 600,
-                        backgroundColor: getCtrColor(camp.ctr).bg,
-                        color: getCtrColor(camp.ctr).text
-                      }}>
+                      <span className={`inline-block py-[2px] px-2 rounded text-[0.8125rem] font-semibold ${getCtrTone(camp.ctr)}`}>
                         {camp.ctr}
                       </span>
                     </td>
                     <td>{camp.leads}</td>
                     <td>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '2px 8px',
-                        borderRadius: 4,
-                        fontSize: '0.8125rem',
-                        fontWeight: 600,
-                        backgroundColor: getQualiColor(camp.qualiQuote).bg,
-                        color: getQualiColor(camp.qualiQuote).text
-                      }}>
+                      <span className={`inline-block py-[2px] px-2 rounded text-[0.8125rem] font-semibold ${getQualiTone(camp.qualiQuote)}`}>
                         {camp.qualiQuote}
                       </span>
                     </td>
@@ -274,7 +256,7 @@ const KampagnenTab = ({ showToast, onNavigate }) => {
               <h3>Kampagnen-Details: {selectedCampaign.name}</h3>
             </div>
             <div className="details-content">
-              <div className="chart-placeholder" style={{ height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--slate-50)', borderRadius: 'var(--radius-lg)' }}>
+              <div className="chart-placeholder h-[250px] flex items-center justify-center bg-[var(--slate-50)] rounded-[var(--radius-lg)]">
                 <div className="placeholder-content">
                   <BarChart3 size={48} className="text-muted" />
                   <span className="text-muted">Absatz-Analyse Chart für {selectedCampaign.name}</span>

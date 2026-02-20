@@ -19,6 +19,13 @@ const TECH_LABELS = {
   NONE: 'Nicht verfügbar'
 };
 
+const TECH_COLOR_CLASSES = {
+  FTTH: 'map-tech-ftth',
+  KABEL: 'map-tech-kabel',
+  DSL: 'map-tech-dsl',
+  NONE: 'map-tech-none'
+};
+
 // Component to handle map events and fly to location
 const MapController = ({ flyTo, onFlyComplete, fitBoundsData, fitBoundsTrigger }) => {
   const map = useMap();
@@ -98,8 +105,7 @@ const MapSearch = ({ streets, onSelect }) => {
               onClick={() => handleSelect(street)}
             >
               <span
-                className="map-search-result-icon"
-                style={{ backgroundColor: TECH_COLORS[street.product.tech] }}
+                className={`map-search-result-icon ${TECH_COLOR_CLASSES[street.product.tech]}`}
               />
               <div className="map-search-result-text">
                 <div className="map-search-result-street">{street.street}</div>
@@ -123,15 +129,15 @@ const MapSearch = ({ streets, onSelect }) => {
 // Filter Pills Component
 const FilterPills = ({ filter, setFilter, counts }) => {
   const filters = [
-    { key: 'ALL', label: 'Alle', color: null },
-    { key: 'FTTH', label: 'Glasfaser', color: TECH_COLORS.FTTH },
-    { key: 'KABEL', label: 'Kabel', color: TECH_COLORS.KABEL },
-    { key: 'DSL', label: 'DSL', color: TECH_COLORS.DSL },
-    { key: 'NONE', label: 'Keine', color: TECH_COLORS.NONE },
+    { key: 'ALL', label: 'Alle' },
+    { key: 'FTTH', label: 'Glasfaser' },
+    { key: 'KABEL', label: 'Kabel' },
+    { key: 'DSL', label: 'DSL' },
+    { key: 'NONE', label: 'Keine' },
   ];
 
   return (
-    <div className="map-overlay-panel" style={{ top: 12, left: 300, right: 'auto' }}>
+    <div className="map-overlay-panel top-3 left-[300px] right-auto">
       <div className="map-filter-pills">
         {filters.map(f => (
           <button
@@ -139,8 +145,8 @@ const FilterPills = ({ filter, setFilter, counts }) => {
             className={`map-filter-pill ${filter === f.key ? 'active' : ''}`}
             onClick={() => setFilter(f.key)}
           >
-            {f.color && (
-              <span className="pill-dot" style={{ backgroundColor: f.color }} />
+            {f.key !== 'ALL' && (
+              <span className={`pill-dot ${TECH_COLOR_CLASSES[f.key]}`} />
             )}
             <span>{f.label}</span>
             <span className="pill-count">({counts[f.key] || 0})</span>
@@ -162,14 +168,14 @@ const StatsPanel = ({ data, total }) => {
   }, [data]);
 
   const stats = [
-    { key: 'FTTH', label: 'Glasfaser', color: TECH_COLORS.FTTH },
-    { key: 'KABEL', label: 'Kabel', color: TECH_COLORS.KABEL },
-    { key: 'DSL', label: 'DSL', color: TECH_COLORS.DSL },
-    { key: 'NONE', label: 'Nicht verfügbar', color: TECH_COLORS.NONE },
+    { key: 'FTTH', label: 'Glasfaser' },
+    { key: 'KABEL', label: 'Kabel' },
+    { key: 'DSL', label: 'DSL' },
+    { key: 'NONE', label: 'Nicht verfügbar' },
   ];
 
   return (
-    <div className="map-overlay-panel map-stats-panel" style={{ top: 12, right: 56, width: 200 }}>
+    <div className="map-overlay-panel map-stats-panel top-3 right-14 w-[200px]">
       <div className="map-stats-header">
         <span>Verfügbarkeit</span>
         <span className="map-stats-total">{total} Straßen</span>
@@ -177,13 +183,14 @@ const StatsPanel = ({ data, total }) => {
       {stats.map(stat => {
         const count = counts[stat.key];
         const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+        const barStyle = { width: `${percent}%` };
         return (
           <div key={stat.key} className="map-stat-row">
-            <span className="map-stat-dot" style={{ backgroundColor: stat.color }} />
+            <span className={`map-stat-dot ${TECH_COLOR_CLASSES[stat.key]}`} />
             <div className="map-stat-bar-wrapper">
               <div
-                className="map-stat-bar"
-                style={{ width: `${percent}%`, backgroundColor: stat.color }}
+                className={`map-stat-bar ${TECH_COLOR_CLASSES[stat.key]}`}
+                style={barStyle}
               />
             </div>
             <div className="map-stat-value">
@@ -199,12 +206,12 @@ const StatsPanel = ({ data, total }) => {
 
 // Legend Component
 const Legend = () => (
-  <div className="map-overlay-panel" style={{ bottom: 12, left: 12 }}>
-    <div style={{ fontWeight: 600, marginBottom: 10, fontSize: 13 }}>Legende</div>
+  <div className="map-overlay-panel bottom-3 left-3">
+    <div className="font-semibold mb-2.5 text-[13px]">Legende</div>
     <div className="space-y-2">
-      {Object.entries(TECH_COLORS).map(([tech, color]) => (
+      {Object.entries(TECH_COLORS).map(([tech]) => (
         <div key={tech} className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+          <span className={`w-3 h-3 rounded-full ${TECH_COLOR_CLASSES[tech]}`} />
           <span className="text-xs">{TECH_LABELS[tech]}</span>
         </div>
       ))}
@@ -245,8 +252,7 @@ const InteractiveMarker = ({ street, isHighlighted, onHover }) => {
           </div>
           <div className="flex items-center gap-2 mb-3">
             <span
-              className="inline-block w-3 h-3 rounded-full"
-              style={{ backgroundColor: TECH_COLORS[street.product.tech] }}
+              className={`inline-block w-3 h-3 rounded-full ${TECH_COLOR_CLASSES[street.product.tech]}`}
             />
             <span className="font-medium">{street.product.name}</span>
           </div>
@@ -386,8 +392,7 @@ const KonstanzMap = () => {
       {/* Hover Tooltip */}
       {hoveredStreet && (
         <div
-          className="absolute z-[1001] bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg border text-sm pointer-events-none"
-          style={{ bottom: 60, left: 12 }}
+          className="absolute z-[1001] bg-white/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg border text-sm pointer-events-none bottom-[60px] left-3"
         >
           <span className="font-medium">{hoveredStreet.street}</span>
           <span className="text-slate-400 ml-2">{hoveredStreet.product.name}</span>

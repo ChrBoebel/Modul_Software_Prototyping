@@ -7,6 +7,8 @@ export const DataTable = ({
   className = ''
 }) => {
   const getRowId = (row, index) => row.id ?? row._id ?? index;
+  const getHeaderCellStyle = (col) => ({ width: col.width, textAlign: col.align || 'left' });
+  const getCellStyle = (col) => ({ textAlign: col.align || 'left' });
 
   return (
     <div className={`table-wrapper ${className}`.trim()}>
@@ -16,7 +18,7 @@ export const DataTable = ({
             {columns.map((col) => (
               <th
                 key={col.key}
-                style={{ width: col.width, textAlign: col.align || 'left' }}
+                style={getHeaderCellStyle(col)}
               >
                 {col.header}
               </th>
@@ -44,7 +46,7 @@ export const DataTable = ({
                   {columns.map((col) => (
                     <td
                       key={col.key}
-                      style={{ textAlign: col.align || 'left' }}
+                      style={getCellStyle(col)}
                     >
                       {col.render
                         ? col.render(row[col.key], row, rowIndex)

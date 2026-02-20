@@ -17,7 +17,6 @@ import {
   Settings
 } from 'lucide-react';
 import { mockData } from '../../../data/mockData';
-import { theme } from '../../../theme/colors';
 import { Avatar } from '../../ui/Avatar';
 
 const ClosingOverview = ({ showToast }) => {
@@ -34,52 +33,60 @@ const ClosingOverview = ({ showToast }) => {
   const overallConversion = conversionFunnel.metrics?.overallConversion || 0;
   const avgDealValue = conversionFunnel.metrics?.avgDealValue || 0;
   const connectedIntegrations = integrations.filter(i => i.status === 'connected').length;
+  const statusColorMap = {
+    connected: 'var(--success)',
+    warning: 'var(--warning)',
+    disconnected: 'var(--danger)',
+    error: 'var(--danger)',
+    default: 'var(--slate-400)'
+  };
 
   const getStatusIcon = (status) => {
+    const color = statusColorMap[status] || statusColorMap.default;
     switch (status) {
       case 'connected': return (
         <>
-          <CheckCircle size={16} color={theme.colors.success} aria-hidden="true" />
+          <CheckCircle size={16} color={color} aria-hidden="true" />
           <span className="sr-only">Status: Verbunden</span>
         </>
       );
       case 'warning': return (
         <>
-          <AlertTriangle size={16} color={theme.colors.warning} aria-hidden="true" />
+          <AlertTriangle size={16} color={color} aria-hidden="true" />
           <span className="sr-only">Status: Warnung</span>
         </>
       );
       case 'disconnected':
       case 'error': return (
         <>
-          <XCircle size={16} color={theme.colors.danger} aria-hidden="true" />
+          <XCircle size={16} color={color} aria-hidden="true" />
           <span className="sr-only">Status: Fehler</span>
         </>
       );
       default: return (
         <>
-          <Clock size={16} color={theme.colors.slate400} aria-hidden="true" />
+          <Clock size={16} color={color} aria-hidden="true" />
           <span className="sr-only">Status: Unbekannt</span>
         </>
       );
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'connected': return theme.colors.success;
-      case 'warning': return theme.colors.warning;
-      case 'disconnected':
-      case 'error': return theme.colors.danger;
-      default: return theme.colors.slate400;
-    }
+  const getIntegrationStatusClass = (status) => {
+    const classMap = {
+      connected: 'integration-status-connected',
+      warning: 'integration-status-warning',
+      disconnected: 'integration-status-danger',
+      error: 'integration-status-danger'
+    };
+    return classMap[status] || 'integration-status-muted';
   };
 
   const getSyncLogStatus = (status) => {
     const styles = {
-      success: { bg: 'var(--success-light)', color: 'var(--success)', label: 'Erfolgreich' },
-      error: { bg: 'var(--danger-light)', color: 'var(--danger)', label: 'Fehler' },
-      warning: { bg: 'var(--warning-light)', color: 'var(--warning)', label: 'Warnung' }
+      success: { variant: 'success', label: 'Erfolgreich' },
+      error: { variant: 'danger', label: 'Fehler' },
+      warning: { variant: 'warning', label: 'Warnung' }
     };
     return styles[status] || styles.success;
   };
@@ -240,7 +247,7 @@ const ClosingOverview = ({ showToast }) => {
                       <h4>{integration.name}</h4>
                       <span className="integration-type">{integration.type.toUpperCase()}</span>
                     </div>
-                    <div className="integration-status" style={{ color: getStatusColor(integration.status) }}>
+                    <div className={`integration-status ${getIntegrationStatusClass(integration.status)}`}>
                       {getStatusIcon(integration.status)}
                       <span>{integration.status === 'connected' ? 'Verbunden' : integration.status === 'warning' ? 'Warnung' : 'Getrennt'}</span>
                     </div>
@@ -309,7 +316,7 @@ const ClosingOverview = ({ showToast }) => {
                         <td>{new Date(log.timestamp).toLocaleString('de-DE')}</td>
                         <td><strong>{log.integrationName}</strong></td>
                         <td>
-                          <span className="badge" style={{ backgroundColor: status.bg, color: status.color }}>
+                          <span className={`badge ${status.variant}`}>
                             {status.label}
                           </span>
                         </td>

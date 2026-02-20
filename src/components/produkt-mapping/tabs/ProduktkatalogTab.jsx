@@ -126,9 +126,9 @@ const ProduktkatalogTab = ({
       key: 'name',
       header: 'Produkt',
       render: (value, row) => (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          <span style={{ fontWeight: 600 }}>{row.name}</span>
-          <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{row.id}</span>
+        <div className="flex flex-col gap-0.5">
+          <span className="font-semibold">{row.name}</span>
+          <span className="text-xs text-[var(--text-secondary)]">{row.id}</span>
         </div>
       )
     },
@@ -288,7 +288,7 @@ const ProduktkatalogTab = ({
             min="0"
             step="0.1"
           />
-          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <div className="flex items-end">
             <Checkbox
               checked={draft.config.active}
               onChange={(checked) => setDraft((prev) => ({ ...prev, config: { ...prev.config, active: checked } }))}
@@ -297,7 +297,7 @@ const ProduktkatalogTab = ({
           </div>
         </div>
 
-        <div className="action-buttons" style={{ justifyContent: 'flex-end', marginTop: '8px' }}>
+        <div className="action-buttons justify-end mt-2">
           <Button variant="secondary" onClick={closePanel}>Abbrechen</Button>
           <Button variant="primary" onClick={handleSave}>Speichern</Button>
         </div>
@@ -309,4 +309,3 @@ const ProduktkatalogTab = ({
 };
 
 export default ProduktkatalogTab;
-

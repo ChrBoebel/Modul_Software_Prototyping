@@ -63,14 +63,14 @@ const FlowSummaryView = ({
             {addressAvailability && (
               <div className="summary-item">
                 <span className="summary-label">
-                  <MapPin size={14} style={{ display: 'inline', marginRight: '4px' }} />
+                  <MapPin size={14} className="inline mr-1" />
                   Verfügbare Produkte:
                 </span>
                 <span className="summary-value">
                   {addressAvailability.isServiceable ? (
                     <span className="availability-badges">
                       {addressAvailability.availableProducts.map(p => (
-                        <span key={p.id} className="badge success" style={{ marginRight: '4px' }}>
+                        <span key={p.id} className="badge success mr-1">
                           {p.name}
                         </span>
                       ))}

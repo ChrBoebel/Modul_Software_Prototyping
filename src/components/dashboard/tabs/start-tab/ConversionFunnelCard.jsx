@@ -6,25 +6,18 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import { Tooltip as UiTooltip } from '../../../ui';
-import { theme } from '../../../../theme/colors';
 
 const CustomFunnelTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div style={{
-        backgroundColor: '#fff',
-        padding: '12px',
-        border: '1px solid #e2e8f0',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-      }}>
-        <p style={{ fontWeight: 600, color: '#1e293b', marginBottom: '4px' }}>{data.label}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px' }}>
-          <span style={{ color: theme.colors.primary, fontWeight: 700, fontSize: '14px' }}>
+      <div className="p-3 rounded-md bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-md">
+        <p className="font-semibold mb-1 text-[var(--slate-800)]">{data.label}</p>
+        <div className="flex flex-col gap-1 text-xs">
+          <span className="text-[0.875rem] font-bold text-[var(--primary)]">
             {data.value.toLocaleString()} Leads
           </span>
-          <div style={{ display: 'flex', gap: '12px', color: '#64748b' }}>
+          <div className="flex gap-3 text-[var(--text-secondary)]">
             <span>Gesamt: <strong>{data.percentageOfTotal}%</strong></span>
             {data.label !== 'Formulare gestartet' && (
               <span>Konversion: <strong>{data.conversionRate}%</strong></span>
@@ -40,43 +33,23 @@ const CustomFunnelTooltip = ({ active, payload }) => {
 const ConversionFunnelCard = ({ funnelSteps, campaigns, selectedCampaignId, setSelectedCampaignId }) => {
   return (
     <div className="card">
-      <div className="card-header" style={{ marginBottom: '0.75rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+      <div className="card-header mb-3">
+        <div className="flex items-center justify-between mb-2">
           <h3>Conversion Funnel</h3>
           <UiTooltip content="Gesamt-Conversion: Abschlüsse / gestartete Formulare">
-            <div style={{
-              background: 'var(--success-light)',
-              color: 'var(--success)',
-              padding: '0.25rem 0.75rem',
-              borderRadius: '999px',
-              fontWeight: 600,
-              fontSize: '0.75rem',
-              cursor: 'help'
-            }}>
+            <div className="px-3 py-1 rounded-full text-xs font-semibold bg-[var(--success-light)] text-[var(--success)] cursor-help">
               {((funnelSteps[4]?.value / funnelSteps[0]?.value) * 100 || 0).toFixed(1)}% Gesamt
             </div>
           </UiTooltip>
         </div>
 
         {/* Campaign Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 500 }}>Kampagne:</span>
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] uppercase font-semibold text-[var(--text-tertiary)]">Kampagne:</span>
           <select
             value={selectedCampaignId || ''}
             onChange={(e) => setSelectedCampaignId(e.target.value || null)}
-            style={{
-              flex: 1,
-              padding: '0.375rem 0.5rem',
-              fontSize: '0.75rem',
-              fontWeight: 500,
-              border: '1px solid var(--border-color)',
-              borderRadius: '6px',
-              backgroundColor: selectedCampaignId ? 'var(--primary-light)' : 'var(--bg-secondary)',
-              color: selectedCampaignId ? theme.colors.primary : 'var(--text-primary)',
-              cursor: 'pointer',
-              outline: 'none',
-              transition: 'all 0.2s'
-            }}
+            className={`flex-1 px-2 py-1.5 text-xs font-medium border border-[var(--border-color)] rounded-md cursor-pointer outline-none transition-all ${selectedCampaignId ? 'bg-[var(--primary-light)] text-[var(--primary)]' : 'bg-[var(--bg-secondary)] text-[var(--text-primary)]'}`}
             aria-label="Kampagne für Funnel auswählen"
           >
             <option value="">Alle Kampagnen</option>
@@ -89,9 +62,9 @@ const ConversionFunnelCard = ({ funnelSteps, campaigns, selectedCampaignId, setS
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', minHeight: '240px' }}>
+      <div className="flex gap-4 items-center min-h-[240px]">
         {/* Chart Side - Pure Shapes */}
-        <div style={{ width: '30%', minWidth: '120px', height: 220 }}>
+        <div className="w-[30%] min-w-[120px] h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
             <FunnelChart>
               <Tooltip content={<CustomFunnelTooltip />} cursor={{ fill: 'transparent' }} />
@@ -106,7 +79,7 @@ const ConversionFunnelCard = ({ funnelSteps, campaigns, selectedCampaignId, setS
                     key={`cell-${index}`}
                     fill={entry.fill}
                     stroke="none"
-                    style={{ outline: 'none' }}
+                    className="outline-none"
                   />
                 ))}
               </Funnel>
@@ -115,88 +88,62 @@ const ConversionFunnelCard = ({ funnelSteps, campaigns, selectedCampaignId, setS
         </div>
 
         {/* Data Side - Clean List */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 0 }}>
-          {funnelSteps.map((step, index) => (
-            <div key={index} style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.5rem 0.75rem',
-              borderRadius: '8px',
-              backgroundColor: 'var(--slate-50)',
-              border: '1px solid transparent',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#fff';
-              e.currentTarget.style.borderColor = 'var(--slate-200)';
-              e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--slate-50)';
-              e.currentTarget.style.borderColor = 'transparent';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, flex: 1 }}>
-                <div style={{
-                  width: '10px',
-                  height: '10px',
-                  borderRadius: '3px',
-                  backgroundColor: step.fill,
-                  flexShrink: 0
-                }} />
-                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.8125rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{step.label}</span>
+        <div className="flex-1 flex flex-col gap-2 min-w-0">
+          {funnelSteps.map((step, index) => {
+            const stepMarkerStyle = { '--conversion-funnel-step-color': step.fill };
+
+            return (
+            <div key={index} className="flex items-center justify-between px-3 py-2 rounded-md bg-[var(--slate-50)] border border-transparent transition-[var(--transition)] hover:bg-[var(--bg-surface)] hover:border-[var(--slate-200)] hover:shadow-sm">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <div
+                  className="conversion-funnel-step-dot w-2.5 h-2.5 rounded-[3px] shrink-0"
+                  style={stepMarkerStyle}
+                />
+                <div className="flex flex-col min-w-0">
+                  <span className="font-semibold text-[13px] text-[var(--text-primary)] whitespace-nowrap overflow-hidden text-ellipsis">{step.label}</span>
                   {index > 0 && (
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                    <span className="text-xs text-[var(--text-tertiary)]">
                       {step.conversionRate}% Konversion
                     </span>
                   )}
                   {index === 0 && (
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                    <span className="text-xs text-[var(--text-tertiary)]">
                       Startpunkt
                     </span>
                   )}
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-                <span style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="font-bold text-sm text-[var(--text-primary)]">
                   {step.value.toLocaleString()}
                 </span>
-                <span style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)' }}>
+                <span className="text-[11px] text-[var(--text-tertiary)]">
                   ({step.percentageOfTotal}%)
                 </span>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {/* Minimalist Footer Stats */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem',
-        paddingTop: '0.75rem',
-        borderTop: '1px solid var(--border-color)',
-        marginTop: '0.5rem'
-      }}>
+      <div className="flex justify-center gap-8 pt-3 mt-2 border-t border-[var(--border-color)]">
         <UiTooltip content="Qualifizierungsquote: (Qualifiziert / Kontaktdaten) × 100">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'help' }}>
-            <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Quali:</span>
-            <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
+          <div className="flex items-center gap-2 cursor-help">
+            <span className="text-[11px] uppercase font-semibold text-[var(--text-tertiary)]">Quali:</span>
+            <span className="text-base font-bold text-[var(--secondary)]">
               {((funnelSteps[3].value / funnelSteps[1].value) * 100).toFixed(1)}%
             </span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--success)' }}>+2.1%</span>
+            <span className="text-xs text-[var(--success)]">+2.1%</span>
           </div>
         </UiTooltip>
-        <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--slate-200)' }} />
+        <div className="w-px h-5 bg-[var(--slate-200)]" />
         <UiTooltip content="Abschlussquote: (Anschluss / Qualifiziert) × 100">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'help' }}>
-            <span style={{ fontSize: '0.6875rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontWeight: 600 }}>Abschluss:</span>
-            <span style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
+          <div className="flex items-center gap-2 cursor-help">
+            <span className="text-[11px] uppercase font-semibold text-[var(--text-tertiary)]">Abschluss:</span>
+            <span className="text-base font-bold text-[var(--primary)]">
               {((funnelSteps[4].value / funnelSteps[3].value) * 100).toFixed(1)}%
             </span>
           </div>

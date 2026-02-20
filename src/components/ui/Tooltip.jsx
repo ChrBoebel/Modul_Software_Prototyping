@@ -145,93 +145,10 @@ export const Tooltip = ({
     };
   }, []);
 
-  // Calculate transform and margin based on position
-  const getPositionStyle = () => {
-    switch (actualPosition) {
-      case 'top':
-        return {
-          left: coords.x,
-          top: coords.y,
-          transform: 'translate(-50%, -100%)',
-          marginTop: '-8px'
-        };
-      case 'bottom':
-        return {
-          left: coords.x,
-          top: coords.y,
-          transform: 'translate(-50%, 0)',
-          marginTop: '8px'
-        };
-      case 'left':
-        return {
-          left: coords.x,
-          top: coords.y,
-          transform: 'translate(-100%, -50%)',
-          marginLeft: '-8px'
-        };
-      case 'right':
-        return {
-          left: coords.x,
-          top: coords.y,
-          transform: 'translate(0, -50%)',
-          marginLeft: '8px'
-        };
-      default:
-        return {
-          left: coords.x,
-          top: coords.y,
-          transform: 'translate(-50%, -100%)',
-          marginTop: '-8px'
-        };
-    }
-  };
-
-  // Arrow position styles
-  const getArrowStyle = () => {
-    const base = {
-      position: 'absolute',
-      width: 0,
-      height: 0,
-      borderStyle: 'solid',
-      borderWidth: '6px'
-    };
-
-    switch (actualPosition) {
-      case 'top':
-        return {
-          ...base,
-          left: '50%',
-          bottom: '-6px',
-          transform: 'translateX(-50%)',
-          borderColor: 'white transparent transparent transparent'
-        };
-      case 'bottom':
-        return {
-          ...base,
-          left: '50%',
-          top: '-6px',
-          transform: 'translateX(-50%)',
-          borderColor: 'transparent transparent white transparent'
-        };
-      case 'left':
-        return {
-          ...base,
-          right: '-6px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          borderColor: 'transparent transparent transparent white'
-        };
-      case 'right':
-        return {
-          ...base,
-          left: '-6px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          borderColor: 'transparent white transparent transparent'
-        };
-      default:
-        return base;
-    }
+  const tooltipPositionClass = `tooltip-pos-${actualPosition}`;
+  const tooltipStyle = {
+    '--tooltip-left': `${coords.x}px`,
+    '--tooltip-top': `${coords.y}px`
   };
 
   if (!content) {
@@ -253,29 +170,14 @@ export const Tooltip = ({
         <div
           ref={tooltipRef}
           role="tooltip"
-          style={{
-            position: 'fixed',
-            ...getPositionStyle(),
-            zIndex: 9999,
-            pointerEvents: 'none',
-            animation: 'tooltipIn 0.12s ease-out'
-          }}
+          className={`tooltip-floating ${tooltipPositionClass}`}
+          style={tooltipStyle}
         >
-          <div style={{
-            padding: '8px 12px',
-            fontSize: '12px',
-            fontWeight: 500,
-            color: 'var(--slate-700)',
-            backgroundColor: 'var(--bg-surface)',
-            borderRadius: '10px',
-            boxShadow: 'var(--shadow-lg)',
-            whiteSpace: 'nowrap',
-            maxWidth: '280px'
-          }}>
+          <div className="tooltip-floating-content">
             {content}
           </div>
           {/* Arrow */}
-          <div style={getArrowStyle()} />
+          <div className={`tooltip-floating-arrow tooltip-arrow-${actualPosition}`} />
         </div>
       )}
     </div>

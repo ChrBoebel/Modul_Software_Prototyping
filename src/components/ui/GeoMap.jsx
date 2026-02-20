@@ -3,8 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { getProductColor, getTechnologyFromProductId, TECHNOLOGY_COLORS } from '../../theme/productColors';
-import { theme } from '../../theme/colors';
-import { Maximize2, Minimize2, Focus, ChevronDown, ChevronUp } from 'lucide-react';
+import { Maximize2, Minimize2, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Fix for default Leaflet icons in Vite/React
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -113,33 +112,22 @@ const MapLegend = ({
 
                 const isCollapsed = collapsedGroups.has(tech);
                 const visibleCount = getVisibleCount(techProducts);
-                const techColor = TECHNOLOGY_COLORS[tech]?.base || theme.colors.muted;
+                const techColor = TECHNOLOGY_COLORS[tech]?.base || 'var(--text-secondary)';
+                const techDotStyle = { backgroundColor: techColor };
 
                 return (
                     <div key={tech} className="map-legend-group">
                         <div
-                            className="map-legend-tech"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                cursor: 'pointer',
-                                padding: '4px 0',
-                                marginBottom: isCollapsed ? 0 : 4
-                            }}
+                            className={`map-legend-tech map-legend-tech-row ${isCollapsed ? 'is-collapsed' : ''}`}
                             onClick={() => toggleGroup(tech)}
                         >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <div className="map-legend-tech-main">
                                 <span
-                                    style={{
-                                        width: 8,
-                                        height: 8,
-                                        borderRadius: '50%',
-                                        backgroundColor: techColor
-                                    }}
+                                    className="map-legend-tech-dot"
+                                    style={techDotStyle}
                                 />
                                 <span>{TECHNOLOGY_COLORS[tech]?.name || tech}</span>
-                                <span style={{ opacity: 0.6, fontSize: '10px' }}>
+                                <span className="map-legend-tech-count">
                                     ({visibleCount}/{techProducts.length})
                                 </span>
                             </div>
@@ -147,9 +135,10 @@ const MapLegend = ({
                         </div>
 
                         {!isCollapsed && (
-                            <div style={{ paddingLeft: 4 }}>
+                            <div className="map-legend-group-content">
                                 {techProducts.map(product => {
                                     const isVisible = visibleProducts === null || visibleProducts.has(product.id);
+                                    const productColorStyle = { backgroundColor: getProductColor(product.id) };
                                     return (
                                         <label key={product.id} className="map-legend-item">
                                             <input
@@ -158,15 +147,11 @@ const MapLegend = ({
                                                 onChange={() => onProductToggle?.(product.id)}
                                             />
                                             <span
-                                                className="map-legend-color"
-                                                style={{
-                                                    backgroundColor: getProductColor(product.id),
-                                                    opacity: isVisible ? 1 : 0.4
-                                                }}
+                                                className={`map-legend-color ${isVisible ? '' : 'is-dimmed'}`}
+                                                style={productColorStyle}
                                             />
                                             <span
-                                                className="map-legend-label"
-                                                style={{ opacity: isVisible ? 1 : 0.5 }}
+                                                className={`map-legend-label ${isVisible ? '' : 'is-muted'}`}
                                             >
                                                 {product.name}
                                             </span>
@@ -187,6 +172,7 @@ const MapLegend = ({
  */
 const InteractivePolygon = ({ polygon, products, isHovered, onHover }) => {
     const [localHover, setLocalHover] = useState(false);
+    const polygonDotStyle = { backgroundColor: polygon.color };
 
     const getProductName = (productId) => {
         const product = products.find(p => p.id === productId);
@@ -218,33 +204,20 @@ const InteractivePolygon = ({ polygon, products, isHovered, onHover }) => {
         >
             <Popup>
                 {polygon.isLegacyZone ? (
-                    <div style={{ fontSize: '14px' }}>
-                        <strong style={{ display: 'block', marginBottom: '4px' }}>{polygon.title}</strong>
-                        {polygon.description && <div style={{ color: theme.colors.muted }}>{polygon.description}</div>}
+                    <div className="map-popup-block">
+                        <strong className="map-popup-title">{polygon.title}</strong>
+                        {polygon.description && <div className="map-popup-muted">{polygon.description}</div>}
                     </div>
                 ) : (
-                    <div style={{ fontSize: '14px', minWidth: '160px' }}>
-                        <strong style={{ display: 'block', marginBottom: '8px', fontSize: '15px' }}>
+                    <div className="map-popup-block map-popup-product">
+                        <strong className="map-popup-headline">
                             PLZ {polygon.postalCode}
                         </strong>
-                        <div style={{ marginBottom: '8px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{
-                                display: 'inline-block',
-                                width: '12px',
-                                height: '12px',
-                                borderRadius: '4px',
-                                backgroundColor: polygon.color,
-                            }} />
-                            <span style={{ fontWeight: 500 }}>{getProductName(polygon.productId)}</span>
+                        <div className="map-popup-product-row">
+                            <span className="map-popup-product-dot" style={polygonDotStyle} />
+                            <span className="map-popup-product-name">{getProductName(polygon.productId)}</span>
                         </div>
-                        <div style={{
-                            padding: '6px 10px',
-                            borderRadius: '6px',
-                            fontSize: '13px',
-                            fontWeight: 500,
-                            backgroundColor: polygon.effect === 'allow' ? theme.colors.availabilityAllowLight : theme.colors.availabilityDenyLight,
-                            color: polygon.effect === 'allow' ? theme.colors.availabilityAllow : theme.colors.danger
-                        }}>
+                        <div className={`map-popup-status ${polygon.effect === 'allow' ? 'map-popup-status-allow' : 'map-popup-status-deny'}`}>
                             {polygon.effect === 'allow' ? '✓ Verfügbar' : '✗ Nicht verfügbar'}
                         </div>
                     </div>
@@ -284,6 +257,7 @@ const GeoMap = ({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [hoveredPolygonId, setHoveredPolygonId] = useState(null);
     const mapRef = useRef(null);
+    const mapShellStyle = { '--geo-map-height': isFullscreen ? '100vh' : height };
 
     // Combine legacy zones with product layers
     const allPolygons = useMemo(() => {
@@ -336,19 +310,13 @@ const GeoMap = ({
     return (
         <div
             ref={mapRef}
-            className={`relative transition-all duration-300 ${isFullscreen ? 'map-fullscreen-wrapper' : ''}`}
-            style={{
-                height: isFullscreen ? '100vh' : height,
-                width: '100%',
-                borderRadius: isFullscreen ? 0 : 'var(--radius-md)',
-                overflow: 'hidden',
-                border: '1px solid var(--border-color)'
-            }}
+            className={`geo-map-shell ${isFullscreen ? 'map-fullscreen-wrapper' : ''}`}
+            style={mapShellStyle}
         >
             <MapContainer
                 center={center}
                 zoom={zoom}
-                style={{ height: '100%', width: '100%' }}
+                className="geo-map-canvas"
                 scrollWheelZoom={true}
             >
                 <TileLayer
@@ -377,9 +345,9 @@ const GeoMap = ({
                         icon={marker.icon || DefaultIcon}
                     >
                         <Popup>
-                            <div style={{ fontSize: '14px' }}>
-                                <strong style={{ display: 'block', marginBottom: '4px' }}>{marker.title}</strong>
-                                {marker.description && <div style={{ color: theme.colors.muted }}>{marker.description}</div>}
+                            <div className="map-popup-block">
+                                <strong className="map-popup-title">{marker.title}</strong>
+                                {marker.description && <div className="map-popup-muted">{marker.description}</div>}
                             </div>
                         </Popup>
                     </Marker>

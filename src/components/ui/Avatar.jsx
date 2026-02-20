@@ -180,6 +180,7 @@ export const Avatar = ({
   const [imageError, setImageError] = useState(false);
   const displayInitials = initials || getInitials(name);
   const sizeValue = sizePx[size] || sizePx.md;
+  const baseAvatarStyle = { width: sizeValue, height: sizeValue, borderRadius: '50%' };
 
   // Use placeholder image if requested or if src is provided
   const imageSrc = src || (usePlaceholder ? getPlaceholderUrl(name, sizeValue, type) : null);
@@ -192,21 +193,20 @@ export const Avatar = ({
   if (imageSrc && !imageError) {
     // For company logos, use contain to show full logo; for people use cover
     const isCompanyLogo = type === 'company' && getCompanyLogo(name);
+    const imageStyle = {
+      ...baseAvatarStyle,
+      objectFit: isCompanyLogo ? 'contain' : 'cover',
+      backgroundColor: isCompanyLogo ? 'var(--bg-surface)' : 'transparent',
+      border: '2px solid var(--border-color)',
+      padding: isCompanyLogo ? '2px' : '0'
+    };
 
     return (
       <img
         src={imageSrc}
         alt={name || 'Avatar'}
         className={`avatar ${sizeClasses[size]} avatar-${variant} ${className}`.trim()}
-        style={{
-          width: sizeValue,
-          height: sizeValue,
-          borderRadius: '50%',
-          objectFit: isCompanyLogo ? 'contain' : 'cover',
-          backgroundColor: isCompanyLogo ? 'var(--bg-surface)' : 'transparent',
-          border: '2px solid var(--border-color)',
-          padding: isCompanyLogo ? '2px' : '0'
-        }}
+        style={imageStyle}
         onError={handleImageError}
       />
     );
@@ -215,11 +215,7 @@ export const Avatar = ({
   return (
     <div
       className={`avatar ${sizeClasses[size]} avatar-${variant} ${className}`.trim()}
-      style={{
-        width: sizeValue,
-        height: sizeValue,
-        borderRadius: '50%'
-      }}
+      style={baseAvatarStyle}
       aria-label={name}
       title={name}
     >

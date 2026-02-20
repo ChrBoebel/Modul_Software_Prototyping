@@ -36,6 +36,7 @@ export const Panel = ({
       onClose();
     }
   };
+  const panelStyle = width ? { width } : undefined;
 
   return (
     <>
@@ -48,7 +49,7 @@ export const Panel = ({
       )}
       <aside
         className={`panel panel-${position} ${className}`.trim()}
-        style={{ width }}
+        style={panelStyle}
         role="complementary"
         aria-label={ariaLabel || title}
       >

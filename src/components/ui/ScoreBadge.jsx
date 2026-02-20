@@ -61,15 +61,18 @@ export const ScoreBadge = ({
   };
 
   const variant = getVariant(score);
+  const tooltipVars = {
+    '--score-tooltip-left': `${position.x}px`,
+    '--score-tooltip-top': `${position.y}px`
+  };
 
   return (
     <>
       <span
         ref={badgeRef}
-        className={`score-badge ${variant} ${sizeClasses[size]} ${className}`}
+        className={`score-badge ${variant} ${sizeClasses[size]} ${breakdown.length > 0 ? 'score-badge-interactive' : ''} ${className}`.trim()}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
-        style={{ cursor: breakdown.length > 0 ? 'help' : 'default' }}
       >
         {score}
       </span>
@@ -77,14 +80,7 @@ export const ScoreBadge = ({
       {isVisible && (
         <div
           className="score-tooltip"
-          style={{
-            position: 'fixed',
-            left: position.x,
-            top: position.y,
-            transform: 'translate(-50%, -100%)',
-            marginTop: '-8px',
-            zIndex: 9999
-          }}
+          style={tooltipVars}
         >
           <div className="score-tooltip-content">
             <div className="score-tooltip-header">

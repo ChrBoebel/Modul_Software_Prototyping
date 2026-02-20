@@ -61,7 +61,7 @@ const FilterSection = () => {
   onChange={setSelected}
 />`}
       >
-        <div style={{ maxWidth: '400px' }}>
+        <div className="max-w-[400px]">
           <ProductGroupSelector
             products={sampleProducts}
             selectedIds={selectedProducts}

@@ -1,15 +1,11 @@
 import { MapPin, Package } from 'lucide-react';
 import { Tooltip as UiTooltip } from '../../../ui';
-import { theme } from '../../../../theme/colors';
 
 const ProductCoverageCard = ({ productStats, availabilityChartData, onNavigate }) => {
   return (
     <div
-      className="card"
-      style={{ cursor: 'pointer', transition: 'box-shadow 0.2s' }}
+      className="card cursor-pointer transition-shadow hover:shadow-md"
       onClick={() => onNavigate && onNavigate('produkt-mapping')}
-      onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
-      onMouseLeave={(e) => e.currentTarget.style.boxShadow = ''}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -20,49 +16,44 @@ const ProductCoverageCard = ({ productStats, availabilityChartData, onNavigate }
       }}
       aria-label="Produkt-Mapping öffnen"
     >
-      <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="card-header flex justify-between items-center">
         <h3>
-          <MapPin size={16} style={{ display: 'inline', marginRight: '8px' }} />
+          <MapPin size={16} className="inline mr-2" />
           Produkt-Abdeckung
         </h3>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Details →</span>
+        <span className="text-xs text-[var(--text-tertiary)]">Details →</span>
       </div>
-      <div style={{ padding: '0.5rem 0' }}>
+      <div className="py-2">
         {/* Quick Stats */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          gap: '0.5rem',
-          marginBottom: '0.75rem'
-        }}>
-          <div style={{ textAlign: 'center', flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.secondary }}>
+        <div className="flex justify-between gap-2 mb-3">
+          <div className="text-center flex-1 min-w-0">
+            <div className="text-base font-bold text-[var(--secondary)]">
               {productStats.totalProducts}
             </div>
-            <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Produkte</div>
+            <div className="text-[0.625rem] text-[var(--text-tertiary)]">Produkte</div>
           </div>
           <UiTooltip content="Postleitzahlen mit aktiven Verfügbarkeitsregeln">
-            <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.primary }}>
+            <div className="text-center flex-1 min-w-0 cursor-help">
+              <div className="text-base font-bold text-[var(--primary)]">
                 {productStats.coveredPlzCount}
               </div>
-              <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>PLZ</div>
+              <div className="text-[0.625rem] text-[var(--text-tertiary)]">PLZ</div>
             </div>
           </UiTooltip>
           <UiTooltip content="Aktive Regeln die Produktverfügbarkeit definieren">
-            <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.slate500 }}>
+            <div className="text-center flex-1 min-w-0 cursor-help">
+              <div className="text-base font-bold text-[var(--slate-500)]">
                 {productStats.totalRules}
               </div>
-              <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Regeln</div>
+              <div className="text-[0.625rem] text-[var(--text-tertiary)]">Regeln</div>
             </div>
           </UiTooltip>
           <UiTooltip content="Verhältnis zu ~8000 deutschen PLZ-Bereichen">
-            <div style={{ textAlign: 'center', flex: 1, minWidth: 0, cursor: 'help' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: theme.colors.success }}>
+            <div className="text-center flex-1 min-w-0 cursor-help">
+              <div className="text-base font-bold text-[var(--success)]">
                 {productStats.coveragePercent}%
               </div>
-              <div style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)' }}>Abdeckung</div>
+              <div className="text-[0.625rem] text-[var(--text-tertiary)]">Abdeckung</div>
             </div>
           </UiTooltip>
         </div>
@@ -70,47 +61,20 @@ const ProductCoverageCard = ({ productStats, availabilityChartData, onNavigate }
         {/* Top Products */}
         {productStats.topProducts.length > 0 && (
           <div>
-            <div style={{
-              fontSize: '0.625rem',
-              fontWeight: 600,
-              color: 'var(--text-tertiary)',
-              textTransform: 'uppercase',
-              marginBottom: '0.375rem'
-            }}>
-              Top Produkte
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <div className="text-[0.625rem] font-semibold text-[var(--text-tertiary)] uppercase mb-1.5">Top Produkte</div>
+            <div className="flex flex-col gap-1">
               {productStats.topProducts.map((prod, idx) => (
                 <div
                   key={prod.id}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.375rem 0.5rem',
-                    backgroundColor: 'var(--slate-50)',
-                    borderRadius: '4px'
-                  }}
+                  className="flex justify-between items-center py-1.5 px-2 bg-[var(--slate-50)] rounded"
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', minWidth: 0 }}>
-                    <span style={{
-                      width: '16px',
-                      height: '16px',
-                      borderRadius: '3px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: idx === 0 ? theme.colors.secondary : idx === 1 ? theme.colors.slate400 : theme.colors.slate300,
-                      color: '#fff',
-                      fontSize: '0.625rem',
-                      fontWeight: 600,
-                      flexShrink: 0
-                    }}>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className={`w-4 h-4 rounded-[3px] flex items-center justify-center text-[var(--text-on-primary)] text-[0.625rem] font-semibold shrink-0 ${idx === 0 ? 'bg-[var(--secondary)]' : idx === 1 ? 'bg-[var(--slate-400)]' : 'bg-[var(--slate-300)]'}`}>
                       {idx + 1}
                     </span>
-                    <span style={{ fontWeight: 500, fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{prod.name}</span>
+                    <span className="font-medium text-xs overflow-hidden text-ellipsis whitespace-nowrap">{prod.name}</span>
                   </div>
-                  <span style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', flexShrink: 0 }}>
+                  <span className="text-[0.625rem] text-[var(--text-tertiary)] shrink-0">
                     {prod.ruleCount}
                   </span>
                 </div>
@@ -121,28 +85,20 @@ const ProductCoverageCard = ({ productStats, availabilityChartData, onNavigate }
 
         {/* Stacked Bar - replaces Pie Chart (Tufte: maximize data-ink ratio) */}
         {(productStats.totalProducts > 0 || productStats.totalRules > 0) && (
-          <div style={{ marginTop: '0.75rem' }}>
+          <div className="mt-3">
             {/* 100% Stacked Bar */}
             {(() => {
               const total = availabilityChartData.reduce((sum, d) => sum + d.value, 0);
               return (
-                <div style={{
-                  display: 'flex',
-                  height: 8,
-                  borderRadius: 4,
-                  overflow: 'hidden',
-                  backgroundColor: 'var(--slate-100)'
-                }}>
+                <div className="flex h-2 rounded overflow-hidden bg-[var(--slate-100)]">
                   {availabilityChartData.map((item, idx) => {
                     const width = total > 0 ? (item.value / total * 100) : 0;
+                    const segmentStyle = { width: `${width}%`, '--product-coverage-color': item.color };
                     return width > 0 ? (
                       <div
                         key={idx}
-                        style={{
-                          width: `${width}%`,
-                          backgroundColor: item.color,
-                          transition: 'width 0.3s ease'
-                        }}
+                        className="product-coverage-segment h-full transition-[width] duration-300"
+                        style={segmentStyle}
                         title={`${item.name}: ${item.value}`}
                       />
                     ) : null;
@@ -151,46 +107,28 @@ const ProductCoverageCard = ({ productStats, availabilityChartData, onNavigate }
               );
             })()}
             {/* Legend with values */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '0.5rem',
-              gap: '0.5rem'
-            }}>
-              {availabilityChartData.map((item, idx) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  fontSize: '0.625rem'
-                }}>
-                  <span style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: 2,
-                    background: item.color,
-                    flexShrink: 0
-                  }} />
-                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>
+            <div className="flex justify-between gap-2 mt-2">
+              {availabilityChartData.map((item, idx) => {
+                const legendDotStyle = { '--product-coverage-color': item.color };
+                return (
+                <div key={idx} className="flex items-center gap-1 text-[0.625rem]">
+                  <span className="product-coverage-dot w-2 h-2 rounded-[2px] shrink-0" style={legendDotStyle} />
+                  <span className="text-[var(--text-secondary)] font-medium">
                     {item.value}
                   </span>
-                  <span style={{ color: 'var(--text-tertiary)' }}>
+                  <span className="text-[var(--text-tertiary)]">
                     {item.name}
                   </span>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
 
         {productStats.topProducts.length === 0 && productStats.totalRules === 0 && (
-          <div style={{
-            textAlign: 'center',
-            padding: '0.5rem',
-            color: 'var(--text-tertiary)',
-            fontSize: '0.75rem'
-          }}>
-            <Package size={18} style={{ marginBottom: '0.25rem', opacity: 0.5 }} />
+          <div className="text-center p-2 text-[var(--text-tertiary)] text-xs">
+            <Package size={18} className="mb-1 opacity-50" />
             <p>Keine Regeln</p>
           </div>
         )}

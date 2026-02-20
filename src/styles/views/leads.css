@@ -369,6 +369,7 @@
 
   .timeline-icon {
     @apply w-6 h-6 rounded-full flex items-center justify-center text-white shrink-0;
+    background-color: var(--timeline-icon-bg, var(--slate-400));
   }
 
   .timeline-content {

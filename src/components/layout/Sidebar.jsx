@@ -93,7 +93,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
         <div className="tenant-switcher">
           {collapsed ? (
             <div className="tenant-button-collapsed" title="Stadtwerke Konstanz">
-              <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: '24px', objectFit: 'contain' }} />
+              <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" className="h-6 w-6 object-contain" />
             </div>
           ) : (
             <>
@@ -104,7 +104,7 @@ export const Sidebar = ({ isOpen, onClose, activeView, onViewChange }) => {
                 aria-expanded={tenantOpen}
                 aria-haspopup="listbox"
               >
-                <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" style={{ height: '24px', width: 'auto' }} />
+                <img src="/stadtwerke-logo.svg" alt="Stadtwerke Konstanz" className="h-6 w-auto" />
                 <ChevronDown size={16} className={`tenant-chevron ${tenantOpen ? 'open' : ''}`} />
               </button>
               {tenantOpen && (

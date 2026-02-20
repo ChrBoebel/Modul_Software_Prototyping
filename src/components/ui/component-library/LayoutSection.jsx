@@ -83,7 +83,7 @@ const LayoutSection = () => {
   <p>Inhalt der Section...</p>
 </CollapsibleSection>`}
       >
-        <div className="preview-stack" style={{ maxWidth: '400px' }}>
+        <div className="preview-stack max-w-[400px]">
           <CollapsibleSection
             id="section1"
             icon={Info}
@@ -112,7 +112,7 @@ const LayoutSection = () => {
   <p>Inhalt der Card...</p>
 </CollapsibleCard>`}
       >
-        <div style={{ maxWidth: '400px' }}>
+        <div className="max-w-[400px]">
           <CollapsibleCard title="Zusätzliche Informationen">
             <p>Dies ist eine aufklappbare Card mit weiteren Details zum Element.</p>
           </CollapsibleCard>

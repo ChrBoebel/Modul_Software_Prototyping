@@ -137,18 +137,18 @@ const DrawableGeoMap = ({
         controllerRef.current?.cancelDelete();
         setMode(null);
     };
+    const mapShellStyle = { '--geo-map-height': isFullscreen ? '100vh' : height };
 
     return (
         <div
             ref={mapRef}
-            className={`relative w-full rounded-lg overflow-hidden border border-slate-200 transition-all duration-300 ${isFullscreen ? 'map-fullscreen-wrapper' : ''
-                }`}
-            style={{ height: isFullscreen ? '100vh' : height }}
+            className={`geo-map-shell ${isFullscreen ? 'map-fullscreen-wrapper' : ''}`}
+            style={mapShellStyle}
         >
             <MapContainer
                 center={center}
                 zoom={zoom}
-                style={{ height: '100%', width: '100%' }}
+                className="geo-map-canvas"
                 scrollWheelZoom={true}
             >
                 <TileLayer
@@ -196,7 +196,7 @@ const DrawableGeoMap = ({
             />
 
             {/* Control Buttons - Fullscreen & Focus */}
-            <div className="map-controls-group" style={{ top: 12, right: 62 }}>
+            <div className="map-controls-group map-controls-top-right-offset">
                 <ToolbarButton
                     icon={isFullscreen ? Minimize2 : Maximize2}
                     tooltip={isFullscreen ? 'Vollbild beenden (ESC)' : 'Vollbild'}
@@ -214,7 +214,7 @@ const DrawableGeoMap = ({
 
             {/* Toolbar - Now Sibling to MapContainer */}
             {editable && (
-                <div className="map-controls-group" style={{ top: 12, right: 12 }}>
+                <div className="map-controls-group map-controls-top-right">
                     {!mode && (
                         <>
                             <ToolbarButton

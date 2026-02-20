@@ -7,29 +7,15 @@ const IntegrationStatusBanner = ({ integrationStatus, integrations, onNavigate, 
 
   return (
     <div
-      className="card"
-      style={{
-        padding: '0.5rem 0.75rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: integrationStatus.hasError ? 'var(--danger-light)' : 'var(--success-light)',
-        border: `1px solid ${integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'}`,
-        borderRadius: '6px',
-        marginBottom: '0.75rem'
-      }}
+      className={`card flex items-center justify-between px-3 py-2 rounded-md mb-3 border ${integrationStatus.hasError ? 'bg-[var(--danger-light)] border-[var(--danger)] text-[var(--danger)]' : 'bg-[var(--success-light)] border-[var(--success)] text-[var(--success)]'}`}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <div className="flex items-center gap-2">
         {integrationStatus.hasError ? (
-          <AlertCircle size={16} style={{ color: 'var(--danger)', flexShrink: 0 }} />
+          <AlertCircle size={16} className="shrink-0" />
         ) : (
-          <CheckCircle size={16} style={{ color: 'var(--success)', flexShrink: 0 }} />
+          <CheckCircle size={16} className="shrink-0" />
         )}
-        <span style={{
-          fontWeight: 600,
-          fontSize: '0.75rem',
-          color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)'
-        }}>
+        <span className="font-semibold text-xs">
           {integrationStatus.hasError
             ? `${integrationStatus.errorCount} Fehler`
             : `${integrationStatus.connectedCount}/${integrationStatus.total} verbunden`
@@ -38,15 +24,7 @@ const IntegrationStatusBanner = ({ integrationStatus, integrations, onNavigate, 
       </div>
       <button
         type="button"
-        style={{
-          background: 'none',
-          border: 'none',
-          color: integrationStatus.hasError ? 'var(--danger)' : 'var(--success)',
-          cursor: 'pointer',
-          fontSize: '0.6875rem',
-          fontWeight: 500,
-          textDecoration: 'underline'
-        }}
+        className="bg-transparent border-none text-inherit cursor-pointer text-[0.6875rem] font-medium underline"
         onClick={() => {
           if (onNavigate) {
             onNavigate('einstellung');

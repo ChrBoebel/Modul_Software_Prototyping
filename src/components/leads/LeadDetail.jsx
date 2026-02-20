@@ -18,7 +18,6 @@ import {
 import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Avatar, Tooltip } from '../ui';
-import { theme } from '../../theme/colors';
 import {
   getCombinedAvailabilityForAddress
 } from '../produkt-mapping/availabilityLogic';
@@ -46,6 +45,12 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
     consents: false
   });
   const [showAllActivities, setShowAllActivities] = useState(false);
+
+  const getLeadScoreColor = (score) => {
+    if (score >= 80) return 'var(--secondary)';
+    if (score >= 50) return 'var(--slate-500)';
+    return 'var(--primary)';
+  };
 
   // Load product mapping data from localStorage
   const [products] = useLocalStorage('swk:productCatalog', []);
@@ -226,45 +231,37 @@ const LeadDetail = ({ lead, showToast, onClose, onNavigateToCampaign, onNavigate
     <div className="lead-detail" role="region" aria-label={`Details für Lead ${lead.leadId}`}>
       {/* Header */}
       <div className="detail-header">
-        <div className="header-info" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="header-info flex items-center gap-4">
           <Avatar name={lead.name} size="lg" usePlaceholder type={lead.customerType === 'business' ? 'company' : 'person'} />
           <div>
-            <h3 style={{ margin: 0 }}>{lead.name}</h3>
-            <span style={{ fontSize: '0.75rem', color: theme.colors.slate500 }}>{lead.leadId}</span>
+            <h3 className="m-0">{lead.name}</h3>
+            <span className="text-xs text-[var(--slate-500)]">{lead.leadId}</span>
           </div>
           {/* Score Radial Gauge - replaces simple badge (Tufte: maximize data-ink) */}
           {/* Uses SWK brand colors: Blue (high), Slate (medium), Red (low) */}
-          <div style={{ position: 'relative', width: 64, height: 64 }}>
+          <div className="relative w-16 h-16">
             <ResponsiveContainer width="100%" height="100%">
               <RadialBarChart
                 cx="50%"
                 cy="50%"
                 innerRadius="70%"
                 outerRadius="100%"
-                data={[{ value: lead.leadScore, fill: lead.leadScore >= 80 ? theme.colors.secondary : lead.leadScore >= 50 ? theme.colors.slate500 : theme.colors.primary }]}
+                data={[{ value: lead.leadScore, fill: getLeadScoreColor(lead.leadScore) }]}
                 startAngle={90}
                 endAngle={-270}
               >
                 <RadialBar
                   dataKey="value"
                   cornerRadius={10}
-                  background={{ fill: theme.colors.slate100 }}
+                  background={{ fill: 'var(--slate-100)' }}
                 />
               </RadialBarChart>
             </ResponsiveContainer>
             {/* Center Score Label */}
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center'
-            }}>
-              <span style={{
-                fontSize: '1rem',
-                fontWeight: 700,
-                color: lead.leadScore >= 80 ? theme.colors.secondary : lead.leadScore >= 50 ? theme.colors.slate600 : theme.colors.primary
-              }}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+              <span
+                className={`text-base font-bold ${lead.leadScore >= 80 ? 'text-[var(--secondary)]' : lead.leadScore >= 50 ? 'text-[var(--slate-600)]' : 'text-[var(--primary)]'}`}
+              >
                 {lead.leadScore}
               </span>
             </div>

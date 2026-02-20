@@ -23,7 +23,7 @@ const MapsSection = () => {
   height="300px"
 />`}
       >
-        <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden' }}>
+        <div className="h-[300px] rounded-lg overflow-hidden">
           <GeoMap
             center={[47.6779, 9.1732]}
             zoom={13}
@@ -43,7 +43,7 @@ const MapsSection = () => {
       >
         <div className="preview-stack">
           <p>Die <strong>DrawableGeoMap</strong> erweitert die GeoMap um Zeichenfunktionen:</p>
-          <ul style={{ marginLeft: '1.5rem', lineHeight: '1.6' }}>
+          <ul className="ml-6 leading-[1.6]">
             <li>Polygone zeichnen (Zonen definieren)</li>
             <li>Escape-Taste zum Abbrechen</li>
             <li>Crosshair-Cursor im Zeichenmodus</li>

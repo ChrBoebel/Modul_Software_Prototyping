@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X, RotateCcw, Check, AlertCircle, Info } from 'lucide-react';
-import { theme } from '../../theme/colors';
 
 /**
  * UndoToast - Toast mit Undo-Action (SWK Brand Design)
@@ -50,99 +49,70 @@ export const UndoToast = ({
   const typeConfig = {
     success: {
       icon: Check,
-      bgColor: theme.colors.secondary,      // SWK Blue
-      iconBg: theme.colors.secondaryDark,
-      progressColor: theme.colors.toastProgressSecondary
+      bgColor: 'var(--secondary)',
+      iconBg: 'var(--swk-blue-dark)',
+      progressColor: 'var(--toast-progress-secondary)'
     },
     error: {
       icon: AlertCircle,
-      bgColor: theme.colors.primary,        // SWK Red
-      iconBg: theme.colors.primaryDark,
-      progressColor: theme.colors.toastProgressPrimary
+      bgColor: 'var(--primary)',
+      iconBg: 'var(--primary-hover)',
+      progressColor: 'var(--toast-progress-primary)'
     },
     info: {
       icon: Info,
-      bgColor: theme.colors.slate700,       // Dark slate
-      iconBg: theme.colors.slate800,
-      progressColor: theme.colors.slate400
+      bgColor: 'var(--slate-700)',
+      iconBg: 'var(--slate-800)',
+      progressColor: 'var(--slate-400)'
     },
     warning: {
       icon: AlertCircle,
-      bgColor: theme.colors.slate600,       // Medium slate
-      iconBg: theme.colors.slate700,
-      progressColor: theme.colors.slate400
+      bgColor: 'var(--slate-600)',
+      iconBg: 'var(--slate-700)',
+      progressColor: 'var(--slate-400)'
     }
   };
 
   const config = typeConfig[type] || typeConfig.success;
   const Icon = config.icon;
+  const toastVars = {
+    '--undo-toast-bg': config.bgColor,
+    '--undo-toast-icon-bg': config.iconBg,
+    '--undo-toast-progress': config.progressColor,
+    '--undo-toast-width': `${progress}%`
+  };
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        bottom: '16px',
-        right: '16px',
-        display: 'flex',
-        alignItems: 'stretch',
-        minWidth: '320px',
-        maxWidth: '400px',
-        backgroundColor: config.bgColor,
-        color: 'white',
-        borderRadius: '12px',
-        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-        overflow: 'hidden',
-        zIndex: 9999,
-        animation: 'toastSlideIn 0.3s ease-out'
-      }}
+      className="undo-toast"
+      style={toastVars}
       role="alert"
       aria-live="polite"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Icon */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0 12px',
-        backgroundColor: config.iconBg
-      }}>
+      <div className="undo-toast-icon">
         <Icon size={20} />
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, padding: '12px 16px' }}>
-        <p style={{ fontWeight: 500, margin: 0, fontSize: '14px', color: 'white' }}>{message}</p>
+      <div className="undo-toast-content">
+        <p className="undo-toast-message">{message}</p>
         {isPaused && (
-          <p style={{ fontSize: '11px', opacity: 0.85, marginTop: '4px', margin: 0, color: 'white' }}>
+          <p className="undo-toast-hint">
             Pausiert - Maus entfernen zum Fortsetzen
           </p>
         )}
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '0 8px' }}>
+      <div className="undo-toast-actions">
         {onUndo && (
           <button
             type="button"
             onClick={handleUndo}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              fontSize: '13px',
-              fontWeight: 500,
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s'
-            }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+            className="undo-toast-btn undo-toast-btn-undo"
           >
             <RotateCcw size={14} />
             Rückgängig
@@ -151,20 +121,7 @@ export const UndoToast = ({
         <button
           type="button"
           onClick={onClose}
-          style={{
-            padding: '6px',
-            backgroundColor: 'transparent',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          className="undo-toast-btn undo-toast-btn-close"
           aria-label="Schließen"
         >
           <X size={18} />
@@ -172,37 +129,9 @@ export const UndoToast = ({
       </div>
 
       {/* Progress Bar */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '3px',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
-      }}>
-        <div
-          style={{
-            height: '100%',
-            backgroundColor: config.progressColor,
-            transition: 'width 0.1s linear',
-            width: `${progress}%`
-          }}
-        />
+      <div className="undo-toast-progress-track">
+        <div className="undo-toast-progress-bar" />
       </div>
-
-      {/* Animation keyframes */}
-      <style>{`
-        @keyframes toastSlideIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 };

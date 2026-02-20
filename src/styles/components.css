@@ -158,6 +158,10 @@
     transform: translateY(-2px);
   }
 
+  .kpi-card.kpi-clickable {
+    cursor: pointer;
+  }
+
   .kpi-card.kpi-clickable:active {
     transform: translateY(0);
   }
@@ -431,6 +435,86 @@
     transform: translateY(0);
   }
 
+  .undo-toast {
+    @apply fixed bottom-4 right-4 z-[9999] flex items-stretch overflow-hidden;
+    min-width: 320px;
+    max-width: 400px;
+    color: white;
+    border-radius: 12px;
+    background-color: var(--undo-toast-bg, var(--secondary));
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    animation: undoToastSlideIn 0.3s ease-out;
+  }
+
+  .undo-toast-icon {
+    @apply flex items-center justify-center px-3;
+    background-color: var(--undo-toast-icon-bg, var(--swk-blue-dark));
+  }
+
+  .undo-toast-content {
+    @apply flex-1 py-3 px-4;
+  }
+
+  .undo-toast-message {
+    @apply text-sm font-medium m-0 text-white;
+  }
+
+  .undo-toast-hint {
+    @apply text-[11px] m-0 mt-1 text-white;
+    opacity: 0.85;
+  }
+
+  .undo-toast-actions {
+    @apply flex items-center gap-1 px-2;
+  }
+
+  .undo-toast-btn {
+    @apply border-0 rounded-md text-white cursor-pointer flex items-center justify-center;
+    transition: background-color 0.2s ease;
+  }
+
+  .undo-toast-btn-undo {
+    @apply gap-1.5 py-1.5 px-3 text-[13px] font-medium;
+    background-color: rgb(255 255 255 / 0.2);
+  }
+
+  .undo-toast-btn-undo:hover {
+    background-color: rgb(255 255 255 / 0.3);
+  }
+
+  .undo-toast-btn-close {
+    @apply p-1.5 bg-transparent;
+  }
+
+  .undo-toast-btn-close:hover {
+    background-color: rgb(255 255 255 / 0.2);
+  }
+
+  .undo-toast-progress-track {
+    @apply absolute bottom-0 left-0 right-0;
+    height: 3px;
+    background-color: rgb(0 0 0 / 0.2);
+  }
+
+  .undo-toast-progress-bar {
+    @apply h-full;
+    width: var(--undo-toast-width, 100%);
+    background-color: var(--undo-toast-progress, var(--toast-progress-secondary));
+    transition: width 0.1s linear;
+  }
+
+  @keyframes undoToastSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* URL Output */
   .url-output {
     @apply bg-slate-50 border border-slate-200 p-4 rounded-lg flex items-center justify-between gap-4;
@@ -444,6 +528,11 @@
   /* Chart Container */
   .chart-container {
     @apply relative w-full;
+  }
+
+  .sparkline,
+  .sparkbar {
+    display: block;
   }
 
   /* Action Buttons */
@@ -481,6 +570,89 @@
   .status-badge.vacation {
     background-color: var(--warning-light);
     color: var(--warning);
+  }
+
+  .status-badge-tooltip {
+    @apply inline-flex items-center font-medium rounded-full whitespace-nowrap;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    background-color: var(--status-badge-bg, var(--slate-100));
+    color: var(--status-badge-color, var(--slate-600));
+  }
+
+  .status-badge-tooltip.is-help {
+    cursor: help;
+  }
+
+  .status-badge-size-sm {
+    gap: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  .status-badge-size-md {
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .status-badge-size-lg {
+    gap: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .status-tooltip {
+    position: fixed;
+    left: var(--status-tooltip-left, 0);
+    top: var(--status-tooltip-top, 0);
+    transform: translate(-50%, -100%);
+    margin-top: -8px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: tooltipIn 0.12s ease-out;
+  }
+
+  .status-tooltip-content {
+    @apply rounded-[10px];
+    background: white;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 0.12), 0 0 0 1px rgb(0 0 0 / 0.05);
+    padding: 8px 12px;
+    max-width: 220px;
+  }
+
+  .status-tooltip-header {
+    @apply flex items-center gap-2;
+    margin-bottom: 6px;
+  }
+
+  .status-tooltip-header.compact {
+    margin-bottom: 0;
+  }
+
+  .status-tooltip-indicator {
+    @apply w-2 h-2 rounded-full shrink-0;
+    background-color: var(--status-badge-indicator, var(--slate-400));
+  }
+
+  .status-tooltip-title {
+    @apply text-[13px] font-semibold text-slate-800;
+  }
+
+  .status-tooltip-description {
+    @apply text-xs text-slate-500 m-0;
+    line-height: 1.4;
+  }
+
+  .status-tooltip-arrow {
+    @apply absolute left-1/2 -translate-x-1/2;
+    bottom: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white;
   }
 
   /* Score Badge */
@@ -522,6 +694,10 @@
     @apply bg-slate-100 text-slate-400;
   }
 
+  .score-badge-interactive {
+    cursor: help;
+  }
+
   /* General Tooltip Animation */
   @keyframes tooltipIn {
     from {
@@ -534,8 +710,88 @@
     }
   }
 
+  .tooltip-floating {
+    position: fixed;
+    left: var(--tooltip-left, 0);
+    top: var(--tooltip-top, 0);
+    z-index: 9999;
+    pointer-events: none;
+    animation: tooltipIn 0.12s ease-out;
+  }
+
+  .tooltip-pos-top {
+    transform: translate(-50%, -100%);
+    margin-top: -8px;
+  }
+
+  .tooltip-pos-bottom {
+    transform: translate(-50%, 0);
+    margin-top: 8px;
+  }
+
+  .tooltip-pos-left {
+    transform: translate(-100%, -50%);
+    margin-left: -8px;
+  }
+
+  .tooltip-pos-right {
+    transform: translate(0, -50%);
+    margin-left: 8px;
+  }
+
+  .tooltip-floating-content {
+    @apply text-xs font-medium text-slate-700 rounded-[10px];
+    padding: 8px 12px;
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow-lg);
+    white-space: nowrap;
+    max-width: 280px;
+  }
+
+  .tooltip-floating-arrow {
+    @apply absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px;
+  }
+
+  .tooltip-arrow-top {
+    left: 50%;
+    bottom: -6px;
+    transform: translateX(-50%);
+    border-color: white transparent transparent transparent;
+  }
+
+  .tooltip-arrow-bottom {
+    left: 50%;
+    top: -6px;
+    transform: translateX(-50%);
+    border-color: transparent transparent white transparent;
+  }
+
+  .tooltip-arrow-left {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-color: transparent transparent transparent white;
+  }
+
+  .tooltip-arrow-right {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-color: transparent white transparent transparent;
+  }
+
   /* Score Tooltip */
   .score-tooltip {
+    position: fixed;
+    left: var(--score-tooltip-left, 0);
+    top: var(--score-tooltip-top, 0);
+    transform: translate(-50%, -100%);
+    margin-top: -8px;
+    z-index: 9999;
     pointer-events: none;
     animation: tooltipIn 0.12s ease-out;
   }

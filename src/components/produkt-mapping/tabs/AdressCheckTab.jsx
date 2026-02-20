@@ -99,9 +99,9 @@ const AdressCheckTab = ({
       key: 'product',
       header: 'Produkt',
       render: (_value, row) => (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          <span style={{ fontWeight: 600 }}>{row.product?.name}</span>
-          <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+        <div className="flex flex-col gap-0.5">
+          <span className="font-semibold">{row.product?.name}</span>
+          <span className="text-xs text-[var(--text-secondary)]">
             {getProductField(row.product, 'technology')}
           </span>
         </div>
@@ -284,8 +284,8 @@ const AdressCheckTab = ({
           />
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '12px', flexWrap: 'wrap' }}>
-          <span style={{ fontWeight: 700 }}>Ergebnis:</span>
+        <div className="flex items-center gap-3 mt-3 flex-wrap">
+          <span className="font-bold">Ergebnis:</span>
           <Badge variant={combinedAvailability.isServiceable ? 'success' : 'danger'}>
             {combinedAvailability.isServiceable ? 'Versorgbar' : 'Nicht versorgbar'}
           </Badge>
@@ -318,22 +318,16 @@ const AdressCheckTab = ({
         </div>
 
         {combinedAvailability.matchedAddress && (
-          <div style={{
-            marginTop: '12px',
-            padding: '8px 12px',
-            backgroundColor: 'var(--bg-secondary)',
-            borderRadius: '6px',
-            fontSize: '13px'
-          }}>
-            <span style={{ color: 'var(--text-secondary)' }}>Adresse in DB: </span>
-            <span style={{ fontWeight: 500 }}>{formatAddress(combinedAvailability.matchedAddress)}</span>
+          <div className="mt-3 py-2 px-3 bg-[var(--bg-secondary)] rounded-md text-[13px]">
+            <span className="text-[var(--text-secondary)]">Adresse in DB: </span>
+            <span className="font-medium">{formatAddress(combinedAvailability.matchedAddress)}</span>
           </div>
         )}
       </Card>
 
       <Card
         headerTitle={(
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="flex items-center gap-2">
             <span>Produkte</span>
             {availableCount > 0 && <Badge variant="success" size="sm">{availableCount} verfügbar</Badge>}
             {plannedCount > 0 && <Badge variant="warning" size="sm">{plannedCount} geplant</Badge>}
@@ -373,16 +367,11 @@ const AdressCheckTab = ({
       >
         <div className="flex flex-col gap-4">
           {/* Address Summary */}
-          <div style={{
-            padding: '12px',
-            background: 'var(--success-light)',
-            borderRadius: '8px',
-            marginBottom: '8px'
-          }}>
-            <p style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+          <div className="p-3 bg-[var(--success-light)] rounded-lg mb-2">
+            <p className="text-sm font-medium">
               {address.street} {address.houseNumber}, {address.postalCode} {address.city}
             </p>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+            <p className="text-xs text-[var(--text-secondary)] mt-1">
               {combinedAvailability.availableProducts.length} Produkt{combinedAvailability.availableProducts.length !== 1 ? 'e' : ''} verfügbar
             </p>
           </div>

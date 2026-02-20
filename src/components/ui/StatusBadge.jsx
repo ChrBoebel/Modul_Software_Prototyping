@@ -82,34 +82,31 @@ export const StatusBadge = ({
   };
 
   const sizeStyles = {
-    sm: { padding: '2px 8px', fontSize: '11px', iconSize: 10, gap: '4px' },
-    md: { padding: '4px 10px', fontSize: '12px', iconSize: 12, gap: '6px' },
-    lg: { padding: '6px 12px', fontSize: '13px', iconSize: 14, gap: '8px' }
+    sm: { className: 'status-badge-size-sm', iconSize: 10 },
+    md: { className: 'status-badge-size-md', iconSize: 12 },
+    lg: { className: 'status-badge-size-lg', iconSize: 14 }
   };
 
   const style = variantStyles[variant] || variantStyles.default;
   const sizeStyle = sizeStyles[size] || sizeStyles.md;
+  const badgeVars = {
+    '--status-badge-bg': style.bg,
+    '--status-badge-color': style.color,
+    '--status-badge-indicator': style.indicator
+  };
+  const tooltipVars = {
+    '--status-tooltip-left': `${position.x}px`,
+    '--status-tooltip-top': `${position.y}px`
+  };
 
   return (
     <>
       <span
         ref={badgeRef}
-        className={`status-badge-tooltip ${className}`}
+        className={`status-badge-tooltip ${sizeStyle.className} ${tooltip ? 'is-help' : ''} ${className}`.trim()}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: sizeStyle.gap,
-          padding: sizeStyle.padding,
-          fontSize: sizeStyle.fontSize,
-          fontWeight: 500,
-          borderRadius: '9999px',
-          backgroundColor: style.bg,
-          color: style.color,
-          cursor: tooltip ? 'help' : 'default',
-          whiteSpace: 'nowrap'
-        }}
+        style={badgeVars}
       >
         {Icon && <Icon size={sizeStyle.iconSize} />}
         {label}
@@ -118,69 +115,22 @@ export const StatusBadge = ({
       {isVisible && tooltip && (
         <div
           className="status-tooltip"
-          style={{
-            position: 'fixed',
-            left: position.x,
-            top: position.y,
-            transform: 'translate(-50%, -100%)',
-            marginTop: '-8px',
-            zIndex: 9999,
-            pointerEvents: 'none',
-            animation: 'tooltipIn 0.12s ease-out'
-          }}
+          style={tooltipVars}
         >
-          <div
-            style={{
-              background: 'white',
-              borderRadius: '10px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)',
-              padding: '8px 12px',
-              maxWidth: '220px'
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginBottom: tooltip.description ? '6px' : 0
-            }}>
-              <span style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: style.indicator,
-                flexShrink: 0
-              }} />
-              <span style={{
-                fontSize: '13px',
-                fontWeight: 600,
-                color: 'var(--slate-800)'
-              }}>
+          <div className="status-tooltip-content">
+            <div className={`status-tooltip-header ${tooltip.description ? '' : 'compact'}`}>
+              <span className="status-tooltip-indicator" />
+              <span className="status-tooltip-title">
                 {tooltip.title || label}
               </span>
             </div>
             {tooltip.description && (
-              <p style={{
-                fontSize: '12px',
-                color: 'var(--slate-500)',
-                margin: 0,
-                lineHeight: 1.4
-              }}>
+              <p className="status-tooltip-description">
                 {tooltip.description}
               </p>
             )}
           </div>
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: '-6px',
-            transform: 'translateX(-50%)',
-            width: 0,
-            height: 0,
-            borderLeft: '6px solid transparent',
-            borderRight: '6px solid transparent',
-            borderTop: '6px solid white'
-          }} />
+          <div className="status-tooltip-arrow" />
         </div>
       )}
 

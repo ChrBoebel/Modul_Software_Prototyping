@@ -161,6 +161,9 @@ const StructuredFlowCanvas = ({
 
   // Find the root node (start)
   const rootNode = nodes.find(n => n.type === 'start');
+  const transformStyle = {
+    transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`
+  };
 
   if (!rootNode) {
     return (
@@ -172,17 +175,14 @@ const StructuredFlowCanvas = ({
 
   return (
     <div 
-      className="structured-flow-canvas" 
+      className={`structured-flow-canvas ${isDragging ? 'is-dragging' : ''}`} 
       ref={canvasRef}
       onMouseDown={handleMouseDown}
       onWheel={handleWheel}
-      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
     >
       <div 
         className="flow-transform-layer"
-        style={{
-          transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`
-        }}
+        style={transformStyle}
       >
         <div className="flow-tree" ref={treeRef}>
           {renderNode(rootNode.id)}

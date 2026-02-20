@@ -72,6 +72,26 @@
   border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
 }
 
+/* Shared GeoMap wrapper */
+.geo-map-shell {
+  position: relative;
+  width: 100%;
+  height: var(--geo-map-height, 500px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.geo-map-shell.map-fullscreen-wrapper {
+  border-radius: 0;
+}
+
+.geo-map-canvas {
+  width: 100%;
+  height: 100%;
+}
+
 /* Map Legend - Glassmorphism */
 .map-legend {
   position: absolute;
@@ -138,6 +158,39 @@
   margin-bottom: 4px;
 }
 
+.map-legend-tech-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.map-legend-tech-row.is-collapsed {
+  margin-bottom: 0;
+}
+
+.map-legend-tech-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-legend-tech-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+}
+
+.map-legend-tech-count {
+  opacity: 0.6;
+  font-size: 10px;
+}
+
+.map-legend-group-content {
+  padding-left: 4px;
+}
+
 .map-legend-item {
   display: flex;
   align-items: center;
@@ -167,10 +220,77 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.map-legend-color.is-dimmed {
+  opacity: 0.4;
+}
+
 .map-legend-label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.map-legend-label.is-muted {
+  opacity: 0.5;
+}
+
+/* Leaflet popup content helpers */
+.map-popup-block {
+  font-size: 14px;
+}
+
+.map-popup-title {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.map-popup-muted {
+  color: var(--text-secondary);
+}
+
+.map-popup-product {
+  min-width: 160px;
+}
+
+.map-popup-headline {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.map-popup-product-row {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-popup-product-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.map-popup-product-name {
+  font-weight: 500;
+}
+
+.map-popup-status {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.map-popup-status-allow {
+  background-color: var(--availability-allow-light);
+  color: var(--availability-allow);
+}
+
+.map-popup-status-deny {
+  background-color: var(--availability-deny-light);
+  color: var(--danger);
 }
 
 /* Map Drawing Instructions - Glassmorphism */
@@ -383,6 +503,22 @@
   flex-shrink: 0;
 }
 
+.map-tech-ftth {
+  background-color: var(--availability-ftth);
+}
+
+.map-tech-kabel {
+  background-color: var(--availability-kabel);
+}
+
+.map-tech-dsl {
+  background-color: var(--availability-dsl);
+}
+
+.map-tech-none {
+  background-color: var(--availability-none);
+}
+
 .map-search-result-text {
   flex: 1;
   min-width: 0;
@@ -565,6 +701,11 @@
 .map-controls-top-right {
   top: 12px;
   right: 12px;
+}
+
+.map-controls-top-right-offset {
+  top: 12px;
+  right: 62px;
 }
 
 /* Fullscreen Map */

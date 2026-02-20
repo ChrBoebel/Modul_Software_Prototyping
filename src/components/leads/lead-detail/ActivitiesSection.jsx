@@ -2,9 +2,10 @@ const ActivitiesSection = ({ displayedActivities, activities, showAllActivities,
   <div className="activity-timeline">
     {displayedActivities.map((activity) => {
       const Icon = activity.icon;
+      const iconStyle = { '--timeline-icon-bg': activity.color };
       return (
         <div key={activity.id} className="timeline-item">
-          <div className="timeline-icon" style={{ backgroundColor: activity.color }}>
+          <div className="timeline-icon" style={iconStyle}>
             <Icon size={14} />
           </div>
           <div className="timeline-content">

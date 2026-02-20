@@ -331,10 +331,10 @@ const MappingRegelnTab = ({
           </>
         )}
 
-        <div style={{ marginTop: '6px' }}>
-          <div style={{ fontWeight: 700, marginBottom: '8px' }}>Produkte</div>
+        <div className="mt-1.5">
+          <div className="font-bold mb-2">Produkte</div>
           {errors.productIds && (
-            <div className="form-error" role="alert" style={{ marginBottom: '8px' }}>
+            <div className="form-error mb-2" role="alert">
               {errors.productIds}
             </div>
           )}
@@ -345,7 +345,7 @@ const MappingRegelnTab = ({
           />
         </div>
 
-        <div className="form-row" style={{ marginTop: '18px' }}>
+        <div className="form-row mt-[18px]">
           <Input
             type="number"
             label="Priorität"
@@ -353,7 +353,7 @@ const MappingRegelnTab = ({
             onChange={(e) => setDraft((prev) => ({ ...prev, priority: e.target.value }))}
             hint="Höhere Zahl gewinnt (bei mehreren Treffern)."
           />
-          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <div className="flex items-end">
             <Checkbox
               checked={draft.active}
               onChange={(checked) => setDraft((prev) => ({ ...prev, active: checked }))}
@@ -362,7 +362,7 @@ const MappingRegelnTab = ({
           </div>
         </div>
 
-        <div className="action-buttons" style={{ justifyContent: 'flex-end', marginTop: '8px' }}>
+        <div className="action-buttons justify-end mt-2">
           <Button variant="secondary" onClick={closePanel}>Abbrechen</Button>
           <Button variant="primary" onClick={handleSave}>Speichern</Button>
         </div>

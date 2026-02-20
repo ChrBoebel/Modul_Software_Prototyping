@@ -181,6 +181,7 @@
 
   .flow-preview-progress-bar-fill {
     @apply h-full;
+    width: var(--flow-preview-progress, 0%);
     background: var(--primary);
     transition: width 0.2s ease;
   }
@@ -513,6 +514,10 @@
     background-color: var(--slate-50);
   }
 
+  .structured-flow-canvas.is-dragging {
+    @apply cursor-grabbing;
+  }
+
   .structured-flow-canvas:active {
     @apply cursor-grabbing;
   }
@@ -560,6 +565,7 @@
   /* Node Badge (Type indicator at top) */
   .node-badge {
     @apply text-[10px] font-bold uppercase tracking-wider text-white px-2 py-1;
+    background: var(--node-color);
   }
 
   /* Node Body */
@@ -569,6 +575,11 @@
 
   .structured-node .node-icon-wrapper {
     @apply w-10 h-10 rounded-lg flex items-center justify-center shrink-0;
+    background: var(--node-color-soft);
+  }
+
+  .structured-node .node-icon {
+    color: var(--node-color);
   }
 
   .node-content-wrapper {
@@ -803,6 +814,30 @@
 
   .selector-option:hover {
     @apply bg-slate-50;
+  }
+
+  .option-icon {
+    @apply w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0;
+  }
+
+  .option-icon-question {
+    background: var(--swk-blue);
+  }
+
+  .option-icon-module {
+    background: var(--slate-500);
+  }
+
+  .option-content {
+    @apply flex flex-col min-w-0;
+  }
+
+  .option-label {
+    @apply text-[13px] font-semibold text-black;
+  }
+
+  .option-description {
+    @apply text-[11px] text-slate-500;
   }
 
   .flow-branch {

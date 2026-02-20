@@ -44,7 +44,6 @@ export const KPICard = ({
     <div
       className={`kpi-card ${onClick ? 'kpi-clickable' : ''} ${className}`.trim()}
       onClick={onClick}
-      style={{ cursor: onClick ? 'pointer' : undefined }}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}

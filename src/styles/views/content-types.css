@@ -351,6 +351,22 @@
     @apply flex items-center gap-2 text-xs font-semibold;
   }
 
+  .integration-status-connected {
+    color: var(--success);
+  }
+
+  .integration-status-warning {
+    color: var(--warning);
+  }
+
+  .integration-status-danger {
+    color: var(--danger);
+  }
+
+  .integration-status-muted {
+    color: var(--slate-400);
+  }
+
   .integration-description {
     @apply text-sm text-slate-600 leading-relaxed;
   }

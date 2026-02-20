@@ -6,15 +6,13 @@ const nodeTypes = [
     type: 'question',
     label: 'Frage',
     description: 'Stellt dem Nutzer eine Frage',
-    icon: HelpCircle,
-    color: 'var(--swk-blue)'
+    icon: HelpCircle
   },
   {
     type: 'module',
     label: 'Modul',
     description: 'Führt eine Aktion aus',
-    icon: Box,
-    color: 'var(--slate-500)'
+    icon: Box
   }
 ];
 
@@ -54,13 +52,13 @@ const NodeTypeSelector = ({ onSelect, onClose }) => {
         </button>
       </div>
       <div className="selector-options">
-        {nodeTypes.map(({ type, label, description, icon: Icon, color }) => (
+        {nodeTypes.map(({ type, label, description, icon: Icon }) => (
           <button
             key={type}
             className="selector-option"
             onClick={() => onSelect(type)}
           >
-            <div className="option-icon" style={{ background: color }}>
+            <div className={`option-icon option-icon-${type}`}>
               <Icon size={16} />
             </div>
             <div className="option-content">

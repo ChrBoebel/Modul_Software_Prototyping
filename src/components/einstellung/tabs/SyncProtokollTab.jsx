@@ -16,7 +16,6 @@ import {
   Cell
 } from 'recharts';
 import { Button, Badge, Select, StatusIndicator } from '../../ui';
-import { theme } from '../../../theme/colors';
 
 const SyncProtokollTab = ({ showToast }) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -123,9 +122,9 @@ const SyncProtokollTab = ({ showToast }) => {
       return acc;
     }, {});
     return [
-      { name: 'Erfolg', value: counts.success || 0, color: theme.colors.secondary },
-      { name: 'Fehler', value: counts.error || 0, color: theme.colors.primary },
-      { name: 'Warnung', value: counts.warning || 0, color: theme.colors.slate400 }
+      { key: 'success', name: 'Erfolg', value: counts.success || 0, color: 'var(--secondary)' },
+      { key: 'error', name: 'Fehler', value: counts.error || 0, color: 'var(--primary)' },
+      { key: 'warning', name: 'Warnung', value: counts.warning || 0, color: 'var(--slate-400)' }
     ].filter(item => item.value > 0);
   }, [syncLogs]);
 
@@ -150,22 +149,14 @@ const SyncProtokollTab = ({ showToast }) => {
       <h2 className="sr-only">Synchronisations Protokolle</h2>
 
       {/* Visualization Section */}
-      <div className="section" style={{ marginBottom: '1.5rem' }}>
+      <div className="section mb-6">
         <div className="section-header">
           <h3>Sync-Übersicht</h3>
         </div>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 200px',
-          gap: '1.5rem',
-          background: 'white',
-          borderRadius: 'var(--radius-lg)',
-          padding: '1rem',
-          border: '1px solid var(--slate-200)'
-        }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px] gap-6 bg-white rounded-[var(--radius-lg)] p-4 border border-[var(--slate-200)]">
           {/* Timeline Area Chart */}
           <div>
-            <h4 style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.75rem', color: 'var(--text-secondary)' }}>
+            <h4 className="text-[0.8125rem] font-semibold mb-3 text-[var(--text-secondary)]">
               Sync-Aktivität nach Tag
             </h4>
             <ResponsiveContainer width="100%" height={140}>
@@ -191,8 +182,8 @@ const SyncProtokollTab = ({ showToast }) => {
                   type="monotone"
                   dataKey="success"
                   stackId="1"
-                  stroke={theme.colors.secondary}
-                  fill={theme.colors.secondary}
+                  stroke="var(--secondary)"
+                  fill="var(--secondary)"
                   fillOpacity={0.6}
                   name="Erfolg"
                 />
@@ -200,8 +191,8 @@ const SyncProtokollTab = ({ showToast }) => {
                   type="monotone"
                   dataKey="warning"
                   stackId="1"
-                  stroke={theme.colors.slate400}
-                  fill={theme.colors.slate400}
+                  stroke="var(--slate-400)"
+                  fill="var(--slate-400)"
                   fillOpacity={0.6}
                   name="Warnung"
                 />
@@ -209,8 +200,8 @@ const SyncProtokollTab = ({ showToast }) => {
                   type="monotone"
                   dataKey="error"
                   stackId="1"
-                  stroke={theme.colors.primary}
-                  fill={theme.colors.primary}
+                  stroke="var(--primary)"
+                  fill="var(--primary)"
                   fillOpacity={0.6}
                   name="Fehler"
                 />
@@ -219,11 +210,11 @@ const SyncProtokollTab = ({ showToast }) => {
           </div>
 
           {/* Status Pie Chart */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h4 style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>
+          <div className="flex flex-col items-center">
+            <h4 className="text-[0.8125rem] font-semibold mb-2 text-[var(--text-secondary)]">
               Status-Verteilung
             </h4>
-            <div style={{ position: 'relative', width: 100, height: 100 }}>
+            <div className="relative w-[100px] h-[100px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -241,28 +232,18 @@ const SyncProtokollTab = ({ showToast }) => {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center'
-              }}>
-                <span style={{
-                  fontSize: '1.125rem',
-                  fontWeight: 700,
-                  color: successRate >= 70 ? theme.colors.secondary : theme.colors.slate500
-                }}>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <span className={`text-lg font-bold ${successRate >= 70 ? 'text-[var(--secondary)]' : 'text-[var(--slate-500)]'}`}>
                   {successRate}%
                 </span>
               </div>
             </div>
             {/* Legend */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '0.5rem' }}>
+            <div className="flex flex-col gap-1 mt-2">
               {statusSummary.map((item, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.6875rem' }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: item.color }} />
-                  <span style={{ color: 'var(--text-secondary)' }}>{item.name}: {item.value}</span>
+                <div key={idx} className="flex items-center gap-1.5 text-[0.6875rem]">
+                  <span className={`sync-status-dot sync-status-dot-${item.key}`} />
+                  <span className="text-[var(--text-secondary)]">{item.name}: {item.value}</span>
                 </div>
               ))}
             </div>

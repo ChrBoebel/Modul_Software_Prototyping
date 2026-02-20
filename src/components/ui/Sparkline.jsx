@@ -50,7 +50,6 @@ const Sparkline = ({
       viewBox={`0 0 ${width} ${height}`}
       className={`sparkline ${className}`.trim()}
       aria-hidden="true"
-      style={{ display: 'block' }}
     >
       {/* Gradient fill under the line */}
       <defs>
@@ -123,7 +122,6 @@ const SparkBar = ({
       viewBox={`0 0 ${width} ${height}`}
       className={`sparkbar ${className}`.trim()}
       aria-hidden="true"
-      style={{ display: 'block' }}
     >
       {values.map((value, index) => {
         const barHeight = (value / max) * height;

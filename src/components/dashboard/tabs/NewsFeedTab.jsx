@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import { Avatar } from '../../ui/Avatar';
-import { theme } from '../../../theme/colors';
 import leadsData from '../../../data/leads.json';
 import defaultProducts from '../../../data/productCatalog.json';
 import defaultRules from '../../../data/availabilityRules.json';
@@ -59,27 +58,27 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
   const getIconConfig = (type) => {
     switch (type) {
       case 'LEAD_NEW':
-        return { icon: UserPlus, bg: theme.colors.info, color: 'white' };
+        return { icon: UserPlus, tone: 'news-icon-info' };
       case 'LEAD_QUALIFIED':
-        return { icon: CheckCircle2, bg: theme.colors.success, color: 'white' };
+        return { icon: CheckCircle2, tone: 'news-icon-success' };
       case 'LEAD_CONVERTED':
-        return { icon: TrendingUp, bg: theme.colors.secondary, color: 'white' };
+        return { icon: TrendingUp, tone: 'news-icon-secondary' };
       case 'LEAD_REJECTED':
-        return { icon: XCircle, bg: theme.colors.danger, color: 'white' };
+        return { icon: XCircle, tone: 'news-icon-danger' };
       case 'SYSTEM_ALERT':
-        return { icon: AlertTriangle, bg: theme.colors.warning, color: 'white' };
+        return { icon: AlertTriangle, tone: 'news-icon-warning' };
       case 'SYSTEM_SUCCESS':
-        return { icon: Database, bg: theme.colors.success, color: 'white' };
+        return { icon: Database, tone: 'news-icon-success' };
       case 'CAMPAIGN_UPDATE':
-        return { icon: Megaphone, bg: theme.colors.primary, color: 'white' };
+        return { icon: Megaphone, tone: 'news-icon-primary' };
       case 'MAPPING_PRODUCT':
-        return { icon: Package, bg: theme.colors.secondary, color: 'white' };
+        return { icon: Package, tone: 'news-icon-secondary' };
       case 'MAPPING_RULE':
-        return { icon: Layers, bg: theme.colors.info, color: 'white' };
+        return { icon: Layers, tone: 'news-icon-info' };
       case 'MAPPING_ADDRESS':
-        return { icon: MapPin, bg: theme.colors.primary, color: 'white' };
+        return { icon: MapPin, tone: 'news-icon-primary' };
       default:
-        return { icon: UserPlus, bg: theme.colors.slate400, color: 'white' };
+        return { icon: UserPlus, tone: 'news-icon-muted' };
     }
   };
 
@@ -303,7 +302,7 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
       </div>
 
       {/* Timeline Feed */}
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+      <div className="card p-0 overflow-hidden">
         <div className="news-feed-list">
 
           {Object.entries(groupedEvents).map(([date, items]) => (
@@ -315,17 +314,16 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
 
               {/* Items */}
               {items.map((item) => {
-                const { icon: Icon, bg } = getIconConfig(item.eventType);
+                const { icon: Icon, tone } = getIconConfig(item.eventType);
                 const actionLabel = getActionLabel(item);
 
                 return (
                   <div
                     key={item.id}
-                    className="news-item"
+                    className={`news-item ${actionLabel ? 'cursor-pointer' : 'cursor-default'}`}
                     role="article"
                     aria-labelledby={`news-title-${item.id}`}
                     onClick={() => actionLabel && handleItemAction(item)}
-                    style={{ cursor: actionLabel ? 'pointer' : 'default' }}
                     tabIndex={actionLabel ? 0 : undefined}
                     onKeyDown={(e) => {
                       if (actionLabel && (e.key === 'Enter' || e.key === ' ')) {
@@ -333,10 +331,9 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
                         handleItemAction(item);
                       }
                     }}
-                  >
+                    >
                     <div
-                      className="news-icon-wrapper"
-                      style={{ backgroundColor: bg, color: 'white' }}
+                      className={`news-icon-wrapper ${tone}`}
                       aria-hidden="true"
                     >
                       <Icon size={14} />
@@ -375,8 +372,7 @@ const NewsFeedTab = ({ showToast, onNavigate, flowLeads = [] }) => {
 
                         {actionLabel && (
                           <button
-                            className="btn btn-sm btn-link"
-                            style={{ padding: 0, height: 'auto', marginLeft: 'auto' }}
+                            className="btn btn-sm btn-link p-0 h-auto ml-auto"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleItemAction(item);

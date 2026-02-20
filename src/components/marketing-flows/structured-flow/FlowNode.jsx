@@ -199,12 +199,13 @@ const FlowNode = ({
   };
 
   const metaInfo = getMetaInfo();
+  const nodeStyle = { '--node-color': config.color, '--node-color-soft': `${config.color}15` };
 
   return (
     <div
       className={`structured-node ${node.type}-node ${isSelected ? 'selected' : ''}`}
       onClick={handleClick}
-      style={{ '--node-color': config.color }}
+      style={nodeStyle}
       role="button"
       tabIndex={0}
       aria-selected={isSelected}
@@ -216,14 +217,14 @@ const FlowNode = ({
       }}
     >
       {/* Type Badge */}
-      <div className="node-badge" style={{ background: config.color }}>
+      <div className="node-badge">
         {getBadge()}
       </div>
 
       {/* Main Content */}
       <div className="node-body">
-        <div className="node-icon-wrapper" style={{ background: `${config.color}15` }}>
-          <Icon size={20} style={{ color: config.color }} />
+        <div className="node-icon-wrapper">
+          <Icon size={20} className="node-icon" />
         </div>
 
         <div className="node-content-wrapper">

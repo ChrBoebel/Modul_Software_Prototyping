@@ -11,11 +11,15 @@ import {
   ReferenceLine
 } from 'recharts';
 import { Users, Target, Percent, Award, Globe, Mail, MousePointer, Share2, Search, Link2, ExternalLink } from 'lucide-react';
-import { theme } from '../../../theme/colors';
 import { Tooltip } from '../../ui/Tooltip';
 import { KPICard, KPIBar } from '../../ui/KPICard';
 
-const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
+const TRAFFIC_LEGEND_STYLE = { fontSize: '12px', paddingBottom: '8px' };
+const TRAFFIC_AXIS_LABEL_VISITORS = { fontSize: 10, fill: 'var(--primary)', fontWeight: 500 };
+const TRAFFIC_AXIS_LABEL_LEADS = { fontSize: 10, fill: 'var(--secondary)', fontWeight: 500 };
+const TRAFFIC_REF_LABEL_STYLE = { fontSize: 9, fill: 'var(--slate-400)' };
+
+const TrafficTab = ({ onNavigate, onTabChange }) => {
   const [filterPeriod, setFilterPeriod] = useState('7d');
 
   // Mock traffic data by source
@@ -80,77 +84,30 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
     const conversionRate = besucher > 0 ? ((leads / besucher) * 100).toFixed(2) : '0.00';
 
     return (
-      <div style={{
-        background: 'white',
-        border: `1px solid ${theme.colors.slate200}`,
-        borderRadius: '12px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-        padding: '14px 16px',
-        minWidth: '180px'
-      }}>
-        {/* Day Label */}
-        <p style={{
-          margin: '0 0 10px 0',
-          fontSize: '12px',
-          fontWeight: 700,
-          color: theme.colors.slate800,
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
-        }}>
+      <div className="bg-[var(--bg-surface)] border border-[var(--slate-200)] rounded-xl shadow-[0_8px_24px_rgb(0_0_0_/0.12)] py-3.5 px-4 min-w-[180px]">
+        <p className="m-0 mb-2.5 text-xs font-bold text-[var(--slate-800)] uppercase tracking-[0.5px]">
           {label}
         </p>
 
-        {/* Besucher Row */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginBottom: '8px'
-        }}>
-          <span style={{
-            width: '12px',
-            height: '3px',
-            backgroundColor: theme.colors.primary,
-            borderRadius: '1px'
-          }} />
-          <span style={{ fontSize: '11px', color: theme.colors.slate500, flex: 1 }}>Besucher:</span>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.slate700 }}>
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-3 h-[3px] rounded-[1px] shrink-0 bg-[var(--primary)]" />
+          <span className="text-[11px] text-[var(--slate-500)] flex-1">Besucher:</span>
+          <span className="text-xs font-semibold text-[var(--slate-700)]">
             {besucher.toLocaleString('de-DE')}
           </span>
         </div>
 
-        {/* Leads Row */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginBottom: '10px',
-          paddingBottom: '10px',
-          borderBottom: `1px solid ${theme.colors.slate100}`
-        }}>
-          <svg width="12" height="3" viewBox="0 0 12 3" style={{ flexShrink: 0 }}>
-            <line x1="0" y1="1.5" x2="4" y2="1.5" stroke={theme.colors.secondary} strokeWidth="2" strokeLinecap="round" />
-            <line x1="6" y1="1.5" x2="10" y2="1.5" stroke={theme.colors.secondary} strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          <span style={{ fontSize: '11px', color: theme.colors.slate500, flex: 1 }}>Leads:</span>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: theme.colors.slate700 }}>
+        <div className="flex items-center gap-2 mb-2.5 pb-2.5 border-b border-[var(--slate-100)]">
+          <span className="traffic-tooltip-dashed-line w-3 h-[3px] rounded-[1px] shrink-0" />
+          <span className="text-[11px] text-[var(--slate-500)] flex-1">Leads:</span>
+          <span className="text-xs font-semibold text-[var(--slate-700)]">
             {leads.toLocaleString('de-DE')}
           </span>
         </div>
 
-        {/* Conversion Rate - Calculated Metric */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontSize: '11px'
-        }}>
-          <span style={{ color: theme.colors.slate500 }}>Conversion:</span>
-          <span style={{
-            fontWeight: 700,
-            color: parseFloat(conversionRate) > 3 ? theme.colors.success : theme.colors.slate600,
-            fontSize: '12px'
-          }}>
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="text-[11px] text-[var(--slate-500)] flex-1">Conversion:</span>
+          <span className={`text-xs font-bold ${parseFloat(conversionRate) > 3 ? 'text-[var(--success)]' : 'text-[var(--slate-600)]'}`}>
             {conversionRate}%
           </span>
         </div>
@@ -159,44 +116,19 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="flex flex-col gap-5">
       <h2 className="sr-only">Traffic Analysen</h2>
 
       {/* Header with Filter */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '12px'
-      }}>
-        <h3 style={{
-          margin: 0,
-          fontSize: '18px',
-          fontWeight: 600,
-          color: theme.colors.slate800
-        }}>
+      <div className="flex justify-between items-center flex-wrap gap-3">
+        <h3 className="m-0 text-[18px] font-semibold text-[var(--slate-800)]">
           Traffic Übersicht
         </h3>
         <select
           id="traffic-period-filter"
           value={filterPeriod}
           onChange={(e) => setFilterPeriod(e.target.value)}
-          style={{
-            padding: '8px 12px',
-            paddingRight: '32px',
-            fontSize: '13px',
-            fontWeight: 500,
-            border: `1px solid ${theme.colors.slate200}`,
-            borderRadius: '8px',
-            background: 'white',
-            color: theme.colors.slate700,
-            cursor: 'pointer',
-            appearance: 'none',
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right 8px center'
-          }}
+          className="text-[13px] font-medium py-2 px-3 pr-8 rounded-lg text-[var(--slate-700)] min-w-0"
         >
           <option value="7d">Letzte 7 Tage</option>
           <option value="30d">Letzte 30 Tage</option>
@@ -240,38 +172,23 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
       </KPIBar>
 
       {/* Main Content Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 360px',
-        gap: '16px'
-      }}>
+      <div className="grid gap-4 grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px]">
         {/* Traffic Verlauf Chart */}
-        <div style={{
-          background: 'white',
-          borderRadius: '12px',
-          padding: '20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-          border: `1px solid ${theme.colors.slate100}`
-        }}>
-          <h4 style={{
-            margin: '0 0 16px 0',
-            fontSize: '14px',
-            fontWeight: 600,
-            color: theme.colors.slate700
-          }}>
+        <div className="bg-[var(--bg-surface)] border border-[var(--slate-100)] rounded-xl p-5 shadow-[0_1px_3px_rgb(0_0_0_/0.04)]">
+          <h4 className="m-0 mb-4 text-sm font-semibold text-[var(--slate-700)]">
             Traffic Verlauf
           </h4>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={trafficTimeline} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid
                 strokeDasharray="0"
-                stroke={theme.colors.slate100}
+                stroke="var(--slate-100)"
                 vertical={false}
                 opacity={0.7}
               />
               <XAxis
                 dataKey="date"
-                stroke={theme.colors.slate300}
+                stroke="var(--slate-300)"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
@@ -279,7 +196,7 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
               {/* Left Y-Axis for Besucher (Cleveland's dual-scale principle) */}
               <YAxis
                 yAxisId="left"
-                stroke={theme.colors.primary}
+                stroke="var(--primary)"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -289,7 +206,7 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                   value: 'Besucher',
                   angle: -90,
                   position: 'insideLeft',
-                  style: { fontSize: 10, fill: theme.colors.primary, fontWeight: 500 },
+                  style: TRAFFIC_AXIS_LABEL_VISITORS,
                   offset: 5
                 }}
               />
@@ -297,7 +214,7 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
               <YAxis
                 yAxisId="right"
                 orientation="right"
-                stroke={theme.colors.secondary}
+                stroke="var(--secondary)"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -306,34 +223,33 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                   value: 'Leads',
                   angle: 90,
                   position: 'insideRight',
-                  style: { fontSize: 10, fill: theme.colors.secondary, fontWeight: 500 },
+                  style: TRAFFIC_AXIS_LABEL_LEADS,
                   offset: 5
                 }}
               />
               <RechartsTooltip
                 content={<CustomTooltip />}
-                cursor={{ stroke: theme.colors.slate200, strokeWidth: 1 }}
+                cursor={{ stroke: 'var(--slate-200)', strokeWidth: 1 }}
               />
               <Legend
                 verticalAlign="top"
                 align="right"
                 height={32}
                 iconType="line"
-                wrapperStyle={{ fontSize: '12px', paddingBottom: '8px' }}
+                wrapperStyle={TRAFFIC_LEGEND_STYLE}
               />
 
               {/* Reference Line for Average Besucher - Tufte's context principle */}
               <ReferenceLine
                 yAxisId="left"
                 y={averages.avgBesucher}
-                stroke={theme.colors.slate300}
+                stroke="var(--slate-300)"
                 strokeDasharray="4 4"
                 strokeWidth={1}
                 label={{
                   value: `Ø ${(averages.avgBesucher / 1000).toFixed(1)}k`,
                   position: 'insideTopLeft',
-                  fontSize: 9,
-                  fill: theme.colors.slate400
+                  ...TRAFFIC_REF_LABEL_STYLE
                 }}
               />
 
@@ -341,14 +257,13 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
               <ReferenceLine
                 yAxisId="right"
                 y={averages.avgLeads}
-                stroke={theme.colors.slate300}
+                stroke="var(--slate-300)"
                 strokeDasharray="2 2"
                 strokeWidth={1}
                 label={{
                   value: `Ø ${averages.avgLeads}`,
                   position: 'insideTopRight',
-                  fontSize: 9,
-                  fill: theme.colors.slate400
+                  ...TRAFFIC_REF_LABEL_STYLE
                 }}
               />
 
@@ -357,10 +272,10 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                 yAxisId="left"
                 type="monotone"
                 dataKey="besucher"
-                stroke={theme.colors.primary}
+                stroke="var(--primary)"
                 strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 6, fill: theme.colors.primary, stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 6, fill: 'var(--primary)', stroke: 'white', strokeWidth: 2 }}
                 name="Besucher"
                 isAnimationActive={false}
               />
@@ -370,11 +285,11 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                 yAxisId="right"
                 type="monotone"
                 dataKey="leads"
-                stroke={theme.colors.secondary}
+                stroke="var(--secondary)"
                 strokeWidth={2}
                 strokeDasharray="6 3"
                 dot={false}
-                activeDot={{ r: 5, fill: theme.colors.secondary, stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 5, fill: 'var(--secondary)', stroke: 'white', strokeWidth: 2 }}
                 name="Leads"
                 isAnimationActive={false}
               />
@@ -383,25 +298,15 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
         </div>
 
         {/* Traffic Sources List */}
-        <div style={{
-          background: 'white',
-          borderRadius: '12px',
-          padding: '20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-          border: `1px solid ${theme.colors.slate100}`
-        }}>
-          <h4 style={{
-            margin: '0 0 16px 0',
-            fontSize: '14px',
-            fontWeight: 600,
-            color: theme.colors.slate700
-          }}>
+        <div className="bg-[var(--bg-surface)] border border-[var(--slate-100)] rounded-xl p-5 shadow-[0_1px_3px_rgb(0_0_0_/0.04)]">
+          <h4 className="m-0 mb-4 text-sm font-semibold text-[var(--slate-700)]">
             Traffic nach Quelle
           </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="flex flex-col gap-2.5">
             {trafficBySource.map((source, index) => {
               const Icon = source.icon;
               const percentage = ((source.besucher / totals.maxBesucher) * 100).toFixed(0);
+              const barStyle = { width: `${percentage}%` };
               const convRate = ((source.leads / source.besucher) * 100).toFixed(1);
               const isHighConversion = parseFloat(convRate) > 3;
 
@@ -409,89 +314,38 @@ const TrafficTab = ({ showToast, onNavigate, onTabChange }) => {
                 <div
                   key={index}
                   onClick={() => handleSourceClick(source.source)}
-                  style={{
-                    padding: '10px',
-                    margin: '-10px',
-                    marginBottom: '0',
-                    borderRadius: '8px',
-                    cursor: onNavigate ? 'pointer' : 'default',
-                    transition: 'background-color 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (onNavigate) e.currentTarget.style.backgroundColor = theme.colors.slate50;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }}
+                  className={`p-2.5 -m-2.5 mb-0 rounded-lg transition-colors ${onNavigate ? 'cursor-pointer hover:bg-[var(--slate-50)]' : ''}`}
                 >
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '6px'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <div style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '6px',
-                        backgroundColor: theme.colors.slate100,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        <Icon size={14} color={theme.colors.slate600} />
+                  <div className="flex justify-between items-center mb-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex items-center justify-center w-7 h-7 rounded-md bg-[var(--slate-100)]">
+                        <Icon size={14} className="text-[var(--slate-600)]" />
                       </div>
-                      <span style={{
-                        fontSize: '13px',
-                        fontWeight: 500,
-                        color: theme.colors.slate700
-                      }}>
+                      <span className="text-[13px] font-medium text-[var(--slate-700)]">
                         {source.source}
                       </span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        color: theme.colors.slate800
-                      }}>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[13px] font-semibold text-[var(--slate-800)]">
                         {source.besucher.toLocaleString('de-DE')}
                       </span>
                       {onNavigate && (
-                        <ExternalLink size={12} color={theme.colors.slate400} />
+                        <ExternalLink size={12} className="text-[var(--slate-400)]" />
                       )}
                     </div>
                   </div>
-                  <div style={{
-                    height: '6px',
-                    backgroundColor: theme.colors.slate100,
-                    borderRadius: '3px',
-                    overflow: 'hidden'
-                  }}>
-                    <div style={{
-                      height: '100%',
-                      width: `${percentage}%`,
-                      backgroundColor: theme.colors.primary,
-                      borderRadius: '3px',
-                      transition: 'width 0.3s ease'
-                    }} />
+                  <div className="h-1.5 bg-[var(--slate-100)] rounded-[3px] overflow-hidden">
+                    <div
+                      className="h-full bg-[var(--primary)] rounded-[3px] transition-[width] duration-300"
+                      style={barStyle}
+                    />
                   </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginTop: '4px'
-                  }}>
-                    <span style={{ fontSize: '11px', color: theme.colors.slate400 }}>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[11px] text-[var(--slate-400)]">
                       {source.leads} Leads
                     </span>
                     <Tooltip content="Conversion-Rate dieser Quelle" position="left">
-                      <span style={{
-                        fontSize: '11px',
-                        color: isHighConversion ? theme.colors.secondary : theme.colors.slate400,
-                        fontWeight: isHighConversion ? 600 : 400,
-                        cursor: 'help'
-                      }}>
+                      <span className={`text-[11px] cursor-help ${isHighConversion ? 'text-[var(--secondary)] font-semibold' : 'text-[var(--slate-400)]'}`}>
                         {convRate}% Conv.
                       </span>
                     </Tooltip>

@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { Card, Button, Input, Select, Modal, DrawableGeoMap, Badge } from '../../ui';
 import { Layers, Trash2, MapPin, Package } from 'lucide-react';
 import { getProductColor, TECHNOLOGY_COLORS, getTechnologyFromProductId } from '../../../theme/productColors';
-import { theme } from '../../../theme/colors';
 
 const MapOverviewTab = ({
     customZones = [],
@@ -101,6 +100,9 @@ const MapOverviewTab = ({
             return `${Math.round(areaM2).toLocaleString('de-DE')} m²`;
         }
     };
+    const zoneProductSwatchStyle = zoneDraft.productId
+        ? { '--map-zone-product-color': getProductColor(zoneDraft.productId) }
+        : undefined;
 
     return (
         <>
@@ -108,22 +110,13 @@ const MapOverviewTab = ({
                 headerTitle="Kartenzonen & Abdeckung"
                 hoverable={false}
             >
-                <div style={{
-                    marginBottom: '16px',
-                    padding: '16px',
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'start',
-                    gap: '16px',
-                    border: '1px solid var(--border-color)'
-                }}>
+                <div className="mb-4 p-4 bg-[var(--bg-secondary)] rounded-lg flex items-start gap-4 border border-[var(--border-color)]">
                     <div className="p-2 bg-primary/10 rounded-lg text-primary">
                         <Layers size={24} />
                     </div>
-                    <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: '4px' }}>Verfügbarkeitszonen verwalten</div>
-                        <div style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                    <div className="flex-1">
+                        <div className="font-semibold text-[1.1rem] mb-1">Verfügbarkeitszonen verwalten</div>
+                        <div className="text-sm text-[var(--text-secondary)] leading-[1.5]">
                             Zeichnen und bearbeiten Sie Polygone auf der Karte um Versorgungsgebiete zu definieren.
                             <ul className="list-disc pl-5 mt-2 space-y-1">
                                 <li><strong>Polygon zeichnen:</strong> Klicken für Eckpunkte, auf ersten Punkt zum Abschließen.</li>
@@ -159,26 +152,12 @@ const MapOverviewTab = ({
 
                 {/* Zone Statistics - Visual Summary (Tufte: show data context) */}
                 {customZones.length > 0 && (
-                    <div style={{
-                        marginTop: '1.5rem',
-                        padding: '1rem',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        border: '1px solid var(--border-color)'
-                    }}>
-                        <h4 style={{
-                            fontSize: '0.875rem',
-                            fontWeight: 600,
-                            marginBottom: '1rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            color: 'var(--text-primary)'
-                        }}>
+                    <div className="mt-6 p-4 bg-white rounded-lg border border-[var(--border-color)]">
+                        <h4 className="text-sm font-semibold mb-4 flex items-center gap-2 text-[var(--text-primary)]">
                             <MapPin size={16} />
                             Zonen-Statistik
                         </h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <div className="flex flex-col gap-3">
                             {customZones.map((zone, idx) => {
                                 // Calculate area for this zone
                                 let zoneArea = 0;
@@ -198,55 +177,30 @@ const MapOverviewTab = ({
                                     zoneArea = Math.abs(zoneArea / 2);
                                 }
                                 const percentage = totalArea > 0 ? (zoneArea / totalArea * 100) : 0;
-                                const zoneColor = zone.productId ? getProductColor(zone.productId) : theme.colors.slate400;
+                                const zoneColor = zone.productId ? getProductColor(zone.productId) : 'var(--slate-400)';
+                                const zoneStatStyle = {
+                                    '--map-zone-stat-width': `${percentage}%`,
+                                    '--map-zone-stat-color': zoneColor,
+                                    '--map-zone-stat-color-soft': `${zoneColor}20`
+                                };
 
                                 return (
-                                    <div key={zone.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                        <span style={{
-                                            fontSize: '0.75rem',
-                                            color: 'var(--text-secondary)',
-                                            width: 120,
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            whiteSpace: 'nowrap'
-                                        }}>
+                                    <div
+                                        key={zone.id}
+                                        className="map-zone-stat-row"
+                                        style={zoneStatStyle}
+                                    >
+                                        <span className="text-xs text-[var(--text-secondary)] w-[120px] truncate">
                                             {zone.name || `Zone ${idx + 1}`}
                                         </span>
-                                        <div style={{
-                                            flex: 1,
-                                            height: 8,
-                                            backgroundColor: 'var(--slate-100)',
-                                            borderRadius: 4,
-                                            overflow: 'hidden'
-                                        }}>
-                                            <div style={{
-                                                width: `${percentage}%`,
-                                                height: '100%',
-                                                backgroundColor: zoneColor,
-                                                borderRadius: 4,
-                                                transition: 'width 0.3s ease'
-                                            }} />
+                                        <div className="flex-1 h-2 bg-[var(--slate-100)] rounded overflow-hidden">
+                                            <div className="map-zone-stat-bar-fill h-full rounded transition-[width] duration-300" />
                                         </div>
-                                        <span style={{
-                                            fontSize: '0.6875rem',
-                                            fontWeight: 600,
-                                            color: zoneColor,
-                                            width: 60,
-                                            textAlign: 'right'
-                                        }}>
+                                        <span className="map-zone-stat-area text-[0.6875rem] font-semibold w-[60px] text-right">
                                             {formatArea(zoneArea)}
                                         </span>
                                         {zone.productId && (
-                                            <span style={{
-                                                fontSize: '0.625rem',
-                                                padding: '2px 6px',
-                                                borderRadius: 4,
-                                                backgroundColor: `${zoneColor}20`,
-                                                color: zoneColor,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '4px'
-                                            }}>
+                                            <span className="map-zone-stat-product text-[0.625rem] px-1.5 py-0.5 rounded flex items-center gap-1">
                                                 <Package size={10} />
                                                 {products.find(p => p.id === zone.productId)?.name || 'Produkt'}
                                             </span>
@@ -256,29 +210,11 @@ const MapOverviewTab = ({
                             })}
                         </div>
                         {/* Summary - Uses SWK brand colors */}
-                        <div style={{
-                            marginTop: '1rem',
-                            paddingTop: '0.75rem',
-                            borderTop: '1px solid var(--slate-100)',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }}>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                        <div className="mt-4 pt-3 border-t border-[var(--slate-100)] flex justify-between items-center">
+                            <span className="text-xs text-[var(--text-tertiary)]">
                                 Gesamtfläche: {formatArea(totalArea)}
                             </span>
-                            <span style={{
-                                fontSize: '0.6875rem',
-                                padding: '4px 8px',
-                                borderRadius: 4,
-                                backgroundColor: customZones.filter(z => z.productId).length === customZones.length
-                                    ? theme.colors.secondaryLight
-                                    : theme.colors.slate100,
-                                color: customZones.filter(z => z.productId).length === customZones.length
-                                    ? theme.colors.secondary
-                                    : theme.colors.slate600,
-                                fontWeight: 600
-                            }}>
+                            <span className={`text-[0.6875rem] px-2 py-1 rounded font-semibold ${customZones.filter(z => z.productId).length === customZones.length ? 'bg-[var(--swk-blue-light)] text-[var(--secondary)]' : 'bg-[var(--slate-100)] text-[var(--slate-600)]'}`}>
                                 {customZones.filter(z => z.productId).length}/{customZones.length} mit Produkt
                             </span>
                         </div>
@@ -314,8 +250,8 @@ const MapOverviewTab = ({
                     {zoneDraft.productId && (
                         <div className="p-3 bg-bg-secondary rounded border border-border flex items-center gap-3">
                             <span
-                                className="w-8 h-8 rounded shrink-0"
-                                style={{ backgroundColor: getProductColor(zoneDraft.productId) }}
+                                className="map-zone-product-swatch w-8 h-8 rounded shrink-0"
+                                style={zoneProductSwatchStyle}
                             />
                             <div>
                                 <div className="font-medium text-sm">

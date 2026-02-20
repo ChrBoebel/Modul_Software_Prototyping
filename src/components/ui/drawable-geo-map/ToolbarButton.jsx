@@ -20,10 +20,9 @@ const ToolbarButton = ({
     return (
         <Tooltip content={tooltip} position="left">
             <button
-                className={`map-control-btn ${variantClasses[variant]} ${active ? 'ring-2 ring-primary ring-offset-2' : ''}`}
+                className={`map-control-btn ${variantClasses[variant]} ${active ? 'ring-2 ring-primary ring-offset-2' : ''} disabled:opacity-50`}
                 onClick={onClick}
                 disabled={disabled}
-                style={{ opacity: disabled ? 0.5 : 1 }}
                 aria-label={tooltip}
             >
                 <Icon size={18} />

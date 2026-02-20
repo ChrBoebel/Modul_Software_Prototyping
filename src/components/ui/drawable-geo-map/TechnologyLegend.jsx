@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { Layers } from 'lucide-react';
 import { TECHNOLOGY_COLORS } from '../../../theme/productColors';
-import { theme } from '../../../theme/colors';
+
+const MAP_TECH_CLASS = {
+    FTTH: 'map-tech-ftth',
+    KABEL: 'map-tech-kabel',
+    DSL: 'map-tech-dsl',
+};
 
 /**
  * Technology Legend Component
@@ -24,8 +29,8 @@ const TechnologyLegend = ({ zones, products }) => {
     if (usedTechnologies.length === 0) return null;
 
     return (
-        <div className="map-overlay-panel" style={{ top: 12, left: 12, width: 'auto', minWidth: 140 }}>
-            <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div className="map-overlay-panel top-3 left-3 w-auto min-w-[140px]">
+            <div className="font-semibold mb-2 text-xs flex items-center gap-1.5">
                 <Layers size={14} />
                 <span>Legende</span>
             </div>
@@ -33,21 +38,16 @@ const TechnologyLegend = ({ zones, products }) => {
                 {usedTechnologies.map(tech => {
                     const config = TECHNOLOGY_COLORS[tech];
                     if (!config) return null;
+                    const colorClass = MAP_TECH_CLASS[tech] || 'map-tech-none';
                     return (
                         <div key={tech} className="flex items-center gap-2 text-xs">
-                            <span
-                                className="w-3 h-3 rounded-sm shrink-0"
-                                style={{ backgroundColor: config.base }}
-                            />
+                            <span className={`w-3 h-3 rounded-sm shrink-0 ${colorClass}`} />
                             <span className="text-slate-600">{config.name}</span>
                         </div>
                     );
                 })}
                 <div className="flex items-center gap-2 text-xs mt-1 pt-1 border-t border-slate-200">
-                    <span
-                        className="w-3 h-3 rounded-sm shrink-0"
-                        style={{ backgroundColor: theme.colors.slate400 }}
-                    />
+                    <span className="w-3 h-3 rounded-sm shrink-0 map-tech-none" />
                     <span className="text-slate-500">Kein Produkt</span>
                 </div>
             </div>

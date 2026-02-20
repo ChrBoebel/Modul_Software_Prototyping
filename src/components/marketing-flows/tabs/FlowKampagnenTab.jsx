@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
   Play,
   Pause,
@@ -9,7 +9,6 @@ import {
 import { Panel, Input, Button } from '../../ui';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import defaultProducts from '../../../data/productCatalog.json';
-import { theme } from '../../../theme/colors';
 
 // Generate funnel data from lead count (mock simulation)
 const generateFunnelData = (leads) => {
@@ -17,6 +16,28 @@ const generateFunnelData = (leads) => {
   const contacted = Math.round(qualified * 0.55); // 55% contacted
   const converted = Math.round(contacted * 0.25); // 25% conversion
   return { leads, qualified, contacted, converted };
+};
+
+const getFlowFunnelTone = (tone) => {
+  const toneMap = {
+    muted: {
+      fill: 'bg-[var(--slate-400)]',
+      text: 'text-[var(--slate-400)]'
+    },
+    neutral: {
+      fill: 'bg-[var(--slate-500)]',
+      text: 'text-[var(--slate-500)]'
+    },
+    primary: {
+      fill: 'bg-[var(--primary)]',
+      text: 'text-[var(--primary)]'
+    },
+    secondary: {
+      fill: 'bg-[var(--secondary)]',
+      text: 'text-[var(--secondary)]'
+    }
+  };
+  return toneMap[tone] || toneMap.muted;
 };
 
 const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
@@ -161,18 +182,18 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
             </div>
             {/* Product badges */}
             {campaign.productIds?.length > 0 && (
-              <div className="campaign-product-badges" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
-                <Package size={14} style={{ color: 'var(--text-tertiary)', marginRight: '2px' }} />
+              <div className="campaign-product-badges flex flex-wrap gap-1 mt-2">
+                <Package size={14} className="text-[var(--text-tertiary)] mr-0.5" />
                 {campaign.productIds.slice(0, 3).map(productId => {
                   const product = products.find(p => p.id === productId);
                   return product ? (
-                    <span key={productId} className="badge neutral" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
+                    <span key={productId} className="badge neutral text-[0.7rem] px-1.5 py-0.5">
                       {product.name}
                     </span>
                   ) : null;
                 })}
                 {campaign.productIds.length > 3 && (
-                  <span className="badge neutral" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
+                  <span className="badge neutral text-[0.7rem] px-1.5 py-0.5">
                     +{campaign.productIds.length - 3}
                   </span>
                 )}
@@ -184,52 +205,40 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
               const funnel = generateFunnelData(campaign.leads);
               const maxWidth = funnel.leads;
               return (
-                <div className="campaign-card-stats" style={{ flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.6875rem', marginBottom: '0.25rem' }}>
-                    <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Lead Funnel</span>
-                    <span style={{ color: 'var(--text-tertiary)' }}>{campaign.updatedAt}</span>
+                <div className="campaign-card-stats flex-col gap-2">
+                  <div className="flex justify-between items-center text-[0.6875rem] mb-1">
+                    <span className="font-semibold text-[var(--text-primary)]">Lead Funnel</span>
+                    <span className="text-[var(--text-tertiary)]">{campaign.updatedAt}</span>
                   </div>
                   {/* Funnel Bars - Uses SWK brand colors */}
                   {[
-                    { label: 'Leads', value: funnel.leads, color: theme.colors.slate400 },
-                    { label: 'Qualifiziert', value: funnel.qualified, color: theme.colors.slate500 },
-                    { label: 'Kontaktiert', value: funnel.contacted, color: theme.colors.primary },
-                    { label: 'Konvertiert', value: funnel.converted, color: theme.colors.secondary }
-                  ].map((step, idx) => (
-                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '0.625rem', color: 'var(--text-tertiary)', width: 60, flexShrink: 0 }}>
+                    { label: 'Leads', value: funnel.leads, tone: 'muted' },
+                    { label: 'Qualifiziert', value: funnel.qualified, tone: 'neutral' },
+                    { label: 'Kontaktiert', value: funnel.contacted, tone: 'primary' },
+                    { label: 'Konvertiert', value: funnel.converted, tone: 'secondary' }
+                  ].map((step, idx) => {
+                    const tone = getFlowFunnelTone(step.tone);
+                    const stepStyle = { width: `${maxWidth > 0 ? (step.value / maxWidth * 100) : 0}%` };
+                    return (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="w-[60px] shrink-0 text-[0.625rem] text-[var(--text-tertiary)]">
                         {step.label}
                       </span>
-                      <div style={{ flex: 1, height: 6, backgroundColor: 'var(--slate-100)', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${maxWidth > 0 ? (step.value / maxWidth * 100) : 0}%`,
-                          height: '100%',
-                          backgroundColor: step.color,
-                          borderRadius: 3,
-                          transition: 'width 0.3s ease'
-                        }} />
+                      <div className="flex-1 h-1.5 bg-[var(--slate-100)] rounded-[3px] overflow-hidden">
+                        <div
+                          className={`h-full rounded-[3px] transition-[width] duration-300 ${tone.fill}`}
+                          style={stepStyle}
+                        />
                       </div>
-                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: step.color, width: 28, textAlign: 'right' }}>
+                      <span className={`w-7 text-right text-[0.6875rem] font-semibold ${tone.text}`}>
                         {step.value}
                       </span>
                     </div>
-                  ))}
+                    );
+                  })}
                   {/* Conversion Rate - Uses SWK Blue */}
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: '0.25rem',
-                    paddingTop: '0.25rem',
-                    borderTop: '1px solid var(--slate-100)'
-                  }}>
-                    <span style={{
-                      fontSize: '0.625rem',
-                      padding: '2px 6px',
-                      borderRadius: 4,
-                      backgroundColor: theme.colors.secondaryLight,
-                      color: theme.colors.secondary,
-                      fontWeight: 600
-                    }}>
+                  <div className="flex justify-end mt-1 pt-1 border-t border-[var(--slate-100)]">
+                    <span className="text-[0.625rem] px-1.5 py-0.5 rounded bg-[var(--swk-blue-light)] text-[var(--secondary)] font-semibold">
                       Conv: {funnel.leads > 0 ? ((funnel.converted / funnel.leads) * 100).toFixed(1) : 0}%
                     </span>
                   </div>
@@ -283,44 +292,33 @@ const FlowKampagnenTab = ({ showToast, onEditFlow }) => {
           />
           {/* Product Selection */}
           <div className="form-group">
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, fontSize: '0.875rem' }}>
+            <label className="block mb-2 font-medium text-sm">
               Produkte zuordnen
             </label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', maxHeight: '150px', overflowY: 'auto', padding: '8px', background: 'var(--slate-50)', borderRadius: '8px' }}>
+            <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto p-2 bg-[var(--slate-50)] rounded-lg">
               {activeProducts.length > 0 ? (
                 activeProducts.map(product => (
                   <label
                     key={product.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '6px 10px',
-                      background: newCampaign.productIds.includes(product.id) ? 'var(--primary-light)' : 'white',
-                      border: `1px solid ${newCampaign.productIds.includes(product.id) ? 'var(--primary)' : 'var(--slate-200)'}`,
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.8rem',
-                      transition: 'all 0.15s ease'
-                    }}
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 border rounded-md cursor-pointer text-[0.8rem] transition-all ${newCampaign.productIds.includes(product.id) ? 'bg-[var(--primary-light)] border-[var(--primary)]' : 'bg-white border-[var(--slate-200)]'}`}
                   >
                     <input
                       type="checkbox"
                       checked={newCampaign.productIds.includes(product.id)}
                       onChange={() => toggleProductSelection(product.id)}
-                      style={{ width: '14px', height: '14px' }}
+                      className="w-3.5 h-3.5"
                     />
                     <span>{product.name}</span>
                   </label>
                 ))
               ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>
+                <span className="text-[0.8rem] text-[var(--text-tertiary)]">
                   Keine aktiven Produkte vorhanden
                 </span>
               )}
             </div>
             {newCampaign.productIds.length > 0 && (
-              <p style={{ marginTop: '6px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+              <p className="mt-1.5 text-xs text-[var(--text-secondary)]">
                 {newCampaign.productIds.length} Produkt{newCampaign.productIds.length !== 1 ? 'e' : ''} ausgewählt
               </p>
             )}

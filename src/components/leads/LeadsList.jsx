@@ -228,7 +228,7 @@ const LeadsList = ({ showToast, onSelectLead, selectedLeadId, flowLeads = [], in
                 }}
               >
                 <td className="lead-name-cell">
-                  <div className="lead-name-info" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div className="lead-name-info flex items-center gap-3">
                     <Avatar
                       name={lead.name}
                       size="sm"

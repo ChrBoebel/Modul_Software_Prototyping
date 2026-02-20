@@ -147,6 +147,22 @@
     color: var(--warning);
   }
 
+  .sync-status-dot {
+    @apply w-2 h-2 rounded-[2px];
+  }
+
+  .sync-status-dot-success {
+    background-color: var(--secondary);
+  }
+
+  .sync-status-dot-error {
+    background-color: var(--primary);
+  }
+
+  .sync-status-dot-warning {
+    background-color: var(--slate-400);
+  }
+
   .sync-table tr.status-error {
     background: var(--danger-light);
   }
@@ -214,4 +230,3 @@
     @apply w-[100px];
   }
 }
-

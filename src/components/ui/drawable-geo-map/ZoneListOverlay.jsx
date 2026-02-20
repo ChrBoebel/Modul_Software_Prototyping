@@ -1,6 +1,5 @@
 import { Eye, EyeOff, Trash2 } from 'lucide-react';
 import { getProductColor } from '../../../theme/productColors';
-import { theme } from '../../../theme/colors';
 import { calculateArea, formatArea } from './utils';
 
 /**
@@ -24,13 +23,14 @@ const ZoneListOverlay = ({
     };
 
     return (
-        <div className="map-overlay-panel" style={{ bottom: 12, left: 12, width: 260, maxHeight: 320, overflowY: 'auto' }}>
-            <div style={{ fontWeight: 600, marginBottom: 12, fontSize: 13, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="map-overlay-panel bottom-3 left-3 w-[260px] max-h-[320px] overflow-y-auto">
+            <div className="font-semibold mb-3 text-[13px] flex justify-between items-center">
                 <span>Zonen ({zones.length})</span>
             </div>
             <div className="map-zone-list">
                 {zones.map(zone => {
-                    const color = zone.productId ? getProductColor(zone.productId) : theme.colors.slate400;
+                    const color = zone.productId ? getProductColor(zone.productId) : 'var(--slate-400)';
+                    const colorStyle = { backgroundColor: color };
                     const area = calculateArea(zone.coordinates);
                     const isHidden = hiddenZones?.has(zone.id);
                     const isHovered = hoveredZoneId === zone.id;
@@ -38,13 +38,12 @@ const ZoneListOverlay = ({
                     return (
                         <div
                             key={zone.id}
-                            className={`map-zone-item ${isHovered ? 'active' : ''}`}
                             onClick={() => onZoneClick?.(zone)}
                             onMouseEnter={() => onZoneHover?.(zone.id)}
                             onMouseLeave={() => onZoneHover?.(null)}
-                            style={{ opacity: isHidden ? 0.5 : 1 }}
+                            className={`map-zone-item ${isHovered ? 'active' : ''} ${isHidden ? 'opacity-50' : ''}`}
                         >
-                            <span className="map-zone-color" style={{ backgroundColor: color }} />
+                            <span className="map-zone-color" style={colorStyle} />
                             <div className="map-zone-info">
                                 <div className="map-zone-name">{zone.name}</div>
                                 <div className="map-zone-meta">

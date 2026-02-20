@@ -80,8 +80,37 @@
 
   .news-icon-wrapper {
     @apply w-7 h-7 rounded-full flex items-center justify-center shrink-0 z-[2];
+    color: white;
     box-shadow: 0 0 0 3px white;
     transition: all 0.15s ease;
+  }
+
+  .news-icon-primary {
+    background-color: var(--primary);
+  }
+
+  .news-icon-secondary {
+    background-color: var(--secondary);
+  }
+
+  .news-icon-success {
+    background-color: var(--success);
+  }
+
+  .news-icon-warning {
+    background-color: var(--warning);
+  }
+
+  .news-icon-danger {
+    background-color: var(--danger);
+  }
+
+  .news-icon-info {
+    background-color: var(--info);
+  }
+
+  .news-icon-muted {
+    background-color: var(--slate-400);
   }
 
   .news-item:hover .news-icon-wrapper {

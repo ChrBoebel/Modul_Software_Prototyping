@@ -123,6 +123,22 @@
     @apply py-1.5 px-3 text-xs border border-slate-200 rounded-lg bg-white;
   }
 
+  .traffic-tooltip-dashed-line {
+    background: repeating-linear-gradient(to right, var(--secondary) 0 4px, transparent 4px 6px);
+  }
+
+  .conversion-funnel-step-dot {
+    background-color: var(--conversion-funnel-step-color);
+  }
+
+  .product-coverage-segment {
+    background-color: var(--product-coverage-color);
+  }
+
+  .product-coverage-dot {
+    background-color: var(--product-coverage-color);
+  }
+
   .utm-generator-grid {
     @apply grid gap-6;
     grid-template-columns: 1fr 1.5fr;
@@ -145,4 +161,3 @@
     color: var(--danger);
   }
 }
-

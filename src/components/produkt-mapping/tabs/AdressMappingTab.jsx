@@ -232,7 +232,7 @@ const AdressMappingTab = ({
     if (statusValue === 'unavailable' || statusValue === 'offline') variant = 'danger';
 
     return (
-      <div className={`badge striped ${variant} `} style={{ width: '100%', textAlign: 'center', display: 'block' }}>
+      <div className={`badge striped ${variant} w-full text-center block`}>
         {label}
       </div>
     );
@@ -546,7 +546,7 @@ const AdressMappingTab = ({
             onChange={(e) => setAddressDraft(prev => ({ ...prev, housenumber: e.target.value }))}
             error={errors.housenumber}
             placeholder="z.B. 12"
-            style={{ maxWidth: '120px' }}
+            className="max-w-[120px]"
           />
         </div>
 
@@ -557,7 +557,7 @@ const AdressMappingTab = ({
             onChange={(e) => setAddressDraft(prev => ({ ...prev, zip: e.target.value }))}
             error={errors.zip}
             placeholder="z.B. 78462"
-            style={{ maxWidth: '120px' }}
+            className="max-w-[120px]"
           />
           <Input
             label="Ort"
@@ -580,9 +580,9 @@ const AdressMappingTab = ({
         />
 
         {/* Availability Mappings Section */}
-        <div style={{ marginTop: '16px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ fontWeight: 600, fontSize: '14px' }}>Produkt-Verfügbarkeit</span>
+        <div className="mt-4 border-t border-[var(--border-color)] pt-4">
+          <div className="flex justify-between items-center mb-3">
+            <span className="font-semibold text-sm">Produkt-Verfügbarkeit</span>
             <Button
               variant="secondary"
               size="sm"
@@ -599,38 +599,39 @@ const AdressMappingTab = ({
           </div>
 
           {availabilityDrafts.length === 0 ? (
-            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', fontStyle: 'italic' }}>
+            <div className="text-[var(--text-secondary)] text-[13px] italic">
               Keine Produkte zugeordnet. Klicke "Produkt" um eine Verfügbarkeit hinzuzufügen.
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="flex flex-col gap-2">
               {availabilityDrafts.map((avail, index) => (
-                <div key={avail.id} style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-                  <Select
-                    label={index === 0 ? 'Produkt' : ''}
-                    value={avail.product_id}
-                    onChange={(e) => setAvailabilityDrafts(prev =>
-                      prev.map((a, i) => i === index ? { ...a, product_id: e.target.value } : a)
-                    )}
-                    options={productOptions}
-                    placeholder="Produkt wählen..."
-                    style={{ flex: 2 }}
-                  />
-                  <Select
-                    label={index === 0 ? 'Status' : ''}
-                    value={avail.status_id}
-                    onChange={(e) => setAvailabilityDrafts(prev =>
-                      prev.map((a, i) => i === index ? { ...a, status_id: e.target.value } : a)
-                    )}
-                    options={statusOptions}
-                    style={{ flex: 1 }}
-                  />
+                <div key={avail.id} className="flex gap-2 items-end">
+                  <div className="flex-[2]">
+                    <Select
+                      label={index === 0 ? 'Produkt' : ''}
+                      value={avail.product_id}
+                      onChange={(e) => setAvailabilityDrafts(prev =>
+                        prev.map((a, i) => i === index ? { ...a, product_id: e.target.value } : a)
+                      )}
+                      options={productOptions}
+                      placeholder="Produkt wählen..."
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Select
+                      label={index === 0 ? 'Status' : ''}
+                      value={avail.status_id}
+                      onChange={(e) => setAvailabilityDrafts(prev =>
+                        prev.map((a, i) => i === index ? { ...a, status_id: e.target.value } : a)
+                      )}
+                      options={statusOptions}
+                    />
+                  </div>
                   <Button
                     variant="icon"
                     icon={Trash2}
                     onClick={() => setAvailabilityDrafts(prev => prev.filter((_, i) => i !== index))}
                     ariaLabel="Produkt entfernen"
-                    style={{ marginBottom: index === 0 ? '0' : '0' }}
                   />
                 </div>
               ))}
@@ -639,7 +640,7 @@ const AdressMappingTab = ({
         </div>
 
         {/* Actions */}
-        <div className="action-buttons" style={{ justifyContent: 'flex-end', marginTop: '16px' }}>
+        <div className="action-buttons justify-end mt-4">
           <Button variant="secondary" onClick={() => setPanelOpen(false)}>Abbrechen</Button>
           <Button variant="primary" onClick={handleSaveAddress}>Speichern</Button>
         </div>

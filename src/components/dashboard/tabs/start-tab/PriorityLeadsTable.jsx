@@ -20,7 +20,7 @@ const PriorityLeadsTable = ({ priorityLeads, onNavigate, showToast }) => {
             {priorityLeads.map((lead) => (
               <tr
                 key={lead.id}
-                className="cursor-pointer hover:bg-slate-50 transition-colors"
+                className="cursor-pointer transition-colors"
                 onClick={() => {
                   if (onNavigate) {
                     onNavigate('leads', { leadId: lead.numericId });
@@ -28,8 +28,6 @@ const PriorityLeadsTable = ({ priorityLeads, onNavigate, showToast }) => {
                     showToast(`Lead ${lead.id} öffnen`);
                   }
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--slate-50)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 tabIndex="0"
                 role="button"
                 aria-label={`Lead ${lead.name} öffnen`}
@@ -51,7 +49,7 @@ const PriorityLeadsTable = ({ priorityLeads, onNavigate, showToast }) => {
                   />
                 </td>
                 <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div className="flex items-center gap-3">
                     <Avatar
                       name={lead.name}
                       size="sm"
@@ -59,9 +57,9 @@ const PriorityLeadsTable = ({ priorityLeads, onNavigate, showToast }) => {
                       type={lead.customerType === 'business' ? 'company' : 'person'}
                     />
                     <div>
-                      <span style={{ fontWeight: 600, fontSize: '0.875rem', display: 'block' }}>{lead.name}</span>
+                      <span className="block font-semibold text-sm">{lead.name}</span>
                       {lead.contactPerson && (
-                        <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{lead.contactPerson}</span>
+                        <span className="text-xs text-[var(--text-secondary)]">{lead.contactPerson}</span>
                       )}
                     </div>
                   </div>

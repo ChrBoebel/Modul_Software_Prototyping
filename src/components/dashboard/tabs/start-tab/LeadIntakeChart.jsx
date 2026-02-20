@@ -8,7 +8,6 @@ import {
   ResponsiveContainer,
   ReferenceLine
 } from 'recharts';
-import { theme } from '../../../../theme/colors';
 
 const LeadIntakeChart = ({ chartData, avgTotalLeads }) => {
   return (
@@ -16,7 +15,7 @@ const LeadIntakeChart = ({ chartData, avgTotalLeads }) => {
       <div className="card-header">
         <h3>Lead-Eingang & Qualität</h3>
       </div>
-      <div style={{ width: '100%', height: 180 }}>
+      <div className="w-full h-[180px]">
         <ResponsiveContainer>
           <BarChart data={chartData} margin={{ top: 10, right: 30, left: -20, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--slate-200)" />
@@ -29,46 +28,39 @@ const LeadIntakeChart = ({ chartData, avgTotalLeads }) => {
             {/* Reference Line for Average - Tufte's context principle */}
             <ReferenceLine
               y={avgTotalLeads}
-              stroke={theme.colors.slate400}
+              stroke="var(--slate-400)"
               strokeDasharray="4 4"
               strokeWidth={1.5}
               label={{
                 value: `Ø ${avgTotalLeads}`,
                 position: 'right',
                 fontSize: 11,
-                fill: theme.colors.slate500,
+                fill: 'var(--slate-500)',
                 fontWeight: 500
               }}
             />
             {/* Blue for Qualified (Success) */}
-            <Bar dataKey="qualified" stackId="a" fill={theme.colors.secondary} radius={[0, 0, 4, 4]} barSize={32} name="Qualifiziert" />
+            <Bar dataKey="qualified" stackId="a" fill="var(--secondary)" radius={[0, 0, 4, 4]} barSize={32} name="Qualifiziert" />
             {/* Slate for Unqualified (Neutral/Warning) instead of Orange */}
-            <Bar dataKey="unqualified" stackId="a" fill={theme.colors.slate400} radius={[0, 0, 0, 0]} barSize={32} name="Offen" />
+            <Bar dataKey="unqualified" stackId="a" fill="var(--slate-400)" radius={[0, 0, 0, 0]} barSize={32} name="Offen" />
             {/* Red for Rejected (Danger) */}
-            <Bar dataKey="rejected" stackId="a" fill={theme.colors.primary} radius={[4, 4, 0, 0]} barSize={32} name="Abgelehnt" />
+            <Bar dataKey="rejected" stackId="a" fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={32} name="Abgelehnt" />
           </BarChart>
         </ResponsiveContainer>
       </div>
       {/* Legend - Following Tufte's principle of direct labeling */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '1.5rem',
-        paddingTop: '0.5rem',
-        borderTop: '1px solid var(--slate-100)',
-        marginTop: '0.5rem'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.secondary }} />
-          <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Qualifiziert</span>
+      <div className="flex justify-center gap-6 pt-2 border-t border-[var(--slate-100)] mt-2">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--secondary)]" />
+          <span className="text-[0.6875rem] text-[var(--text-secondary)] font-medium">Qualifiziert</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.slate400 }} />
-          <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Offen</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--slate-400)]" />
+          <span className="text-[0.6875rem] text-[var(--text-secondary)] font-medium">Offen</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: theme.colors.primary }} />
-          <span style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Abgelehnt</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--primary)]" />
+          <span className="text-[0.6875rem] text-[var(--text-secondary)] font-medium">Abgelehnt</span>
         </div>
       </div>
     </div>
